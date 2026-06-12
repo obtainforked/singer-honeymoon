@@ -1,5 +1,7 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
 <title>Macau &middot; The Singer Honeymoon</title>
 <link rel="stylesheet" href="assets/leaflet/leaflet.css">
 <style>
@@ -708,6 +710,62 @@ header.masthead{background:rgba(22,22,29,.9)}
 .chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
 .chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
 </style></head><body>
+
+<div id="gate" style="
+  position:fixed;inset:0;z-index:99999;
+  background:#FAF6EE;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Georgia',serif;
+">
+  <div style="
+    max-width:360px;width:90%;
+    background:#fff;border:1px solid #DDD0B8;border-radius:16px;
+    padding:40px 36px;text-align:center;
+    box-shadow:0 8px 40px rgba(60,38,20,.12);
+  ">
+    <div style="font-size:2rem;margin-bottom:10px">喜</div>
+    <h1 style="font-size:1.25rem;margin:0 0 6px;color:#2A1F14">The Singer Honeymoon</h1>
+    <p style="font-size:.85rem;color:#7A6A58;margin:0 0 28px">
+      Private — please enter the password to continue.
+    </p>
+    <input id="gate-pw" type="password" placeholder="Password"
+      style="
+        width:100%;box-sizing:border-box;
+        padding:10px 14px;border:1.5px solid #DDD0B8;border-radius:10px;
+        font-size:1rem;outline:none;font-family:inherit;
+        margin-bottom:12px;
+      "
+      autocomplete="current-password">
+    <p id="gate-err" style="color:#B0202E;font-size:.8rem;min-height:1.2em;margin:0 0 12px"></p>
+    <button id="gate-btn"
+      style="
+        width:100%;padding:11px;border:none;border-radius:10px;
+        background:#C03828;color:#fff;font-size:.95rem;font-weight:600;
+        cursor:pointer;font-family:inherit;
+      "
+    >Enter</button>
+  </div>
+</div>
+<script>
+(function(){
+  var HASH = 'd4ea3fa4dd79c81472ef39018246a6bd8e120ffdb27f8ba10e528c256340c893';
+  var KEY  = 'hn_auth_v1';
+  async function sha256(s){
+    var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+  function unlock(){document.getElementById('gate').style.display='none';}
+  if(localStorage.getItem(KEY)===HASH){unlock();return;}
+  document.getElementById('gate-btn').addEventListener('click', check);
+  document.getElementById('gate-pw').addEventListener('keydown',function(e){if(e.key==='Enter')check();});
+  async function check(){
+    var h=await sha256(document.getElementById('gate-pw').value.trim());
+    if(h===HASH){localStorage.setItem(KEY,HASH);unlock();}
+    else{document.getElementById('gate-err').textContent='Incorrect password — try again.';}
+  }
+})();
+</script>
+
 <header class="masthead"><div class="wrap">
       <a class="brand" href="index.html"><span class="seal">囍<span class="seal-name">辛格</span></span>
         <span><span class="brand-en">The Singer Honeymoon</span><br><span class="brand-sub">China · 2026</span></span></a>
@@ -726,6 +784,12 @@ header.masthead{background:rgba(22,22,29,.9)}
       <a href="prep.html" class="prep-link">Prep</a>
       <a href="study.html" class="prep-link">Study</a>
       <a href="timeline.html" class="prep-link">Timeline</a></nav>
+      <button onclick="(function(){localStorage.removeItem('hn_auth_v1');location.reload();})()"
+  style="background:none;border:1px solid var(--line);border-radius:8px;
+         padding:4px 12px;font-size:.76rem;color:var(--muted);cursor:pointer;
+         font-family:inherit;margin-left:8px">
+  Logout
+</button>
     </div>
     <script>(function(){document.addEventListener('click',function(e){
       var a=e.target.closest('nav.cities a');if(!a)return;
