@@ -1,0 +1,1317 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Singer Honeymoon &middot; Timeline</title>
+<link rel="stylesheet" href="assets/leaflet/leaflet.css">
+<style>
+/* ===== Fonts (vendored, offline) ===== */
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-400.woff2') format('woff2'),url('assets/fonts/notosc-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-700.woff2') format('woff2'),url('assets/fonts/notosc-700.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --cinnabar:#C0392B; --cinnabar-deep:#9A2018; --vermillion:#D9483B;
+  --gold:#C9A227; --gold-soft:#E4C76B;
+  --ink:#1f1a17; --ink-soft:#4a4138; --muted:#8a7d6d;
+  --paper:#F3EBDD; --paper-2:#EDE3D2; --card:#FCF7EC; --line:#DDD0B8;
+  --shadow:24px 30px 60px -28px rgba(60,38,20,.45);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0}html{scroll-padding-top:58px}.vpage{scroll-margin-top:58px}.hero{scroll-margin-top:58px}.hero{padding-top:18px}
+body{
+  font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun","Iowan Old Style",Georgia,serif;
+  color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(217,72,59,.07), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(201,162,39,.08), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23000' stroke-opacity='0.018' stroke-width='1'/%3E%3C/svg%3E");
+}
+a{color:var(--cinnabar);text-underline-offset:2px}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 26px}
+
+/* ===== Masthead ===== */
+header.masthead{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(252,247,236,.82);backdrop-filter:blur(12px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(255,255,255,.6), 0 8px 30px -20px rgba(60,38,20,.4);
+  padding-top:env(safe-area-inset-top);
+}
+.masthead .wrap{display:flex;align-items:center;justify-content:space-between;padding:13px 26px;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:1.05rem;letter-spacing:.02em;text-decoration:none;color:inherit}
+.brand .seal{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:34px;height:40px;border-radius:7px;background:var(--cinnabar);color:#fff;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:.95rem;
+  box-shadow:0 2px 8px -2px rgba(154,32,24,.7), inset 0 0 0 1px rgba(255,255,255,.25);
+  line-height:1.1;gap:1px;
+}
+.brand .seal-name{font-size:.45rem;letter-spacing:.05em;opacity:.85}
+.brand .brand-en{font-family:'Cormorant',serif;font-size:1.3rem;letter-spacing:.04em}
+.brand .brand-sub{color:var(--muted);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase}
+nav.cities{display:flex;flex-wrap:wrap;gap:2px}
+nav.cities a{
+  position:relative;text-decoration:none;color:var(--ink-soft);font-size:.86rem;
+  padding:7px 11px;border-radius:6px;transition:color .2s, background .2s;
+}
+nav.cities a::after{content:'';position:absolute;left:11px;right:11px;bottom:3px;height:2px;
+  background:var(--cinnabar);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+nav.cities a:hover{color:var(--cinnabar)}
+nav.cities a:hover::after{transform:scaleX(1)}
+nav.cities a.active{color:var(--cinnabar);font-weight:700}
+nav.cities a.active::after{transform:scaleX(1)}
+
+/* Destinations dropdown group */
+.navgroup{position:relative;display:inline-block}
+.navgroup-btn{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:.86rem;
+  font-family:inherit;padding:7px 11px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+.navgroup-btn:hover,.navgroup-btn.active{color:var(--cinnabar)}
+.navgroup-btn.active{font-weight:700}
+.navgroup .caret{font-size:.7rem;transition:transform .2s}
+.navgroup .submenu{position:absolute;top:100%;left:0;min-width:180px;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px -12px rgba(60,38,20,.4);
+  padding:6px;display:none;flex-direction:column;z-index:1100;margin-top:4px}
+.navgroup .submenu a{padding:9px 12px;border-radius:6px;font-size:.86rem;color:var(--ink-soft);
+  text-decoration:none}
+.navgroup .submenu a::after{display:none}
+.navgroup .submenu a:hover{background:var(--paper);color:var(--cinnabar)}
+.navgroup .submenu a.active{color:var(--cinnabar);font-weight:700}
+/* open on hover (desktop) or when toggled open (click) */
+@media(hover:hover){.navgroup:hover .submenu{display:flex}.navgroup:hover .caret{transform:rotate(180deg)}}
+.navgroup.open .submenu{display:flex}
+.navgroup.open .caret{transform:rotate(180deg)}
+
+/* Hamburger toggle, hidden on desktop, shown on mobile */
+.nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:42px;height:42px;padding:9px;background:none;border:1px solid var(--line);
+  border-radius:9px;cursor:pointer}
+.nav-toggle span{display:block;height:2px;width:100%;background:var(--ink);border-radius:2px;
+  transition:transform .25s, opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:760px){
+  .nav-toggle{display:flex}
+  nav.cities{display:none;flex-direction:column;gap:0;width:100%;order:3;
+    margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
+  nav.cities.open{display:flex}
+  nav.cities>a{font-size:1rem;padding:12px 6px;border-bottom:1px solid var(--line);border-radius:0}
+  nav.cities a::after{display:none}
+  nav.cities a.active{background:color-mix(in srgb,var(--cinnabar) 8%,transparent)}
+  /* Destinations group inline on mobile */
+  .navgroup{display:block;width:100%}
+  .navgroup-btn{width:100%;justify-content:space-between;font-size:1rem;padding:12px 6px;
+    border-bottom:1px solid var(--line)}
+  .navgroup .submenu{position:static;display:none;border:none;box-shadow:none;background:transparent;
+    margin:0;padding:0;border-radius:0}
+  .navgroup.open .submenu{display:flex}
+  .navgroup .submenu a{padding:11px 6px 11px 22px;border-bottom:1px solid var(--line);
+    border-radius:0;font-size:.95rem}
+  @media(hover:hover){.navgroup:hover .submenu{display:none}}
+  .navgroup.open .submenu{display:flex}
+}
+
+/* ===== Hero ===== */
+.hero{position:relative;padding:54px 0 26px;overflow:hidden}
+.hero .watermark{
+  position:absolute;right:-6px;top:50%;transform:translateY(-50%);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:clamp(7rem,18vw,15rem);
+  color:var(--cinnabar);opacity:.07;line-height:.8;pointer-events:none;user-select:none;
+  letter-spacing:-.04em;
+}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--cinnabar);
+  font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:14px}
+.hero .eyebrow::before{content:'';width:30px;height:1px;background:var(--cinnabar);display:inline-block}
+.hero h1{
+  font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(2.6rem,6vw,4.4rem);line-height:1;margin:0;letter-spacing:.01em;
+  color:var(--ink);
+}
+.hero h1 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);margin-left:.3em;font-size:.7em}
+.hero .sub{color:var(--ink-soft);font-size:1.05rem;margin-top:14px;max-width:62ch}
+.hero .rule{display:flex;align-items:center;gap:12px;margin-top:22px;color:var(--gold)}
+.hero .rule::before,.hero .rule::after{content:'';height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);flex:1}
+.hero .rule span{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== Layout ===== */
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start;padding-bottom:70px}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  /* On mobile, show the map first, then the day's stops below it */
+  .layout .map-col{order:-1}
+  .layout .itinerary{order:1}
+}
+#map{height:600px;border-radius:14px;position:sticky;top:88px;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line);overflow:hidden}
+@media(max-width:900px){#map{position:relative;top:0;height:360px}}
+.map-frame{position:relative;border-radius:14px;overflow:hidden}
+.map-frame::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  box-shadow:inset 0 0 0 4px rgba(192,57,43,.0), inset 0 0 30px rgba(60,38,20,.12)}
+
+/* ===== Day sections ===== */
+.day{margin-bottom:40px}
+.day h2{
+  display:flex;align-items:center;gap:12px;margin:0 0 18px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;letter-spacing:.01em;
+  color:var(--ink);
+}
+.day h2 .daydot{width:13px;height:13px;border-radius:50%;background:var(--cat,#888);flex:0 0 13px;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--cat,#888) 22%, transparent)}
+.day h2 .daytext{flex:1}
+.day h2 .dayline{height:1px;flex:0 0 40px;background:var(--cat,var(--line));opacity:.5}
+
+/* ===== Stop cards ===== */
+.stop{
+  position:relative;background:var(--card);border-radius:12px;
+  padding:16px 18px 16px 20px;margin-bottom:14px;cursor:pointer;overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(60,38,20,.04);
+  transition:transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s, border-color .18s;
+}
+.stop::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat,#888)}
+.stop:hover{transform:translateY(-3px);box-shadow:0 14px 30px -16px rgba(60,38,20,.4);border-color:color-mix(in srgb,var(--cat,#888) 40%,var(--line))}
+.stop.flash{box-shadow:0 0 0 2px var(--cat,#888), 0 14px 30px -14px rgba(60,38,20,.5)}
+.stop-img{margin:-16px -18px 14px -20px;height:180px;overflow:hidden;border-radius:10px 10px 0 0}
+.stop-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.stop:hover .stop-img img{transform:scale(1.04)}
+.stop .toprow{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.pin{
+  width:27px;height:27px;flex:0 0 27px;border-radius:8px;
+  background:var(--cat,#888);color:#fff;
+  font-family:'Cormorant',serif;font-size:.95rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25), 0 2px 6px -2px rgba(0,0,0,.4);
+}
+.stop h3{margin:0;font-size:1.12rem;font-weight:700;letter-spacing:.005em;line-height:1.25}
+.stop .zh{color:var(--cinnabar);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.92rem;margin-left:6px;font-weight:400;opacity:.85}
+.tag{margin-left:auto;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);background:transparent;border:1px solid var(--line);
+  padding:3px 9px;border-radius:20px}
+.meta{display:flex;flex-wrap:wrap;gap:7px 18px;margin:11px 0 0;font-size:.85rem;color:var(--ink-soft)}
+.meta span b{color:var(--muted);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.meta a{font-weight:700;white-space:nowrap}
+.notes{font-size:.88rem;margin-top:11px;line-height:1.6;color:var(--ink-soft)}
+.stop-protip{font-size:.88rem;line-height:1.6;margin:8px 0;padding:7px 11px;background:var(--paper-2);border-radius:8px;border-left:3px solid var(--cinnabar)}
+.protip-label{font-weight:700;color:var(--cinnabar);margin-right:5px}
+.notes b{color:var(--cinnabar);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.netizen{position:relative;font-size:.85rem;margin-top:12px;padding:9px 13px 9px 30px;
+  color:var(--ink-soft);font-style:italic;background:var(--paper-2);border-radius:8px;line-height:1.55}
+.netizen::before{content:'\201C';position:absolute;left:8px;top:0px;font-family:'Cormorant',serif;
+  font-size:2.1rem;color:var(--gold);line-height:1}
+.badge{display:inline-flex;align-items:center;font-size:.62rem;color:#fff;padding:3px 9px;border-radius:20px;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.badge.booked{background:#3E7D52;box-shadow:0 2px 6px -2px rgba(62,125,82,.6)}
+.badge.tobook{background:var(--cinnabar);box-shadow:0 2px 6px -2px rgba(192,57,43,.6)}
+
+/* ===== Legend ===== */
+.legend{display:flex;gap:9px 16px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--ink-soft);
+  margin:0 0 22px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.legend .legend-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.legend span:not(.legend-title){display:inline-flex;align-items:center}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:6px;
+  box-shadow:0 0 0 3px color-mix(in srgb,currentColor 0%, transparent)}
+
+/* ===== Offline note ===== */
+.offnote{display:flex;gap:11px;align-items:flex-start;
+  background:linear-gradient(180deg,#FCF6E4,#F8EFD6);border:1px solid var(--gold-soft);
+  border-radius:12px;padding:13px 16px;font-size:.85rem;margin:0 0 20px;color:var(--ink-soft);line-height:1.5}
+.offnote b{color:var(--cinnabar-deep)}
+.offnote .ico{flex:0 0 22px;width:22px;height:22px;border-radius:6px;background:var(--gold);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;margin-top:1px}
+
+/* ===== Food page ===== */
+.food-city-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.food-city-tab{padding:8px 16px;border-radius:20px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink-soft);font-size:.85rem;cursor:pointer;
+  font-family:inherit;transition:all .2s}
+.food-city-tab:hover{border-color:var(--cinnabar);color:var(--cinnabar)}
+.food-city-tab.active{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
+.food-cat-filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+.food-cat-btn{padding:5px 13px;border-radius:14px;border:1px solid var(--line);
+  background:var(--card);font-size:.78rem;cursor:pointer;transition:all .18s;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn:hover{filter:brightness(.95)}
+.food-cat-btn.active{color:#fff;border-color:transparent}
+.food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.food-map-col{order:-1}}
+#foodmap{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line)}
+@media(max-width:900px){#foodmap{height:360px}}
+.food-map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-col{position:relative;top:0}}
+.food-cards{display:flex;flex-direction:column;gap:14px}
+.food-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;position:relative;overflow:hidden;cursor:pointer;
+  transition:box-shadow .2s, transform .15s}
+.food-card:hover{box-shadow:0 4px 18px -8px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.food-card-name{font-family:'Cormorant',serif;font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.2}
+.food-card-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.food-cat-pill{font-size:.7rem;padding:3px 9px;border-radius:10px;color:#fff;
+  white-space:nowrap;flex-shrink:0;font-weight:600;letter-spacing:.03em}
+.food-card-dishes{font-size:.85rem;color:var(--ink-soft);margin:4px 0 8px;line-height:1.5}
+.food-card-netizen{font-size:.82rem;color:var(--ink-soft);font-style:italic;line-height:1.5;
+  margin:6px 0 8px;padding:7px 11px;background:var(--paper-2);border-radius:8px;
+  border-left:3px solid var(--gold)}
+.food-allergy-badge{font-size:.74rem;padding:3px 8px;border-radius:8px;display:inline-block;margin-top:4px}
+.food-allergy-safe{background:color-mix(in srgb,#3E7D52 12%,transparent);color:#2a5c39}
+.food-allergy-warn{background:color-mix(in srgb,#C9821E 12%,transparent);color:#8a5200}
+.food-card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--line)}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+.food-count-badge{font-size:.78rem;color:var(--muted);padding:3px 8px;
+  background:var(--paper-2);border-radius:8px;margin-left:auto}
+/* Category colour map. JS reads data-cat attribute */
+.cat-hot-pot{--ccat:#B0202E}
+.cat-chinese-food{--ccat:#2E6F95}
+.cat-dim-sum{--ccat:#7A4BA8}
+.cat-cafe-coffee{--ccat:#8A6D1F}
+.cat-bar{--ccat:#1F8A8A}
+.cat-international{--ccat:#C24E8C}
+.cat-bakery-snacks{--ccat:#C9821E}
+.cat-seafood{--ccat:#3E7D52}
+.cat-vegetarian-vegan{--ccat:#5566C0}
+.cat-other{--ccat:#888}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.8rem;text-align:center}
+footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:.8em}
+
+/* ===== Home page ===== */
+.summary{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px 30px 26px;margin-top:34px;margin-bottom:34px;box-shadow:0 1px 2px rgba(60,38,20,.05);overflow:hidden}
+.summary::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.summary p{margin:0;font-size:1.05rem;line-height:1.7;color:var(--ink-soft)}
+.summary .summary-lead{font-size:1.08rem;line-height:1.75}
+.summary .hl-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 8px}
+@media(max-width:760px){.summary .hl-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.summary .hl-strip{grid-template-columns:1fr}}
+.summary .hl{display:flex;align-items:center;gap:11px;text-decoration:none;
+  background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;
+  transition:transform .18s, box-shadow .18s, border-color .18s}
+.summary .hl:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(60,38,20,.4);
+  border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 45%,var(--line))}
+.summary .hl-ico{flex:0 0 30px;width:30px;height:30px;color:var(--cat,var(--cinnabar))}
+.summary .hl-ico svg{width:30px;height:30px;display:block}
+.summary .hl-t{font-size:.86rem;line-height:1.3;color:var(--ink)}
+.summary .stats{display:flex;gap:30px;margin-top:20px;flex-wrap:wrap}
+.summary .stat{display:flex;flex-direction:column}
+.summary .stat .n{font-family:'Cormorant',serif;font-size:2.2rem;font-weight:600;color:var(--cinnabar);line-height:1}
+.summary .stat .l{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.summary .stats-foot{margin-top:10px;font-size:.74rem;color:var(--muted);font-style:italic}
+
+
+.citygrid{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;padding-bottom:60px}
+.citycard{flex:1 1 280px;max-width:340px;min-width:260px;box-sizing:border-box;position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:24px 22px 22px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(60,38,20,.05);
+  transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s}
+.citycard::after{content:attr(data-zh);position:absolute;right:-8px;bottom:-26px;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:6rem;line-height:1;
+  color:var(--cinnabar);opacity:.06;transition:opacity .22s, transform .22s;letter-spacing:-.04em}
+.citycard:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+.citycard:hover::after{opacity:.12;transform:scale(1.08) translateY(-4px)}
+.citycard .num{font-family:'Cormorant',serif;color:var(--gold);font-size:.95rem;letter-spacing:.1em}
+.citycard h3{margin:6px 0 2px;font-family:'Cormorant',serif;font-weight:600;font-size:2rem;line-height:1;color:var(--ink)}
+.citycard h3 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);font-size:.62em;margin-left:.25em}
+.citycard .dates{font-size:.84rem;color:var(--muted);margin-top:8px}
+.citycard .count{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;margin-top:16px;
+  color:var(--cinnabar);font-weight:700}
+.citycard .count::after{content:'\2192';transition:transform .22s}
+.citycard:hover .count::after{transform:translateX(4px)}
+
+/* ===== Entrance animations ===== */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards}
+@media(prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1}}
+
+/* ===== Leaflet popup restyle ===== */
+.leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 10px 30px -12px rgba(60,38,20,.5);
+  background:var(--card);border:1px solid var(--line)}
+.leaflet-popup-content{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif;margin:11px 14px;font-size:.86rem;color:var(--ink)}
+.leaflet-popup-tip{background:var(--card)}
+.leaflet-container{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.leaflet-bar a{border-radius:4px}
+
+/* ===== Day sub-tabs ===== */
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:2px}
+.tab{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  font-family:'NotoSC',serif;font-size:.86rem;color:var(--ink-soft);
+  background:var(--card);border:1px solid var(--line);border-radius:30px;
+  padding:8px 15px;transition:all .18s;white-space:nowrap}
+.tab .tab-dot{width:9px;height:9px;border-radius:50%;background:var(--cat,var(--muted));flex:0 0 9px;transition:transform .18s}
+.tab:hover{border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 50%,var(--line));transform:translateY(-1px)}
+.tab.active{background:var(--cat,var(--cinnabar));color:#fff;border-color:transparent;
+  box-shadow:0 5px 14px -5px color-mix(in srgb,var(--cat,var(--cinnabar)) 80%,transparent)}
+.tab.active .tab-dot{background:#fff;transform:scale(1.1)}
+.tab-history{margin-left:6px;position:relative}
+.tab-history::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history.active{background:var(--ink);}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Panels (tab content) ===== */
+.panel{display:none;animation:rise .45s cubic-bezier(.2,.7,.3,1)}
+.panel.show{display:block}
+.day-head h2{display:flex;align-items:baseline;gap:10px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.7rem;color:var(--ink);line-height:1.1}
+.tag svg{vertical-align:-1.5px;margin-right:4px;opacity:.85}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.panel.show .stop{animation:cardIn .45s cubic-bezier(.2,.7,.3,1) both;animation-delay:min(calc(var(--i,0)*45ms),400ms)}
+.tab.today-tab::after{content:"·";color:var(--cinnabar);font-weight:900;margin-left:4px;font-size:1.2em;line-height:0}
+
+.globe-box canvas{width:100%;height:auto;display:block;cursor:grab;touch-action:none}
+.budget-total span{font-size:.85rem;font-family:inherit;color:#9a8f7d;font-weight:400;margin-left:8px}
+.budget-bar i{display:block}
+.budget-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+.globe-box{flex:0 1 480px;max-width:560px}
+@media(max-width:640px){.globe-legend{grid-template-columns:1fr}}
+
+.panel.show .day-route{animation:cardIn .5s cubic-bezier(.2,.7,.3,1) both}
+@media (prefers-reduced-motion:reduce){.panel.active .stop,.panel.show .day-route{animation:none}}
+@media (prefers-color-scheme:dark){
+:root{
+  --paper:#16161d;--paper-2:#1e1e27;--ink:#e8e4da;--ink-soft:#b8b3a6;
+  --cinnabar:#e05545;--cinnabar-deep:#c94030;
+  --card:#1a1a24;--line:rgba(255,255,255,.09);--muted:#7a7568;
+  --gold:#c9a02a;--gold-soft:#a07820;
+  --shadow:24px 30px 60px -28px rgba(0,0,0,.7);
+}
+body{background:var(--paper);color:var(--ink)}
+.stop,.panel,.citycard,.food-card,.food-entry-card,.study-block,.china-collapse,
+.legend,.summary,.journey,.era-card,.offnote,.chain-card,.city-fact-card{
+  background:var(--card);border-color:var(--line)}
+.tag{background:rgba(255,255,255,.06)}
+.day-route{background:#1a1a22;border-color:var(--line)}
+.netizen,.food-card-netizen,.food-entry-netizen{background:rgba(255,255,255,.04)}
+.stop-protip{background:rgba(224,85,69,.08)}
+.leaflet-tile{filter:brightness(.7) contrast(1.1)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);border-color:var(--line)}
+header.masthead{background:rgba(22,22,29,.9)}
+}
+
+.day-strip{display:flex;gap:14px;font-size:.8rem;color:#8a8a8a;margin:2px 0 6px}
+.day-strip .strip-book{color:var(--cinnabar);font-weight:600}
+
+.day-intro{font-size:.98rem;line-height:1.7;color:var(--ink-soft);margin:6px 0 22px;
+  padding:14px 18px;background:var(--card);border-radius:12px;
+  border:1px solid var(--line);border-left:4px solid var(--cat,var(--cinnabar))}
+.day-intro-empty{color:var(--muted);font-style:italic}
+
+/* ===== Sticky map column ===== */
+.map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.map-col{position:relative;top:0}}
+.map-col.hidden{display:none}
+.map-cap{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);
+  letter-spacing:.04em}
+.map-cap-dot{width:8px;height:8px;border-radius:50%;background:var(--cinnabar);
+  box-shadow:0 0 0 4px rgba(192,57,43,.15)}
+/* when a tab hides the map, the single column behaves per tab type:
+   - Study/Overview: capped to a readable width, CENTERED in the container
+   - Food: spans the full container width (it has its own internal map + card grid) */
+.layout:has(.map-col.hidden){grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map{grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map.full-width{max-width:none;margin-left:0;margin-right:0}
+
+/* ===== Study / History ===== */
+.study-intro{margin-bottom:22px}
+.study-kicker{display:inline-block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px}
+.study-intro h2{font-family:'Cormorant',serif;font-weight:600;font-size:2.1rem;margin:0;color:var(--ink)}
+.study-wrap{display:flex;flex-direction:column;gap:18px}
+/* Collapsible "China, the big picture" */
+.china-collapse{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin:0 0 26px;overflow:hidden}
+.china-collapse>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:18px 22px;font-family:'Cormorant',serif}
+.china-collapse>summary::-webkit-details-marker{display:none}
+.china-collapse .cc-title{font-weight:600;font-size:1.4rem;color:var(--ink)}
+.china-collapse .cc-meta{font-family:'NotoSC',sans-serif;font-size:.78rem;color:var(--muted);
+  letter-spacing:.04em}
+.china-collapse .cc-chev{margin-left:auto;color:var(--cinnabar);font-size:1rem;transition:transform .2s}
+.china-collapse[open] .cc-chev{transform:rotate(180deg)}
+.china-collapse[open]>summary{border-bottom:1px solid var(--line)}
+.china-collapse .cc-body{padding:20px 22px 8px}
+.china-collapse .cc-meta::before{content:'';display:inline-block;width:1px;height:13px;
+  background:var(--line);margin-right:14px;vertical-align:middle}
+@media(max-width:560px){.china-collapse .cc-meta{display:none}}
+.era-band{margin-bottom:26px}
+.era-band-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.4rem;color:var(--ink);
+  margin:0 0 14px;display:flex;align-items:center;gap:12px}
+.era-band-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.era-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.era-card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cinnabar);
+  border-radius:12px;padding:14px 15px;position:relative}
+.era-card .era-label{display:block;font-family:'Cormorant',serif;font-weight:600;font-size:1rem;
+  color:var(--cinnabar-deep);letter-spacing:.02em;margin-bottom:6px}
+.era-card p{margin:0;font-size:.85rem;line-height:1.55;color:var(--ink-soft)}
+@media(max-width:560px){.era-grid{grid-template-columns:1fr}}
+.study-block{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px 26px;box-shadow:0 1px 2px rgba(60,38,20,.04);position:relative;overflow:hidden}
+.study-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.study-block h3{font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;margin:0 0 10px;color:var(--cinnabar-deep)}
+.study-block p{margin:0;font-size:1rem;line-height:1.8;color:var(--ink-soft)}
+.study-block .term{display:flex;gap:10px;margin-top:14px;padding-top:13px;border-top:1px dotted var(--line);font-size:.92rem}
+.study-block .term-k{flex:0 0 auto;font-weight:700;color:var(--ink);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.study-block .term-v{color:var(--ink-soft)}
+/* ===== Collapsible study blocks ===== */
+.study-block.collapsible h3{cursor:pointer;display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;user-select:none;transition:color .15s}
+.study-block.collapsible h3:hover{color:var(--cinnabar)}
+.study-block .sb-check{flex:0 0 auto;width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--line);background:var(--paper);display:inline-flex;
+  align-items:center;justify-content:center;font-size:.9rem;color:transparent;
+  transition:all .18s;line-height:1}
+.study-block .sb-chevron{flex:0 0 auto;margin-left:auto;font-size:.8rem;color:var(--muted);
+  transition:transform .2s}
+.study-block .sb-body{overflow:hidden;transition:max-height .25s ease, opacity .2s ease;
+  max-height:4000px;opacity:1}
+/* collapsed (= checked/done) state */
+.study-block.done{opacity:.72;background:var(--paper-2)}
+.study-block.done .sb-check{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff}
+.study-block.done .sb-chevron{transform:rotate(-90deg)}
+.study-block.done .sb-body{max-height:0;opacity:0;margin:0}
+.study-block.done h3{margin-bottom:0;color:var(--muted)}
+.study-empty{background:var(--card);border:1px dashed var(--gold-soft);border-radius:14px;padding:26px 28px;color:var(--ink-soft)}
+.study-empty h3{font-family:'Cormorant',serif;font-size:1.5rem;color:var(--cinnabar-deep);margin:0 0 8px}
+.study-empty p{margin:0;line-height:1.7}
+.study-empty code{background:var(--paper-2);padding:1px 6px;border-radius:4px}
+
+/* ===== Prep page ===== */
+.prep-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.8rem;color:var(--ink);
+  margin:42px 0 18px;display:flex;align-items:center;gap:12px}
+.prep-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.prep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;padding-bottom:60px}
+.prep-card{display:flex;flex-direction:column;text-decoration:none;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:20px;transition:all .2s;position:relative;overflow:hidden}
+.prep-card .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:2rem;color:var(--cinnabar);line-height:1}
+.prep-card .en{font-family:'Cormorant',serif;font-size:1.25rem;color:var(--ink);margin-top:4px}
+.prep-card .st{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.prep-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+
+/* ===== City description (under city title) ===== */
+.city-desc{font-size:1.04rem;line-height:1.75;color:var(--ink-soft);max-width:64ch;margin:16px 0 0;
+  font-family:'NotoSC',serif}
+
+/* ===== Home: full-bleed hero ===== */
+.home-hero{position:relative;overflow:hidden;background:#28080A;border-bottom:1px solid rgba(255,255,255,.07)}
+.home-hero-inner{position:relative;z-index:2;padding:64px 0 72px;max-width:60%}
+@media(max-width:820px){.home-hero-inner{max-width:100%}}
+.home-wm{font-size:clamp(10rem,26vw,24rem);right:-2%;opacity:.06}
+/* China-map hero backdrop */
+.hero-map{position:absolute;top:50%;right:1%;transform:translateY(-50%);
+  height:96%;width:62%;pointer-events:none;z-index:1}
+@media(max-width:820px){.hero-map{opacity:.3;right:-18%;width:115%;height:auto}}
+.hero-map .hm-land{fill:rgba(255,210,160,.06);stroke:rgba(255,210,160,.15);stroke-width:1}
+.hero-map .hm-route{fill:none;stroke:var(--cinnabar);stroke-width:3;
+  stroke-dasharray:2 9;stroke-linecap:round;opacity:.7}
+/* Floating ink characters */
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0}
+  8%{opacity:.72}
+  78%{opacity:.5}
+  100%{transform:translateY(-110vh);opacity:0}
+}
+.char-float{position:absolute;z-index:1;bottom:-30px;
+  color:rgba(240,200,75,.68);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  animation:floatUp linear infinite;pointer-events:none;user-select:none;line-height:1}
+.home-title{font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(3.4rem,9vw,7rem);line-height:.92;margin:8px 0 0;color:#F5E2A8;letter-spacing:.005em}
+.home-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:clamp(1.3rem,3vw,2rem);color:#D4923A;
+  margin-top:14px;letter-spacing:.12em}
+.home-hero .eyebrow{color:rgba(245,220,160,.55)}
+.home-hero .sub{margin-top:20px;font-size:1.12rem;max-width:54ch;color:rgba(245,225,185,.82)}
+.char-float.char-ico{display:inline-block;line-height:0}
+.char-float.char-ico svg{width:36px;height:36px}
+.hero-clouds{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:80px;display:block}
+
+/* ===== Section heading ===== */
+.sec-h{display:flex;align-items:baseline;gap:14px;margin:46px 0 22px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:2rem;color:var(--ink)}
+.sec-h .sec-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.2rem;color:var(--cinnabar);opacity:.8}
+.sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent);align-self:center}
+
+/* ===== Route map (home) ===== */
+.route-wrap{margin-bottom:20px}
+.route-frame{position:relative;border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+#routemap{height:480px;width:100%;background:var(--paper-2)}
+@media(max-width:700px){#routemap{height:380px}}
+.route-cap{margin:12px 2px 16px;font-size:.86rem;color:var(--muted);font-style:italic}
+.route-pin{transition:transform .15s}
+.route-pin:hover{transform:scale(1.12);z-index:1000}
+
+/* ===== Journey legs (white box between maps) ===== */
+.journey{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:22px 26px 14px;margin:32px 0 8px;box-shadow:0 1px 2px rgba(60,38,20,.05)}
+.journey-h{display:flex;align-items:baseline;gap:11px;margin:0 0 14px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.journey-h .journey-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1rem;color:var(--cinnabar);opacity:.8}
+.legs{list-style:none;margin:0;padding:0;position:relative}
+.legs::before{content:'';position:absolute;left:90px;top:6px;bottom:18px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--line));opacity:.55}
+.leg{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative}
+.leg-date{flex:0 0 60px;text-align:right;font-size:.82rem;font-weight:700;color:var(--ink-soft);
+  font-variant-numeric:lining-nums;padding-top:7px}
+.leg-mode{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--paper-2);
+  border:2px solid var(--line);color:var(--cinnabar);display:flex;align-items:center;justify-content:center;
+  z-index:1;position:relative}
+.leg-mode svg{width:19px;height:19px}
+.leg-body{display:flex;flex-direction:column;padding-top:3px}
+.leg-route{font-family:'Cormorant',serif;font-weight:600;font-size:1.18rem;color:var(--ink);line-height:1.2}
+.leg-arrow{color:var(--cinnabar);margin:0 3px}
+.leg-detail{font-size:.84rem;color:var(--muted);margin-top:2px}
+@media(max-width:560px){.legs::before{left:90px}.leg-route{font-size:1.05rem}}
+
+/* ===== Timeline card strip (restored, under the map) ===== */
+.timeline{overflow-x:auto;padding:32px 4px 10px;scrollbar-width:thin;position:relative}
+.timeline-inner{position:relative;display:flex;align-items:stretch;gap:0;
+  width:fit-content;margin-left:auto;margin-right:auto}
+.timeline-inner::before{content:'';position:absolute;left:8px;right:8px;top:34px;height:3px;
+  background:linear-gradient(90deg,var(--line),var(--gold),var(--line));border-radius:3px;z-index:0}
+.tl-end{flex:0 0 auto;align-self:flex-start;margin-top:22px;font-size:.78rem;font-weight:700;
+  color:var(--muted);background:var(--paper-2);border:1px solid var(--line);border-radius:20px;
+  padding:5px 12px;white-space:nowrap;position:relative;z-index:2}
+.tl-stop{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  text-decoration:none;min-width:122px;position:relative;padding:0 6px;z-index:1}
+.tl-node{width:26px;height:26px;border-radius:50%;background:var(--cat,#888);color:#fff;
+  border:3px solid var(--paper);display:flex;align-items:center;justify-content:center;
+  font-family:'NotoSC',Georgia,serif;font-weight:700;font-size:.82rem;line-height:1;z-index:2;
+  font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--cat,#888) 28%,transparent);transition:transform .2s}
+.tl-node>b{display:block;font-weight:700}
+.tl-card{display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:11px;
+  background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cat,#888);
+  border-radius:12px;padding:12px 14px 13px;min-width:108px;transition:transform .2s, box-shadow .2s}
+.tl-stop:hover .tl-card{transform:translateY(-4px);box-shadow:0 12px 26px -14px rgba(60,38,20,.5)}
+.tl-stop:hover .tl-node{transform:scale(1.18)}
+.tl-ico{color:var(--cat,var(--cinnabar));width:34px;height:34px;margin-bottom:6px}
+.tl-ico svg{width:34px;height:34px;display:block}
+.tl-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.15rem;color:var(--cat,var(--cinnabar));line-height:1}
+.tl-city{font-family:'Cormorant',serif;font-weight:600;font-size:1.08rem;color:var(--ink);margin-top:2px}
+.tl-date{font-size:.71rem;color:var(--muted);margin-top:3px;white-space:nowrap}
+
+/* ===== Card pictograms ===== */
+.card-ico{position:absolute;top:18px;right:18px;width:42px;height:42px;color:var(--cinnabar);
+  opacity:.9;transition:transform .25s, opacity .25s;z-index:2}
+.card-ico svg{width:42px;height:42px;display:block}
+.citycard:hover .card-ico{transform:scale(1.12) rotate(-3deg);opacity:1}
+
+/* ===== City Overview tab ===== */
+.city-overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+@media(max-width:600px){.city-overview-grid{grid-template-columns:1fr}}
+.home-base-card{margin-top:22px;padding:18px 20px;border-radius:14px;
+  background:linear-gradient(135deg,var(--paper-2),var(--paper));
+  border:1px solid var(--line);border-left:4px solid var(--cinnabar)}
+.home-base-card.daytrip{border-left-color:var(--gold)}
+.home-base-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--cinnabar);font-weight:700;margin-bottom:6px}
+.home-base-card.daytrip .home-base-label{color:var(--gold-deep,#9a7b1f)}
+.home-base-name{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:700;
+  color:var(--ink);line-height:1.2}
+.home-base-addr{font-size:.78rem;color:var(--muted);margin:3px 0 10px}
+.home-base-body{font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin:0}
+.city-fact-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.city-fact-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.city-fact-value{font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.4}
+.city-trivia{background:color-mix(in srgb,var(--cinnabar) 6%,transparent);border-left:3px solid var(--cinnabar);
+  border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:24px;font-size:.88rem;line-height:1.6;color:var(--ink)}
+#map-overview{height:420px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line);margin-bottom:6px}
+@media(max-width:900px){#map-overview{height:300px}}
+
+/* ===== City Food tab ===== */
+.city-food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.city-food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:8px;z-index:30;
+  background:var(--paper);padding-bottom:6px;margin-bottom:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}}
+@media(max-width:900px){#map-food{height:260px}}
+.food-cat-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.food-cat-btn2{padding:4px 12px;border-radius:14px;border:1px solid var(--line);background:var(--card);
+  font-size:.76rem;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn2.active{color:#fff;border-color:transparent;background:var(--ink-soft)}
+.food-cards-inner{display:flex;flex-direction:column;gap:12px;max-height:680px;overflow-y:auto;
+  padding-right:4px;scrollbar-width:thin}
+.food-cards-inner::-webkit-scrollbar{width:4px}
+.food-cards-inner::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+@media(max-width:900px){.food-cards-inner{max-height:none;overflow-y:visible}}
+#map-food{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+@media(max-width:900px){#map-food{height:340px}}
+.food-map-side{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-side{position:relative;top:0}}
+.food-entry-card{background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:12px 14px;cursor:pointer;transition:box-shadow .18s,transform .12s}
+.food-entry-card:hover{box-shadow:0 4px 14px -6px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-entry-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-entry-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+.food-entry-name{font-weight:600;font-size:1rem;color:var(--ink);font-family:'Cormorant',serif;line-height:1.2}
+.food-entry-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.82rem;color:var(--cinnabar)}
+.food-entry-pill{font-size:.66rem;padding:3px 8px;border-radius:8px;color:#fff;
+  font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+.food-entry-dishes{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin:4px 0 6px}
+.food-entry-desc{font-size:.82rem;color:var(--ink-soft);line-height:1.5;margin:4px 0 6px}
+.food-entry-netizen{font-size:.8rem;color:var(--ink-soft);font-style:italic;line-height:1.45;
+  margin:4px 0 6px;padding:6px 10px;background:var(--paper-2);border-radius:7px;
+  border-left:3px solid var(--gold)}
+.food-allergy-safe-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#2a5c39;background:color-mix(in srgb,#3E7D52 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#7a4200;background:color-mix(in srgb,#C9821E 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot.high{color:#8B0000;background:color-mix(in srgb,#B0202E 10%,transparent)}
+.food-no-pin{font-size:.7rem;color:var(--muted);display:inline-flex;align-items:center;gap:3px;margin-left:6px}
+.food-group-label{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;margin:14px 0 5px;display:flex;align-items:center;gap:6px}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+
+/* ===== Food/Study tab divider ===== */
+.tab-food{margin-left:6px;position:relative}
+.tab-food::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history{margin-left:0}
+.tab-history.active{background:var(--ink)}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Chains section (Prep page) ===== */
+.chains-section{margin-top:40px}
+.chains-rule{display:flex;align-items:center;gap:14px;margin:0 0 22px}
+.chains-rule span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;font-weight:700}
+.chains-rule::before,.chains-rule::after{content:'';flex:1;height:1px;background:var(--line)}
+.chains-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px}
+.chain-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;border-top:3px solid var(--ccat,var(--gold))}
+.chain-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.chain-name{font-family:'Cormorant',serif;font-weight:600;font-size:1.12rem;color:var(--ink);line-height:1.2}
+.chain-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.chain-pill{font-size:.66rem;padding:3px 9px;border-radius:8px;color:#fff;
+  font-weight:700;flex-shrink:0;white-space:nowrap}
+.chain-order-label{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:3px}
+.chain-order{font-size:.84rem;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
+.chain-allergy{font-size:.76rem;padding:5px 9px;border-radius:8px;line-height:1.45;margin-bottom:8px}
+.chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
+.chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
+.chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+
+.tl-page{display:flex;flex-direction:column;height:calc(100vh - 60px);height:calc(100svh - 60px);overflow:hidden}
+#tl-map{flex:1;min-height:0}
+.tl-panel{background:var(--card);border-top:1px solid var(--line);
+  padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0}
+.tl-panel select{height:34px;padding:0 10px;border:1px solid var(--line);border-radius:8px;
+  background:var(--paper);font-size:.84rem;color:var(--ink);cursor:pointer;font-family:inherit;max-width:46vw}
+.tl-day-wrap{display:none}
+#tl-play{display:inline-flex;align-items:center;gap:6px;background:var(--cinnabar);color:#fff;
+  border:none;padding:8px 18px;border-radius:30px;cursor:pointer;font-size:.88rem;font-weight:600;
+  white-space:nowrap;flex-shrink:0;font-family:inherit}
+#tl-play:hover{background:var(--cinnabar-deep)}
+#tl-reset{background:none;border:1px solid var(--line);padding:7px 12px;border-radius:8px;
+  cursor:pointer;font-size:.88rem;color:var(--muted);flex-shrink:0;font-family:inherit}
+#tl-reset:hover{background:var(--paper-2)}
+.tl-info{flex:1;min-width:140px;font-size:.84rem;padding-left:10px;border-left:1px solid var(--line);color:var(--ink)}
+.tl-hint{color:var(--muted);font-style:italic}
+.tl-zh{font-family:"Songti SC","SimSun",serif;color:var(--cinnabar)}
+/* scrubber: draggable progress line */
+#tl-scrub{-webkit-appearance:none;appearance:none;width:100%;height:16px;margin:0;display:block;
+  border:none;outline:none;cursor:pointer;flex-shrink:0;
+  background:linear-gradient(to right,#C03828 0%,#DDD0B8 0%) center/100% 4px no-repeat}
+#tl-scrub::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:15px;height:15px;
+  border-radius:50%;background:var(--cinnabar);border:2.5px solid #FFFDF7;
+  box-shadow:0 1px 5px rgba(0,0,0,.35)}
+#tl-scrub::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--cinnabar);
+  border:2.5px solid #FFFDF7;box-shadow:0 1px 5px rgba(0,0,0,.35)}
+/* city playback: dim unvisited stops, arrival name label */
+.tl-stop-ico{transition:opacity .35s}
+.tl-stop-ico.dim{opacity:.25}
+.tl-stoplab{display:inline-block;background:#FFFDF7;border:1.5px solid;border-radius:9px;
+  padding:4px 11px;font-size:.74rem;font-weight:700;white-space:nowrap;color:var(--ink);
+  box-shadow:0 2px 9px rgba(0,0,0,.28);pointer-events:none;transform:translateX(-50%)}
+/* travel-mode circle leading the route line */
+.tl-veh{width:42px;height:42px;border-radius:50%;background:#FFFDF7;border:2.5px solid #C03828;
+  display:flex;align-items:center;justify-content:center;color:#C03828;
+  box-shadow:0 4px 14px rgba(60,30,15,.45)}
+.tl-veh svg{width:22px;height:22px}
+/* city labels on the trip map */
+.tl-citylab{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-weight:700;
+  font-size:.74rem;color:#4A3526;pointer-events:none;
+  text-shadow:0 0 4px #FFFDF7,0 0 4px #FFFDF7,0 1px 2px #FFFDF7}
+.tl-citylab .cd{width:10px;height:10px;border-radius:50%;background:#C03828;border:2px solid #fff;
+  box-shadow:0 1px 3px rgba(0,0,0,.35);flex:0 0 auto}
+.tl-citylab.minor{font-weight:600;font-size:.66rem;color:#7A6A58}
+.tl-citylab.minor .cd{width:7px;height:7px;background:#A08568}
+/* per-city view: pictogram stops + day labels */
+.tl-stop-ico{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.tl-stop-ico svg{width:13px;height:13px}
+.tl-stop-ico .ndot{width:7px;height:7px;border-radius:50%;background:#fff;display:block}
+.tl-daylab{display:inline-block;background:#FFFDF7;border:1.5px solid;border-radius:20px;padding:3px 9px;
+  font-size:.66rem;font-weight:700;letter-spacing:.04em;white-space:nowrap;
+  box-shadow:0 2px 6px rgba(0,0,0,.18);pointer-events:none}
+.tl-pop-meta{color:var(--muted);font-size:.76rem}
+</style></head><body>
+<header class="masthead"><div class="wrap">
+      <a class="brand" href="index.html"><span class="seal">囍<span class="seal-name">辛格</span></span>
+        <span><span class="brand-en">The Singer Honeymoon</span><br><span class="brand-sub">China · 2026</span></span></a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'));this.parentNode.querySelector('nav.cities').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="cities">
+      <a href="index.html">Home</a>
+      <div class="navgroup">
+        <button class="navgroup-btn" aria-expanded="false"
+          onclick="const g=this.parentNode;g.classList.toggle('open');this.setAttribute('aria-expanded',g.classList.contains('open'))">
+          Destinations <span class="caret">▾</span>
+        </button>
+        <div class="submenu"><a href="taipei.html">Taipei</a><a href="chengdu.html">Chengdu</a><a href="chongqing.html">Chongqing</a><a href="sanya.html">Sanya</a><a href="guangzhou.html">Guangzhou</a><a href="shenzhen.html">Shenzhen</a><a href="hong-kong.html">Hong Kong</a><a href="macau.html">Macau</a></div>
+      </div>
+      <a href="prep.html" class="prep-link">Prep</a>
+      <a href="study.html" class="prep-link">Study</a>
+      <a href="timeline.html" class="active prep-link">Timeline</a></nav>
+    </div>
+    <script>(function(){document.addEventListener('click',function(e){
+      var a=e.target.closest('nav.cities a');if(!a)return;
+      var t=document.querySelector('.nav-toggle.open');if(t){t.classList.remove('open');t.setAttribute('aria-expanded','false');}
+      var n=document.querySelector('nav.cities.open');if(n)n.classList.remove('open');
+    });})();</script></header>
+<div class="tl-page">
+  <div id="tl-map"></div>
+  <div class="tl-panel">
+    <button id="tl-play">&#9654; Play</button>
+    <button id="tl-reset" title="Reset view">&#8635;</button>
+    <select id="tl-view">
+      <option value="trip">Full trip</option>
+      <option value="taipei">Taipei &middot; Jun 29</option>
+<option value="chengdu">Chengdu &middot; Jun 29 – Jul 3</option>
+<option value="chongqing">Chongqing &middot; Jul 3 – Jul 5</option>
+<option value="sanya">Sanya &middot; Jul 5 – Jul 8</option>
+<option value="guangzhou">Guangzhou &middot; Jul 9 – Jul 12</option>
+<option value="shenzhen">Shenzhen &middot; Jul 12 – Jul 13</option>
+<option value="hong-kong">Hong Kong &middot; Jul 12 – Jul 18</option>
+<option value="macau">Macau &middot; Jul 17</option>
+    </select>
+    <div class="tl-day-wrap"><select id="tl-day"><option value="">All days</option></select></div>
+    <div class="tl-info" id="tl-info"></div>
+  </div>
+  <input type="range" id="tl-scrub" min="0" max="1000" value="0" step="1" aria-label="Scrub the animation">
+</div>
+<script src="assets/leaflet/leaflet.js"></script>
+<script>
+// hmBaseLayers(map): attach CartoDB Voyager (English, default) + Amap base layers with a switcher.
+function hmBaseLayers(map){
+  // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
+  var osm = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
+     detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Gaode/Amap road tiles, no API key needed; reachable inside mainland China.
+  var amap = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+    {maxZoom:19, subdomains:['1','2','3','4'], attribution:'\u00A9 \u9AD8\u5FB7\u5730\u56FE Amap', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Esri World Street Map. English labels. May or may not be reachable in mainland China.
+  var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom:19, attribution:'Tiles \u00A9 Esri', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  osm.addTo(map); // default: English labels, works everywhere outside China
+  L.control.layers(
+    {'English (CartoDB)': osm, 'Amap \u9AD8\u5FB7 (China)': amap, 'Esri (English)': esri},
+    {}, {position:'topright', collapsed:true}
+  ).addTo(map);
+  // If CartoDB tiles fail (e.g. inside mainland China), fall back to Amap.
+  var osmFailed = 0;
+  osm.on('tileerror', function(){ osmFailed++; if(osmFailed===4 && map.hasLayer(osm)){
+    map.removeLayer(osm); amap.addTo(map);
+  }});
+  return map;
+}
+
+// toggleStudy(headerEl): collapse/expand a study block (no persistence, resets each open).
+window.toggleStudy=function toggleStudy(el){
+  var block = el.closest('.study-block');
+  if(block){ block.classList.toggle('done'); }
+}
+</script>
+<script>
+var TL={"trip": [{"name": "Taipei", "zh": "台北", "dates": "Jun 29", "lat": 25.0478, "lng": 121.507, "slug": "taipei"}, {"name": "Chengdu", "zh": "成都", "dates": "Jun 29 – Jul 3", "lat": 30.6644139395087, "lng": 104.06139583307348, "slug": "chengdu"}, {"name": "Chongqing", "zh": "重庆", "dates": "Jul 3 – Jul 5", "lat": 29.565886938422185, "lng": 106.57361227369853, "slug": "chongqing"}, {"name": "Sanya", "zh": "三亚", "dates": "Jul 5 – Jul 8", "lat": 18.304403401855872, "lng": 109.51393052460213, "slug": "sanya"}, {"name": "Guangzhou", "zh": "广州", "dates": "Jul 9 – Jul 12", "lat": 23.12565119613087, "lng": 113.28663899476075, "slug": "guangzhou"}, {"name": "Shenzhen", "zh": "深圳", "dates": "Jul 12 – Jul 13", "lat": 22.54471708415964, "lng": 114.05588233293507, "slug": "shenzhen"}, {"name": "Hong Kong", "zh": "香港", "dates": "Jul 12 – Jul 18", "lat": 22.2935, "lng": 114.1637, "slug": "hong-kong"}, {"name": "Macau", "zh": "澳门", "dates": "Jul 17", "lat": 22.1945, "lng": 113.542, "slug": "macau"}], "cities": {"taipei": {"name": "Taipei", "zh": "台北", "days": ["MON JUN 29 — Taipei layover before onward flight to Chengdu"], "stops": [{"name": "Taiwan Taoyuan International Airport (TPE)", "zh": "桃園國際機場", "day": "MON JUN 29 — Taipei layover before onward flight to Chengdu", "day_idx": 0, "cat": "Airport", "lat": 25.0777, "lng": 121.2328, "color": "#B0202E"}, {"name": "Bangka Lungshan Temple", "zh": "艋舺龍山寺", "day": "MON JUN 29 — Taipei layover before onward flight to Chengdu", "day_idx": 0, "cat": "Religious Site", "lat": 25.0371, "lng": 121.4999, "color": "#B0202E"}, {"name": "Taipei Botanical Garden", "zh": "台北植物園", "day": "MON JUN 29 — Taipei layover before onward flight to Chengdu", "day_idx": 0, "cat": "Park", "lat": 25.0324, "lng": 121.5094, "color": "#B0202E"}, {"name": "Taipei Main Station & underground city", "zh": "台北車站", "day": "MON JUN 29 — Taipei layover before onward flight to Chengdu", "day_idx": 0, "cat": "Shopping", "lat": 25.0478, "lng": 121.5171, "color": "#B0202E"}, {"name": "Dadaocheng Wharf (optional)", "zh": "大稻埕碼頭", "day": "MON JUN 29 — Taipei layover before onward flight to Chengdu", "day_idx": 0, "cat": "Landmark", "lat": 25.0559, "lng": 121.507, "color": "#B0202E"}]}, "chengdu": {"name": "Chengdu", "zh": "成都", "days": ["MON JUN 29 — Arrival (TPE→Chengdu 2:30–6:05 PM) → hotel check-in", "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "WED JUL 1 — Pandas & shopping", "THU JUL 2 — Old & new Chengdu (UNESCO day trip + planning hall)", "FRI JUL 3 — Train to Chongqing (Chengdu East → Chongqing North 11:18–12:35)"], "stops": [{"name": "Terra Art Sky Garden Boutique Hotel", "zh": "太古熙壤空中花园酒店", "day": "MON JUN 29 — Arrival (TPE→Chengdu 2:30–6:05 PM) → hotel check-in", "day_idx": 0, "cat": "Hotel", "lat": 30.648769537861995, "lng": 104.04054744427623, "color": "#B0202E"}, {"name": "Sichuan Museum", "zh": "四川博物院", "day": "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "day_idx": 1, "cat": "Museum", "lat": 30.661381987522965, "lng": 104.0331689911809, "color": "#2E6F95"}, {"name": "Sichuan Library", "zh": "四川省图书馆", "day": "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "day_idx": 1, "cat": "Library", "lat": 30.6644139395087, "lng": 104.06748486523404, "color": "#2E6F95"}, {"name": "Sichuan Art Gallery", "zh": "四川美术馆", "day": "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "day_idx": 1, "cat": "Museum", "lat": 30.659524420633026, "lng": 104.06149597035059, "color": "#2E6F95"}, {"name": "Chengdu Huangcheng (Imperial City) Mosque", "zh": "成都皇城清真寺", "day": "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "day_idx": 1, "cat": "Religious Site", "lat": 30.666821370118786, "lng": 104.06139583307348, "color": "#2E6F95"}, {"name": "People's Park", "zh": "人民公园", "day": "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "day_idx": 1, "cat": "Park", "lat": 30.661938859830943, "lng": 104.05241561502498, "color": "#2E6F95"}, {"name": "Kuanzhai Alley (Wide & Narrow Alleys)", "zh": "宽窄巷子", "day": "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "day_idx": 1, "cat": "Landmark", "lat": 30.671844780009692, "lng": 104.04722810589833, "color": "#2E6F95"}, {"name": "Shufeng Yayun (Sichuan Opera)", "zh": "蜀风雅韵", "day": "TUE JUN 30 — Intro to Chengdu (downtown culture + opera)", "day_idx": 1, "cat": "Performance", "lat": 30.673645437271123, "lng": 104.04652985283639, "color": "#2E6F95"}, {"name": "Chengdu Research Base of Giant Panda Breeding", "zh": "成都大熊猫繁育研究基地", "day": "WED JUL 1 — Pandas & shopping", "day_idx": 2, "cat": "Activity", "lat": 30.735707538437456, "lng": 104.14439484074741, "color": "#C9821E"}, {"name": "Chengdu Panda Museum", "zh": "大熊猫博物馆", "day": "WED JUL 1 — Pandas & shopping", "day_idx": 2, "cat": "Museum", "lat": 30.736209108672902, "lng": 104.14549663155564, "color": "#C9821E"}, {"name": "Tianfu Art Park / Chengdu Art Museum", "zh": "天府艺术公园 / 成都美术馆", "day": "WED JUL 1 — Pandas & shopping", "day_idx": 2, "cat": "Museum", "lat": 30.717693260624774, "lng": 104.01941208635941, "color": "#C9821E"}, {"name": "Chunxi Road Pedestrian St / Taikoo Li", "zh": "春熙路 / 太古里", "day": "WED JUL 1 — Pandas & shopping", "day_idx": 2, "cat": "Shopping", "lat": 30.65340775898753, "lng": 104.07817042610544, "color": "#C9821E"}, {"name": "Locomotive Square", "zh": "机车广场", "day": "WED JUL 1 — Pandas & shopping", "day_idx": 2, "cat": "Landmark", "lat": 30.67239406563401, "lng": 104.08746132806753, "color": "#C9821E"}, {"name": "Dujiangyan Irrigation System", "zh": "都江堰", "day": "THU JUL 2 — Old & new Chengdu (UNESCO day trip + planning hall)", "day_idx": 3, "cat": "Activity", "lat": 31.00658827233396, "lng": 103.60398510287038, "color": "#3E7D52"}, {"name": "Dujiangyan Library", "zh": "都江堰图书馆", "day": "THU JUL 2 — Old & new Chengdu (UNESCO day trip + planning hall)", "day_idx": 3, "cat": "Library", "lat": 31.00357023343663, "lng": 103.62795418320594, "color": "#3E7D52"}, {"name": "Chengdu Planning Exhibition Hall", "zh": "成都市规划馆", "day": "THU JUL 2 — Old & new Chengdu (UNESCO day trip + planning hall)", "day_idx": 3, "cat": "Museum", "lat": 30.575256004152234, "lng": 104.06279731034873, "color": "#3E7D52"}, {"name": "New Century Global Center", "zh": "新世纪环球中心", "day": "THU JUL 2 — Old & new Chengdu (UNESCO day trip + planning hall)", "day_idx": 3, "cat": "Landmark", "lat": 30.57356394300836, "lng": 104.05810681866726, "color": "#3E7D52"}, {"name": "MOCA Chengdu (if time)", "zh": "成都当代艺术馆", "day": "THU JUL 2 — Old & new Chengdu (UNESCO day trip + planning hall)", "day_idx": 3, "cat": "Museum", "lat": 30.577455654356424, "lng": 104.06249778071472, "color": "#3E7D52"}, {"name": "Jinli Ancient Street", "zh": "锦里", "day": "THU JUL 2 — Old & new Chengdu (UNESCO day trip + planning hall)", "day_idx": 3, "cat": "Landmark", "lat": 30.649458135962334, "lng": 104.0455335950702, "color": "#3E7D52"}, {"name": "Chengdu East Railway Station", "zh": "成都东站", "day": "FRI JUL 3 — Train to Chongqing (Chengdu East → Chongqing North 11:18–12:35)", "day_idx": 4, "cat": "Train Station", "lat": 30.63244524052688, "lng": 104.13849032207825, "color": "#7A4BA8"}]}, "chongqing": {"name": "Chongqing", "zh": "重庆", "days": ["FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "SAT JUL 4 — Steel, rivers, and the war (museums + vertical-city infrastructure)", "SUN JUL 5 — Wrap up Chongqing, then fly to Sanya (CKG→SYX 11:05 AM – 1:20 PM)"], "stops": [{"name": "Chongqing North Railway Station", "zh": "重庆北站", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Train Station", "lat": 29.70881339231542, "lng": 106.5492763291192, "color": "#B0202E"}, {"name": "Maiyue Hotel – Jiefangbei", "zh": "迈悦酒店·解放碑", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Hotel", "lat": 29.559888164541253, "lng": 106.57331214789711, "color": "#B0202E"}, {"name": "Great Hall of the People", "zh": "重庆人民大礼堂", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Landmark", "lat": 29.56683672872202, "lng": 106.54227179838958, "color": "#B0202E"}, {"name": "Three Gorges Museum", "zh": "重庆中国三峡博物馆", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Museum", "lat": 29.567632026767505, "lng": 106.54026769544895, "color": "#B0202E"}, {"name": "Lianglukou Grand Escalator", "zh": "两路口大手扫梯", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Transit", "lat": 29.554849449328394, "lng": 106.54628013347214, "color": "#B0202E"}, {"name": "Chongqing Planning Exhibition Hall", "zh": "重庆规划展览馆", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Museum", "lat": 29.567878986104944, "lng": 106.56730759929934, "color": "#B0202E"}, {"name": "Ciqikou Ancient Town", "zh": "磁器口古镇", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Landmark", "lat": 29.58256814103776, "lng": 106.4440141415631, "color": "#B0202E"}, {"name": "Filling Station (地下之城 Underground Hotpot)", "zh": "地下之城老火锅", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Food", "lat": 29.565886938422185, "lng": 106.57431229513385, "color": "#B0202E"}, {"name": "Hongyadong Folk Custom Scene Area", "zh": "洪崖洞", "day": "FRI JUL 3 — Arrival by train, planning hall, industrial heritage, night views", "day_idx": 0, "cat": "Landmark", "lat": 29.566891062306745, "lng": 106.5803141299561, "color": "#B0202E"}, {"name": "Chongqing Art Gallery", "zh": "重庆美术馆", "day": "SAT JUL 4 — Steel, rivers, and the war (museums + vertical-city infrastructure)", "day_idx": 1, "cat": "Museum", "lat": 29.558889426569237, "lng": 106.574312705204, "color": "#2E6F95"}, {"name": "Datang Plaza", "zh": "大唐广场", "day": "SAT JUL 4 — Steel, rivers, and the war (museums + vertical-city infrastructure)", "day_idx": 1, "cat": "Shopping", "lat": 29.55888096188658, "lng": 106.56630726754149, "color": "#2E6F95"}, {"name": "Chongqing World Financial Center (WFC) / Miniso Land", "zh": "重庆环球金融中心", "day": "SAT JUL 4 — Steel, rivers, and the war (museums + vertical-city infrastructure)", "day_idx": 1, "cat": "Shopping", "lat": 29.56188835282673, "lng": 106.5743125294733, "color": "#2E6F95"}, {"name": "Yangtze River Ropeway (cableway)", "zh": "长江索道", "day": "SAT JUL 4 — Steel, rivers, and the war (museums + vertical-city infrastructure)", "day_idx": 1, "cat": "Activity", "lat": 29.563893746272225, "lng": 106.58331454307756, "color": "#2E6F95"}, {"name": "Drone Show at Chaotianmen River", "zh": "朝天门无人机表演", "day": "SAT JUL 4 — Steel, rivers, and the war (museums + vertical-city infrastructure)", "day_idx": 1, "cat": "Activity", "lat": 29.566893913820863, "lng": 106.58631413172998, "color": "#2E6F95"}, {"name": "Jiefangbei (People's Liberation Monument)", "zh": "解放碑", "day": "SUN JUL 5 — Wrap up Chongqing, then fly to Sanya (CKG→SYX 11:05 AM – 1:20 PM)", "day_idx": 2, "cat": "Landmark", "lat": 29.560388260987523, "lng": 106.57361227369853, "color": "#C9821E"}, {"name": "Chongqing East Railway Station (optional)", "zh": "重庆东站", "day": "SUN JUL 5 — Wrap up Chongqing, then fly to Sanya (CKG→SYX 11:05 AM – 1:20 PM)", "day_idx": 2, "cat": "Train Station", "lat": 29.452873724756042, "lng": 106.65620247196082, "color": "#C9821E"}, {"name": "Chongqing Jiangbei Int'l Airport (CKG)", "zh": "重庆江北国际机场", "day": "SUN JUL 5 — Wrap up Chongqing, then fly to Sanya (CKG→SYX 11:05 AM – 1:20 PM)", "day_idx": 2, "cat": "Airport", "lat": 29.722017352441746, "lng": 106.63793366796212, "color": "#C9821E"}]}, "sanya": {"name": "Sanya", "zh": "三亚", "days": ["SUN JUL 5 — Arrival from Chongqing (CKG→SYX 11:05 AM – 1:20 PM)", "MON JUL 6 — The honey part of the moon (rainforest + culture)", "TUE JUL 7 — Bing Chilling (island + viewpoint)", "WED JUL 8 — Haikou & overnight sleeper train (Sanya→Haikou 1:20–3:01 PM, Haikou→Guangzhou 8:15 PM sleeper)"], "stops": [{"name": "Sanya Phoenix Int'l Airport (SYX)", "zh": "三亚凤凰国际机场", "day": "SUN JUL 5 — Arrival from Chongqing (CKG→SYX 11:05 AM – 1:20 PM)", "day_idx": 0, "cat": "Airport", "lat": 18.304403401855872, "lng": 109.40821534231688, "color": "#B0202E"}, {"name": "Banyan Tree Sanya Resort & Spa", "zh": "三亚悦槕庄度假酒店", "day": "SUN JUL 5 — Arrival from Chongqing (CKG→SYX 11:05 AM – 1:20 PM)", "day_idx": 0, "cat": "Hotel", "lat": 18.220245768251107, "lng": 109.49207203825523, "color": "#B0202E"}, {"name": "Yalong Bay Tropical Paradise Forest Park", "zh": "亚龙湾热带天堂森林公园", "day": "MON JUL 6 — The honey part of the moon (rainforest + culture)", "day_idx": 1, "cat": "Park", "lat": 18.237801114808676, "lng": 109.64399733294835, "color": "#2E6F95"}, {"name": "Red Detachment of Women Theatre", "zh": "红色娘子军", "day": "MON JUL 6 — The honey part of the moon (rainforest + culture)", "day_idx": 1, "cat": "Performance", "lat": 18.24870643725805, "lng": 109.50891909946773, "color": "#2E6F95"}, {"name": "Chunyuan Seafood Square", "zh": "春园海鲜广场", "day": "MON JUL 6 — The honey part of the moon (rainforest + culture)", "day_idx": 1, "cat": "Food", "lat": 18.24069171956616, "lng": 109.5049080597906, "color": "#2E6F95"}, {"name": "Luhuitou Park", "zh": "鹿回头公园", "day": "TUE JUL 7 — Bing Chilling (island + viewpoint)", "day_idx": 2, "cat": "Park", "lat": 18.216671038380255, "lng": 109.5008976576976, "color": "#C9821E"}, {"name": "Wuzhizhou Island (Lovers' Island)", "zh": "蝓支洲岛", "day": "TUE JUL 7 — Bing Chilling (island + viewpoint)", "day_idx": 2, "cat": "Activity", "lat": 18.312690081560984, "lng": 109.75684270178192, "color": "#C9821E"}, {"name": "Sanya Station", "zh": "三亚站", "day": "WED JUL 8 — Haikou & overnight sleeper train (Sanya→Haikou 1:20–3:01 PM, Haikou→Guangzhou 8:15 PM sleeper)", "day_idx": 3, "cat": "Train Station", "lat": 18.304739790679783, "lng": 109.51393052460213, "color": "#3E7D52"}, {"name": "Hainan Provincial Museum", "zh": "海南省博物馆", "day": "WED JUL 8 — Haikou & overnight sleeper train (Sanya→Haikou 1:20–3:01 PM, Haikou→Guangzhou 8:15 PM sleeper)", "day_idx": 3, "cat": "Museum", "lat": 20.015999373772647, "lng": 110.34459135906387, "color": "#3E7D52"}, {"name": "Qilou Old Street", "zh": "骑楼老街", "day": "WED JUL 8 — Haikou & overnight sleeper train (Sanya→Haikou 1:20–3:01 PM, Haikou→Guangzhou 8:15 PM sleeper)", "day_idx": 3, "cat": "Landmark", "lat": 20.024013085950646, "lng": 110.34059935612783, "color": "#3E7D52"}, {"name": "Haikou East Station", "zh": "海口东站", "day": "WED JUL 8 — Haikou & overnight sleeper train (Sanya→Haikou 1:20–3:01 PM, Haikou→Guangzhou 8:15 PM sleeper)", "day_idx": 3, "cat": "Train Station", "lat": 19.998933314051186, "lng": 110.39152480408771, "color": "#3E7D52"}]}, "guangzhou": {"name": "Guangzhou", "zh": "广州", "days": ["THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton", "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "SAT JUL 11 — Museums of Guangzhou + vintage district", "SUN JUL 12 — Train to Shenzhen + cross to Hong Kong (check out, see Shenzhen tab)"], "stops": [{"name": "MaxX by Steigenberger Zhujiang New Town", "zh": "广州珠江新城褹珊酒店", "day": "THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton", "day_idx": 0, "cat": "Hotel", "lat": 23.12259916014082, "lng": 113.31758095856877, "color": "#B0202E"}, {"name": "Guangzhou City Planning Exhibition Center", "zh": "广州城市规划展览中心", "day": "THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton", "day_idx": 0, "cat": "Museum", "lat": 23.131176623127434, "lng": 113.25957010921108, "color": "#B0202E"}, {"name": "Xiaobei — African Quarter (Little Africa)", "zh": "小北", "day": "THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton", "day_idx": 0, "cat": "Activity", "lat": 23.145665916803782, "lng": 113.26666331007658, "color": "#B0202E"}, {"name": "Nanyue King Museum (Western Han Mausoleum)", "zh": "南越王博物院", "day": "THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton", "day_idx": 0, "cat": "Museum", "lat": 23.139673713131696, "lng": 113.25867014201212, "color": "#B0202E"}, {"name": "Dr. Sun Yat-Sen Memorial Hall", "zh": "中山纪念堂", "day": "THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton", "day_idx": 0, "cat": "Landmark", "lat": 23.133677105610534, "lng": 113.25667177386693, "color": "#B0202E"}, {"name": "Chen Clan Ancestral Hall (Guangdong Folk Art Museum)", "zh": "陈家祠 / 广东民间工艺博物馆", "day": "THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton", "day_idx": 0, "cat": "Museum", "lat": 23.13167890760806, "lng": 113.23467501419213, "color": "#B0202E"}, {"name": "Huaisheng Mosque & Guangta Minaret", "zh": "怀圣寺光塔", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Religious Site", "lat": 23.125683057298914, "lng": 113.24667610722472, "color": "#2E6F95"}, {"name": "Sacred Heart Cathedral ('Stone House')", "zh": "石室圣心大教堂", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Religious Site", "lat": 23.115686492996048, "lng": 113.25067573310272, "color": "#2E6F95"}, {"name": "Shamian Island", "zh": "沙面岛", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Landmark", "lat": 23.110687808156275, "lng": 113.23567669701899, "color": "#2E6F95"}, {"name": "Guangzhou Railway Cultural Museum", "zh": "广州铁路博物馆", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Museum", "lat": 23.10789908916985, "lng": 113.32077537177486, "color": "#2E6F95"}, {"name": "Guangzhou Subway Museum + water bus", "zh": "广州地铁博物馆", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Museum", "lat": 23.11252303114113, "lng": 113.36449639515993, "color": "#2E6F95"}, {"name": "Poly Yuzhu Time (Yuzhu Stationery Market)", "zh": "保利鱼珠时光", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Shopping", "lat": 23.112505139828592, "lng": 113.38447862667807, "color": "#2E6F95"}, {"name": "Guangzhou Design Quarter (Redtory area)", "zh": "广州设计公社", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Landmark", "lat": 23.107514339104572, "lng": 113.37448582964085, "color": "#2E6F95"}, {"name": "Canton Tower ('Little Waist')", "zh": "广州塔 (小蛮腰)", "day": "FRI JUL 10 — Religion & Commerce + Pearl River / Canton Tower", "day_idx": 1, "cat": "Landmark", "lat": 23.111511443545112, "lng": 113.31349009739004, "color": "#2E6F95"}, {"name": "Guangdong Museum of Art (Ersha Island)", "zh": "广东美术馆", "day": "SAT JUL 11 — Museums of Guangzhou + vintage district", "day_idx": 2, "cat": "Museum", "lat": 23.12060376344295, "lng": 113.31558519525571, "color": "#C9821E"}, {"name": "Guangdong Overseas Chinese Museum", "zh": "广东华侨博物馆", "day": "SAT JUL 11 — Museums of Guangzhou + vintage district", "day_idx": 2, "cat": "Museum", "lat": 23.131674493796897, "lng": 113.26266776278688, "color": "#C9821E"}, {"name": "Guangzhou Museum of Art", "zh": "广州艺术博物院", "day": "SAT JUL 11 — Museums of Guangzhou + vintage district", "day_idx": 2, "cat": "Museum", "lat": 23.15262826844671, "lng": 113.29462372780067, "color": "#C9821E"}, {"name": "Guangzhou Museum of Modern History", "zh": "广州近代史博物馆", "day": "SAT JUL 11 — Museums of Guangzhou + vintage district", "day_idx": 2, "cat": "Museum", "lat": 23.13067831199993, "lng": 113.2566719751342, "color": "#C9821E"}, {"name": "Peasant Movement Institute", "zh": "广州农民运动讲习所", "day": "SAT JUL 11 — Museums of Guangzhou + vintage district", "day_idx": 2, "cat": "Museum", "lat": 23.130673470398644, "lng": 113.26466614711576, "color": "#C9821E"}, {"name": "Dongshankou / Badmarket", "zh": "东山口 / Badmarket", "day": "SAT JUL 11 — Museums of Guangzhou + vintage district", "day_idx": 2, "cat": "Shopping", "lat": 23.12565119613087, "lng": 113.28663899476075, "color": "#C9821E"}, {"name": "Guangzhou Library", "zh": "广州图书馆", "day": "SAT JUL 11 — Museums of Guangzhou + vintage district", "day_idx": 2, "cat": "Library", "lat": 23.12159766587923, "lng": 113.3185789708931, "color": "#C9821E"}, {"name": "MaxX Guangzhou — check out", "zh": "—", "day": "SUN JUL 12 — Train to Shenzhen + cross to Hong Kong (check out, see Shenzhen tab)", "day_idx": 3, "cat": "Hotel", "lat": 23.12259916014082, "lng": 113.31758095856877, "color": "#3E7D52"}]}, "shenzhen": {"name": "Shenzhen", "zh": "深圳", "days": ["SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "MON JUL 13 — Shenzhen Day 2 (day trip from HK: DJI, electronics, tailors, spa)"], "stops": [{"name": "MOCAPE — Museum of Contemp. Art & Planning", "zh": "当代艺术与城市规划馆", "day": "SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "day_idx": 0, "cat": "Museum", "lat": 22.547715140770084, "lng": 114.05388461875397, "color": "#B0202E"}, {"name": "Shenzhen Library / Concert Hall", "zh": "深圳图书馆", "day": "SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "day_idx": 0, "cat": "Library", "lat": 22.548706992569393, "lng": 114.05887949365896, "color": "#B0202E"}, {"name": "Lianhuashan Park (Lotus Hill)", "zh": "莲花山公园", "day": "SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "day_idx": 0, "cat": "Park", "lat": 22.54471708415964, "lng": 114.05288595644186, "color": "#B0202E"}, {"name": "Shenzhen Museum (History & Folk Culture)", "zh": "深圳博物馆", "day": "SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "day_idx": 0, "cat": "Museum", "lat": 22.549711643130053, "lng": 114.05588233293507, "color": "#B0202E"}, {"name": "OCT — He Xiangning Museum / OCT Harbour", "zh": "华侨城 / 何香凝美术馆", "day": "SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "day_idx": 0, "cat": "Museum", "lat": 22.537897970912432, "lng": 113.98503097429203, "color": "#B0202E"}, {"name": "Futian / Lo Wu border crossing → Hong Kong", "zh": "福田口岸", "day": "SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "day_idx": 0, "cat": "Transit", "lat": 22.51970021817212, "lng": 114.06487679239945, "color": "#B0202E"}, {"name": "The Langham, Hong Kong", "zh": "香港朗廷酒店", "day": "SAT JUL 12 — Shenzhen Day 1 (arrive from Guangzhou → EV/tech → Futian border → HK)", "day_idx": 0, "cat": "Hotel", "lat": 22.29874673141521, "lng": 114.1660387607922, "color": "#B0202E"}, {"name": "DJI Sky City Flagship Store & HQ", "zh": "大疆天空之城", "day": "MON JUL 13 — Shenzhen Day 2 (day trip from HK: DJI, electronics, tailors, spa)", "day_idx": 1, "cat": "Landmark", "lat": 22.521036946997807, "lng": 113.92513732314681, "color": "#2E6F95"}, {"name": "Window of the World", "zh": "世界之窗", "day": "MON JUL 13 — Shenzhen Day 2 (day trip from HK: DJI, electronics, tailors, spa)", "day_idx": 1, "cat": "Activity", "lat": 22.540455452732182, "lng": 113.9648781244686, "color": "#2E6F95"}, {"name": "Huaqiang Electronic World (Huaqiangbei)", "zh": "华强电子世界", "day": "MON JUL 13 — Shenzhen Day 2 (day trip from HK: DJI, electronics, tailors, spa)", "day_idx": 1, "cat": "Shopping", "lat": 22.546684969670352, "lng": 114.07987096624866, "color": "#2E6F95"}, {"name": "Luohu Commercial City (tailor market)", "zh": "罗湖商业城", "day": "MON JUL 13 — Shenzhen Day 2 (day trip from HK: DJI, electronics, tailors, spa)", "day_idx": 1, "cat": "Shopping", "lat": 22.55068557011704, "lng": 114.10789172057687, "color": "#2E6F95"}, {"name": "Tenz Spa (水立方国际水疗会)", "zh": "水立方国际水疗会", "day": "MON JUL 13 — Shenzhen Day 2 (day trip from HK: DJI, electronics, tailors, spa)", "day_idx": 1, "cat": "Activity", "lat": 22.53773280898986, "lng": 114.04489704380006, "color": "#2E6F95"}]}, "hong-kong": {"name": "Hong Kong", "zh": "香港", "days": ["MON JUL 13 — (Shenzhen day trip — see Shenzhen tab)", "TUE JUL 14 — Harbour, High Tea, and Kowloon", "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "THU JUL 16 — Into the New Territories + Mong Kok markets", "FRI JUL 17 — MACAU DAY TRIP (see Macau tab)", "—", "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)"], "stops": [{"name": "Kowloon Mosque & Islamic Centre", "zh": "九龍清真寺", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Religious Site", "lat": 22.299, "lng": 114.172, "color": "#2E6F95"}, {"name": "Hong Kong Museum of Art", "zh": "香港艺术馆", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Museum", "lat": 22.2935, "lng": 114.172, "color": "#2E6F95"}, {"name": "Noon Day Gun", "zh": "怡和午炮", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Landmark", "lat": 22.2808, "lng": 114.1865, "color": "#2E6F95"}, {"name": "High Tea at The Langham (Palm Court)", "zh": "朗廷酒店下午茶", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Food", "lat": 22.296, "lng": 114.171, "color": "#2E6F95"}, {"name": "M+ Museum", "zh": "M+ 博物馆", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Museum", "lat": 22.301, "lng": 114.158, "color": "#2E6F95"}, {"name": "Kowloon Walled City Park", "zh": "九龍寨城公園", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Park", "lat": 22.332, "lng": 114.19, "color": "#2E6F95"}, {"name": "Mong Kok — shopping & street life", "zh": "旺角", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Shopping", "lat": 22.319, "lng": 114.169, "color": "#2E6F95"}, {"name": "A Symphony of Lights (harbourfront show)", "zh": "幻彩詠香江", "day": "TUE JUL 14 — Harbour, High Tea, and Kowloon", "day_idx": 1, "cat": "Activity", "lat": 22.294, "lng": 114.172, "color": "#2E6F95"}, {"name": "The Peak Tram + Sky Terrace 428", "zh": "山頂纜車", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Activity", "lat": 22.271, "lng": 114.15, "color": "#C9821E"}, {"name": "HK Zoological & Botanical Gardens", "zh": "香港动植物公园", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Park", "lat": 22.278, "lng": 114.159, "color": "#C9821E"}, {"name": "Flagstaff House Museum of Tea Ware", "zh": "茶具文物馆", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Museum", "lat": 22.278, "lng": 114.162, "color": "#C9821E"}, {"name": "Asia Society Hong Kong Center", "zh": "亞洲協會香港中心", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Museum", "lat": 22.28, "lng": 114.162, "color": "#C9821E"}, {"name": "Tai Kwun (Central Police Station)", "zh": "大館", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Landmark", "lat": 22.282, "lng": 114.154, "color": "#C9821E"}, {"name": "Jamia Mosque (Shelley St Mosque)", "zh": "謝菲道清真寺", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Religious Site", "lat": 22.2822, "lng": 114.1535, "color": "#C9821E"}, {"name": "Ohel Leah Synagogue (exterior)", "zh": "猶太教莉亞堂", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Religious Site", "lat": 22.2816, "lng": 114.1489, "color": "#C9821E"}, {"name": "Man Mo Temple", "zh": "文武廟", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Religious Site", "lat": 22.284, "lng": 114.15, "color": "#C9821E"}, {"name": "Central-Mid-Levels Escalators", "zh": "中環至半山自動扶手電梯", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Landmark", "lat": 22.2842, "lng": 114.1533, "color": "#C9821E"}, {"name": "Happy Valley Racecourse (Wed night)", "zh": "跑马地馬場", "day": "WED JUL 15 — Hong Kong Island (Peak + Central heritage + Happy Valley races)", "day_idx": 2, "cat": "Activity", "lat": 22.272, "lng": 114.182, "color": "#C9821E"}, {"name": "Hong Kong Railway Museum", "zh": "香港鐵路博物館", "day": "THU JUL 16 — Into the New Territories + Mong Kok markets", "day_idx": 3, "cat": "Museum", "lat": 22.449, "lng": 114.167, "color": "#3E7D52"}, {"name": "Ten Thousand Buddhas Monastery (萬佛寺)", "zh": "萬佛寺", "day": "THU JUL 16 — Into the New Territories + Mong Kok markets", "day_idx": 3, "cat": "Religious Site", "lat": 22.3883, "lng": 114.1973, "color": "#3E7D52"}, {"name": "Hong Kong Museum of History", "zh": "香港歷史博物館", "day": "THU JUL 16 — Into the New Territories + Mong Kok markets", "day_idx": 3, "cat": "Museum", "lat": 22.3015, "lng": 114.1775, "color": "#3E7D52"}, {"name": "Ladies' Market (Tung Choi St)", "zh": "女人街", "day": "THU JUL 16 — Into the New Territories + Mong Kok markets", "day_idx": 3, "cat": "Shopping", "lat": 22.32, "lng": 114.17, "color": "#3E7D52"}, {"name": "Afternoon Tea at The Peninsula (The Lobby)", "zh": "半島酒店下午茶", "day": "THU JUL 16 — Into the New Territories + Mong Kok markets", "day_idx": 3, "cat": "Food", "lat": 22.295, "lng": 114.172, "color": "#3E7D52"}, {"name": "Flower Market Rd + Goldfish/Bird Markets", "zh": "花墟道", "day": "THU JUL 16 — Into the New Territories + Mong Kok markets", "day_idx": 3, "cat": "Shopping", "lat": 22.325, "lng": 114.169, "color": "#3E7D52"}, {"name": "Cat Street (Upper Lascar Row)", "zh": "貓街 / 摩羅街", "day": "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)", "day_idx": 6, "cat": "Shopping", "lat": 22.284, "lng": 114.149, "color": "#1F8A8A"}, {"name": "PMQ (former Police Married Quarters)", "zh": "元創方", "day": "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)", "day_idx": 6, "cat": "Landmark", "lat": 22.283, "lng": 114.152, "color": "#1F8A8A"}, {"name": "Hong Kong Palace Museum", "zh": "香港故宫文化博物館", "day": "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)", "day_idx": 6, "cat": "Museum", "lat": 22.302, "lng": 114.154, "color": "#1F8A8A"}, {"name": "Hong Kong General Post Office", "zh": "香港郵政總局", "day": "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)", "day_idx": 6, "cat": "Landmark", "lat": 22.282, "lng": 114.161, "color": "#1F8A8A"}, {"name": "St John's Cathedral", "zh": "聖約翰座堂", "day": "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)", "day_idx": 6, "cat": "Religious Site", "lat": 22.28, "lng": 114.159, "color": "#1F8A8A"}, {"name": "Shek Kip Mei Estate (Mei Ho House Heritage)", "zh": "石硤尾邨 / 美荷樓", "day": "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)", "day_idx": 6, "cat": "Landmark", "lat": 22.334, "lng": 114.1637, "color": "#1F8A8A"}, {"name": "Choi Hung Estate Rainbow Basketball Court", "zh": "彩虹邨籃球場", "day": "SAT JUL 18 — Hong Kong cleanup (departure day — flight 12:05 AM Jul 19)", "day_idx": 6, "cat": "Landmark", "lat": 22.335, "lng": 114.209, "color": "#1F8A8A"}]}, "macau": {"name": "Macau", "zh": "澳门", "days": ["FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)"], "stops": [{"name": "Senado Square", "zh": "議事亭前地", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Landmark", "lat": 22.1937, "lng": 113.54, "color": "#B0202E"}, {"name": "St. Dominic's Church", "zh": "玫瑰堂", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Religious Site", "lat": 22.1945, "lng": 113.5405, "color": "#B0202E"}, {"name": "Ruins of St. Paul's", "zh": "大三巴牌坊", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Landmark", "lat": 22.1976, "lng": 113.5414, "color": "#B0202E"}, {"name": "Travessa da Paixão (Passion Lane)", "zh": "激情巷", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Landmark", "lat": 22.1972, "lng": 113.5408, "color": "#B0202E"}, {"name": "Monte Fort + Macao Museum", "zh": "大砲台 + 澳門博物館", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Museum", "lat": 22.1978, "lng": 113.542, "color": "#B0202E"}, {"name": "Guia Fortress & Lighthouse", "zh": "東望洋砲台及燈塔", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Landmark", "lat": 22.1968, "lng": 113.5495, "color": "#B0202E"}, {"name": "Taipa Houses Museum", "zh": "龍環葡韻", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Museum", "lat": 22.153, "lng": 113.557, "color": "#B0202E"}, {"name": "House of Dancing Water", "zh": "水舞間", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Performance", "lat": 22.148, "lng": 113.564, "color": "#B0202E"}, {"name": "Venetian Macao + bridge bus to HK", "zh": "澳門威尼斯人", "day": "FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)", "day_idx": 0, "cat": "Landmark", "lat": 22.146, "lng": 113.562, "color": "#B0202E"}]}}};
+var LEGS=[{"a": "Los Angeles", "b": "Taipei", "frm": [33.9416, -118.4085], "to": [25.0478, -238.493], "mode": "plane", "label": "Flight", "cruise": 4, "dur": 8500, "bow": 0.0, "ctrl": [52, -178.4], "arrive": {"name": "Taipei", "zh": "台北", "dates": "Jun 29", "minor": false}}, {"a": "Taipei", "b": "Chengdu", "frm": [25.0478, -238.493], "to": [30.66441, -255.9386], "mode": "plane", "label": "Flight", "cruise": 6, "dur": 6000, "bow": 0.12, "ctrl": null, "arrive": {"name": "Chengdu", "zh": "成都", "dates": "Jun 29 – Jul 3", "minor": false}}, {"a": "Chengdu", "b": "Chongqing", "frm": [30.66441, -255.9386], "to": [29.56589, -253.42639], "mode": "train", "label": "High-speed rail", "cruise": 8, "dur": 5000, "bow": 0.08, "ctrl": null, "arrive": {"name": "Chongqing", "zh": "重庆", "dates": "Jul 3 – Jul 5", "minor": false}}, {"a": "Chongqing", "b": "Sanya", "frm": [29.56589, -253.42639], "to": [18.3044, -250.48607], "mode": "plane", "label": "Flight", "cruise": 6, "dur": 6000, "bow": 0.12, "ctrl": null, "arrive": {"name": "Sanya", "zh": "三亚", "dates": "Jul 5 – Jul 8", "minor": false}}, {"a": "Sanya", "b": "Haikou", "frm": [18.3044, -250.48607], "to": [20.0312, -249.6794], "mode": "train", "label": "High-speed rail", "cruise": 8.5, "dur": 4500, "bow": 0.25, "ctrl": null, "arrive": {"name": "Haikou", "zh": "", "dates": "", "minor": true}}, {"a": "Haikou", "b": "Haikou port", "frm": [20.0312, -249.6794], "to": [20.019, -249.847], "mode": "train", "label": "Train, loading onto the rail ferry", "cruise": 10.5, "dur": 2000, "bow": 0.0, "ctrl": null, "arrive": null}, {"a": "Haikou", "b": "Hai'an", "frm": [20.019, -249.847], "to": [20.241, -249.855], "mode": "boat", "label": "Rail ferry across the Qiongzhou Strait", "cruise": 10, "dur": 3200, "bow": 0.08, "ctrl": null, "arrive": {"name": "Hai'an", "zh": "", "dates": "", "minor": true}}, {"a": "Hai'an", "b": "Guangzhou", "frm": [20.241, -249.855], "to": [23.12565, -246.71336], "mode": "train", "label": "Train", "cruise": 7.5, "dur": 6000, "bow": 0.0, "ctrl": [21.9, -248.1], "arrive": {"name": "Guangzhou", "zh": "广州", "dates": "Jul 9 – Jul 12", "minor": false}}, {"a": "Guangzhou", "b": "Shenzhen", "frm": [23.12565, -246.71336], "to": [22.54472, -245.94412], "mode": "train", "label": "High-speed rail", "cruise": 9, "dur": 4000, "bow": 0.08, "ctrl": null, "arrive": {"name": "Shenzhen", "zh": "深圳", "dates": "Jul 12 – Jul 13", "minor": false}}, {"a": "Shenzhen", "b": "Hong Kong", "frm": [22.54472, -245.94412], "to": [22.2935, -245.8363], "mode": "train", "label": "High-speed rail to West Kowloon", "cruise": 10.5, "dur": 3200, "bow": 0.05, "ctrl": null, "arrive": {"name": "Hong Kong", "zh": "香港", "dates": "Jul 12 – Jul 18", "minor": false}}, {"a": "Hong Kong", "b": "Macau", "frm": [22.2935, -245.8363], "to": [22.1945, -246.458], "mode": "boat", "label": "Ferry", "cruise": 10, "dur": 4000, "bow": 0.1, "ctrl": null, "arrive": {"name": "Macau", "zh": "澳门", "dates": "Jul 17", "minor": false}}, {"a": "Macau", "b": "Hong Kong", "frm": [22.1945, -246.458], "to": [22.2935, -245.8363], "mode": "bus", "label": "Bus across the Hong Kong–Zhuhai–Macau Bridge", "cruise": 10.5, "dur": 3600, "bow": 0.1, "ctrl": null, "arrive": null}, {"a": "Hong Kong", "b": "Los Angeles", "frm": [22.2935, -245.8363], "to": [33.9416, -118.4085], "mode": "plane", "label": "Flight home", "cruise": 4, "dur": 8500, "bow": 0.0, "ctrl": [49, -182.4], "arrive": {"name": "Los Angeles", "zh": "", "dates": "Home", "minor": false}}];
+var CATICO={"Museum": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12\"/></svg>", "Landmark": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3\"/></svg>", "Park": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M8 14V8M8 8C5 8 4 5.5 4.5 3.5 6.5 3 8 4 8 6c0-2 1.5-3 3.5-2.5C12 5.5 11 8 8 8z\"/></svg>", "Religious Site": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M3 13h10M4 13V9c0-2 2-3 4-3s4 1 4 3v4M8 6V3M6.5 4.5h3\"/></svg>", "Shopping": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M3.5 5.5h9l-.8 8h-7.4zM5.8 5.5V4.6a2.2 2.2 0 0 1 4.4 0v.9\"/></svg>", "Food": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M3 7c0 2.4 2.2 4.5 5 4.5S13 9.4 13 7zM2 7h12M8 11.5V14M5.5 14h5M10 6.5 12.5 2\"/></svg>", "Performance": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M2.5 3c1.8 1 3.4 1 5 0v6.5c0 2-1.2 3.5-2.5 3.5S2.5 11.5 2.5 9.5zM8.5 3c1.8 1 3.4 1 5 0v6.5c0 2-1.2 3.5-2.5 3.5\"/></svg>", "Activity": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"5.5\"/><path d=\"M8 5v3l2.2 2.2\"/></svg>", "Library": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M3 3.5h4.2c.5 0 .8.3.8.8V13H3.8c-.5 0-.8-.3-.8-.8zM13 3.5H8.8c-.5 0-.8.3-.8.8V13h4.2c.5 0 .8-.3.8-.8z\"/></svg>", "Hotel": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M2 13V5.5l6-3 6 3V13M2 13h12M6 13v-3h4v3M6.5 7h.01M9.5 7h.01\"/></svg>", "Airport": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M2 9.5 14 5l-1 2.8-4.5 1.7L7 13l-1.5-.5-.3-2.7L2.6 8.6z\"/></svg>", "Train Station": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"4\" y=\"2.5\" width=\"8\" height=\"8.5\" rx=\"1.5\"/><path d=\"M4 8h8M6.2 13.5 5 15M9.8 13.5 11 15\"/></svg>", "Transit": "<svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"3\" y=\"3\" width=\"10\" height=\"9\" rx=\"2\"/><path d=\"M3 7.5h10M5.5 14h5\"/></svg>"};
+var MODEICO={"plane": "<svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M21.8 13.4v-1.9l-8.3-5V3.1c0-.9-.7-1.6-1.5-1.6s-1.5.7-1.5 1.6v3.4l-8.3 5v1.9l8.3-2.5v5.6l-2.3 1.7v1.6l3.8-1.1 3.8 1.1v-1.6l-2.3-1.7v-5.6z\"/></svg>", "train": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"2.5\" width=\"14\" height=\"13.5\" rx=\"3.5\"/><path d=\"M5 9h14M9.3 12.8h.01M14.7 12.8h.01M8.5 16.5 6.5 20M15.5 16.5l2 3.5M7.5 18.7h9\"/></svg>", "metro": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4.5\" y=\"3\" width=\"15\" height=\"12.5\" rx=\"3\"/><path d=\"M4.5 10.5h15M9.5 3v7.5M14.5 3v7.5M8 15.5 6.5 19M16 15.5l1.5 3.5\"/></svg>", "boat": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 13.5h16l-2.2 3.8H6.2z\"/><path d=\"M6.8 13.5V8.5h10.4v5M12 8.5V5h3.5\"/><path d=\"M3.5 20.5c1.4.9 2.8.9 4.2 0s2.9-.9 4.3 0 2.9.9 4.3 0 2.8-.9 4.2 0\"/></svg>", "bus": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"13\" rx=\"2.5\"/><path d=\"M4 9.5h16M8.5 13.5h.01M15.5 13.5h.01\"/><circle cx=\"8\" cy=\"18.5\" r=\"1.5\"/><circle cx=\"16\" cy=\"18.5\" r=\"1.5\"/></svg>"};
+var LAX=[33.9416,-118.4085];
+var CITY_Z=11;
+var tlMap,layers=[],vehicle=null,routeLine=null,mode='trip';
+var anim={leg:-1,t:0,playing:false,raf:0,last:0,phase:'idle',holdUntil:0,done:false};
+var ca={segs:[],stops:[],idx:0,t:0,playing:false,raf:0,last:0,phase:'idle',lingerUntil:0,done:false,markers:[],lines:[],label:null,begun:false};
+var scrubbing=false;
+
+function wl(l){return l>0?l-360:l;}
+function sm(x){return x*x*(3-2*x);}
+function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+
+function tlInit(){
+  tlMap=L.map('tl-map',{scrollWheelZoom:true,zoomSnap:0,zoomDelta:.5,fadeAnimation:false});
+  hmBaseLayers(tlMap);
+  loadView();
+}
+
+// ---- Tile prefetch: warm the browser cache along each leg before flying it,
+// so big zoom changes don't leave the map grey while tiles stream in. ----
+var PF={};
+function prefetchAt(lat,lng,z){
+  var layer=null;
+  tlMap.eachLayer(function(l){if(!layer&&l instanceof L.TileLayer)layer=l;});
+  if(!layer)return;
+  z=Math.round(z);
+  var ts=layer.getTileSize().x;
+  var p=tlMap.project([lat,lng],z);
+  var x0=Math.floor(p.x/ts),y0=Math.floor(p.y/ts);
+  var n=Math.max(1,Math.ceil(Math.pow(2,z)*256/ts));
+  var old=layer._tileZoom;layer._tileZoom=z;
+  for(var dx=-1;dx<=1;dx++)for(var dy=-2;dy<=2;dy++){
+    var xx=((x0+dx)%n+n)%n,yy=y0+dy;
+    if(yy<0||yy>=n)continue;
+    try{
+      var u=layer.getTileUrl({x:xx,y:yy});
+      if(!PF[u]){PF[u]=1;var im=new Image();im.crossOrigin='anonymous';im.src=u;}
+    }catch(e){}
+  }
+  layer._tileZoom=old;
+}
+function prefetchLeg(g){
+  if(!g)return;
+  for(var i=0;i<=40;i++){
+    var t=i/40,pos=legPos(g,ease(t));
+    prefetchAt(pos[0],pos[1],legZoom(g,t));
+  }
+}
+
+function stopAnim(){
+  anim.playing=false;cancelAnimationFrame(anim.raf);
+  ca.playing=false;cancelAnimationFrame(ca.raf);
+}
+function clearLayers(){
+  stopAnim();
+  layers.forEach(function(l){tlMap.removeLayer(l);});layers=[];
+  if(vehicle){tlMap.removeLayer(vehicle);vehicle=null;}
+  if(routeLine){tlMap.removeLayer(routeLine);routeLine=null;}
+  ca.begun=false;ca.done=false;ca.markers=[];ca.lines=[];ca.label=null;ca.segs=[];ca.stops=[];
+}
+function info(html){document.getElementById('tl-info').innerHTML=html;}
+function paintScrub(s){
+  var p=s.value/10;
+  s.style.background='linear-gradient(to right,#C03828 '+p+'%,#DDD0B8 '+p+'%) center/100% 4px no-repeat';
+}
+function prog(x){
+  if(scrubbing)return;
+  var s=document.getElementById('tl-scrub');
+  if(!s)return;
+  s.value=Math.round(Math.max(0,Math.min(1,x))*1000);
+  paintScrub(s);
+}
+function btn(){
+  var b=document.getElementById('tl-play');
+  b.style.display='';
+  var playing=mode==='trip'?anim.playing:ca.playing;
+  var done=mode==='trip'?anim.done:ca.done;
+  b.innerHTML=playing?'&#10074;&#10074; Pause':(done?'&#8635; Replay':'&#9654; Play');
+}
+function cityDot(ll,name,minor){
+  var ic=L.divIcon({className:'',iconSize:null,iconAnchor:[6,6],
+    html:'<div class="tl-citylab'+(minor?' minor':'')+'"><span class="cd"></span>'+name+'</div>'});
+  var m=L.marker(ll,{icon:ic,interactive:false}).addTo(tlMap);
+  layers.push(m);return m;
+}
+function vehIcon(m){return L.divIcon({className:'',iconSize:[42,42],iconAnchor:[21,21],
+  html:'<div class="tl-veh">'+(MODEICO[m]||'')+'</div>'});}
+
+// ---- Full-trip animated sequence ----
+function tripOverview(){
+  clearLayers();
+  anim={leg:-1,t:0,playing:false,raf:0,last:0,phase:'idle',holdUntil:0,done:false};
+  var b=[LAX];
+  cityDot(LAX,'Los Angeles',false);
+  TL.trip.forEach(function(p){
+    var ll=[p.lat,wl(p.lng)];b.push(ll);
+    cityDot(ll,p.name,false);
+  });
+  tlMap.fitBounds(b,{padding:[40,40]});
+  info('<span class="tl-hint">Press play to fly the route, Los Angeles to Los Angeles.</span>');
+  prog(0);
+}
+function sampleLeg(g,n){
+  var a=[];
+  for(var i=0;i<=n;i++)a.push(legPos(g,i/n));
+  return a;
+}
+function tripBegin(){
+  clearLayers();
+  anim={leg:-1,t:0,playing:false,raf:0,last:0,phase:'hold',holdUntil:performance.now()+900,done:false};
+  routeLine=L.polyline([],{color:'#C03828',weight:3,opacity:.85}).addTo(tlMap);
+  vehicle=L.marker(LAX,{icon:vehIcon('plane'),zIndexOffset:1000,interactive:false}).addTo(tlMap);
+  cityDot(LAX,'Los Angeles',false);
+  tlMap.setView(LAX,CITY_Z,{animate:false});
+  info('<b>Los Angeles</b> &middot; wheels up shortly');
+  prefetchLeg(LEGS[0]);
+}
+function tripPlay(){
+  if(anim.phase==='idle'||anim.done)tripBegin();
+  anim.playing=true;anim.last=0;
+  anim.raf=requestAnimationFrame(frame);
+  btn();
+}
+function legCtrl(g){
+  if(g.ctrl)return g.ctrl;
+  if(!g.bow)return null;
+  var a=g.frm,b=g.to;
+  return [(a[0]+b[0])/2-(b[1]-a[1])*g.bow,(a[1]+b[1])/2+(b[0]-a[0])*g.bow];
+}
+function legPos(g,t){
+  var a=g.frm,b=g.to,c=legCtrl(g);
+  if(!c)return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+  var u=1-t;
+  return [u*u*a[0]+2*u*t*c[0]+t*t*b[0],u*u*a[1]+2*u*t*c[1]+t*t*b[1]];
+}
+function legZoom(g,t){
+  var k=t<.25?sm(t/.25):t>.75?sm((1-t)/.25):1;
+  return CITY_Z+(g.cruise-CITY_Z)*k;
+}
+function frame(ts){
+  if(!anim.playing)return;
+  if(!anim.last)anim.last=ts;
+  var dt=Math.min(80,ts-anim.last);anim.last=ts;
+  if(anim.phase==='hold'){
+    if(ts>=anim.holdUntil)nextLeg();
+  }else if(anim.phase==='leg'){
+    var g=LEGS[anim.leg];
+    anim.t=Math.min(1,anim.t+dt/g.dur);
+    var pos=legPos(g,ease(anim.t));
+    vehicle.setLatLng(pos);
+    routeLine.addLatLng(pos);
+    tlMap.setView(pos,legZoom(g,anim.t),{animate:false});
+    prog((anim.leg+anim.t)/LEGS.length);
+    if(anim.t>=1)arrive(g);
+  }
+  if(anim.playing)anim.raf=requestAnimationFrame(frame);
+}
+function nextLeg(){
+  anim.leg++;
+  if(anim.leg>=LEGS.length){finish();return;}
+  var g=LEGS[anim.leg];
+  anim.t=0;anim.phase='leg';
+  vehicle.setIcon(vehIcon(g.mode));
+  info(g.a+' &rarr; '+g.b+' &middot; '+g.label);
+  prefetchLeg(g);
+}
+function arrive(g){
+  if(g.arrive){
+    cityDot(g.to,g.arrive.name,g.arrive.minor);
+    if(!g.arrive.minor){
+      var zh=g.arrive.zh?' <span class="tl-zh">'+g.arrive.zh+'</span>':'';
+      var dt=g.arrive.dates?' &middot; '+g.arrive.dates:'';
+      info('<b>'+g.arrive.name+'</b>'+zh+dt);
+    }
+  }
+  anim.phase='hold';
+  anim.holdUntil=performance.now()+((g.arrive&&!g.arrive.minor)?1200:250);
+  prefetchLeg(LEGS[anim.leg+1]);
+}
+function finish(){
+  stopAnim();anim.done=true;anim.phase='idle';prog(1);btn();
+  if(vehicle){tlMap.removeLayer(vehicle);vehicle=null;}
+  info('<b>Home.</b> Twenty-one days, eight cities, one honeymoon.');
+  if(routeLine)tlMap.flyToBounds(routeLine.getBounds(),{padding:[40,40],duration:1.6});
+}
+function tripSeek(p){
+  stopAnim();
+  if(anim.phase==='idle'||!routeLine)tripBegin();
+  anim.playing=false;anim.done=false;
+  // rebuild city dots from scratch
+  layers.forEach(function(l){tlMap.removeLayer(l);});layers=[];
+  cityDot(LAX,'Los Angeles',false);
+  if(p>=.999){
+    var pts=[];
+    for(var i=0;i<LEGS.length;i++){
+      var gg=LEGS[i];pts=pts.concat(sampleLeg(gg,20));
+      if(gg.arrive)cityDot(gg.to,gg.arrive.name,gg.arrive.minor);
+    }
+    routeLine.setLatLngs(pts);
+    anim.leg=LEGS.length;anim.t=0;
+    finish();
+    return;
+  }
+  var n=LEGS.length,x=Math.max(0,p)*n,leg=Math.min(n-1,Math.floor(x)),t=x-leg;
+  var pts=[];
+  for(var i=0;i<leg;i++){
+    var gg=LEGS[i];pts=pts.concat(sampleLeg(gg,20));
+    if(gg.arrive)cityDot(gg.to,gg.arrive.name,gg.arrive.minor);
+  }
+  var g=LEGS[leg],et=ease(t),steps=Math.max(1,Math.floor(et*20));
+  for(var j=0;j<=steps;j++)pts.push(legPos(g,et*j/steps));
+  var pos=legPos(g,et);
+  routeLine.setLatLngs(pts);
+  if(!vehicle)vehicle=L.marker(pos,{icon:vehIcon(g.mode),zIndexOffset:1000,interactive:false}).addTo(tlMap);
+  vehicle.setIcon(vehIcon(g.mode));vehicle.setLatLng(pos);
+  tlMap.setView(pos,legZoom(g,t),{animate:false});
+  anim.leg=leg;anim.t=t;anim.phase='leg';anim.last=0;
+  info(g.a+' &rarr; '+g.b+' &middot; '+g.label);
+  prefetchLeg(g);
+  btn();
+}
+
+// ---- Per-city view: static render + animated playback ----
+function shortDay(l){
+  if(!l)return '';
+  var i=l.indexOf('—');
+  return (i>0?l.slice(0,i):l).trim();
+}
+function cityStopsOrdered(){
+  var cd=TL.cities[mode];
+  if(!cd)return [];
+  var df=document.getElementById('tl-day').value;
+  var byday={};
+  cd.stops.forEach(function(s){(byday[s.day_idx]=byday[s.day_idx]||[]).push(s);});
+  var S=[];
+  Object.keys(byday).map(Number).sort(function(a,b){return a-b;}).forEach(function(di){
+    if(df!==''&&+df!==di)return;
+    byday[di].forEach(function(s,k){s._first=(k===0);S.push(s);});
+  });
+  return S;
+}
+function showCity(slugName){
+  clearLayers();prog(0);
+  anim={leg:-1,t:0,playing:false,raf:0,last:0,phase:'idle',holdUntil:0,done:false};
+  var cd=TL.cities[slugName];
+  if(!cd){info('');return;}
+  var dayFilter=document.getElementById('tl-day').value;
+  var byday={};
+  cd.stops.forEach(function(s){(byday[s.day_idx]=byday[s.day_idx]||[]).push(s);});
+  var all=[];
+  Object.keys(byday).map(Number).sort(function(a,b){return a-b;}).forEach(function(di){
+    if(dayFilter!==''&&+dayFilter!==di)return;
+    var stops=byday[di],col=stops[0].color;
+    var pts=stops.map(function(s){return [s.lat,s.lng];});
+    all=all.concat(pts);
+    if(pts.length>1)
+      layers.push(L.polyline(pts,{color:col,weight:3.5,opacity:.85}).addTo(tlMap));
+    var lbl=shortDay(cd.days[di]||'');
+    if(lbl){
+      var mi=Math.floor((pts.length-1)/2);
+      var p1=pts[mi],p2=pts[mi+1]||pts[mi];
+      var lp=pts.length>1?[(p1[0]+p2[0])/2,(p1[1]+p2[1])/2]:pts[0];
+      var ic=L.divIcon({className:'',iconSize:null,iconAnchor:[0,24],
+        html:'<div class="tl-daylab" style="border-color:'+col+';color:'+col+'">'+lbl+'</div>'});
+      layers.push(L.marker(lp,{icon:ic,interactive:false}).addTo(tlMap));
+    }
+    stops.forEach(function(s){
+      var svg=CATICO[s.cat]||'<span class="ndot"></span>';
+      var ic=L.divIcon({className:'',iconSize:[24,24],iconAnchor:[12,12],
+        html:'<div class="tl-stop-ico" style="background:'+col+'">'+svg+'</div>'});
+      var m=L.marker([s.lat,s.lng],{icon:ic}).addTo(tlMap);
+      var zh=(s.zh&&s.zh!=='—')?' <span class="tl-zh">'+s.zh+'</span>':'';
+      m.bindPopup('<b>'+s.name+'</b>'+zh+'<br><span class="tl-pop-meta">'+(s.cat?s.cat+' &middot; ':'')+shortDay(s.day)+'</span>');
+      layers.push(m);
+    });
+  });
+  if(all.length>1)tlMap.fitBounds(all,{padding:[44,44]});
+  else if(all.length===1)tlMap.setView(all[0],14);
+  info('<b>'+cd.name+'</b> <span class="tl-zh">'+cd.zh+'</span> &middot; <span class="tl-hint">press play to walk the route, or tap any stop</span>');
+}
+function markVisited(i,on){
+  var m=ca.markers[i];
+  if(!m)return;
+  var el=m.getElement();
+  if(!el)return;
+  var d=el.querySelector('.tl-stop-ico');
+  if(d){if(on)d.classList.remove('dim');else d.classList.add('dim');}
+}
+function showStopLabel(s){
+  hideStopLabel();
+  var ic=L.divIcon({className:'',iconSize:null,iconAnchor:[0,38],
+    html:'<div class="tl-stoplab" style="border-color:'+s.color+'">'+s.name+'</div>'});
+  ca.label=L.marker([s.lat,s.lng],{icon:ic,interactive:false,zIndexOffset:1200}).addTo(tlMap);
+  layers.push(ca.label);
+  var zh=(s.zh&&s.zh!=='—')?' <span class="tl-zh">'+s.zh+'</span>':'';
+  info('<b>'+s.name+'</b>'+zh+(s.day?' &middot; '+shortDay(s.day):''));
+}
+function hideStopLabel(){
+  if(ca.label){tlMap.removeLayer(ca.label);ca.label=null;}
+}
+function cityBegin(quiet){
+  clearLayers();
+  var S=cityStopsOrdered();
+  ca={segs:[],stops:S,idx:0,t:0,playing:false,raf:0,last:0,phase:'linger',
+      lingerUntil:0,done:false,markers:[],lines:[],label:null,begun:true};
+  if(!S.length){ca.done=true;return;}
+  S.forEach(function(s){
+    var svg=CATICO[s.cat]||'<span class="ndot"></span>';
+    var ic=L.divIcon({className:'',iconSize:[24,24],iconAnchor:[12,12],
+      html:'<div class="tl-stop-ico dim" style="background:'+s.color+'">'+svg+'</div>'});
+    var m=L.marker([s.lat,s.lng],{icon:ic,interactive:false}).addTo(tlMap);
+    layers.push(m);ca.markers.push(m);
+  });
+  for(var i=1;i<S.length;i++)
+    ca.segs.push({a:S[i-1],b:S[i],draw:!S[i]._first,color:S[i].color,line:null});
+  var pts=S.map(function(s){return [s.lat,s.lng];});
+  if(pts.length>1)tlMap.fitBounds(pts,{padding:[44,44]});
+  else tlMap.setView(pts[0],14);
+  markVisited(0,true);
+  if(!quiet){
+    showStopLabel(S[0]);
+    ca.lingerUntil=performance.now()+1400;
+  }
+  prog(0);
+}
+function cityPlay(){
+  if(!ca.begun||ca.done)cityBegin(false);
+  if(ca.done){btn();return;}
+  ca.playing=true;ca.last=0;
+  ca.raf=requestAnimationFrame(cframe);
+  btn();
+}
+function cframe(ts){
+  if(!ca.playing)return;
+  if(!ca.last)ca.last=ts;
+  var dt=Math.min(80,ts-ca.last);ca.last=ts;
+  if(ca.phase==='linger'){
+    if(ts>=ca.lingerUntil){hideStopLabel();nextSeg();}
+  }else if(ca.phase==='seg'){
+    var sg=ca.segs[ca.idx];
+    if(sg.draw&&!sg.line){
+      sg.line=L.polyline([[sg.a.lat,sg.a.lng]],{color:sg.color,weight:3.5,opacity:.85}).addTo(tlMap);
+      layers.push(sg.line);ca.lines.push(sg.line);
+    }
+    ca.t=Math.min(1,ca.t+dt/(sg.draw?700:250));
+    if(sg.draw){
+      var k=sm(ca.t);
+      sg.line.setLatLngs([[sg.a.lat,sg.a.lng],
+        [sg.a.lat+(sg.b.lat-sg.a.lat)*k,sg.a.lng+(sg.b.lng-sg.a.lng)*k]]);
+    }
+    if(ca.t>=1)arriveStop();
+  }
+  prog(cityProgress());
+  if(ca.playing)ca.raf=requestAnimationFrame(cframe);
+}
+function nextSeg(){
+  if(ca.idx>=ca.segs.length){cityFinish();return;}
+  ca.t=0;ca.phase='seg';
+}
+function arriveStop(){
+  var sg=ca.segs[ca.idx];
+  if(sg.draw&&sg.line)
+    sg.line.setLatLngs([[sg.a.lat,sg.a.lng],[sg.b.lat,sg.b.lng]]);
+  markVisited(ca.idx+1,true);
+  showStopLabel(ca.stops[ca.idx+1]);
+  ca.idx++;
+  ca.phase='linger';
+  ca.lingerUntil=performance.now()+1600;
+}
+function cityFinish(){
+  ca.playing=false;ca.done=true;ca.phase='idle';
+  hideStopLabel();
+  var cd=TL.cities[mode];
+  if(cd)info('<b>'+cd.name+'</b> <span class="tl-zh">'+cd.zh+'</span> &middot; '+ca.stops.length+' stops walked');
+  prog(1);btn();
+}
+function cityProgress(){
+  if(!ca.segs.length)return ca.done?1:0;
+  return Math.min(1,(ca.idx+(ca.phase==='seg'?ca.t:0))/ca.segs.length);
+}
+function citySeek(p){
+  stopAnim();
+  if(!ca.begun)cityBegin(true);
+  ca.playing=false;ca.done=false;
+  hideStopLabel();
+  var n=ca.segs.length;
+  if(!n){prog(p);return;}
+  var x=Math.max(0,Math.min(.9999,p))*n,idx=Math.floor(x),t=x-idx;
+  ca.lines.forEach(function(l){tlMap.removeLayer(l);});
+  ca.lines=[];
+  ca.segs.forEach(function(sg){sg.line=null;});
+  ca.markers.forEach(function(m,i){markVisited(i,i<=idx);});
+  for(var i=0;i<idx;i++){
+    var sg=ca.segs[i];
+    if(!sg.draw)continue;
+    sg.line=L.polyline([[sg.a.lat,sg.a.lng],[sg.b.lat,sg.b.lng]],
+      {color:sg.color,weight:3.5,opacity:.85}).addTo(tlMap);
+    layers.push(sg.line);ca.lines.push(sg.line);
+  }
+  var sg=ca.segs[idx];
+  if(sg.draw&&t>0){
+    var k=sm(t);
+    sg.line=L.polyline([[sg.a.lat,sg.a.lng],
+      [sg.a.lat+(sg.b.lat-sg.a.lat)*k,sg.a.lng+(sg.b.lng-sg.a.lng)*k]],
+      {color:sg.color,weight:3.5,opacity:.85}).addTo(tlMap);
+    layers.push(sg.line);ca.lines.push(sg.line);
+  }
+  ca.idx=idx;ca.t=t;ca.phase='seg';ca.last=0;
+  var s=ca.stops[idx];
+  var zh=(s.zh&&s.zh!=='—')?' <span class="tl-zh">'+s.zh+'</span>':'';
+  info('<b>'+s.name+'</b>'+zh+(s.day?' &middot; '+shortDay(s.day):''));
+  btn();
+}
+
+function loadView(){
+  var dw=document.querySelector('.tl-day-wrap'),ds=document.getElementById('tl-day');
+  if(mode==='trip'){
+    dw.style.display='none';
+    tripOverview();
+  }else{
+    ds.innerHTML='<option value="">All days</option>';
+    var cd=TL.cities[mode];
+    if(cd)cd.days.forEach(function(d,i){
+      var o=document.createElement('option');o.value=i;o.textContent=shortDay(d);ds.appendChild(o);
+    });
+    dw.style.display='';
+    showCity(mode);
+  }
+  btn();
+}
+function tlToggle(){
+  if(mode==='trip'){
+    if(anim.playing){stopAnim();btn();}
+    else tripPlay();
+  }else{
+    if(ca.playing){stopAnim();btn();}
+    else cityPlay();
+  }
+}
+function tlBoot(){
+  tlInit();
+  document.getElementById('tl-play').addEventListener('click',tlToggle);
+  document.getElementById('tl-reset').addEventListener('click',function(){
+    if(mode==='trip')tripOverview();else showCity(mode);
+    btn();
+  });
+  document.getElementById('tl-view').addEventListener('change',function(){
+    mode=this.value;
+    document.getElementById('tl-day').value='';
+    loadView();
+  });
+  document.getElementById('tl-day').addEventListener('change',function(){showCity(mode);});
+  var sc=document.getElementById('tl-scrub');
+  paintScrub(sc);
+  sc.addEventListener('pointerdown',function(){scrubbing=true;});
+  window.addEventListener('pointerup',function(){scrubbing=false;});
+  sc.addEventListener('input',function(){
+    paintScrub(this);
+    var p=this.value/1000;
+    if(mode==='trip')tripSeek(p);else citySeek(p);
+  });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tlBoot);
+else tlBoot();
+
+</script>
+<footer>For Amanda, from Nate. Made with love in Los Angeles for use in China.</footer>
+</body></html>

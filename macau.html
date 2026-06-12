@@ -1,0 +1,1093 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Macau &middot; The Singer Honeymoon</title>
+<link rel="stylesheet" href="assets/leaflet/leaflet.css">
+<style>
+/* ===== Fonts (vendored, offline) ===== */
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-400.woff2') format('woff2'),url('assets/fonts/notosc-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-700.woff2') format('woff2'),url('assets/fonts/notosc-700.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --cinnabar:#C0392B; --cinnabar-deep:#9A2018; --vermillion:#D9483B;
+  --gold:#C9A227; --gold-soft:#E4C76B;
+  --ink:#1f1a17; --ink-soft:#4a4138; --muted:#8a7d6d;
+  --paper:#F3EBDD; --paper-2:#EDE3D2; --card:#FCF7EC; --line:#DDD0B8;
+  --shadow:24px 30px 60px -28px rgba(60,38,20,.45);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0}html{scroll-padding-top:58px}.vpage{scroll-margin-top:58px}.hero{scroll-margin-top:58px}.hero{padding-top:18px}
+body{
+  font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun","Iowan Old Style",Georgia,serif;
+  color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(217,72,59,.07), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(201,162,39,.08), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23000' stroke-opacity='0.018' stroke-width='1'/%3E%3C/svg%3E");
+}
+a{color:var(--cinnabar);text-underline-offset:2px}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 26px}
+
+/* ===== Masthead ===== */
+header.masthead{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(252,247,236,.82);backdrop-filter:blur(12px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(255,255,255,.6), 0 8px 30px -20px rgba(60,38,20,.4);
+  padding-top:env(safe-area-inset-top);
+}
+.masthead .wrap{display:flex;align-items:center;justify-content:space-between;padding:13px 26px;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:1.05rem;letter-spacing:.02em;text-decoration:none;color:inherit}
+.brand .seal{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:34px;height:40px;border-radius:7px;background:var(--cinnabar);color:#fff;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:.95rem;
+  box-shadow:0 2px 8px -2px rgba(154,32,24,.7), inset 0 0 0 1px rgba(255,255,255,.25);
+  line-height:1.1;gap:1px;
+}
+.brand .seal-name{font-size:.45rem;letter-spacing:.05em;opacity:.85}
+.brand .brand-en{font-family:'Cormorant',serif;font-size:1.3rem;letter-spacing:.04em}
+.brand .brand-sub{color:var(--muted);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase}
+nav.cities{display:flex;flex-wrap:wrap;gap:2px}
+nav.cities a{
+  position:relative;text-decoration:none;color:var(--ink-soft);font-size:.86rem;
+  padding:7px 11px;border-radius:6px;transition:color .2s, background .2s;
+}
+nav.cities a::after{content:'';position:absolute;left:11px;right:11px;bottom:3px;height:2px;
+  background:var(--cinnabar);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+nav.cities a:hover{color:var(--cinnabar)}
+nav.cities a:hover::after{transform:scaleX(1)}
+nav.cities a.active{color:var(--cinnabar);font-weight:700}
+nav.cities a.active::after{transform:scaleX(1)}
+
+/* Destinations dropdown group */
+.navgroup{position:relative;display:inline-block}
+.navgroup-btn{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:.86rem;
+  font-family:inherit;padding:7px 11px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+.navgroup-btn:hover,.navgroup-btn.active{color:var(--cinnabar)}
+.navgroup-btn.active{font-weight:700}
+.navgroup .caret{font-size:.7rem;transition:transform .2s}
+.navgroup .submenu{position:absolute;top:100%;left:0;min-width:180px;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px -12px rgba(60,38,20,.4);
+  padding:6px;display:none;flex-direction:column;z-index:1100;margin-top:4px}
+.navgroup .submenu a{padding:9px 12px;border-radius:6px;font-size:.86rem;color:var(--ink-soft);
+  text-decoration:none}
+.navgroup .submenu a::after{display:none}
+.navgroup .submenu a:hover{background:var(--paper);color:var(--cinnabar)}
+.navgroup .submenu a.active{color:var(--cinnabar);font-weight:700}
+/* open on hover (desktop) or when toggled open (click) */
+@media(hover:hover){.navgroup:hover .submenu{display:flex}.navgroup:hover .caret{transform:rotate(180deg)}}
+.navgroup.open .submenu{display:flex}
+.navgroup.open .caret{transform:rotate(180deg)}
+
+/* Hamburger toggle, hidden on desktop, shown on mobile */
+.nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:42px;height:42px;padding:9px;background:none;border:1px solid var(--line);
+  border-radius:9px;cursor:pointer}
+.nav-toggle span{display:block;height:2px;width:100%;background:var(--ink);border-radius:2px;
+  transition:transform .25s, opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:760px){
+  .nav-toggle{display:flex}
+  nav.cities{display:none;flex-direction:column;gap:0;width:100%;order:3;
+    margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
+  nav.cities.open{display:flex}
+  nav.cities>a{font-size:1rem;padding:12px 6px;border-bottom:1px solid var(--line);border-radius:0}
+  nav.cities a::after{display:none}
+  nav.cities a.active{background:color-mix(in srgb,var(--cinnabar) 8%,transparent)}
+  /* Destinations group inline on mobile */
+  .navgroup{display:block;width:100%}
+  .navgroup-btn{width:100%;justify-content:space-between;font-size:1rem;padding:12px 6px;
+    border-bottom:1px solid var(--line)}
+  .navgroup .submenu{position:static;display:none;border:none;box-shadow:none;background:transparent;
+    margin:0;padding:0;border-radius:0}
+  .navgroup.open .submenu{display:flex}
+  .navgroup .submenu a{padding:11px 6px 11px 22px;border-bottom:1px solid var(--line);
+    border-radius:0;font-size:.95rem}
+  @media(hover:hover){.navgroup:hover .submenu{display:none}}
+  .navgroup.open .submenu{display:flex}
+}
+
+/* ===== Hero ===== */
+.hero{position:relative;padding:54px 0 26px;overflow:hidden}
+.hero .watermark{
+  position:absolute;right:-6px;top:50%;transform:translateY(-50%);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:clamp(7rem,18vw,15rem);
+  color:var(--cinnabar);opacity:.07;line-height:.8;pointer-events:none;user-select:none;
+  letter-spacing:-.04em;
+}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--cinnabar);
+  font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:14px}
+.hero .eyebrow::before{content:'';width:30px;height:1px;background:var(--cinnabar);display:inline-block}
+.hero h1{
+  font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(2.6rem,6vw,4.4rem);line-height:1;margin:0;letter-spacing:.01em;
+  color:var(--ink);
+}
+.hero h1 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);margin-left:.3em;font-size:.7em}
+.hero .sub{color:var(--ink-soft);font-size:1.05rem;margin-top:14px;max-width:62ch}
+.hero .rule{display:flex;align-items:center;gap:12px;margin-top:22px;color:var(--gold)}
+.hero .rule::before,.hero .rule::after{content:'';height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);flex:1}
+.hero .rule span{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== Layout ===== */
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start;padding-bottom:70px}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  /* On mobile, show the map first, then the day's stops below it */
+  .layout .map-col{order:-1}
+  .layout .itinerary{order:1}
+}
+#map{height:600px;border-radius:14px;position:sticky;top:88px;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line);overflow:hidden}
+@media(max-width:900px){#map{position:relative;top:0;height:360px}}
+.map-frame{position:relative;border-radius:14px;overflow:hidden}
+.map-frame::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  box-shadow:inset 0 0 0 4px rgba(192,57,43,.0), inset 0 0 30px rgba(60,38,20,.12)}
+
+/* ===== Day sections ===== */
+.day{margin-bottom:40px}
+.day h2{
+  display:flex;align-items:center;gap:12px;margin:0 0 18px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;letter-spacing:.01em;
+  color:var(--ink);
+}
+.day h2 .daydot{width:13px;height:13px;border-radius:50%;background:var(--cat,#888);flex:0 0 13px;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--cat,#888) 22%, transparent)}
+.day h2 .daytext{flex:1}
+.day h2 .dayline{height:1px;flex:0 0 40px;background:var(--cat,var(--line));opacity:.5}
+
+/* ===== Stop cards ===== */
+.stop{
+  position:relative;background:var(--card);border-radius:12px;
+  padding:16px 18px 16px 20px;margin-bottom:14px;cursor:pointer;overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(60,38,20,.04);
+  transition:transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s, border-color .18s;
+}
+.stop::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat,#888)}
+.stop:hover{transform:translateY(-3px);box-shadow:0 14px 30px -16px rgba(60,38,20,.4);border-color:color-mix(in srgb,var(--cat,#888) 40%,var(--line))}
+.stop.flash{box-shadow:0 0 0 2px var(--cat,#888), 0 14px 30px -14px rgba(60,38,20,.5)}
+.stop-img{margin:-16px -18px 14px -20px;height:180px;overflow:hidden;border-radius:10px 10px 0 0}
+.stop-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.stop:hover .stop-img img{transform:scale(1.04)}
+.stop .toprow{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.pin{
+  width:27px;height:27px;flex:0 0 27px;border-radius:8px;
+  background:var(--cat,#888);color:#fff;
+  font-family:'Cormorant',serif;font-size:.95rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25), 0 2px 6px -2px rgba(0,0,0,.4);
+}
+.stop h3{margin:0;font-size:1.12rem;font-weight:700;letter-spacing:.005em;line-height:1.25}
+.stop .zh{color:var(--cinnabar);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.92rem;margin-left:6px;font-weight:400;opacity:.85}
+.tag{margin-left:auto;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);background:transparent;border:1px solid var(--line);
+  padding:3px 9px;border-radius:20px}
+.meta{display:flex;flex-wrap:wrap;gap:7px 18px;margin:11px 0 0;font-size:.85rem;color:var(--ink-soft)}
+.meta span b{color:var(--muted);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.meta a{font-weight:700;white-space:nowrap}
+.notes{font-size:.88rem;margin-top:11px;line-height:1.6;color:var(--ink-soft)}
+.stop-protip{font-size:.88rem;line-height:1.6;margin:8px 0;padding:7px 11px;background:var(--paper-2);border-radius:8px;border-left:3px solid var(--cinnabar)}
+.protip-label{font-weight:700;color:var(--cinnabar);margin-right:5px}
+.notes b{color:var(--cinnabar);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.netizen{position:relative;font-size:.85rem;margin-top:12px;padding:9px 13px 9px 30px;
+  color:var(--ink-soft);font-style:italic;background:var(--paper-2);border-radius:8px;line-height:1.55}
+.netizen::before{content:'\201C';position:absolute;left:8px;top:0px;font-family:'Cormorant',serif;
+  font-size:2.1rem;color:var(--gold);line-height:1}
+.badge{display:inline-flex;align-items:center;font-size:.62rem;color:#fff;padding:3px 9px;border-radius:20px;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.badge.booked{background:#3E7D52;box-shadow:0 2px 6px -2px rgba(62,125,82,.6)}
+.badge.tobook{background:var(--cinnabar);box-shadow:0 2px 6px -2px rgba(192,57,43,.6)}
+
+/* ===== Legend ===== */
+.legend{display:flex;gap:9px 16px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--ink-soft);
+  margin:0 0 22px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.legend .legend-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.legend span:not(.legend-title){display:inline-flex;align-items:center}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:6px;
+  box-shadow:0 0 0 3px color-mix(in srgb,currentColor 0%, transparent)}
+
+/* ===== Offline note ===== */
+.offnote{display:flex;gap:11px;align-items:flex-start;
+  background:linear-gradient(180deg,#FCF6E4,#F8EFD6);border:1px solid var(--gold-soft);
+  border-radius:12px;padding:13px 16px;font-size:.85rem;margin:0 0 20px;color:var(--ink-soft);line-height:1.5}
+.offnote b{color:var(--cinnabar-deep)}
+.offnote .ico{flex:0 0 22px;width:22px;height:22px;border-radius:6px;background:var(--gold);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;margin-top:1px}
+
+/* ===== Food page ===== */
+.food-city-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.food-city-tab{padding:8px 16px;border-radius:20px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink-soft);font-size:.85rem;cursor:pointer;
+  font-family:inherit;transition:all .2s}
+.food-city-tab:hover{border-color:var(--cinnabar);color:var(--cinnabar)}
+.food-city-tab.active{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
+.food-cat-filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+.food-cat-btn{padding:5px 13px;border-radius:14px;border:1px solid var(--line);
+  background:var(--card);font-size:.78rem;cursor:pointer;transition:all .18s;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn:hover{filter:brightness(.95)}
+.food-cat-btn.active{color:#fff;border-color:transparent}
+.food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.food-map-col{order:-1}}
+#foodmap{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line)}
+@media(max-width:900px){#foodmap{height:360px}}
+.food-map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-col{position:relative;top:0}}
+.food-cards{display:flex;flex-direction:column;gap:14px}
+.food-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;position:relative;overflow:hidden;cursor:pointer;
+  transition:box-shadow .2s, transform .15s}
+.food-card:hover{box-shadow:0 4px 18px -8px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.food-card-name{font-family:'Cormorant',serif;font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.2}
+.food-card-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.food-cat-pill{font-size:.7rem;padding:3px 9px;border-radius:10px;color:#fff;
+  white-space:nowrap;flex-shrink:0;font-weight:600;letter-spacing:.03em}
+.food-card-dishes{font-size:.85rem;color:var(--ink-soft);margin:4px 0 8px;line-height:1.5}
+.food-card-netizen{font-size:.82rem;color:var(--ink-soft);font-style:italic;line-height:1.5;
+  margin:6px 0 8px;padding:7px 11px;background:var(--paper-2);border-radius:8px;
+  border-left:3px solid var(--gold)}
+.food-allergy-badge{font-size:.74rem;padding:3px 8px;border-radius:8px;display:inline-block;margin-top:4px}
+.food-allergy-safe{background:color-mix(in srgb,#3E7D52 12%,transparent);color:#2a5c39}
+.food-allergy-warn{background:color-mix(in srgb,#C9821E 12%,transparent);color:#8a5200}
+.food-card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--line)}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+.food-count-badge{font-size:.78rem;color:var(--muted);padding:3px 8px;
+  background:var(--paper-2);border-radius:8px;margin-left:auto}
+/* Category colour map. JS reads data-cat attribute */
+.cat-hot-pot{--ccat:#B0202E}
+.cat-chinese-food{--ccat:#2E6F95}
+.cat-dim-sum{--ccat:#7A4BA8}
+.cat-cafe-coffee{--ccat:#8A6D1F}
+.cat-bar{--ccat:#1F8A8A}
+.cat-international{--ccat:#C24E8C}
+.cat-bakery-snacks{--ccat:#C9821E}
+.cat-seafood{--ccat:#3E7D52}
+.cat-vegetarian-vegan{--ccat:#5566C0}
+.cat-other{--ccat:#888}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.8rem;text-align:center}
+footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:.8em}
+
+/* ===== Home page ===== */
+.summary{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px 30px 26px;margin-top:34px;margin-bottom:34px;box-shadow:0 1px 2px rgba(60,38,20,.05);overflow:hidden}
+.summary::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.summary p{margin:0;font-size:1.05rem;line-height:1.7;color:var(--ink-soft)}
+.summary .summary-lead{font-size:1.08rem;line-height:1.75}
+.summary .hl-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 8px}
+@media(max-width:760px){.summary .hl-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.summary .hl-strip{grid-template-columns:1fr}}
+.summary .hl{display:flex;align-items:center;gap:11px;text-decoration:none;
+  background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;
+  transition:transform .18s, box-shadow .18s, border-color .18s}
+.summary .hl:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(60,38,20,.4);
+  border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 45%,var(--line))}
+.summary .hl-ico{flex:0 0 30px;width:30px;height:30px;color:var(--cat,var(--cinnabar))}
+.summary .hl-ico svg{width:30px;height:30px;display:block}
+.summary .hl-t{font-size:.86rem;line-height:1.3;color:var(--ink)}
+.summary .stats{display:flex;gap:30px;margin-top:20px;flex-wrap:wrap}
+.summary .stat{display:flex;flex-direction:column}
+.summary .stat .n{font-family:'Cormorant',serif;font-size:2.2rem;font-weight:600;color:var(--cinnabar);line-height:1}
+.summary .stat .l{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.summary .stats-foot{margin-top:10px;font-size:.74rem;color:var(--muted);font-style:italic}
+
+
+.citygrid{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;padding-bottom:60px}
+.citycard{flex:1 1 280px;max-width:340px;min-width:260px;box-sizing:border-box;position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:24px 22px 22px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(60,38,20,.05);
+  transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s}
+.citycard::after{content:attr(data-zh);position:absolute;right:-8px;bottom:-26px;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:6rem;line-height:1;
+  color:var(--cinnabar);opacity:.06;transition:opacity .22s, transform .22s;letter-spacing:-.04em}
+.citycard:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+.citycard:hover::after{opacity:.12;transform:scale(1.08) translateY(-4px)}
+.citycard .num{font-family:'Cormorant',serif;color:var(--gold);font-size:.95rem;letter-spacing:.1em}
+.citycard h3{margin:6px 0 2px;font-family:'Cormorant',serif;font-weight:600;font-size:2rem;line-height:1;color:var(--ink)}
+.citycard h3 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);font-size:.62em;margin-left:.25em}
+.citycard .dates{font-size:.84rem;color:var(--muted);margin-top:8px}
+.citycard .count{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;margin-top:16px;
+  color:var(--cinnabar);font-weight:700}
+.citycard .count::after{content:'\2192';transition:transform .22s}
+.citycard:hover .count::after{transform:translateX(4px)}
+
+/* ===== Entrance animations ===== */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards}
+@media(prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1}}
+
+/* ===== Leaflet popup restyle ===== */
+.leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 10px 30px -12px rgba(60,38,20,.5);
+  background:var(--card);border:1px solid var(--line)}
+.leaflet-popup-content{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif;margin:11px 14px;font-size:.86rem;color:var(--ink)}
+.leaflet-popup-tip{background:var(--card)}
+.leaflet-container{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.leaflet-bar a{border-radius:4px}
+
+/* ===== Day sub-tabs ===== */
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:2px}
+.tab{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  font-family:'NotoSC',serif;font-size:.86rem;color:var(--ink-soft);
+  background:var(--card);border:1px solid var(--line);border-radius:30px;
+  padding:8px 15px;transition:all .18s;white-space:nowrap}
+.tab .tab-dot{width:9px;height:9px;border-radius:50%;background:var(--cat,var(--muted));flex:0 0 9px;transition:transform .18s}
+.tab:hover{border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 50%,var(--line));transform:translateY(-1px)}
+.tab.active{background:var(--cat,var(--cinnabar));color:#fff;border-color:transparent;
+  box-shadow:0 5px 14px -5px color-mix(in srgb,var(--cat,var(--cinnabar)) 80%,transparent)}
+.tab.active .tab-dot{background:#fff;transform:scale(1.1)}
+.tab-history{margin-left:6px;position:relative}
+.tab-history::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history.active{background:var(--ink);}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Panels (tab content) ===== */
+.panel{display:none;animation:rise .45s cubic-bezier(.2,.7,.3,1)}
+.panel.show{display:block}
+.day-head h2{display:flex;align-items:baseline;gap:10px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.7rem;color:var(--ink);line-height:1.1}
+.tag svg{vertical-align:-1.5px;margin-right:4px;opacity:.85}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.panel.show .stop{animation:cardIn .45s cubic-bezier(.2,.7,.3,1) both;animation-delay:min(calc(var(--i,0)*45ms),400ms)}
+.tab.today-tab::after{content:"·";color:var(--cinnabar);font-weight:900;margin-left:4px;font-size:1.2em;line-height:0}
+
+.globe-box canvas{width:100%;height:auto;display:block;cursor:grab;touch-action:none}
+.budget-total span{font-size:.85rem;font-family:inherit;color:#9a8f7d;font-weight:400;margin-left:8px}
+.budget-bar i{display:block}
+.budget-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+.globe-box{flex:0 1 480px;max-width:560px}
+@media(max-width:640px){.globe-legend{grid-template-columns:1fr}}
+
+.panel.show .day-route{animation:cardIn .5s cubic-bezier(.2,.7,.3,1) both}
+@media (prefers-reduced-motion:reduce){.panel.active .stop,.panel.show .day-route{animation:none}}
+@media (prefers-color-scheme:dark){
+:root{
+  --paper:#16161d;--paper-2:#1e1e27;--ink:#e8e4da;--ink-soft:#b8b3a6;
+  --cinnabar:#e05545;--cinnabar-deep:#c94030;
+  --card:#1a1a24;--line:rgba(255,255,255,.09);--muted:#7a7568;
+  --gold:#c9a02a;--gold-soft:#a07820;
+  --shadow:24px 30px 60px -28px rgba(0,0,0,.7);
+}
+body{background:var(--paper);color:var(--ink)}
+.stop,.panel,.citycard,.food-card,.food-entry-card,.study-block,.china-collapse,
+.legend,.summary,.journey,.era-card,.offnote,.chain-card,.city-fact-card{
+  background:var(--card);border-color:var(--line)}
+.tag{background:rgba(255,255,255,.06)}
+.day-route{background:#1a1a22;border-color:var(--line)}
+.netizen,.food-card-netizen,.food-entry-netizen{background:rgba(255,255,255,.04)}
+.stop-protip{background:rgba(224,85,69,.08)}
+.leaflet-tile{filter:brightness(.7) contrast(1.1)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);border-color:var(--line)}
+header.masthead{background:rgba(22,22,29,.9)}
+}
+
+.day-strip{display:flex;gap:14px;font-size:.8rem;color:#8a8a8a;margin:2px 0 6px}
+.day-strip .strip-book{color:var(--cinnabar);font-weight:600}
+
+.day-intro{font-size:.98rem;line-height:1.7;color:var(--ink-soft);margin:6px 0 22px;
+  padding:14px 18px;background:var(--card);border-radius:12px;
+  border:1px solid var(--line);border-left:4px solid var(--cat,var(--cinnabar))}
+.day-intro-empty{color:var(--muted);font-style:italic}
+
+/* ===== Sticky map column ===== */
+.map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.map-col{position:relative;top:0}}
+.map-col.hidden{display:none}
+.map-cap{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);
+  letter-spacing:.04em}
+.map-cap-dot{width:8px;height:8px;border-radius:50%;background:var(--cinnabar);
+  box-shadow:0 0 0 4px rgba(192,57,43,.15)}
+/* when a tab hides the map, the single column behaves per tab type:
+   - Study/Overview: capped to a readable width, CENTERED in the container
+   - Food: spans the full container width (it has its own internal map + card grid) */
+.layout:has(.map-col.hidden){grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map{grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map.full-width{max-width:none;margin-left:0;margin-right:0}
+
+/* ===== Study / History ===== */
+.study-intro{margin-bottom:22px}
+.study-kicker{display:inline-block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px}
+.study-intro h2{font-family:'Cormorant',serif;font-weight:600;font-size:2.1rem;margin:0;color:var(--ink)}
+.study-wrap{display:flex;flex-direction:column;gap:18px}
+/* Collapsible "China, the big picture" */
+.china-collapse{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin:0 0 26px;overflow:hidden}
+.china-collapse>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:18px 22px;font-family:'Cormorant',serif}
+.china-collapse>summary::-webkit-details-marker{display:none}
+.china-collapse .cc-title{font-weight:600;font-size:1.4rem;color:var(--ink)}
+.china-collapse .cc-meta{font-family:'NotoSC',sans-serif;font-size:.78rem;color:var(--muted);
+  letter-spacing:.04em}
+.china-collapse .cc-chev{margin-left:auto;color:var(--cinnabar);font-size:1rem;transition:transform .2s}
+.china-collapse[open] .cc-chev{transform:rotate(180deg)}
+.china-collapse[open]>summary{border-bottom:1px solid var(--line)}
+.china-collapse .cc-body{padding:20px 22px 8px}
+.china-collapse .cc-meta::before{content:'';display:inline-block;width:1px;height:13px;
+  background:var(--line);margin-right:14px;vertical-align:middle}
+@media(max-width:560px){.china-collapse .cc-meta{display:none}}
+.era-band{margin-bottom:26px}
+.era-band-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.4rem;color:var(--ink);
+  margin:0 0 14px;display:flex;align-items:center;gap:12px}
+.era-band-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.era-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.era-card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cinnabar);
+  border-radius:12px;padding:14px 15px;position:relative}
+.era-card .era-label{display:block;font-family:'Cormorant',serif;font-weight:600;font-size:1rem;
+  color:var(--cinnabar-deep);letter-spacing:.02em;margin-bottom:6px}
+.era-card p{margin:0;font-size:.85rem;line-height:1.55;color:var(--ink-soft)}
+@media(max-width:560px){.era-grid{grid-template-columns:1fr}}
+.study-block{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px 26px;box-shadow:0 1px 2px rgba(60,38,20,.04);position:relative;overflow:hidden}
+.study-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.study-block h3{font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;margin:0 0 10px;color:var(--cinnabar-deep)}
+.study-block p{margin:0;font-size:1rem;line-height:1.8;color:var(--ink-soft)}
+.study-block .term{display:flex;gap:10px;margin-top:14px;padding-top:13px;border-top:1px dotted var(--line);font-size:.92rem}
+.study-block .term-k{flex:0 0 auto;font-weight:700;color:var(--ink);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.study-block .term-v{color:var(--ink-soft)}
+/* ===== Collapsible study blocks ===== */
+.study-block.collapsible h3{cursor:pointer;display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;user-select:none;transition:color .15s}
+.study-block.collapsible h3:hover{color:var(--cinnabar)}
+.study-block .sb-check{flex:0 0 auto;width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--line);background:var(--paper);display:inline-flex;
+  align-items:center;justify-content:center;font-size:.9rem;color:transparent;
+  transition:all .18s;line-height:1}
+.study-block .sb-chevron{flex:0 0 auto;margin-left:auto;font-size:.8rem;color:var(--muted);
+  transition:transform .2s}
+.study-block .sb-body{overflow:hidden;transition:max-height .25s ease, opacity .2s ease;
+  max-height:4000px;opacity:1}
+/* collapsed (= checked/done) state */
+.study-block.done{opacity:.72;background:var(--paper-2)}
+.study-block.done .sb-check{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff}
+.study-block.done .sb-chevron{transform:rotate(-90deg)}
+.study-block.done .sb-body{max-height:0;opacity:0;margin:0}
+.study-block.done h3{margin-bottom:0;color:var(--muted)}
+.study-empty{background:var(--card);border:1px dashed var(--gold-soft);border-radius:14px;padding:26px 28px;color:var(--ink-soft)}
+.study-empty h3{font-family:'Cormorant',serif;font-size:1.5rem;color:var(--cinnabar-deep);margin:0 0 8px}
+.study-empty p{margin:0;line-height:1.7}
+.study-empty code{background:var(--paper-2);padding:1px 6px;border-radius:4px}
+
+/* ===== Prep page ===== */
+.prep-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.8rem;color:var(--ink);
+  margin:42px 0 18px;display:flex;align-items:center;gap:12px}
+.prep-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.prep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;padding-bottom:60px}
+.prep-card{display:flex;flex-direction:column;text-decoration:none;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:20px;transition:all .2s;position:relative;overflow:hidden}
+.prep-card .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:2rem;color:var(--cinnabar);line-height:1}
+.prep-card .en{font-family:'Cormorant',serif;font-size:1.25rem;color:var(--ink);margin-top:4px}
+.prep-card .st{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.prep-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+
+/* ===== City description (under city title) ===== */
+.city-desc{font-size:1.04rem;line-height:1.75;color:var(--ink-soft);max-width:64ch;margin:16px 0 0;
+  font-family:'NotoSC',serif}
+
+/* ===== Home: full-bleed hero ===== */
+.home-hero{position:relative;overflow:hidden;background:#28080A;border-bottom:1px solid rgba(255,255,255,.07)}
+.home-hero-inner{position:relative;z-index:2;padding:64px 0 72px;max-width:60%}
+@media(max-width:820px){.home-hero-inner{max-width:100%}}
+.home-wm{font-size:clamp(10rem,26vw,24rem);right:-2%;opacity:.06}
+/* China-map hero backdrop */
+.hero-map{position:absolute;top:50%;right:1%;transform:translateY(-50%);
+  height:96%;width:62%;pointer-events:none;z-index:1}
+@media(max-width:820px){.hero-map{opacity:.3;right:-18%;width:115%;height:auto}}
+.hero-map .hm-land{fill:rgba(255,210,160,.06);stroke:rgba(255,210,160,.15);stroke-width:1}
+.hero-map .hm-route{fill:none;stroke:var(--cinnabar);stroke-width:3;
+  stroke-dasharray:2 9;stroke-linecap:round;opacity:.7}
+/* Floating ink characters */
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0}
+  8%{opacity:.72}
+  78%{opacity:.5}
+  100%{transform:translateY(-110vh);opacity:0}
+}
+.char-float{position:absolute;z-index:1;bottom:-30px;
+  color:rgba(240,200,75,.68);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  animation:floatUp linear infinite;pointer-events:none;user-select:none;line-height:1}
+.home-title{font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(3.4rem,9vw,7rem);line-height:.92;margin:8px 0 0;color:#F5E2A8;letter-spacing:.005em}
+.home-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:clamp(1.3rem,3vw,2rem);color:#D4923A;
+  margin-top:14px;letter-spacing:.12em}
+.home-hero .eyebrow{color:rgba(245,220,160,.55)}
+.home-hero .sub{margin-top:20px;font-size:1.12rem;max-width:54ch;color:rgba(245,225,185,.82)}
+.char-float.char-ico{display:inline-block;line-height:0}
+.char-float.char-ico svg{width:36px;height:36px}
+.hero-clouds{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:80px;display:block}
+
+/* ===== Section heading ===== */
+.sec-h{display:flex;align-items:baseline;gap:14px;margin:46px 0 22px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:2rem;color:var(--ink)}
+.sec-h .sec-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.2rem;color:var(--cinnabar);opacity:.8}
+.sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent);align-self:center}
+
+/* ===== Route map (home) ===== */
+.route-wrap{margin-bottom:20px}
+.route-frame{position:relative;border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+#routemap{height:480px;width:100%;background:var(--paper-2)}
+@media(max-width:700px){#routemap{height:380px}}
+.route-cap{margin:12px 2px 16px;font-size:.86rem;color:var(--muted);font-style:italic}
+.route-pin{transition:transform .15s}
+.route-pin:hover{transform:scale(1.12);z-index:1000}
+
+/* ===== Journey legs (white box between maps) ===== */
+.journey{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:22px 26px 14px;margin:32px 0 8px;box-shadow:0 1px 2px rgba(60,38,20,.05)}
+.journey-h{display:flex;align-items:baseline;gap:11px;margin:0 0 14px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.journey-h .journey-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1rem;color:var(--cinnabar);opacity:.8}
+.legs{list-style:none;margin:0;padding:0;position:relative}
+.legs::before{content:'';position:absolute;left:90px;top:6px;bottom:18px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--line));opacity:.55}
+.leg{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative}
+.leg-date{flex:0 0 60px;text-align:right;font-size:.82rem;font-weight:700;color:var(--ink-soft);
+  font-variant-numeric:lining-nums;padding-top:7px}
+.leg-mode{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--paper-2);
+  border:2px solid var(--line);color:var(--cinnabar);display:flex;align-items:center;justify-content:center;
+  z-index:1;position:relative}
+.leg-mode svg{width:19px;height:19px}
+.leg-body{display:flex;flex-direction:column;padding-top:3px}
+.leg-route{font-family:'Cormorant',serif;font-weight:600;font-size:1.18rem;color:var(--ink);line-height:1.2}
+.leg-arrow{color:var(--cinnabar);margin:0 3px}
+.leg-detail{font-size:.84rem;color:var(--muted);margin-top:2px}
+@media(max-width:560px){.legs::before{left:90px}.leg-route{font-size:1.05rem}}
+
+/* ===== Timeline card strip (restored, under the map) ===== */
+.timeline{overflow-x:auto;padding:32px 4px 10px;scrollbar-width:thin;position:relative}
+.timeline-inner{position:relative;display:flex;align-items:stretch;gap:0;
+  width:fit-content;margin-left:auto;margin-right:auto}
+.timeline-inner::before{content:'';position:absolute;left:8px;right:8px;top:34px;height:3px;
+  background:linear-gradient(90deg,var(--line),var(--gold),var(--line));border-radius:3px;z-index:0}
+.tl-end{flex:0 0 auto;align-self:flex-start;margin-top:22px;font-size:.78rem;font-weight:700;
+  color:var(--muted);background:var(--paper-2);border:1px solid var(--line);border-radius:20px;
+  padding:5px 12px;white-space:nowrap;position:relative;z-index:2}
+.tl-stop{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  text-decoration:none;min-width:122px;position:relative;padding:0 6px;z-index:1}
+.tl-node{width:26px;height:26px;border-radius:50%;background:var(--cat,#888);color:#fff;
+  border:3px solid var(--paper);display:flex;align-items:center;justify-content:center;
+  font-family:'NotoSC',Georgia,serif;font-weight:700;font-size:.82rem;line-height:1;z-index:2;
+  font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--cat,#888) 28%,transparent);transition:transform .2s}
+.tl-node>b{display:block;font-weight:700}
+.tl-card{display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:11px;
+  background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cat,#888);
+  border-radius:12px;padding:12px 14px 13px;min-width:108px;transition:transform .2s, box-shadow .2s}
+.tl-stop:hover .tl-card{transform:translateY(-4px);box-shadow:0 12px 26px -14px rgba(60,38,20,.5)}
+.tl-stop:hover .tl-node{transform:scale(1.18)}
+.tl-ico{color:var(--cat,var(--cinnabar));width:34px;height:34px;margin-bottom:6px}
+.tl-ico svg{width:34px;height:34px;display:block}
+.tl-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.15rem;color:var(--cat,var(--cinnabar));line-height:1}
+.tl-city{font-family:'Cormorant',serif;font-weight:600;font-size:1.08rem;color:var(--ink);margin-top:2px}
+.tl-date{font-size:.71rem;color:var(--muted);margin-top:3px;white-space:nowrap}
+
+/* ===== Card pictograms ===== */
+.card-ico{position:absolute;top:18px;right:18px;width:42px;height:42px;color:var(--cinnabar);
+  opacity:.9;transition:transform .25s, opacity .25s;z-index:2}
+.card-ico svg{width:42px;height:42px;display:block}
+.citycard:hover .card-ico{transform:scale(1.12) rotate(-3deg);opacity:1}
+
+/* ===== City Overview tab ===== */
+.city-overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+@media(max-width:600px){.city-overview-grid{grid-template-columns:1fr}}
+.home-base-card{margin-top:22px;padding:18px 20px;border-radius:14px;
+  background:linear-gradient(135deg,var(--paper-2),var(--paper));
+  border:1px solid var(--line);border-left:4px solid var(--cinnabar)}
+.home-base-card.daytrip{border-left-color:var(--gold)}
+.home-base-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--cinnabar);font-weight:700;margin-bottom:6px}
+.home-base-card.daytrip .home-base-label{color:var(--gold-deep,#9a7b1f)}
+.home-base-name{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:700;
+  color:var(--ink);line-height:1.2}
+.home-base-addr{font-size:.78rem;color:var(--muted);margin:3px 0 10px}
+.home-base-body{font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin:0}
+.city-fact-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.city-fact-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.city-fact-value{font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.4}
+.city-trivia{background:color-mix(in srgb,var(--cinnabar) 6%,transparent);border-left:3px solid var(--cinnabar);
+  border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:24px;font-size:.88rem;line-height:1.6;color:var(--ink)}
+#map-overview{height:420px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line);margin-bottom:6px}
+@media(max-width:900px){#map-overview{height:300px}}
+
+/* ===== City Food tab ===== */
+.city-food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.city-food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:8px;z-index:30;
+  background:var(--paper);padding-bottom:6px;margin-bottom:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}}
+@media(max-width:900px){#map-food{height:260px}}
+.food-cat-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.food-cat-btn2{padding:4px 12px;border-radius:14px;border:1px solid var(--line);background:var(--card);
+  font-size:.76rem;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn2.active{color:#fff;border-color:transparent;background:var(--ink-soft)}
+.food-cards-inner{display:flex;flex-direction:column;gap:12px;max-height:680px;overflow-y:auto;
+  padding-right:4px;scrollbar-width:thin}
+.food-cards-inner::-webkit-scrollbar{width:4px}
+.food-cards-inner::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+@media(max-width:900px){.food-cards-inner{max-height:none;overflow-y:visible}}
+#map-food{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+@media(max-width:900px){#map-food{height:340px}}
+.food-map-side{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-side{position:relative;top:0}}
+.food-entry-card{background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:12px 14px;cursor:pointer;transition:box-shadow .18s,transform .12s}
+.food-entry-card:hover{box-shadow:0 4px 14px -6px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-entry-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-entry-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+.food-entry-name{font-weight:600;font-size:1rem;color:var(--ink);font-family:'Cormorant',serif;line-height:1.2}
+.food-entry-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.82rem;color:var(--cinnabar)}
+.food-entry-pill{font-size:.66rem;padding:3px 8px;border-radius:8px;color:#fff;
+  font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+.food-entry-dishes{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin:4px 0 6px}
+.food-entry-desc{font-size:.82rem;color:var(--ink-soft);line-height:1.5;margin:4px 0 6px}
+.food-entry-netizen{font-size:.8rem;color:var(--ink-soft);font-style:italic;line-height:1.45;
+  margin:4px 0 6px;padding:6px 10px;background:var(--paper-2);border-radius:7px;
+  border-left:3px solid var(--gold)}
+.food-allergy-safe-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#2a5c39;background:color-mix(in srgb,#3E7D52 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#7a4200;background:color-mix(in srgb,#C9821E 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot.high{color:#8B0000;background:color-mix(in srgb,#B0202E 10%,transparent)}
+.food-no-pin{font-size:.7rem;color:var(--muted);display:inline-flex;align-items:center;gap:3px;margin-left:6px}
+.food-group-label{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;margin:14px 0 5px;display:flex;align-items:center;gap:6px}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+
+/* ===== Food/Study tab divider ===== */
+.tab-food{margin-left:6px;position:relative}
+.tab-food::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history{margin-left:0}
+.tab-history.active{background:var(--ink)}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Chains section (Prep page) ===== */
+.chains-section{margin-top:40px}
+.chains-rule{display:flex;align-items:center;gap:14px;margin:0 0 22px}
+.chains-rule span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;font-weight:700}
+.chains-rule::before,.chains-rule::after{content:'';flex:1;height:1px;background:var(--line)}
+.chains-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px}
+.chain-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;border-top:3px solid var(--ccat,var(--gold))}
+.chain-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.chain-name{font-family:'Cormorant',serif;font-weight:600;font-size:1.12rem;color:var(--ink);line-height:1.2}
+.chain-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.chain-pill{font-size:.66rem;padding:3px 9px;border-radius:8px;color:#fff;
+  font-weight:700;flex-shrink:0;white-space:nowrap}
+.chain-order-label{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:3px}
+.chain-order{font-size:.84rem;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
+.chain-allergy{font-size:.76rem;padding:5px 9px;border-radius:8px;line-height:1.45;margin-bottom:8px}
+.chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
+.chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
+.chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+</style></head><body>
+<header class="masthead"><div class="wrap">
+      <a class="brand" href="index.html"><span class="seal">囍<span class="seal-name">辛格</span></span>
+        <span><span class="brand-en">The Singer Honeymoon</span><br><span class="brand-sub">China · 2026</span></span></a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'));this.parentNode.querySelector('nav.cities').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="cities">
+      <a href="index.html">Home</a>
+      <div class="navgroup open-parent">
+        <button class="navgroup-btn active" aria-expanded="false"
+          onclick="const g=this.parentNode;g.classList.toggle('open');this.setAttribute('aria-expanded',g.classList.contains('open'))">
+          Destinations <span class="caret">▾</span>
+        </button>
+        <div class="submenu"><a href="taipei.html">Taipei</a><a href="chengdu.html">Chengdu</a><a href="chongqing.html">Chongqing</a><a href="sanya.html">Sanya</a><a href="guangzhou.html">Guangzhou</a><a href="shenzhen.html">Shenzhen</a><a href="hong-kong.html">Hong Kong</a><a href="macau.html" class="active">Macau</a></div>
+      </div>
+      <a href="prep.html" class="prep-link">Prep</a>
+      <a href="study.html" class="prep-link">Study</a>
+      <a href="timeline.html" class="prep-link">Timeline</a></nav>
+    </div>
+    <script>(function(){document.addEventListener('click',function(e){
+      var a=e.target.closest('nav.cities a');if(!a)return;
+      var t=document.querySelector('.nav-toggle.open');if(t){t.classList.remove('open');t.setAttribute('aria-expanded','false');}
+      var n=document.querySelector('nav.cities.open');if(n)n.classList.remove('open');
+    });})();</script></header>
+<div class="wrap">
+  <div class="hero">
+    <div class="watermark">澳门</div>
+    <div class="eyebrow">The Singer Honeymoon · China</div>
+    <h1>Macau<span class="zh">澳门</span></h1>
+    
+    <div class="rule"><span>1 days · 9 stops</span></div>
+  </div>
+  <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>FRI JUL 17</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(22)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
+  <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>FRI JUL 17</span></div>
+  <div class="layout">
+    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Macau at a glance</h2></div><div class="city-trivia">The last European colony in Asia (Portuguese until 1999). Gaming revenue exceeds Las Vegas several times over.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">680,000</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Special Administrative Region</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">World&#x27;s largest gambling hub, Portuguese colonial heritage, Macanese cuisine, UNESCO historic centre</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, similar to Hong Kong</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card daytrip"><div class="home-base-label">⛴ Not an overnight, a day trip</div><p class="home-base-body">You&#x27;re not staying in Macau either, it&#x27;s a day trip from the Langham, reached by ferry or the cross-delta bridge, back to Hong Kong the same night. Like Hong Kong, Macau is its own special region with its own border, currency (the pataca, though HK dollars are accepted everywhere), and visa-free entry, so bring passports. Pack the day to make the crossing worth it: the UNESCO Portuguese old town and the Cotai casino strip are very different worlds, and you&#x27;ll want time for both before the evening ferry back.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>FRI JUL 17 — Five centuries of Macau in one day (ferry from HK ~1 hr)</h2></div><div class="day-strip"><span>9 stops</span></div><p class="day-intro">Five centuries of Macau in a single day trip, an ambitious but doable sweep, an hour&#x27;s ferry from Hong Kong. The morning is the UNESCO-listed historic core, best walked as one continuous route: Senado Square&#x27;s wave-patterned Portuguese plaza, the baroque St. Dominic&#x27;s Church, the iconic Ruins of St. Paul&#x27;s facade, the romantic Travessa da Paixão lane, and up to Monte Fort with its cannons and the excellent Macao Museum inside, together the densest concentration of Portuguese-colonial Asia anywhere. Guia Fortress and its lighthouse add the hilltop view if energy holds. The afternoon crosses to Taipa for the beautifully restored Taipa Houses, a window into Macanese Eurasian culture, before the day pivots to modern Macau on the Cotai strip: the House of Dancing Water, Franco Dragone&#x27;s spectacular water show, and the over-the-top Venetian before the bus home across the Hong Kong-Zhuhai-Macau Bridge, the longest sea crossing in the world. It&#x27;s a lot, pace the walking, eat a proper Macanese lunch (mind the African-chicken peanut risk and the seafood for Amanda), and treat the day as a highlight reel of a place that is genuinely three cities layered into one. Bring passports; Macau is a separate jurisdiction with its own border and currency.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
+      <div class="toprow"><span class="pin">1</span>
+        <h3>Senado Square <span class="zh">議事亭前地</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 24 hr (shops ~10:00–22:00)</span><span><b>Suggested time:</b> 45 min</span><span><b>From previous:</b> Ferry from HK ~1 hr + walk</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Central Macau (UNESCO Historic Centre)</span></div><div class="meta"><span><b>Coordinates:</b> 22.1937, 113.5400</span></div><div class="notes">The wave-patterned cobblestone heart of old Macau, ringed by pastel Portuguese civic buildings: the Leal Senado, the General Post Office, St. Dominic&#x27;s beyond. The anchor of the UNESCO-listed historic center and the natural starting point for the day&#x27;s heritage walk uphill to St. Paul&#x27;s.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Arrive before 9 AM for empty stones and soft light; by midday it&#x27;s a river of tour groups. Grab a pastel de nata from a bakery on the square; the Macau version, caramelized darker than Lisbon&#x27;s, is its own thing.</div><div class="netizen">"&#x27;Wave-patterned Portuguese plaza.&#x27; Early morning or evening best. Free. Try Portuguese egg tarts. Start of the UNESCO walk."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:1" data-id="s2">
+      <div class="toprow"><span class="pin">2</span>
+        <h3>St. Dominic&#x27;s Church <span class="zh">玫瑰堂</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 13h10M4 13V9c0-2 2-3 4-3s4 1 4 3v4M8 6V3M6.5 4.5h3"/></svg>Religious Site</span></div>
+      <div class="meta"><span><b>Hours:</b> 10:00–18:00</span><span><b>Suggested time:</b> 20–30 min</span><span><b>From previous:</b> ~2 min walk</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> St. Dominic&#x27;s Square, near Senado</span></div><div class="meta"><span><b>Coordinates:</b> 22.1945, 113.5405</span></div><div class="notes">Founded by Dominican friars in 1587, the cream-and-white Baroque church on the square is among the finest in East Asia. Gilded altars inside, and a small treasury museum of sacred art behind the altar: ivory, silver, processional figures.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Don&#x27;t skip the treasury museum at the back; most people do, and it&#x27;s the best part. Ten minutes covers the church, twenty with the museum. Free.</div><div class="netizen">"&#x27;Baroque yellow-and-white beauty.&#x27; Recommend the sacred-art museum behind the altar. Free. Small - 20 min."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:2" data-id="s3">
+      <div class="toprow"><span class="pin">3</span>
+        <h3>Ruins of St. Paul&#x27;s <span class="zh">大三巴牌坊</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> Exterior 24 hr; crypt museum 09:00–18:00</span><span><b>Suggested time:</b> 45 min</span><span><b>From previous:</b> ~5 min walk</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Santo Antonio, Macau</span></div><div class="meta"><span><b>Coordinates:</b> 22.1976, 113.5414</span></div><div class="notes">The carved stone facade is all that survives of the 1602 Jesuit church of St. Paul, the largest in Asia until fire took everything behind it in 1835. What&#x27;s left reads like a stone manifesto of the Jesuit project: Christian iconography carved by Japanese Christian exiles and Chinese craftsmen, with chrysanthemums, Chinese lions, and a Portuguese carrack worked into the program. The crypt and a small sacred art museum sit behind.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Study the carvings up close; the East-meets-West details are the entire point and most visitors photograph from too far back. Golden hour light is best. Monte Fort is up the adjacent staircase, so do them as one climb.</div><div class="netizen">"&#x27;Macau&#x27;s icon - best at golden hour.&#x27; Go early morning to avoid crowds. Free. Crypt museum behind is worth a look."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:3" data-id="s4">
+      <div class="toprow"><span class="pin">4</span>
+        <h3>Travessa da Paixão (Passion Lane) <span class="zh">激情巷</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 24 hr</span><span><b>Suggested time:</b> 15 min</span><span><b>From previous:</b> ~1 min walk</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Off Senado, central Macau</span></div><div class="meta"><span><b>Coordinates:</b> 22.1972, 113.5408</span></div><div class="notes">Passion Lane: a short, steep cobbled alley of colored facades just off the St. Paul&#x27;s route, named with the kind of romance Macau&#x27;s Portuguese street names specialize in. It&#x27;s become the wedding-photo lane of the heritage district.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> A five-minute detour and the honeymoon photo op of the day. Early morning if you want it empty.</div><div class="netizen">"&#x27;Cobblestone, colourful, photogenic.&#x27; A quick honeymoon photo stop. Free. Morning for empty lanes."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:4" data-id="s5">
+      <div class="toprow"><span class="pin">5</span>
+        <h3>Monte Fort + Macao Museum <span class="zh">大砲台 + 澳門博物館</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> Fort 07:00–19:00; Museum 10:00–18:00 (closed Mon)</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> ~3 min walk (stairs up)</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Macau peninsula (above St. Paul&#x27;s)</span></div><div class="meta"><span><b>Coordinates:</b> 22.1978, 113.5420</span></div><div class="notes">The Jesuit fortress (1617–1626) whose cannons repelled the Dutch fleet in 1622, the one time they were ever fired in anger. The ramparts give the best free panorama of the peninsula: heritage rooftops one way, casino towers the other, China across the border channel. The Macau Museum inside covers 500 years of the Portuguese-Chinese encounter in three tight floors.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> The museum is MOP$15 and among the best small museums anywhere; the Macanese culture floor, on the Eurasian community neither fully Portuguese nor Chinese, is the standout. Late afternoon on the ramparts for the light.</div><div class="netizen">"&#x27;Panoramic views + good-value museum.&#x27; Fort is free; Macao Museum MOP$15 + excellent on Eurasian culture. Closed Mon - Jul 17 is Friday (open)."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:5" data-id="s6">
+      <div class="toprow"><span class="pin">6</span>
+        <h3>Guia Fortress &amp; Lighthouse <span class="zh">東望洋砲台及燈塔</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:30 (closed Mon)</span><span><b>Suggested time:</b> 45 min</span><span><b>From previous:</b> ~16 min taxi / cable car from Flora Garden</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Guia Hill, Macau</span></div><div class="meta"><span><b>Coordinates:</b> 22.1968, 113.5495</span></div><div class="notes">The 1638 fortress on the peninsula&#x27;s highest hill, with Asia&#x27;s oldest working lighthouse (1865) and a 17th-century chapel whose original frescoes mix Catholic and Chinese motifs. The sweeping sea-and-city views guard the approach the fort was built to watch.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Take the little cable car up from Flora Garden; the walk is steep in July heat. The chapel frescoes are the under-appreciated treasure. Honest triage: if the day is running long, Monte Fort already gave you fortress views, and this one is the skippable of the two.</div><div class="netizen">"&#x27;Highest point - optional if short on time.&#x27; Cable car is easy (~MOP$20). Free entry. Closed Mon. Best for views."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:6" data-id="s7">
+      <div class="toprow"><span class="pin">7</span>
+        <h3>Taipa Houses Museum <span class="zh">龍環葡韻</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 10:00–19:00 (closed Mon)</span><span><b>Suggested time:</b> 45 min</span><span><b>From previous:</b> ~20 min taxi (to Taipa)</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Taipa Island</span></div><div class="meta"><span><b>Coordinates:</b> 22.1530, 113.5570</span></div><div class="notes">Five mint-green colonial villas from 1921 on the old Taipa waterfront, restored as house museums of Macanese domestic life: the furniture, kitchens, and hybrid customs of the Eurasian families who defined the territory&#x27;s culture.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Lovely at dusk when the verandas light up. Rua do Cunha, Taipa&#x27;s food street, is a short walk for egg tarts and Macanese curry. Combine with old Taipa Village lanes; this corner is the antidote to the Cotai casinos ten minutes away.</div><div class="netizen">"&#x27;Portuguese colonial villas - lovely at dusk.&#x27; Rua do Cunha nearby for egg tarts. Free. Closed Mon. Combine with Old Taipa Village."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:7" data-id="s8">
+      <div class="toprow"><span class="pin">8</span>
+        <h3>House of Dancing Water <span class="zh">水舞間</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2.5 3c1.8 1 3.4 1 5 0v6.5c0 2-1.2 3.5-2.5 3.5S2.5 11.5 2.5 9.5zM8.5 3c1.8 1 3.4 1 5 0v6.5c0 2-1.2 3.5-2.5 3.5"/></svg>Performance</span></div>
+      <div class="meta"><span><b>Hours:</b> From 1 Jun 2026: 16:30 &amp; 19:30. Closed Tue &amp; Wed. Jul 17 (Fri) is OPEN.</span><span><b>Suggested time:</b> 1.5 hr</span><span><b>From previous:</b> ~10 min taxi</span><span><b>Prior booking?:</b> Yes</span></div><div class="meta"><span><b>Address:</b> City of Dreams, Cotai</span></div><div class="meta"><span><b>Coordinates:</b> 22.1480, 113.5640</span></div><div class="notes">⚠️ UPDATED Jun 2026: Shows at 16:30 and 19:30, closed Tue/Wed. July 17 (Friday) is open. Franco Dragone&#x27;s resident spectacular at City of Dreams: 80 performers, a 3.7-million-gallon pool that appears and vanishes, dive stunts from the ceiling. The most technically elaborate live show in Asia and the right amount of ridiculous.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> CONFIRMED for your visit Friday Jul 17; book the 19:30 and make it the evening&#x27;s anchor. Rows A to C get splashed, which is either a warning or a selling point. Book direct or via Trip.com well ahead.</div><div class="netizen">"&#x27;Once-in-a-lifetime spectacle.&#x27; Rave reviews for the revived 2025 production. Closed Tue/Wed - Jul 17 is Friday (perfect). Dress warmly. Booked. A honeymoon highlight."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:8" data-id="s9">
+      <div class="toprow"><span class="pin">9</span>
+        <h3>Venetian Macao + bridge bus to HK <span class="zh">澳門威尼斯人</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 24 hr</span><span><b>Suggested time:</b> 30–45 min</span><span><b>From previous:</b> ~5 min walk</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Cotai Strip</span></div><div class="meta"><span><b>Coordinates:</b> 22.1460, 113.5620</span></div><div class="notes">The Venetian Macao: the world&#x27;s largest casino floor inside one of the world&#x27;s largest buildings, with a fake Venice on level 3 where gondoliers sing under a painted permanent dusk. It is absurd, enormous, and worth seeing precisely once. The bridge bus back to Hong Kong picks up right on Cotai, minutes away, and crosses the 34-mile Hong Kong-Zhuhai-Macau Bridge.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Walk the canal level for the full surreal effect; the gondola ride is skippable. The food court beats the restaurants for value. Time your exit: last comfortable bus connections back to Kowloon run through the evening, and Friday queues at the bridge immigration halls can add 30+ minutes.</div><div class="netizen">"&#x27;Over-the-top scale.&#x27; See it for the spectacle even if not gambling. Free. Gondola ~MOP$108. Evening buses to HK fill up - leave buffer."</div>
+    </div></div></section><section class="panel" id="panel-food" data-dayindex="-3"><div class="day-head"><h2>Food &amp; drink in Macau</h2></div><div class="food-cat-bar" id="food-cat-bar"><button class="food-cat-btn2 food-cat-all-btn active" data-cat="all" onclick="filterFood(this)" style="background:var(--ink-soft);color:#fff;border-color:transparent">All</button><button class="food-cat-btn2" data-cat="Bakery / Snacks" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#C9821E;display:inline-block;flex-shrink:0"></span>Bakery / Snacks</button><button class="food-cat-btn2" data-cat="Café / Coffee" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#8A6D1F;display:inline-block;flex-shrink:0"></span>Café / Coffee</button><button class="food-cat-btn2" data-cat="Dim Sum" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#7A4BA8;display:inline-block;flex-shrink:0"></span>Dim Sum</button><button class="food-cat-btn2" data-cat="Hot Pot" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#B0202E;display:inline-block;flex-shrink:0"></span>Hot Pot</button><button class="food-cat-btn2" data-cat="International" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#C24E8C;display:inline-block;flex-shrink:0"></span>International</button><button class="food-cat-btn2" data-cat="Seafood" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#3E7D52;display:inline-block;flex-shrink:0"></span>Seafood</button><button class="food-cat-btn2" data-cat="Vegetarian / Vegan" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#5566C0;display:inline-block;flex-shrink:0"></span>Vegetarian / Vegan</button></div><div class="city-food-layout"><div class="food-cards-inner" id="food-cards-inner"><div class="food-group-label" data-cat="Bakery / Snacks"><span style="width:9px;height:9px;border-radius:50%;background:#C9821E;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</div><div class="food-entry-card" data-foodidx="0" data-cat="Bakery / Snacks" data-allergy="⚠️ Some flavors contain nuts (praline, pistachio, hazelnut) — check flavor-by-flavor. Nate: avoid pistachio/hazelnut. Amanda: all flavors are shellfish-free.  |  Nate: AVOID pistachio/hazelnut flavors. Amanda: all flavors shellfish-safe. (verify on-site)" data-tier="specific" onclick="foodCardClick(0)"><div class="food-entry-top"><div><div class="food-entry-name">Kika Ice Cream</div><div class="food-entry-zh">Kika Ice Cream / 奇可</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Artisan ice cream and gelato, egg tart flavor, Macanese milk tea, sesame, azuki bean  •  Egg-tart gelato; Macanese milk-tea gelato</div><div class="food-entry-desc">Creative artisan gelato on Taipa Food Street with Macanese-inspired flavors. The egg tart gelato is a must.</div><div class="food-entry-netizen">“Creative artisan gelato on Taipa Food Street”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門氹仔官也街 (塔石坊一帶)</div></div><div class="food-entry-card" data-foodidx="1" data-cat="Bakery / Snacks" data-allergy="⚠️ Nate: coconut sorbet contains coconut (mild allergy — use judgment). Other fruit sorbets are safe. Amanda: fruit-based sorbets are shellfish-free and nut-free.  |  Nate: coconut sorbet has coconut (mild) — use judgment. — DeepSeek lead, verify on-site." data-tier="specific" onclick="foodCardClick(1)"><div class="food-entry-top"><div><div class="food-entry-name">Lai Kei Sorvetes</div><div class="food-entry-zh">義順牛奶公司</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Macanese-Portuguese sorbets and sundaes, coconut, durian, mango, taro, coffee  •  Fruit sorbets (mango, taro, coffee)</div><div class="food-entry-desc">A beloved Macau dessert institution since 1949 old-fashioned sundaes and fruit sorbets. The coconut and mango are the classics.</div><div class="food-entry-netizen">“Beloved Macau dessert institution since 1949”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門十月初五日街22號</div></div><div class="food-entry-card" data-foodidx="2" data-cat="Bakery / Snacks" data-allergy="⚠️ Almond tofu contains almond — Nate AVOID (tree nut allergy). Double-skin milk pudding and ginger milk pudding are nut-free and shellfish-free — safe for both.  |  Nate: AVOID almond tofu (tree nut). Core puddings nut- and shellfish-free. (verify on-site)" data-tier="specific" onclick="foodCardClick(2)"><div class="food-entry-top"><div><div class="food-entry-name">Yee Shun Milk Company</div><div class="food-entry-zh">義順牛奶公司</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Steamed milk pudding (雙皮奶), ginger milk pudding, almond tofu. Cantonese dessert institution  •  Double-skin milk pudding; ginger milk pudding (both safe)</div><div class="food-entry-desc">The definitive double-skin milk pudding (雙皮奶) in Macau silky, delicate, slightly sweet. A Macau must-eat.</div><div class="food-entry-netizen">“The definitive double-skin milk pudding in Macau”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門十月初五日街 (多处分店)</div></div><div class="food-entry-card" data-foodidx="3" data-cat="Bakery / Snacks" data-allergy="" data-tier="generic" onclick="foodCardClick(3)"><div class="food-entry-top"><div><div class="food-entry-name">Pearl &amp; Bun (如珠如包)</div><div class="food-entry-zh">如珠如包</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Artisan buns and pastries; hotel bakery at Wynn Palace and Wynn Macau  •  Buns / bakery</div><div class="food-entry-desc">An artisan bun and pastry bakery with locations inside Wynn Palace and Wynn Macau. Hotel-quality baked goods at slightly more accessible prices than the resort restaurants.</div><div class="food-entry-netizen">“Local bakery spot”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 永利皇宫东名店街地面层 / 永利澳门酒店地面层</div></div><div class="food-entry-card" data-foodidx="4" data-cat="Bakery / Snacks" data-allergy="" data-tier="generic" onclick="foodCardClick(4)"><div class="food-entry-top"><div><div class="food-entry-name">Céleste Artisan (天羽)</div><div class="food-entry-zh">天羽 Céleste Artisan</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">&quot;Volcano Portuguese tart&quot; specialty; artisan pastries and seasonal items  •  Artisan bakery / pastry</div><div class="food-entry-desc">A specialty pastry shop known for its &#x27;volcano Portuguese tart&#x27;, a dramatic presentation of the classic pastel de nata with a theatrical burnt-caramel top. Worth a stop on Taipa Food Street.</div><div class="food-entry-netizen">“Artisan pastry spot”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 氹仔飞能便度街21号地舖 (地下C及D室)</div></div><div class="food-entry-card" data-foodidx="5" data-cat="Bakery / Snacks" data-allergy="✓ Black sesame and sweet soups — generally safe for both. Confirm no nut toppings.  |  Nate: black sesame safe (not a tree nut). Verify other items." data-tier="safe" onclick="foodCardClick(5)"><div class="food-entry-top"><div><div class="food-entry-name">Yong Ji Dessert (雍記糖水)</div><div class="food-entry-zh">雍记甜品</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Traditional Cantonese tong sui desserts; red bean soup, black sesame, egg pudding  •  Black sesame &amp; traditional sweet soups</div><div class="food-entry-desc">A traditional Cantonese tong sui (sweet soup) shop offering red bean soup, black sesame, and egg puddings, the classic Cantonese dessert format, well-executed and fairly priced.</div><div class="food-entry-netizen">“Traditional Cantonese sweet-soup (tong sui) shop”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳门黑沙环新街501号广华新邨第二座地下B座</div></div><div class="food-entry-card" data-foodidx="6" data-cat="Bakery / Snacks" data-allergy="" data-tier="generic" onclick="foodCardClick(6)"><div class="food-entry-top"><div><div class="food-entry-name">GOAT Bakers</div><div class="food-entry-zh">Goat Bakers</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Artisan bakery; specialty breads, pastries, coffee</div><div class="food-entry-desc">A packed artisan bakery in Taipa with a devoted local following. The signature is a &#x27;cheese flower cup&#x27; egg tart, generous custard filling in an exceptionally thin pastry shell. Queues are standard; worth it.</div><div class="food-entry-netizen">“Packed bakery in Taipa. Signature &#x27;cheese flower cup&#x27; egg tart, generous filling, super thin pastry. Bitter-sweet matcha version, croissants, and coffee all excellent. ~¥30/person. Worth the queue. . …”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 46 Patio da Eterna Uniao, Macao</div></div><div class="food-entry-card" data-foodidx="7" data-cat="Bakery / Snacks" data-allergy="Nate: egg tarts — check crust for almond/nut flour; AVOID almond cookies. Amanda: tarts shellfish-free." data-tier="specific" onclick="foodCardClick(7)"><div class="food-entry-top"><div><div class="food-entry-name">Margaret&#x27;s Café e Nata</div><div class="food-entry-zh">瑪嘉烈蛋撻店</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Portuguese egg tarts (pastel de nata); sandwiches; fresh juice</div><div class="food-entry-desc">Wikivoyage: Macau&#x27;s other legendary egg-tart maker (the Margaret half of the famous Lord Stow&#x27;s split), tucked down a lane off Avenida de Dom João IV near the Grand Lisboa. Hot, flaky pastéis de nata with a caramelized top; over 30 years and still drawing queues.</div><div class="food-entry-netizen">“The tart that settles the Macau egg-tart argument, for me anyway. Caramelized top, custard barely set, pastry that shatters properly. Sold warm from a shopfront down a lane near the Grand Lisboa, with…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門馬統領街金來大廈17號B地下</div></div><div class="food-group-label" data-cat="Café / Coffee"><span style="width:9px;height:9px;border-radius:50%;background:#8A6D1F;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</div><div class="food-entry-card" data-foodidx="8" data-cat="Café / Coffee" data-allergy="✓ Coffee — no allergy concerns. Check pastries for nut content.  |  Nate: check pastries for nut content. Coffee low-risk. (verify on-site)" data-tier="safe" onclick="foodCardClick(8)"><div class="food-entry-top"><div><div class="food-entry-name">Pace Coffee</div><div class="food-entry-zh">Pace Coffee / 步伐咖啡</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Specialty coffee, light pastries; Hong Kong–linked roaster with Macau outpost</div><div class="food-entry-desc">A quality specialty coffee stop in Macau rare given the casino landscape. Good for a caffeine reset mid-day.</div><div class="food-entry-netizen">“Quality specialty coffee rare in the casino landscape”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門沙梨頭海邊街</div></div><div class="food-entry-card" data-foodidx="9" data-cat="Café / Coffee" data-allergy="" data-tier="generic" onclick="foodCardClick(9)"><div class="food-entry-top"><div><div class="food-entry-name">Cotiz (Macau)</div><div class="food-entry-zh">Cotiz</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Minimalist Kyoto-inspired coffee; clean aesthetic, specialty espresso</div><div class="food-entry-desc">Macau outpost of the Kyoto-minimalist Cotiz coffee concept inside the Londoner Macau resort. Puff pastry choux, crème brûlée, canelés, and precise espresso in a clean, literary space, a deliberate contrast to the casino floor a few steps away.</div><div class="food-entry-netizen">“Viral local Macau Japanese dessert shop. Specializes in puff pastry choux, crème brûlée, canelés, and specialty hand-brew coffee. Minimalist literary aesthetic, photogenic. A must-visit café inside th…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門路氹填海區溜冰路128號葡京人酒店L01樓R08A-R12號舖</div></div><div class="food-entry-card" data-foodidx="10" data-cat="Café / Coffee" data-allergy="" data-tier="generic" onclick="foodCardClick(10)"><div class="food-entry-top"><div><div class="food-entry-name">Mr. Ho Window Coffee (何老師窗台咖啡)</div><div class="food-entry-zh">何老師窗台咖啡</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Famous for ice-cream cone Vienna coffee; charming window-side setting in Taipa  •  Ice-cream-cone Vienna coffee</div><div class="food-entry-desc">Famous for its ice-cream cone Vienna coffee served through a charming window counter in Taipa Village. The format is the point, order, photograph, eat, but the coffee itself is well-made. One of Macau&#x27;s most-photographed café spots.</div><div class="food-entry-netizen">“Famous window-counter coffee”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 氹仔飞能便度街21号943号舖 (also 21号地下D室)</div></div><div class="food-entry-card" data-foodidx="11" data-cat="Café / Coffee" data-allergy="" data-tier="generic" onclick="foodCardClick(11)"><div class="food-entry-top"><div><div class="food-entry-name">Mark Coffee</div><div class="food-entry-zh">Mark Coffee</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Popular local coffee chain with Macau-themed aesthetic; multiple locations</div><div class="food-entry-desc">A local Macau coffee chain that functions as the everyday go-to for residents, affordable, consistent, and genuinely good. Fresh coconut coffee is the signature. The neighbourhood shop feel is a welcome contrast to the casino resort cafés.</div><div class="food-entry-netizen">“Affordable local Macau coffee chain, the everyday go-to for residents. Coffee runs 26–36 MOP. Signature fresh coconut coffee, smooth, milky coconut fragrance. Neighborhood shop feel, great value. . De…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 黑沙環新街海濱花園第六座地下D (Hoi Pan branch)</div></div><div class="food-group-label" data-cat="Dim Sum"><span style="width:9px;height:9px;border-radius:50%;background:#7A4BA8;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</div><div class="food-entry-card" data-foodidx="12" data-cat="Dim Sum" data-allergy="⚠️ Dim sum contains shrimp (har gow, siu mai) — Amanda must skip these. Order turnip cake (蘿蔔糕), char siu bao, cheung fun with pork for safe options.  |  Amanda: AVOID siu mai (may contain shrimp), har gow. (verify on-site)" data-tier="specific" onclick="foodCardClick(12)"><div class="food-entry-top"><div><div class="food-entry-name">Lung Wah Tea House</div><div class="food-entry-zh">龍華茶樓</div></div><span class="food-entry-pill" style="background:#7A4BA8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</span></div><div class="food-entry-dishes">Traditional Cantonese dim sum and morning tea, har gow, siu mai, turnip cake, congee  •  Spare ribs in black bean sauce; ginger-scallion oil chicken</div><div class="food-entry-desc">One of the oldest tea houses in Macau a dim sum institution since 1963. The Macau version of a proper yum cha.</div><div class="food-entry-netizen">“One of the last traditional teahouses. Cash only”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門提督市北街3號</div></div><div class="food-entry-card" data-foodidx="13" data-cat="Dim Sum" data-allergy="⚠️ moderate risk — Amanda shellfish allergy: shrimp in har gow and siu mai. Baked BBQ pork bun (the signature) is safe for both — order confidently. Turnip cake and taro dumplings are also safe. Amanda: skip har gow and siu mai entirely. Nate: all dim sum safe." data-tier="specific" onclick="foodCardClick(13)"><div class="food-entry-top"><div><div class="food-entry-name">Tim Ho Wan (Londoner Macau)</div><div class="food-entry-zh">添好運點心專門店</div></div><span class="food-entry-pill" style="background:#7A4BA8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</span></div><div class="food-entry-dishes">Affordable Michelin-starred dim sum; iconic baked BBQ pork buns (their signature), har gow, cheung fun</div><div class="food-entry-desc">The Cotai Strip outpost of the famous dim sum institution accessible during the Venetian/House of Dancing Water afternoon. Good value for a Michelin name in a casino resort.</div><div class="food-entry-netizen">“Same baked BBQ pork buns as the famous Sham Shui Po original, honey glaze, crumbly pastry, molten filling, but inside the Londoner so you can sit down without the Hong Kong queue. The turnip cake and …”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳门路氹伦敦人购物中心Q1楼1050舖</div></div><div class="food-group-label" data-cat="Hot Pot"><span style="width:9px;height:9px;border-radius:50%;background:#B0202E;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</div><div class="food-entry-card" data-foodidx="14" data-cat="Hot Pot" data-allergy="✓ Can request nut-free, shellfish-free broth. Avoid sesame dipping sauce. Staff are trained for allergy requests — best chain option for allergy management." data-tier="safe" onclick="foodCardClick(14)"><div class="food-entry-top"><div><div class="food-entry-name">Haidilao Hot Pot</div><div class="food-entry-zh">海底捞火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Customizable hot pot; choose your own broth, meats, vegetables, tofu</div><div class="food-entry-desc">Choose a non-spicy or tomato broth to avoid chili oil.</div><div class="food-entry-netizen">“Every hotpot chain in China and Haidilao is still the one everyone names first. The robot delivery, the free snacks while you wait, the table-side service, it is a whole event before the food even arr…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span><span class="food-no-pin">📍 no pin</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 全国各地 (nationwide)</div></div><div class="food-group-label" data-cat="International"><span style="width:9px;height:9px;border-radius:50%;background:#C24E8C;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</div><div class="food-entry-card" data-foodidx="15" data-cat="International" data-allergy="⚠️ African chicken sauce contains peanuts in some versions — ask specifically &quot;這個有花生嗎?&quot; (does this contain peanuts?). Minchi (ground pork with potato) is generally nut-free and safe.  |  Nate: African chicken sauce contains peanuts in some versions — ask specifically." data-tier="specific" onclick="foodCardClick(15)"><div class="food-entry-top"><div><div class="food-entry-name">Riquexo Cafe</div><div class="food-entry-zh">力其澳葡餐廳</div></div><span class="food-entry-pill" style="background:#C24E8C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</span></div><div class="food-entry-dishes">Macanese cuisine. African chicken (Galinha à Africana), minchi, Portuguese egg tarts, bacalhau  •  Minchi (ground pork w/ potato, generally safe)</div><div class="food-entry-desc">One of the best places in Macau for authentic Macanese cuisine the African chicken and minchi are the must-orders. Family-run, old-school atmosphere.</div><div class="food-entry-netizen">“One of the best places for authentic Macanese cuisine”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門花地瑪堂區施仁道</div></div><div class="food-entry-card" data-foodidx="16" data-cat="International" data-allergy="⚠️ Same caution as Riquexo — confirm nut content in sauces. Bacalhau (salt cod) is shellfish-free and generally safe.  |  Nate: confirm nut content in sauces. Amanda: salt cod shellfish-free." data-tier="specific" onclick="foodCardClick(16)"><div class="food-entry-top"><div><div class="food-entry-name">Apomac</div><div class="food-entry-zh">澳門土生協會 (Apomac)</div></div><span class="food-entry-pill" style="background:#C24E8C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</span></div><div class="food-entry-dishes">Club/canteen for Macanese civil servants and retirees, authentic Macanese home-cooking  •  Bacalhau (salt cod, shellfish-free)</div><div class="food-entry-desc">A semi-private dining club that accepts outside reservations one of the most authentic Macanese meal experiences available. Reserve in advance.</div><div class="food-entry-netizen">“Semi-private dining club authentic Macanese. Reserve in advance”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門中央街</div></div><div class="food-entry-card" data-foodidx="17" data-cat="International" data-allergy="⚠️ moderate risk: African Chicken sauce often contains coconut (Nate — mild allergy, use judgment) and occasionally ground nuts — ask specifically &quot;这道菜有坚果或椰子吗?&quot; (does this dish contain nuts or coconut?). Deep-fried bacalhau balls and stir-fried vegetables are generally safe for both. Good English service makes allergy communication easier.  |  Nate: African chicken has coconut (mild). English service eases allergy communication. — DeepSeek lead, verify on-site." data-tier="specific" onclick="foodCardClick(17)"><div class="food-entry-top"><div><div class="food-entry-name">Restaurante Solmar</div><div class="food-entry-zh">沙利文餐厅</div></div><span class="food-entry-pill" style="background:#C24E8C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</span></div><div class="food-entry-dishes">Macanese-Portuguese classics; African Chicken (Galinha à Africana), deep-fried bacalhau balls (pastéis de bacalhau), Portuguese-style stir-fried vegetables, hou…</div><div class="food-entry-desc">Iconic Macanese restaurant operating since 1961 multi-award-winning and a Macau institution. Good English service. One of the best places for a proper sit-down Macanese meal on the peninsula.</div><div class="food-entry-netizen">“Iconic Macanese restaurant operating since 1961”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門南灣大馬路512號地下</div></div><div class="food-entry-card" data-foodidx="18" data-cat="International" data-allergy="Amanda: bacalhau (salt cod) shellfish-free; avoid seafood/shellfish mains. Nate: confirm no nuts in sauces/desserts. English/Portuguese service eases communication." data-tier="specific" onclick="foodCardClick(18)"><div class="food-entry-top"><div><div class="food-entry-name">Clube Militar,</div><div class="food-entry-zh">澳門陸軍俱樂部</div></div><span class="food-entry-pill" style="background:#C24E8C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</span></div><div class="food-entry-dishes">Classic Portuguese, bacalhau, caldo verde, roast meats; serious wine list</div><div class="food-entry-desc">Wikivoyage: Dining inside Macau&#x27;s pink colonial Military Club (1870) one of the most atmospheric Portuguese rooms in the city, behind the Grand Lisboa, with old-world ambiance and a genuinely good wine cellar. The full Portuguese-colonial experience.</div><div class="food-entry-netizen">“Dining inside the pink 1870 Military Club feels like borrowing someone else&#x27;s century for an evening. Ceiling fans, white tablecloths, a wine cellar that takes Portugal seriously. The bacalhau is done…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門南灣大馬路795號</div></div><div class="food-entry-card" data-foodidx="19" data-cat="International" data-allergy="Amanda: AVOID clams &amp; seafood mains (shellfish) — but plenty of meat dishes; confirm. Nate: African chicken sauce can contain peanuts/coconut — ask specifically." data-tier="specific" onclick="foodCardClick(19)"><div class="food-entry-top"><div><div class="food-entry-name">A Lorcha</div><div class="food-entry-zh">船屋葡國餐廳</div></div><span class="food-entry-pill" style="background:#C24E8C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</span></div><div class="food-entry-dishes">Portuguese-Macanese, clams, African chicken, bacalhau, serradura pudding</div><div class="food-entry-desc">Wikivoyage: A long-beloved Portuguese restaurant near the A-Ma Temple, named for the old wooden trading ships and themed around Macau&#x27;s maritime past. Famously popular book ahead or arrive at noon. Save room for serradura (&#x27;sawdust&#x27;) pudding.</div><div class="food-entry-netizen">“The African chicken here is the version I judge every other one against, and the clams in garlic and white wine disappear faster than anything else on the table. Named for the old trading ships, sitti…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門河邊新街289號A</div></div><div class="food-group-label" data-cat="Seafood"><span style="width:9px;height:9px;border-radius:50%;background:#3E7D52;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Seafood</title><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>Seafood</div><div class="food-entry-card" data-foodidx="20" data-cat="Seafood" data-allergy="⚠️ high risk — Amanda shellfish allergy: seafood-focused kitchen means high cross-contamination risk. Amanda should likely skip or order only clearly non-seafood dishes (confirm with kitchen). Nate: check cross-contamination risk with staff before ordering fish dishes. The atmosphere is worth a stop even just for drinks.  |  Amanda: seafood kitchen — high risk, likely skip (drinks ok). (verify on-site)" data-tier="specific" onclick="foodCardClick(20)"><div class="food-entry-top"><div><div class="food-entry-name">Chan Seng Kei</div><div class="food-entry-zh">陳勝記</div></div><span class="food-entry-pill" style="background:#3E7D52"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Seafood</title><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>Seafood</span></div><div class="food-entry-dishes">Local seafood; Bib Gourmand-recognised; ask for chef recommendations  •  Non-seafood dishes only (atmosphere worth a stop)</div><div class="food-entry-desc">Bib Gourmand-recognised local seafood restaurant in Coloane village a genuinely local institution, well away from the casino strip. Worth the trip if you have time on the Macau day.</div><div class="food-entry-netizen">“Bib Gourmand local seafood institution in Coloane”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot high">⚠ Must check</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳门路环计单奴街21号</div></div><div class="food-group-label" data-cat="Vegetarian / Vegan"><span style="width:9px;height:9px;border-radius:50%;background:#5566C0;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Vegetarian / Vegan</title><path d="M12 2C6 2 3 7 3 12c0 5 3 10 9 10s9-5 9-10c0-5-3-10-9-10Z"/><path d="M12 8c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z"/></svg>Vegetarian / Vegan</div><div class="food-entry-card" data-foodidx="21" data-cat="Vegetarian / Vegan" data-allergy="✓ low risk: Vegetarian — no shellfish. Ask about nut content in specific dishes. A reliable safe-haven option in Macau if you need a break from Macanese cuisine." data-tier="safe" onclick="foodCardClick(21)"><div class="food-entry-top"><div><div class="food-entry-name">Veggie Macau</div><div class="food-entry-zh">素茶舍</div></div><span class="food-entry-pill" style="background:#5566C0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Vegetarian / Vegan</title><path d="M12 2C6 2 3 7 3 12c0 5 3 10 9 10s9-5 9-10c0-5-3-10-9-10Z"/><path d="M12 8c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z"/></svg>Vegetarian / Vegan</span></div><div class="food-entry-dishes">Vegetarian; well-laid-out allergy-friendly menu; caters to vegans and multiple dietary restrictions</div><div class="food-entry-desc">A small, well-run vegetarian restaurant in Macau with menus designed to accommodate various dietary needs including allergies. Staff noted as polite and helpful. 📍 Address needed check HappyCow/map apps closer to the date.</div><div class="food-entry-netizen">“I brought a friend with a long allergy list and the staff walked through every dish with us without a hint of impatience. The menu marks things clearly, which almost nowhere in Macau bothers to do. Th…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 澳門花王堂區達船街69A號兆友大廈</div></div></div><div class="food-map-side"><div id="map-food"></div></div></div></section><section class="panel" id="panel-history" data-dayindex="-1"><div class="study-intro"><span class="study-kicker">For Amanda</span><h2>Read before Macau</h2></div><div class="study-wrap"><div class="era-band"><h3 class="era-band-h">Through the eras</h3><div class="era-grid"><div class="era-card"><span class="era-label">1550s–1800s</span><p>The oldest European settlement in East Asia. Portuguese traders established themselves here in the 1550s, and for centuries Macau was the indispensable middleman in the Europe–China–Japan trade, and the gateway through which Catholicism and Western ideas first entered the region. The result was a uniquely blended Eurasian city and culture.</p></div><div class="era-card"><span class="era-label">1800s–1900s</span><p>As Hong Kong&#x27;s deep-water harbor rose to dominate regional trade in the 1800s, Macau faded into a quieter, slightly faded colonial backwater, genteel, atmospheric, and increasingly reliant on gambling, which was legalized here in the 1840s.</p></div><div class="era-card"><span class="era-label">1999–today</span><p>The last European colony in Asia, handed back to China in 1999 (also under &#x27;One Country, Two Systems&#x27;). It then reinvented itself spectacularly: liberalized casino licenses turned it into the world&#x27;s biggest gambling hub, with gaming revenue several times Las Vegas&#x27;s. The surreal mega-resort strip of Cotai sits minutes from 400-year-old lanes, the contrast you&#x27;ll see in a single day.</p></div></div></div><div class="study-wrap"><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Understand Macau — three cities in one<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Macau reads as three overlaid cities. The first is Portuguese: this was Europe&#x27;s oldest and longest-held foothold in Asia, a trading settlement from the 1550s until handover in 1999, and that legacy survives as a genuine UNESCO-listed historic centre, pastel churches, cobbled praças, baroque facades, and a Macanese cuisine that fuses Portuguese, Cantonese, and Southeast Asian influences found nowhere else. The second is Cantonese: under the colonial surface Macau has always been a Chinese town, with temples older than any church and Cantonese as the language of the street. The third, and the one that pays for everything, is the casino city, the &#x27;Las Vegas of the East,&#x27; whose gaming revenue dwarfs the original several times over. Geographically it&#x27;s tiny and easily split: the Macau Peninsula holds the historic core (Senado Square, the Ruins of St. Paul&#x27;s, Monte Fort) and the older casinos; the reclaimed Cotai strip between Taipa and Coloane islands holds the mega-resorts and the dancing-water show; Taipa village and Coloane keep a quieter, more village-scaled charm. Like Hong Kong, Macau is a Special Administrative Region with its own currency (the pataca) and border, a quick ferry away, but a genuinely different jurisdiction.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Macanese hybrid culture<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Four centuries of intermarriage and exchange produced the Macanese, a distinct Eurasian people with their own creole language (Patuá, now nearly extinct) and, deliciously, their own cuisine. Macanese food fuses Portuguese technique with Chinese, Indian, Malay and African ingredients picked up along Portugal&#x27;s trade routes, dishes like African chicken and minchi exist nowhere else. The egg tart (pastel de nata, by way of Lisbon) is the easy, famous taste of this fusion.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>A Eurasian culture all its own<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Four centuries of settlement produced the Macanese, a distinct Eurasian community that began when Portuguese men married Tanka boat women and other Asian wives, blending Portuguese, Chinese, Malay, and African heritage. They speak a creole (Patuá, now nearly extinct) and cook one of the world&#x27;s oldest fusion cuisines: African chicken, minchi, and Portuguese egg tarts adapted to local taste. Neither fully Chinese nor Portuguese, this hybrid identity is Macau&#x27;s deepest cultural treasure.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The other SAR: gaming capital of the world<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Macau is China&#x27;s second Special Administrative Region, handed back by Portugal in 1999 under the same &#x27;One Country, Two Systems&#x27; framework as Hong Kong, with its own currency, laws, and border. After 442 years as a Portuguese settlement, the first and last European colony in China, it reinvented itself around a single industry: gambling. Casinos are illegal on the mainland and in Hong Kong, so Macau holds a legal monopoly that made it the world&#x27;s largest gaming market, with gaming revenue that for years dwarfed Las Vegas. In the Greater Bay Area its assigned role is tourism and leisure. The result is the trip&#x27;s strangest juxtaposition: UNESCO-listed Portuguese churches a few minutes from the planet&#x27;s densest concentration of casinos.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>How gambling built the modern city<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Gambling was legalized in Macau back in the 1840s as the fading colony searched for revenue, and it slowly became the economic engine. After the Portuguese gaming monopoly ended in 2002 and the market opened to foreign operators, Macau exploded into the world&#x27;s largest gambling destination, its gaming revenue surpassing Las Vegas many times over. Casinos are illegal on the mainland and in Hong Kong, giving Macau a lucrative legal monopoly that funds roughly half the economy.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The first European foothold in China (1557)<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Macau is where East and West first met and stayed. Portuguese traders settled here around 1557, paying an annual rent in silver to China, which still owned the land, making it the earliest and, after 1999, the last European colony on Chinese soil. It became the crucial node linking Europe, China, and Japan, and a base for Jesuit missionaries like Matteo Ricci to enter China. St. Paul&#x27;s College, attached to the famous church, was the first Western-style university in Asia. Macau predates Hong Kong as a European outpost by nearly 300 years.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Portugal&#x27;s 400 years in Asia<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Macau was a Portuguese settlement from the 1550s until 1999, over four centuries, making it the oldest and last European colony in Asia. Portugal leased then governed it as a trading post between Europe, China and Japan. The result is a genuinely Eurasian city: baroque churches and cobbled praças sitting amid Chinese temples and shophouses, all crammed onto a tiny peninsula. The UNESCO-listed historic center is among the most atmospheric urban spaces in Asia.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Silver, silk, and the Japan trade<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Macau&#x27;s golden age ran on a single spectacular circuit: Portuguese ships carried Chinese silk to Nagasaki, exchanged it for Japanese silver, and used that silver to buy the next year&#x27;s silk for the voyage on to Goa and Europe. For a century Macau was virtually the only bridge between an otherwise-closed China and the wider world, a tiny peninsula crowded with Portuguese, Chinese, Macanese, Japanese, and enslaved Africans, gambling, bargaining, and worshipping in a true tower of Babel.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>From trading post to casino capital<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>After the 1999 handover to China, Macau liberalized its casino licenses and exploded into the world&#x27;s largest gambling hub, its gaming revenue now dwarfs Las Vegas many times over. The Cotai strip, built on reclaimed land between two islands, is a surreal skyline of mega-resorts. It&#x27;s a jarring, fascinating contrast with the quiet 16th-century lanes a few minutes away: two completely different Macaus stacked on one small territory.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The darker trade: coolies and decline<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Not all of Macau&#x27;s history is romantic. As the colony declined in the 19th century, the harbour silting, deep-water Hong Kong eclipsing it after 1842. Macau became a notorious hub of the &#x27;coolie trade&#x27;: between 1851 and 1874 roughly 215,000 Chinese laborers were shipped from here to Cuba and Peru, many tricked through gambling debts or simply coerced. The long genteel decline that followed, all faded churches and Portuguese melancholy, is ironically what preserved the colonial core so completely, there was no money to tear it down.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>UNESCO heritage beside the neon<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>In 2005, Macau&#x27;s historic centre, around 25 sites including St. Paul&#x27;s ruins, A-Ma Temple, Senado Square, and the old fortresses, was inscribed as a UNESCO World Heritage Site, recognized as the best-preserved testament to four centuries of Sino-Western encounter. The result is the trip&#x27;s most surreal juxtaposition: cobbled Portuguese plazas and baroque churches sitting minutes from the Cotai Strip&#x27;s mega-casinos, the old colonial soul and the new gambling money pressed right up against each other.</p></div></article></div></div></section></div>
+    <div class="map-col" id="main-map-col"><div class="map-frame"><div id="map"></div>
+      <div class="map-cap"><span class="map-cap-dot"></span><span id="mapcap">Showing today's stops</span></div>
+    </div></div>
+  </div>
+</div>
+<footer>For Amanda, from Nate. Made with love in Los Angeles for use in China.</footer>
+<script src="assets/leaflet/leaflet.js"></script>
+<script>
+// hmBaseLayers(map): attach CartoDB Voyager (English, default) + Amap base layers with a switcher.
+function hmBaseLayers(map){
+  // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
+  var osm = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
+     detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Gaode/Amap road tiles, no API key needed; reachable inside mainland China.
+  var amap = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+    {maxZoom:19, subdomains:['1','2','3','4'], attribution:'\u00A9 \u9AD8\u5FB7\u5730\u56FE Amap', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Esri World Street Map. English labels. May or may not be reachable in mainland China.
+  var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom:19, attribution:'Tiles \u00A9 Esri', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  osm.addTo(map); // default: English labels, works everywhere outside China
+  L.control.layers(
+    {'English (CartoDB)': osm, 'Amap \u9AD8\u5FB7 (China)': amap, 'Esri (English)': esri},
+    {}, {position:'topright', collapsed:true}
+  ).addTo(map);
+  // If CartoDB tiles fail (e.g. inside mainland China), fall back to Amap.
+  var osmFailed = 0;
+  osm.on('tileerror', function(){ osmFailed++; if(osmFailed===4 && map.hasLayer(osm)){
+    map.removeLayer(osm); amap.addTo(map);
+  }});
+  return map;
+}
+
+// toggleStudy(headerEl): collapse/expand a study block (no persistence, resets each open).
+window.toggleStudy=function toggleStudy(el){
+  var block = el.closest('.study-block');
+  if(block){ block.classList.toggle('done'); }
+}
+</script>
+<script>
+const PTS  = [{"id": "s1", "lat": 22.1937, "lng": 113.54, "name": "Senado Square", "num": "1", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s2", "lat": 22.1945, "lng": 113.5405, "name": "St. Dominic's Church", "num": "2", "cat": "Religious Site", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s3", "lat": 22.1976, "lng": 113.5414, "name": "Ruins of St. Paul's", "num": "3", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s4", "lat": 22.1972, "lng": 113.5408, "name": "Travessa da Paix\u00e3o (Passion Lane)", "num": "4", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s5", "lat": 22.1978, "lng": 113.542, "name": "Monte Fort + Macao Museum", "num": "5", "cat": "Museum", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s6", "lat": 22.1968, "lng": 113.5495, "name": "Guia Fortress & Lighthouse", "num": "6", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s7", "lat": 22.153, "lng": 113.557, "name": "Taipa Houses Museum", "num": "7", "cat": "Museum", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s8", "lat": 22.148, "lng": 113.564, "name": "House of Dancing Water", "num": "8", "cat": "Performance", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}, {"id": "s9", "lat": 22.146, "lng": 113.562, "name": "Venetian Macao + bridge bus to HK", "num": "9", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 17", "dayIndex": 0}];
+const FOOD = [{"name": "Kika Ice Cream", "zh": "Kika Ice Cream / \u5947\u53ef", "cat": "Bakery / Snacks", "dishes": "Artisan ice cream and gelato, egg tart flavor, Macanese milk tea, sesame, azuki bean  \u2022  Egg-tart gelato; Macanese milk-tea gelato", "allergy": "\u26a0\ufe0f Some flavors contain nuts (praline, pistachio, hazelnut) \u2014 check flavor-by-flavor. Nate: avoid pistachio/hazelnut. Amanda: all flavors are shellfish-free.  |  Nate: AVOID pistachio/hazelnut flavors. Amanda: all flavors shellfish-safe. (verify on-site)", "color": "#C9821E", "lat": 22.153, "lng": 113.559, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Lai Kei Sorvetes", "zh": "\u7fa9\u9806\u725b\u5976\u516c\u53f8", "cat": "Bakery / Snacks", "dishes": "Macanese-Portuguese sorbets and sundaes, coconut, durian, mango, taro, coffee  \u2022  Fruit sorbets (mango, taro, coffee)", "allergy": "\u26a0\ufe0f Nate: coconut sorbet contains coconut (mild allergy \u2014 use judgment). Other fruit sorbets are safe. Amanda: fruit-based sorbets are shellfish-free and nut-free.  |  Nate: coconut sorbet has coconut (mild) \u2014 use judgment. \u2014 DeepSeek lead, verify on-site.", "color": "#C9821E", "lat": 22.198, "lng": 113.543, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Yee Shun Milk Company", "zh": "\u7fa9\u9806\u725b\u5976\u516c\u53f8", "cat": "Bakery / Snacks", "dishes": "Steamed milk pudding (\u96d9\u76ae\u5976), ginger milk pudding, almond tofu. Cantonese dessert institution  \u2022  Double-skin milk pudding; ginger milk pudding (both safe)", "allergy": "\u26a0\ufe0f Almond tofu contains almond \u2014 Nate AVOID (tree nut allergy). Double-skin milk pudding and ginger milk pudding are nut-free and shellfish-free \u2014 safe for both.  |  Nate: AVOID almond tofu (tree nut). Core puddings nut- and shellfish-free. (verify on-site)", "color": "#C9821E", "lat": 22.198, "lng": 113.543, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Pearl & Bun (\u5982\u73e0\u5982\u5305)", "zh": "\u5982\u73e0\u5982\u5305", "cat": "Bakery / Snacks", "dishes": "Artisan buns and pastries; hotel bakery at Wynn Palace and Wynn Macau  \u2022  Buns / bakery", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.  |  Verify nut content on-site.", "color": "#C9821E", "lat": 22.19, "lng": 113.55, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "C\u00e9leste Artisan (\u5929\u7fbd)", "zh": "\u5929\u7fbd C\u00e9leste Artisan", "cat": "Bakery / Snacks", "dishes": "\"Volcano Portuguese tart\" specialty; artisan pastries and seasonal items  \u2022  Artisan bakery / pastry", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.  |  Nate: verify nut content on-site before eating.", "color": "#C9821E", "lat": 22.154, "lng": 113.56, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Yong Ji Dessert (\u96cd\u8a18\u7cd6\u6c34)", "zh": "\u96cd\u8bb0\u751c\u54c1", "cat": "Bakery / Snacks", "dishes": "Traditional Cantonese tong sui desserts; red bean soup, black sesame, egg pudding  \u2022  Black sesame & traditional sweet soups", "allergy": "\u2713 Black sesame and sweet soups \u2014 generally safe for both. Confirm no nut toppings.  |  Nate: black sesame safe (not a tree nut). Verify other items.", "color": "#C9821E", "lat": 22.205, "lng": 113.56, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "GOAT Bakers", "zh": "Goat Bakers", "cat": "Bakery / Snacks", "dishes": "Artisan bakery; specialty breads, pastries, coffee", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#C9821E", "lat": 22.196, "lng": 113.54, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Margaret's Caf\u00e9 e Nata", "zh": "\u746a\u5609\u70c8\u86cb\u64bb\u5e97", "cat": "Bakery / Snacks", "dishes": "Portuguese egg tarts (pastel de nata); sandwiches; fresh juice", "allergy": "Nate: egg tarts \u2014 check crust for almond/nut flour; AVOID almond cookies. Amanda: tarts shellfish-free.", "color": "#C9821E", "lat": 22.19, "lng": 113.545, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Pace Coffee", "zh": "Pace Coffee / \u6b65\u4f10\u5496\u5561", "cat": "Caf\u00e9 / Coffee", "dishes": "Specialty coffee, light pastries; Hong Kong\u2013linked roaster with Macau outpost", "allergy": "\u2713 Coffee \u2014 no allergy concerns. Check pastries for nut content.  |  Nate: check pastries for nut content. Coffee low-risk. (verify on-site)", "color": "#8A6D1F", "lat": 22.186, "lng": 113.542, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Cotiz (Macau)", "zh": "Cotiz", "cat": "Caf\u00e9 / Coffee", "dishes": "Minimalist Kyoto-inspired coffee; clean aesthetic, specialty espresso", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#8A6D1F", "lat": 22.196, "lng": 113.54, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Mr. Ho Window Coffee (\u4f55\u8001\u5e2b\u7a97\u53f0\u5496\u5561)", "zh": "\u4f55\u8001\u5e2b\u7a97\u53f0\u5496\u5561", "cat": "Caf\u00e9 / Coffee", "dishes": "Famous for ice-cream cone Vienna coffee; charming window-side setting in Taipa  \u2022  Ice-cream-cone Vienna coffee", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.  |  Coffee \u2014 verify any toppings on-site.", "color": "#8A6D1F", "lat": 22.154, "lng": 113.56, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Mark Coffee", "zh": "Mark Coffee", "cat": "Caf\u00e9 / Coffee", "dishes": "Popular local coffee chain with Macau-themed aesthetic; multiple locations", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#8A6D1F", "lat": 22.208, "lng": 113.564, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Lung Wah Tea House", "zh": "\u9f8d\u83ef\u8336\u6a13", "cat": "Dim Sum", "dishes": "Traditional Cantonese dim sum and morning tea, har gow, siu mai, turnip cake, congee  \u2022  Spare ribs in black bean sauce; ginger-scallion oil chicken", "allergy": "\u26a0\ufe0f Dim sum contains shrimp (har gow, siu mai) \u2014 Amanda must skip these. Order turnip cake (\u863f\u8514\u7cd5), char siu bao, cheung fun with pork for safe options.  |  Amanda: AVOID siu mai (may contain shrimp), har gow. (verify on-site)", "color": "#7A4BA8", "lat": 22.207, "lng": 113.544, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9V6M12 18v-3M9 12H6M18 12h-3\"/><path d=\"M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7\"/>"}, {"name": "Tim Ho Wan (Londoner Macau)", "zh": "\u6dfb\u597d\u904b\u9ede\u5fc3\u5c08\u9580\u5e97", "cat": "Dim Sum", "dishes": "Affordable Michelin-starred dim sum; iconic baked BBQ pork buns (their signature), har gow, cheung fun", "allergy": "\u26a0\ufe0f moderate risk \u2014 Amanda shellfish allergy: shrimp in har gow and siu mai. Baked BBQ pork bun (the signature) is safe for both \u2014 order confidently. Turnip cake and taro dumplings are also safe. Amanda: skip har gow and siu mai entirely. Nate: all dim sum safe.", "color": "#7A4BA8", "lat": 22.147, "lng": 113.565, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9V6M12 18v-3M9 12H6M18 12h-3\"/><path d=\"M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7\"/>"}, {"name": "Haidilao Hot Pot", "zh": "\u6d77\u5e95\u635e\u706b\u9505", "cat": "Hot Pot", "dishes": "Customizable hot pot; choose your own broth, meats, vegetables, tofu", "allergy": "\u2713 Can request nut-free, shellfish-free broth. Avoid sesame dipping sauce. Staff are trained for allergy requests \u2014 best chain option for allergy management.", "color": "#B0202E", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "Riquexo Cafe", "zh": "\u529b\u5176\u6fb3\u8461\u9910\u5ef3", "cat": "International", "dishes": "Macanese cuisine. African chicken (Galinha \u00e0 Africana), minchi, Portuguese egg tarts, bacalhau  \u2022  Minchi (ground pork w/ potato, generally safe)", "allergy": "\u26a0\ufe0f African chicken sauce contains peanuts in some versions \u2014 ask specifically \"\u9019\u500b\u6709\u82b1\u751f\u55ce?\" (does this contain peanuts?). Minchi (ground pork with potato) is generally nut-free and safe.  |  Nate: African chicken sauce contains peanuts in some versions \u2014 ask specifically.", "color": "#C24E8C", "lat": 22.198, "lng": 113.544, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20\"/>"}, {"name": "Apomac", "zh": "\u6fb3\u9580\u571f\u751f\u5354\u6703 (Apomac)", "cat": "International", "dishes": "Club/canteen for Macanese civil servants and retirees, authentic Macanese home-cooking  \u2022  Bacalhau (salt cod, shellfish-free)", "allergy": "\u26a0\ufe0f Same caution as Riquexo \u2014 confirm nut content in sauces. Bacalhau (salt cod) is shellfish-free and generally safe.  |  Nate: confirm nut content in sauces. Amanda: salt cod shellfish-free.", "color": "#C24E8C", "lat": 22.198, "lng": 113.538, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20\"/>"}, {"name": "Restaurante Solmar", "zh": "\u6c99\u5229\u6587\u9910\u5385", "cat": "International", "dishes": "Macanese-Portuguese classics; African Chicken (Galinha \u00e0 Africana), deep-fried bacalhau balls (past\u00e9is de bacalhau), Portuguese-style stir-fried vegetables, house wine  \u2022  Deep-fried bacalhau balls; Macanese classics", "allergy": "\u26a0\ufe0f moderate risk: African Chicken sauce often contains coconut (Nate \u2014 mild allergy, use judgment) and occasionally ground nuts \u2014 ask specifically \"\u8fd9\u9053\u83dc\u6709\u575a\u679c\u6216\u6930\u5b50\u5417?\" (does this dish contain nuts or coconut?). Deep-fried bacalhau balls and stir-fried vegetables are generally safe for both. Good English service makes allergy communication easier.  |  Nate: African chicken has coconut (mild). English service eases allergy communication. \u2014 DeepSeek lead, verify on-site.", "color": "#C24E8C", "lat": 22.194, "lng": 113.548, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20\"/>"}, {"name": "Clube Militar,", "zh": "\u6fb3\u9580\u9678\u8ecd\u4ff1\u6a02\u90e8", "cat": "International", "dishes": "Classic Portuguese, bacalhau, caldo verde, roast meats; serious wine list", "allergy": "Amanda: bacalhau (salt cod) shellfish-free; avoid seafood/shellfish mains. Nate: confirm no nuts in sauces/desserts. English/Portuguese service eases communication.", "color": "#C24E8C", "lat": 22.19, "lng": 113.546, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20\"/>"}, {"name": "A Lorcha", "zh": "\u8239\u5c4b\u8461\u570b\u9910\u5ef3", "cat": "International", "dishes": "Portuguese-Macanese, clams, African chicken, bacalhau, serradura pudding", "allergy": "Amanda: AVOID clams & seafood mains (shellfish) \u2014 but plenty of meat dishes; confirm. Nate: African chicken sauce can contain peanuts/coconut \u2014 ask specifically.", "color": "#C24E8C", "lat": 22.187, "lng": 113.53, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20\"/>"}, {"name": "Chan Seng Kei", "zh": "\u9673\u52dd\u8a18", "cat": "Seafood", "dishes": "Local seafood; Bib Gourmand-recognised; ask for chef recommendations  \u2022  Non-seafood dishes only (atmosphere worth a stop)", "allergy": "\u26a0\ufe0f high risk \u2014 Amanda shellfish allergy: seafood-focused kitchen means high cross-contamination risk. Amanda should likely skip or order only clearly non-seafood dishes (confirm with kitchen). Nate: check cross-contamination risk with staff before ordering fish dishes. The atmosphere is worth a stop even just for drinks.  |  Amanda: seafood kitchen \u2014 high risk, likely skip (drinks ok). (verify on-site)", "color": "#3E7D52", "lat": 22.12, "lng": 113.56, "source": "", "iconPaths": "<path d=\"M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>"}, {"name": "Veggie Macau", "zh": "\u7d20\u8336\u820d", "cat": "Vegetarian / Vegan", "dishes": "Vegetarian; well-laid-out allergy-friendly menu; caters to vegans and multiple dietary restrictions", "allergy": "\u2713 low risk: Vegetarian \u2014 no shellfish. Ask about nut content in specific dishes. A reliable safe-haven option in Macau if you need a break from Macanese cuisine.", "color": "#5566C0", "lat": 22.197, "lng": 113.545, "source": "", "iconPaths": "<path d=\"M12 2C6 2 3 7 3 12c0 5 3 10 9 10s9-5 9-10c0-5-3-10-9-10Z\"/><path d=\"M12 8c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z\"/>"}];
+const CAT_COLORS = {"Hot Pot": "#B0202E", "Chinese Food": "#2E6F95", "Dim Sum": "#7A4BA8", "Caf\u00e9 / Coffee": "#8A6D1F", "Bar": "#1F8A8A", "International": "#C24E8C", "Bakery / Snacks": "#C9821E", "Seafood": "#3E7D52", "Vegetarian / Vegan": "#5566C0", "Other": "#888"};
+const FALLBACK = [22.1945,113.542];
+
+// ── Itinerary map (lazy init — deferred until first day tab shown) ────
+let map = null;
+const markers = {};
+window.initDayMap=function initDayMap(){
+  if(map) return;
+  const _mapEl = document.getElementById('map');
+  if(!_mapEl) return;
+  // Clear any stale Leaflet state from a prior failed attempt
+  if(_mapEl._leaflet_id) {
+    try{ _mapEl._leaflet_map && _mapEl._leaflet_map.remove(); }catch(e){}
+    delete _mapEl._leaflet_id;
+    _mapEl.innerHTML = '';
+    _mapEl.removeAttribute('tabindex');
+  }
+  map = L.map('map', {scrollWheelZoom:true});
+  hmBaseLayers(map);
+  window.__hmMaps = window.__hmMaps || {};
+  window.__hmMaps[document.querySelector('.vpage[style*="block"], .vpage:not([style])') ? 
+    (document.querySelector('.panel') ? document.querySelector('.panel').closest('.vpage')?.dataset.page : null) : null] = map;
+  // simpler: store keyed by the map container's page ancestor
+  const _pg = document.querySelector('#map').closest('[data-page]');
+  if(_pg) window.__hmMaps[_pg.dataset.page] = map;
+  PTS.forEach(p=>{
+  const icon = p.hotel
+    ? L.divIcon({className:'hm-pin',html:`<div style="width:22px;height:22px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 6px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:13px;line-height:1">⌂</span></div>`,iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-13]})
+    : L.divIcon({className:'hm-pin',html:
+      `<div style="position:relative;width:30px;height:30px">
+        <div style="width:30px;height:30px;border-radius:9px;background:${p.color};
+          border:2px solid #fff;box-shadow:0 4px 10px -3px rgba(0,0,0,.55);
+          display:flex;align-items:center;justify-content:center">
+          <span style="color:#fff;font:600 13px 'Cormorant',Georgia,serif">${p.num}</span></div>
+        <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
+          border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid ${p.color};
+          filter:drop-shadow(0 2px 1px rgba(0,0,0,.3))"></div>
+      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-34]});
+  const popup = p.hotel
+    ? `<b>${p.name}</b><br><span style="color:#888">Hotel · ${p.day}</span>`
+    : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
+  const m=L.marker([p.lat,p.lng],{icon}).bindPopup(popup);
+  m._dayIndex=p.dayIndex; markers[p.id]=m;
+  m.on('click',()=>highlight(p.id));
+  });
+}  // end initDayMap
+window.fitDay=function fitDay(di){
+  initDayMap();
+  const shown=[];
+  Object.values(markers).forEach(m=>{
+    if(di===null||m._dayIndex===di){m.addTo(map);shown.push(m.getLatLng());}
+    else map.removeLayer(m);
+  });
+  if(shown.length) map.fitBounds(shown,{padding:[45,45],maxZoom:15});
+  else map.setView(FALLBACK,11);
+  setTimeout(()=>map.invalidateSize(),60);
+}
+function highlight(id){
+  const el=document.querySelector(`.stop[data-id="${id}"]`);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1400);}
+}
+
+// ── Overview map ───────────────────────────────────────────────
+let mapOv=null;
+function initOverviewMap(){
+  if(mapOv) return;
+  mapOv=L.map('map-overview',{scrollWheelZoom:false});
+  hmBaseLayers(mapOv);
+  const bounds=[];
+  PTS.forEach(p=>{
+    const icon = p.hotel
+      ? L.divIcon({className:'hm-pin',html:`<div style="width:18px;height:18px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 5px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:11px;line-height:1">⌂</span></div>`,iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-11]})
+      : L.divIcon({className:'hm-pin',html:
+        `<div style="position:relative;width:24px;height:24px">
+          <div style="width:24px;height:24px;border-radius:7px;background:${p.color};
+            border:2px solid #fff;box-shadow:0 3px 8px -2px rgba(0,0,0,.45);
+            display:flex;align-items:center;justify-content:center">
+            <span style="color:#fff;font:600 10px 'Cormorant',Georgia,serif">${p.num}</span></div>
+          <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
+            border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid ${p.color}"></div>
+        </div>`,iconSize:[24,29],iconAnchor:[12,29],popupAnchor:[0,-26]});
+    const popup = p.hotel
+      ? `<b>${p.name}</b><br><span style="color:#888">Hotel</span>`
+      : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
+    L.marker([p.lat,p.lng],{icon}).bindPopup(popup).addTo(mapOv);
+    bounds.push([p.lat,p.lng]);
+  });
+  if(bounds.length) mapOv.fitBounds(bounds,{padding:[35,35],maxZoom:14});
+  else mapOv.setView(FALLBACK,11);
+}
+
+// ── Food map ───────────────────────────────────────────────────
+let mapFood=null; let foodMarkers=[];
+function initFoodMap(){
+  if(mapFood) return;
+  mapFood=L.map('map-food',{scrollWheelZoom:false});
+  hmBaseLayers(mapFood);
+  const bounds=[];
+  FOOD.forEach((e,i)=>{
+    if(!e.lat||!e.lng) return;
+    const color=e.color||'#888';
+    const iconPaths=e.iconPaths||'';
+    const icon=L.divIcon({className:'',html:
+      `<div style="position:relative;width:30px;height:36px">
+        <div style="width:30px;height:30px;border-radius:8px;background:${color};
+          border:2px solid rgba(255,255,255,.9);box-shadow:0 3px 8px -2px rgba(0,0,0,.5);
+          display:flex;align-items:center;justify-content:center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"
+            fill="none" stroke="rgba(255,255,255,.95)" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">${iconPaths}</svg>
+        </div>
+        <div style="position:absolute;left:50%;top:30px;transform:translateX(-50%);width:0;height:0;
+          border-left:5px solid transparent;border-right:5px solid transparent;
+          border-top:7px solid ${color};filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))"></div>
+      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-37]});
+    const allergy=e.allergy||'';
+    const GENERIC=["trendy reco","not yet vetted","allergy verification required on site"];
+    const isGeneric=GENERIC.some(p=>allergy.toLowerCase().includes(p));
+    const isSafe=allergy.startsWith('✓'); const isHigh=/MUST AVOID|HIGH RISK/.test(allergy);
+    let allergyHtml='';
+    if(isSafe) allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:rgba(62,125,82,.1);color:#1e5c32;border-left:3px solid #3E7D52">${allergy.substring(0,200)}</div>`;
+    else if(!isGeneric&&allergy){const bg=isHigh?'rgba(176,32,46,.1)':'rgba(201,130,30,.1)';const bc=isHigh?'#B0202E':'#C9821E';const tc=isHigh?'#6b0000':'#5a2e00';allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:${bg};color:${tc};border-left:3px solid ${bc};line-height:1.45">${allergy.substring(0,250)}${allergy.length>250?'…':''}</div>`;}
+    const m=L.marker([e.lat,e.lng],{icon})
+      .bindPopup(`<div style="max-width:240px;font-family:sans-serif">
+        <div style="font-weight:700;font-size:.9rem">${e.name}</div>
+        ${e.zh?`<div style="color:#B0202E;font-size:.78rem">${e.zh}</div>`:''}
+        <div style="display:inline-block;margin:4px 0;padding:2px 7px;border-radius:7px;background:${color};color:#fff;font-size:.68rem;font-weight:700">${e.cat}</div>
+        ${e.dishes?`<div style="font-size:.78rem;color:#444;margin:3px 0">${e.dishes.substring(0,100)}${e.dishes.length>100?'…':''}</div>`:''}
+        ${allergyHtml}</div>`,{maxWidth:260}).addTo(mapFood);
+    m._foodIdx=i; m._cat=e.cat; foodMarkers.push(m);
+    m.on('click',()=>highlightFoodCard(i));
+    bounds.push([e.lat,e.lng]);
+  });
+  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
+  else mapFood.setView(FALLBACK,12);
+}
+window.filterFoodMap=window.filterFoodMap=function filterFoodMap(cat){
+  const bounds=[];
+  foodMarkers.forEach(m=>{
+    if(cat==='all'||m._cat===cat){if(!mapFood.hasLayer(m))m.addTo(mapFood);bounds.push(m.getLatLng());}
+    else{if(mapFood.hasLayer(m))mapFood.removeLayer(m);}
+  });
+  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
+}
+window.highlightFoodCard=window.highlightFoodCard=function highlightFoodCard(idx){
+  document.querySelectorAll('.food-entry-card').forEach(c=>c.classList.remove('highlighted'));
+  const card=document.querySelector(`.food-entry-card[data-foodidx="${idx}"]`);
+  if(card){
+    card.classList.add('highlighted');
+    const box=document.getElementById('food-cards-inner');
+    if(box&&box.scrollHeight>box.clientHeight){
+      // scroll within the list container only, so the sticky map stays put
+      const ct=card.offsetTop-box.offsetTop-box.clientHeight/2+card.clientHeight/2;
+      box.scrollTo({top:ct,behavior:'smooth'});
+    } else {
+      card.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  }
+}
+window.foodCardClick=window.foodCardClick=function foodCardClick(idx){
+  highlightFoodCard(idx);
+  const m=foodMarkers.find(m=>m._foodIdx===idx);
+  if(m){mapFood.setView(m.getLatLng(),16,{animate:true});m.openPopup();}
+}
+window.filterFood=window.filterFood=function filterFood(btn){
+  document.querySelectorAll('.food-cat-btn2').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cat=btn.dataset.cat;
+  document.querySelectorAll('.food-entry-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';});
+  document.querySelectorAll('.food-group-label').forEach(g=>{g.style.display=(cat==='all'||g.dataset.cat===cat)?'':'none';});
+  // Init food map if not yet open, then filter
+  if(!mapFood) initFoodMap();
+  filterFoodMap(cat);
+}
+
+// ── Tab switching ──────────────────────────────────────────────
+const tabBtns=[...document.querySelectorAll('.tab')];
+const panelEls=[...document.querySelectorAll('.panel')];
+const mapCol=document.getElementById('main-map-col');
+const capEl=document.getElementById('mapcap');
+function activate(tab){
+  tabBtns.forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  panelEls.forEach(p=>p.classList.toggle('show',p.id===`panel-${tab}`));
+  if(tab==='overview'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+    setTimeout(()=>{initOverviewMap();if(mapOv)mapOv.invalidateSize();},80);
+  } else if(tab==='history'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+  } else if(tab==='food'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.add('full-width');
+    setTimeout(()=>{initFoodMap();if(mapFood)mapFood.invalidateSize();},80);
+  } else {
+    mapCol.classList.remove('hidden');document.querySelector('.layout').classList.remove('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+    const di=parseInt(tab.replace('d',''),10);
+    // map lives in a column that may have been display:none; invalidate after
+    // the browser has applied layout, then fit. Multiple ticks cover slow reflow.
+    requestAnimationFrame(()=>{
+      if(typeof initDayMap==='function') initDayMap();
+      fitDay(di);
+      setTimeout(()=>{if(map)map.invalidateSize();},120);
+      setTimeout(()=>{if(map){map.invalidateSize();fitDay(di);}},320);
+    });
+    const btn=tabBtns.find(b=>b.dataset.tab===tab);
+    capEl.textContent=btn?btn.textContent.trim()+'. '+PTS.filter(p=>p.dayIndex===di).length+' stops':'';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+tabBtns.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab)));
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.stop');if(!card)return;
+  const m=markers[card.dataset.id];
+  if(m&&map){if(!map.hasLayer(m))m.addTo(map);map.flyTo(m.getLatLng(),16,{duration:.6});m.openPopup();}
+});
+// ── Swipe between tabs (mobile) ───────────────────────────────
+let _tx=null,_ty=null;
+document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;_ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(_tx===null)return;
+  const dx=e.changedTouches[0].clientX-_tx, dy=e.changedTouches[0].clientY-_ty;
+  _tx=null;
+  if(Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*0.7)return;
+  if(e.target.closest('.leaflet-container,.day-route'))return;
+  const cur=tabBtns.findIndex(b=>b.classList.contains('active'));
+  const nxt=cur+(dx<0?1:-1);
+  if(nxt>=0&&nxt<tabBtns.length)activate(tabBtns[nxt].dataset.tab);
+},{passive:true});
+
+// ── Today smart view ──────────────────────────────────────────
+const DAYDATES={"2026-07-17": "d0"};
+(function(){
+  const now=new Date();
+  const iso=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const todayTab=DAYDATES[iso];
+  if(todayTab){
+    const btn=tabBtns.find(b=>b.dataset.tab===todayTab);
+    if(btn){btn.classList.add('today-tab');
+      if(!location.hash){activate(todayTab);return;}
+    }
+  }
+  const hash=location.hash.replace('#','');
+  activate(['overview','history','food'].includes(hash)||hash.startsWith('d')?hash:'overview');
+})();
+</script>
+</body></html>

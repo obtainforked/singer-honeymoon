@@ -1,0 +1,1159 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Guangzhou &middot; The Singer Honeymoon</title>
+<link rel="stylesheet" href="assets/leaflet/leaflet.css">
+<style>
+/* ===== Fonts (vendored, offline) ===== */
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-400.woff2') format('woff2'),url('assets/fonts/notosc-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-700.woff2') format('woff2'),url('assets/fonts/notosc-700.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --cinnabar:#C0392B; --cinnabar-deep:#9A2018; --vermillion:#D9483B;
+  --gold:#C9A227; --gold-soft:#E4C76B;
+  --ink:#1f1a17; --ink-soft:#4a4138; --muted:#8a7d6d;
+  --paper:#F3EBDD; --paper-2:#EDE3D2; --card:#FCF7EC; --line:#DDD0B8;
+  --shadow:24px 30px 60px -28px rgba(60,38,20,.45);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0}html{scroll-padding-top:58px}.vpage{scroll-margin-top:58px}.hero{scroll-margin-top:58px}.hero{padding-top:18px}
+body{
+  font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun","Iowan Old Style",Georgia,serif;
+  color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(217,72,59,.07), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(201,162,39,.08), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23000' stroke-opacity='0.018' stroke-width='1'/%3E%3C/svg%3E");
+}
+a{color:var(--cinnabar);text-underline-offset:2px}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 26px}
+
+/* ===== Masthead ===== */
+header.masthead{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(252,247,236,.82);backdrop-filter:blur(12px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(255,255,255,.6), 0 8px 30px -20px rgba(60,38,20,.4);
+  padding-top:env(safe-area-inset-top);
+}
+.masthead .wrap{display:flex;align-items:center;justify-content:space-between;padding:13px 26px;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:1.05rem;letter-spacing:.02em;text-decoration:none;color:inherit}
+.brand .seal{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:34px;height:40px;border-radius:7px;background:var(--cinnabar);color:#fff;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:.95rem;
+  box-shadow:0 2px 8px -2px rgba(154,32,24,.7), inset 0 0 0 1px rgba(255,255,255,.25);
+  line-height:1.1;gap:1px;
+}
+.brand .seal-name{font-size:.45rem;letter-spacing:.05em;opacity:.85}
+.brand .brand-en{font-family:'Cormorant',serif;font-size:1.3rem;letter-spacing:.04em}
+.brand .brand-sub{color:var(--muted);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase}
+nav.cities{display:flex;flex-wrap:wrap;gap:2px}
+nav.cities a{
+  position:relative;text-decoration:none;color:var(--ink-soft);font-size:.86rem;
+  padding:7px 11px;border-radius:6px;transition:color .2s, background .2s;
+}
+nav.cities a::after{content:'';position:absolute;left:11px;right:11px;bottom:3px;height:2px;
+  background:var(--cinnabar);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+nav.cities a:hover{color:var(--cinnabar)}
+nav.cities a:hover::after{transform:scaleX(1)}
+nav.cities a.active{color:var(--cinnabar);font-weight:700}
+nav.cities a.active::after{transform:scaleX(1)}
+
+/* Destinations dropdown group */
+.navgroup{position:relative;display:inline-block}
+.navgroup-btn{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:.86rem;
+  font-family:inherit;padding:7px 11px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+.navgroup-btn:hover,.navgroup-btn.active{color:var(--cinnabar)}
+.navgroup-btn.active{font-weight:700}
+.navgroup .caret{font-size:.7rem;transition:transform .2s}
+.navgroup .submenu{position:absolute;top:100%;left:0;min-width:180px;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px -12px rgba(60,38,20,.4);
+  padding:6px;display:none;flex-direction:column;z-index:1100;margin-top:4px}
+.navgroup .submenu a{padding:9px 12px;border-radius:6px;font-size:.86rem;color:var(--ink-soft);
+  text-decoration:none}
+.navgroup .submenu a::after{display:none}
+.navgroup .submenu a:hover{background:var(--paper);color:var(--cinnabar)}
+.navgroup .submenu a.active{color:var(--cinnabar);font-weight:700}
+/* open on hover (desktop) or when toggled open (click) */
+@media(hover:hover){.navgroup:hover .submenu{display:flex}.navgroup:hover .caret{transform:rotate(180deg)}}
+.navgroup.open .submenu{display:flex}
+.navgroup.open .caret{transform:rotate(180deg)}
+
+/* Hamburger toggle, hidden on desktop, shown on mobile */
+.nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:42px;height:42px;padding:9px;background:none;border:1px solid var(--line);
+  border-radius:9px;cursor:pointer}
+.nav-toggle span{display:block;height:2px;width:100%;background:var(--ink);border-radius:2px;
+  transition:transform .25s, opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:760px){
+  .nav-toggle{display:flex}
+  nav.cities{display:none;flex-direction:column;gap:0;width:100%;order:3;
+    margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
+  nav.cities.open{display:flex}
+  nav.cities>a{font-size:1rem;padding:12px 6px;border-bottom:1px solid var(--line);border-radius:0}
+  nav.cities a::after{display:none}
+  nav.cities a.active{background:color-mix(in srgb,var(--cinnabar) 8%,transparent)}
+  /* Destinations group inline on mobile */
+  .navgroup{display:block;width:100%}
+  .navgroup-btn{width:100%;justify-content:space-between;font-size:1rem;padding:12px 6px;
+    border-bottom:1px solid var(--line)}
+  .navgroup .submenu{position:static;display:none;border:none;box-shadow:none;background:transparent;
+    margin:0;padding:0;border-radius:0}
+  .navgroup.open .submenu{display:flex}
+  .navgroup .submenu a{padding:11px 6px 11px 22px;border-bottom:1px solid var(--line);
+    border-radius:0;font-size:.95rem}
+  @media(hover:hover){.navgroup:hover .submenu{display:none}}
+  .navgroup.open .submenu{display:flex}
+}
+
+/* ===== Hero ===== */
+.hero{position:relative;padding:54px 0 26px;overflow:hidden}
+.hero .watermark{
+  position:absolute;right:-6px;top:50%;transform:translateY(-50%);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:clamp(7rem,18vw,15rem);
+  color:var(--cinnabar);opacity:.07;line-height:.8;pointer-events:none;user-select:none;
+  letter-spacing:-.04em;
+}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--cinnabar);
+  font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:14px}
+.hero .eyebrow::before{content:'';width:30px;height:1px;background:var(--cinnabar);display:inline-block}
+.hero h1{
+  font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(2.6rem,6vw,4.4rem);line-height:1;margin:0;letter-spacing:.01em;
+  color:var(--ink);
+}
+.hero h1 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);margin-left:.3em;font-size:.7em}
+.hero .sub{color:var(--ink-soft);font-size:1.05rem;margin-top:14px;max-width:62ch}
+.hero .rule{display:flex;align-items:center;gap:12px;margin-top:22px;color:var(--gold)}
+.hero .rule::before,.hero .rule::after{content:'';height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);flex:1}
+.hero .rule span{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== Layout ===== */
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start;padding-bottom:70px}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  /* On mobile, show the map first, then the day's stops below it */
+  .layout .map-col{order:-1}
+  .layout .itinerary{order:1}
+}
+#map{height:600px;border-radius:14px;position:sticky;top:88px;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line);overflow:hidden}
+@media(max-width:900px){#map{position:relative;top:0;height:360px}}
+.map-frame{position:relative;border-radius:14px;overflow:hidden}
+.map-frame::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  box-shadow:inset 0 0 0 4px rgba(192,57,43,.0), inset 0 0 30px rgba(60,38,20,.12)}
+
+/* ===== Day sections ===== */
+.day{margin-bottom:40px}
+.day h2{
+  display:flex;align-items:center;gap:12px;margin:0 0 18px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;letter-spacing:.01em;
+  color:var(--ink);
+}
+.day h2 .daydot{width:13px;height:13px;border-radius:50%;background:var(--cat,#888);flex:0 0 13px;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--cat,#888) 22%, transparent)}
+.day h2 .daytext{flex:1}
+.day h2 .dayline{height:1px;flex:0 0 40px;background:var(--cat,var(--line));opacity:.5}
+
+/* ===== Stop cards ===== */
+.stop{
+  position:relative;background:var(--card);border-radius:12px;
+  padding:16px 18px 16px 20px;margin-bottom:14px;cursor:pointer;overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(60,38,20,.04);
+  transition:transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s, border-color .18s;
+}
+.stop::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat,#888)}
+.stop:hover{transform:translateY(-3px);box-shadow:0 14px 30px -16px rgba(60,38,20,.4);border-color:color-mix(in srgb,var(--cat,#888) 40%,var(--line))}
+.stop.flash{box-shadow:0 0 0 2px var(--cat,#888), 0 14px 30px -14px rgba(60,38,20,.5)}
+.stop-img{margin:-16px -18px 14px -20px;height:180px;overflow:hidden;border-radius:10px 10px 0 0}
+.stop-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.stop:hover .stop-img img{transform:scale(1.04)}
+.stop .toprow{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.pin{
+  width:27px;height:27px;flex:0 0 27px;border-radius:8px;
+  background:var(--cat,#888);color:#fff;
+  font-family:'Cormorant',serif;font-size:.95rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25), 0 2px 6px -2px rgba(0,0,0,.4);
+}
+.stop h3{margin:0;font-size:1.12rem;font-weight:700;letter-spacing:.005em;line-height:1.25}
+.stop .zh{color:var(--cinnabar);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.92rem;margin-left:6px;font-weight:400;opacity:.85}
+.tag{margin-left:auto;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);background:transparent;border:1px solid var(--line);
+  padding:3px 9px;border-radius:20px}
+.meta{display:flex;flex-wrap:wrap;gap:7px 18px;margin:11px 0 0;font-size:.85rem;color:var(--ink-soft)}
+.meta span b{color:var(--muted);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.meta a{font-weight:700;white-space:nowrap}
+.notes{font-size:.88rem;margin-top:11px;line-height:1.6;color:var(--ink-soft)}
+.stop-protip{font-size:.88rem;line-height:1.6;margin:8px 0;padding:7px 11px;background:var(--paper-2);border-radius:8px;border-left:3px solid var(--cinnabar)}
+.protip-label{font-weight:700;color:var(--cinnabar);margin-right:5px}
+.notes b{color:var(--cinnabar);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.netizen{position:relative;font-size:.85rem;margin-top:12px;padding:9px 13px 9px 30px;
+  color:var(--ink-soft);font-style:italic;background:var(--paper-2);border-radius:8px;line-height:1.55}
+.netizen::before{content:'\201C';position:absolute;left:8px;top:0px;font-family:'Cormorant',serif;
+  font-size:2.1rem;color:var(--gold);line-height:1}
+.badge{display:inline-flex;align-items:center;font-size:.62rem;color:#fff;padding:3px 9px;border-radius:20px;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.badge.booked{background:#3E7D52;box-shadow:0 2px 6px -2px rgba(62,125,82,.6)}
+.badge.tobook{background:var(--cinnabar);box-shadow:0 2px 6px -2px rgba(192,57,43,.6)}
+
+/* ===== Legend ===== */
+.legend{display:flex;gap:9px 16px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--ink-soft);
+  margin:0 0 22px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.legend .legend-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.legend span:not(.legend-title){display:inline-flex;align-items:center}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:6px;
+  box-shadow:0 0 0 3px color-mix(in srgb,currentColor 0%, transparent)}
+
+/* ===== Offline note ===== */
+.offnote{display:flex;gap:11px;align-items:flex-start;
+  background:linear-gradient(180deg,#FCF6E4,#F8EFD6);border:1px solid var(--gold-soft);
+  border-radius:12px;padding:13px 16px;font-size:.85rem;margin:0 0 20px;color:var(--ink-soft);line-height:1.5}
+.offnote b{color:var(--cinnabar-deep)}
+.offnote .ico{flex:0 0 22px;width:22px;height:22px;border-radius:6px;background:var(--gold);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;margin-top:1px}
+
+/* ===== Food page ===== */
+.food-city-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.food-city-tab{padding:8px 16px;border-radius:20px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink-soft);font-size:.85rem;cursor:pointer;
+  font-family:inherit;transition:all .2s}
+.food-city-tab:hover{border-color:var(--cinnabar);color:var(--cinnabar)}
+.food-city-tab.active{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
+.food-cat-filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+.food-cat-btn{padding:5px 13px;border-radius:14px;border:1px solid var(--line);
+  background:var(--card);font-size:.78rem;cursor:pointer;transition:all .18s;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn:hover{filter:brightness(.95)}
+.food-cat-btn.active{color:#fff;border-color:transparent}
+.food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.food-map-col{order:-1}}
+#foodmap{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line)}
+@media(max-width:900px){#foodmap{height:360px}}
+.food-map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-col{position:relative;top:0}}
+.food-cards{display:flex;flex-direction:column;gap:14px}
+.food-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;position:relative;overflow:hidden;cursor:pointer;
+  transition:box-shadow .2s, transform .15s}
+.food-card:hover{box-shadow:0 4px 18px -8px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.food-card-name{font-family:'Cormorant',serif;font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.2}
+.food-card-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.food-cat-pill{font-size:.7rem;padding:3px 9px;border-radius:10px;color:#fff;
+  white-space:nowrap;flex-shrink:0;font-weight:600;letter-spacing:.03em}
+.food-card-dishes{font-size:.85rem;color:var(--ink-soft);margin:4px 0 8px;line-height:1.5}
+.food-card-netizen{font-size:.82rem;color:var(--ink-soft);font-style:italic;line-height:1.5;
+  margin:6px 0 8px;padding:7px 11px;background:var(--paper-2);border-radius:8px;
+  border-left:3px solid var(--gold)}
+.food-allergy-badge{font-size:.74rem;padding:3px 8px;border-radius:8px;display:inline-block;margin-top:4px}
+.food-allergy-safe{background:color-mix(in srgb,#3E7D52 12%,transparent);color:#2a5c39}
+.food-allergy-warn{background:color-mix(in srgb,#C9821E 12%,transparent);color:#8a5200}
+.food-card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--line)}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+.food-count-badge{font-size:.78rem;color:var(--muted);padding:3px 8px;
+  background:var(--paper-2);border-radius:8px;margin-left:auto}
+/* Category colour map. JS reads data-cat attribute */
+.cat-hot-pot{--ccat:#B0202E}
+.cat-chinese-food{--ccat:#2E6F95}
+.cat-dim-sum{--ccat:#7A4BA8}
+.cat-cafe-coffee{--ccat:#8A6D1F}
+.cat-bar{--ccat:#1F8A8A}
+.cat-international{--ccat:#C24E8C}
+.cat-bakery-snacks{--ccat:#C9821E}
+.cat-seafood{--ccat:#3E7D52}
+.cat-vegetarian-vegan{--ccat:#5566C0}
+.cat-other{--ccat:#888}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.8rem;text-align:center}
+footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:.8em}
+
+/* ===== Home page ===== */
+.summary{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px 30px 26px;margin-top:34px;margin-bottom:34px;box-shadow:0 1px 2px rgba(60,38,20,.05);overflow:hidden}
+.summary::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.summary p{margin:0;font-size:1.05rem;line-height:1.7;color:var(--ink-soft)}
+.summary .summary-lead{font-size:1.08rem;line-height:1.75}
+.summary .hl-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 8px}
+@media(max-width:760px){.summary .hl-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.summary .hl-strip{grid-template-columns:1fr}}
+.summary .hl{display:flex;align-items:center;gap:11px;text-decoration:none;
+  background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;
+  transition:transform .18s, box-shadow .18s, border-color .18s}
+.summary .hl:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(60,38,20,.4);
+  border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 45%,var(--line))}
+.summary .hl-ico{flex:0 0 30px;width:30px;height:30px;color:var(--cat,var(--cinnabar))}
+.summary .hl-ico svg{width:30px;height:30px;display:block}
+.summary .hl-t{font-size:.86rem;line-height:1.3;color:var(--ink)}
+.summary .stats{display:flex;gap:30px;margin-top:20px;flex-wrap:wrap}
+.summary .stat{display:flex;flex-direction:column}
+.summary .stat .n{font-family:'Cormorant',serif;font-size:2.2rem;font-weight:600;color:var(--cinnabar);line-height:1}
+.summary .stat .l{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.summary .stats-foot{margin-top:10px;font-size:.74rem;color:var(--muted);font-style:italic}
+
+
+.citygrid{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;padding-bottom:60px}
+.citycard{flex:1 1 280px;max-width:340px;min-width:260px;box-sizing:border-box;position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:24px 22px 22px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(60,38,20,.05);
+  transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s}
+.citycard::after{content:attr(data-zh);position:absolute;right:-8px;bottom:-26px;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:6rem;line-height:1;
+  color:var(--cinnabar);opacity:.06;transition:opacity .22s, transform .22s;letter-spacing:-.04em}
+.citycard:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+.citycard:hover::after{opacity:.12;transform:scale(1.08) translateY(-4px)}
+.citycard .num{font-family:'Cormorant',serif;color:var(--gold);font-size:.95rem;letter-spacing:.1em}
+.citycard h3{margin:6px 0 2px;font-family:'Cormorant',serif;font-weight:600;font-size:2rem;line-height:1;color:var(--ink)}
+.citycard h3 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);font-size:.62em;margin-left:.25em}
+.citycard .dates{font-size:.84rem;color:var(--muted);margin-top:8px}
+.citycard .count{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;margin-top:16px;
+  color:var(--cinnabar);font-weight:700}
+.citycard .count::after{content:'\2192';transition:transform .22s}
+.citycard:hover .count::after{transform:translateX(4px)}
+
+/* ===== Entrance animations ===== */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards}
+@media(prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1}}
+
+/* ===== Leaflet popup restyle ===== */
+.leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 10px 30px -12px rgba(60,38,20,.5);
+  background:var(--card);border:1px solid var(--line)}
+.leaflet-popup-content{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif;margin:11px 14px;font-size:.86rem;color:var(--ink)}
+.leaflet-popup-tip{background:var(--card)}
+.leaflet-container{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.leaflet-bar a{border-radius:4px}
+
+/* ===== Day sub-tabs ===== */
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:2px}
+.tab{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  font-family:'NotoSC',serif;font-size:.86rem;color:var(--ink-soft);
+  background:var(--card);border:1px solid var(--line);border-radius:30px;
+  padding:8px 15px;transition:all .18s;white-space:nowrap}
+.tab .tab-dot{width:9px;height:9px;border-radius:50%;background:var(--cat,var(--muted));flex:0 0 9px;transition:transform .18s}
+.tab:hover{border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 50%,var(--line));transform:translateY(-1px)}
+.tab.active{background:var(--cat,var(--cinnabar));color:#fff;border-color:transparent;
+  box-shadow:0 5px 14px -5px color-mix(in srgb,var(--cat,var(--cinnabar)) 80%,transparent)}
+.tab.active .tab-dot{background:#fff;transform:scale(1.1)}
+.tab-history{margin-left:6px;position:relative}
+.tab-history::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history.active{background:var(--ink);}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Panels (tab content) ===== */
+.panel{display:none;animation:rise .45s cubic-bezier(.2,.7,.3,1)}
+.panel.show{display:block}
+.day-head h2{display:flex;align-items:baseline;gap:10px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.7rem;color:var(--ink);line-height:1.1}
+.tag svg{vertical-align:-1.5px;margin-right:4px;opacity:.85}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.panel.show .stop{animation:cardIn .45s cubic-bezier(.2,.7,.3,1) both;animation-delay:min(calc(var(--i,0)*45ms),400ms)}
+.tab.today-tab::after{content:"·";color:var(--cinnabar);font-weight:900;margin-left:4px;font-size:1.2em;line-height:0}
+
+.globe-box canvas{width:100%;height:auto;display:block;cursor:grab;touch-action:none}
+.budget-total span{font-size:.85rem;font-family:inherit;color:#9a8f7d;font-weight:400;margin-left:8px}
+.budget-bar i{display:block}
+.budget-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+.globe-box{flex:0 1 480px;max-width:560px}
+@media(max-width:640px){.globe-legend{grid-template-columns:1fr}}
+
+.panel.show .day-route{animation:cardIn .5s cubic-bezier(.2,.7,.3,1) both}
+@media (prefers-reduced-motion:reduce){.panel.active .stop,.panel.show .day-route{animation:none}}
+@media (prefers-color-scheme:dark){
+:root{
+  --paper:#16161d;--paper-2:#1e1e27;--ink:#e8e4da;--ink-soft:#b8b3a6;
+  --cinnabar:#e05545;--cinnabar-deep:#c94030;
+  --card:#1a1a24;--line:rgba(255,255,255,.09);--muted:#7a7568;
+  --gold:#c9a02a;--gold-soft:#a07820;
+  --shadow:24px 30px 60px -28px rgba(0,0,0,.7);
+}
+body{background:var(--paper);color:var(--ink)}
+.stop,.panel,.citycard,.food-card,.food-entry-card,.study-block,.china-collapse,
+.legend,.summary,.journey,.era-card,.offnote,.chain-card,.city-fact-card{
+  background:var(--card);border-color:var(--line)}
+.tag{background:rgba(255,255,255,.06)}
+.day-route{background:#1a1a22;border-color:var(--line)}
+.netizen,.food-card-netizen,.food-entry-netizen{background:rgba(255,255,255,.04)}
+.stop-protip{background:rgba(224,85,69,.08)}
+.leaflet-tile{filter:brightness(.7) contrast(1.1)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);border-color:var(--line)}
+header.masthead{background:rgba(22,22,29,.9)}
+}
+
+.day-strip{display:flex;gap:14px;font-size:.8rem;color:#8a8a8a;margin:2px 0 6px}
+.day-strip .strip-book{color:var(--cinnabar);font-weight:600}
+
+.day-intro{font-size:.98rem;line-height:1.7;color:var(--ink-soft);margin:6px 0 22px;
+  padding:14px 18px;background:var(--card);border-radius:12px;
+  border:1px solid var(--line);border-left:4px solid var(--cat,var(--cinnabar))}
+.day-intro-empty{color:var(--muted);font-style:italic}
+
+/* ===== Sticky map column ===== */
+.map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.map-col{position:relative;top:0}}
+.map-col.hidden{display:none}
+.map-cap{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);
+  letter-spacing:.04em}
+.map-cap-dot{width:8px;height:8px;border-radius:50%;background:var(--cinnabar);
+  box-shadow:0 0 0 4px rgba(192,57,43,.15)}
+/* when a tab hides the map, the single column behaves per tab type:
+   - Study/Overview: capped to a readable width, CENTERED in the container
+   - Food: spans the full container width (it has its own internal map + card grid) */
+.layout:has(.map-col.hidden){grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map{grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map.full-width{max-width:none;margin-left:0;margin-right:0}
+
+/* ===== Study / History ===== */
+.study-intro{margin-bottom:22px}
+.study-kicker{display:inline-block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px}
+.study-intro h2{font-family:'Cormorant',serif;font-weight:600;font-size:2.1rem;margin:0;color:var(--ink)}
+.study-wrap{display:flex;flex-direction:column;gap:18px}
+/* Collapsible "China, the big picture" */
+.china-collapse{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin:0 0 26px;overflow:hidden}
+.china-collapse>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:18px 22px;font-family:'Cormorant',serif}
+.china-collapse>summary::-webkit-details-marker{display:none}
+.china-collapse .cc-title{font-weight:600;font-size:1.4rem;color:var(--ink)}
+.china-collapse .cc-meta{font-family:'NotoSC',sans-serif;font-size:.78rem;color:var(--muted);
+  letter-spacing:.04em}
+.china-collapse .cc-chev{margin-left:auto;color:var(--cinnabar);font-size:1rem;transition:transform .2s}
+.china-collapse[open] .cc-chev{transform:rotate(180deg)}
+.china-collapse[open]>summary{border-bottom:1px solid var(--line)}
+.china-collapse .cc-body{padding:20px 22px 8px}
+.china-collapse .cc-meta::before{content:'';display:inline-block;width:1px;height:13px;
+  background:var(--line);margin-right:14px;vertical-align:middle}
+@media(max-width:560px){.china-collapse .cc-meta{display:none}}
+.era-band{margin-bottom:26px}
+.era-band-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.4rem;color:var(--ink);
+  margin:0 0 14px;display:flex;align-items:center;gap:12px}
+.era-band-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.era-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.era-card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cinnabar);
+  border-radius:12px;padding:14px 15px;position:relative}
+.era-card .era-label{display:block;font-family:'Cormorant',serif;font-weight:600;font-size:1rem;
+  color:var(--cinnabar-deep);letter-spacing:.02em;margin-bottom:6px}
+.era-card p{margin:0;font-size:.85rem;line-height:1.55;color:var(--ink-soft)}
+@media(max-width:560px){.era-grid{grid-template-columns:1fr}}
+.study-block{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px 26px;box-shadow:0 1px 2px rgba(60,38,20,.04);position:relative;overflow:hidden}
+.study-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.study-block h3{font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;margin:0 0 10px;color:var(--cinnabar-deep)}
+.study-block p{margin:0;font-size:1rem;line-height:1.8;color:var(--ink-soft)}
+.study-block .term{display:flex;gap:10px;margin-top:14px;padding-top:13px;border-top:1px dotted var(--line);font-size:.92rem}
+.study-block .term-k{flex:0 0 auto;font-weight:700;color:var(--ink);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.study-block .term-v{color:var(--ink-soft)}
+/* ===== Collapsible study blocks ===== */
+.study-block.collapsible h3{cursor:pointer;display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;user-select:none;transition:color .15s}
+.study-block.collapsible h3:hover{color:var(--cinnabar)}
+.study-block .sb-check{flex:0 0 auto;width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--line);background:var(--paper);display:inline-flex;
+  align-items:center;justify-content:center;font-size:.9rem;color:transparent;
+  transition:all .18s;line-height:1}
+.study-block .sb-chevron{flex:0 0 auto;margin-left:auto;font-size:.8rem;color:var(--muted);
+  transition:transform .2s}
+.study-block .sb-body{overflow:hidden;transition:max-height .25s ease, opacity .2s ease;
+  max-height:4000px;opacity:1}
+/* collapsed (= checked/done) state */
+.study-block.done{opacity:.72;background:var(--paper-2)}
+.study-block.done .sb-check{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff}
+.study-block.done .sb-chevron{transform:rotate(-90deg)}
+.study-block.done .sb-body{max-height:0;opacity:0;margin:0}
+.study-block.done h3{margin-bottom:0;color:var(--muted)}
+.study-empty{background:var(--card);border:1px dashed var(--gold-soft);border-radius:14px;padding:26px 28px;color:var(--ink-soft)}
+.study-empty h3{font-family:'Cormorant',serif;font-size:1.5rem;color:var(--cinnabar-deep);margin:0 0 8px}
+.study-empty p{margin:0;line-height:1.7}
+.study-empty code{background:var(--paper-2);padding:1px 6px;border-radius:4px}
+
+/* ===== Prep page ===== */
+.prep-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.8rem;color:var(--ink);
+  margin:42px 0 18px;display:flex;align-items:center;gap:12px}
+.prep-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.prep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;padding-bottom:60px}
+.prep-card{display:flex;flex-direction:column;text-decoration:none;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:20px;transition:all .2s;position:relative;overflow:hidden}
+.prep-card .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:2rem;color:var(--cinnabar);line-height:1}
+.prep-card .en{font-family:'Cormorant',serif;font-size:1.25rem;color:var(--ink);margin-top:4px}
+.prep-card .st{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.prep-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+
+/* ===== City description (under city title) ===== */
+.city-desc{font-size:1.04rem;line-height:1.75;color:var(--ink-soft);max-width:64ch;margin:16px 0 0;
+  font-family:'NotoSC',serif}
+
+/* ===== Home: full-bleed hero ===== */
+.home-hero{position:relative;overflow:hidden;background:#28080A;border-bottom:1px solid rgba(255,255,255,.07)}
+.home-hero-inner{position:relative;z-index:2;padding:64px 0 72px;max-width:60%}
+@media(max-width:820px){.home-hero-inner{max-width:100%}}
+.home-wm{font-size:clamp(10rem,26vw,24rem);right:-2%;opacity:.06}
+/* China-map hero backdrop */
+.hero-map{position:absolute;top:50%;right:1%;transform:translateY(-50%);
+  height:96%;width:62%;pointer-events:none;z-index:1}
+@media(max-width:820px){.hero-map{opacity:.3;right:-18%;width:115%;height:auto}}
+.hero-map .hm-land{fill:rgba(255,210,160,.06);stroke:rgba(255,210,160,.15);stroke-width:1}
+.hero-map .hm-route{fill:none;stroke:var(--cinnabar);stroke-width:3;
+  stroke-dasharray:2 9;stroke-linecap:round;opacity:.7}
+/* Floating ink characters */
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0}
+  8%{opacity:.72}
+  78%{opacity:.5}
+  100%{transform:translateY(-110vh);opacity:0}
+}
+.char-float{position:absolute;z-index:1;bottom:-30px;
+  color:rgba(240,200,75,.68);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  animation:floatUp linear infinite;pointer-events:none;user-select:none;line-height:1}
+.home-title{font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(3.4rem,9vw,7rem);line-height:.92;margin:8px 0 0;color:#F5E2A8;letter-spacing:.005em}
+.home-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:clamp(1.3rem,3vw,2rem);color:#D4923A;
+  margin-top:14px;letter-spacing:.12em}
+.home-hero .eyebrow{color:rgba(245,220,160,.55)}
+.home-hero .sub{margin-top:20px;font-size:1.12rem;max-width:54ch;color:rgba(245,225,185,.82)}
+.char-float.char-ico{display:inline-block;line-height:0}
+.char-float.char-ico svg{width:36px;height:36px}
+.hero-clouds{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:80px;display:block}
+
+/* ===== Section heading ===== */
+.sec-h{display:flex;align-items:baseline;gap:14px;margin:46px 0 22px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:2rem;color:var(--ink)}
+.sec-h .sec-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.2rem;color:var(--cinnabar);opacity:.8}
+.sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent);align-self:center}
+
+/* ===== Route map (home) ===== */
+.route-wrap{margin-bottom:20px}
+.route-frame{position:relative;border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+#routemap{height:480px;width:100%;background:var(--paper-2)}
+@media(max-width:700px){#routemap{height:380px}}
+.route-cap{margin:12px 2px 16px;font-size:.86rem;color:var(--muted);font-style:italic}
+.route-pin{transition:transform .15s}
+.route-pin:hover{transform:scale(1.12);z-index:1000}
+
+/* ===== Journey legs (white box between maps) ===== */
+.journey{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:22px 26px 14px;margin:32px 0 8px;box-shadow:0 1px 2px rgba(60,38,20,.05)}
+.journey-h{display:flex;align-items:baseline;gap:11px;margin:0 0 14px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.journey-h .journey-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1rem;color:var(--cinnabar);opacity:.8}
+.legs{list-style:none;margin:0;padding:0;position:relative}
+.legs::before{content:'';position:absolute;left:90px;top:6px;bottom:18px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--line));opacity:.55}
+.leg{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative}
+.leg-date{flex:0 0 60px;text-align:right;font-size:.82rem;font-weight:700;color:var(--ink-soft);
+  font-variant-numeric:lining-nums;padding-top:7px}
+.leg-mode{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--paper-2);
+  border:2px solid var(--line);color:var(--cinnabar);display:flex;align-items:center;justify-content:center;
+  z-index:1;position:relative}
+.leg-mode svg{width:19px;height:19px}
+.leg-body{display:flex;flex-direction:column;padding-top:3px}
+.leg-route{font-family:'Cormorant',serif;font-weight:600;font-size:1.18rem;color:var(--ink);line-height:1.2}
+.leg-arrow{color:var(--cinnabar);margin:0 3px}
+.leg-detail{font-size:.84rem;color:var(--muted);margin-top:2px}
+@media(max-width:560px){.legs::before{left:90px}.leg-route{font-size:1.05rem}}
+
+/* ===== Timeline card strip (restored, under the map) ===== */
+.timeline{overflow-x:auto;padding:32px 4px 10px;scrollbar-width:thin;position:relative}
+.timeline-inner{position:relative;display:flex;align-items:stretch;gap:0;
+  width:fit-content;margin-left:auto;margin-right:auto}
+.timeline-inner::before{content:'';position:absolute;left:8px;right:8px;top:34px;height:3px;
+  background:linear-gradient(90deg,var(--line),var(--gold),var(--line));border-radius:3px;z-index:0}
+.tl-end{flex:0 0 auto;align-self:flex-start;margin-top:22px;font-size:.78rem;font-weight:700;
+  color:var(--muted);background:var(--paper-2);border:1px solid var(--line);border-radius:20px;
+  padding:5px 12px;white-space:nowrap;position:relative;z-index:2}
+.tl-stop{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  text-decoration:none;min-width:122px;position:relative;padding:0 6px;z-index:1}
+.tl-node{width:26px;height:26px;border-radius:50%;background:var(--cat,#888);color:#fff;
+  border:3px solid var(--paper);display:flex;align-items:center;justify-content:center;
+  font-family:'NotoSC',Georgia,serif;font-weight:700;font-size:.82rem;line-height:1;z-index:2;
+  font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--cat,#888) 28%,transparent);transition:transform .2s}
+.tl-node>b{display:block;font-weight:700}
+.tl-card{display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:11px;
+  background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cat,#888);
+  border-radius:12px;padding:12px 14px 13px;min-width:108px;transition:transform .2s, box-shadow .2s}
+.tl-stop:hover .tl-card{transform:translateY(-4px);box-shadow:0 12px 26px -14px rgba(60,38,20,.5)}
+.tl-stop:hover .tl-node{transform:scale(1.18)}
+.tl-ico{color:var(--cat,var(--cinnabar));width:34px;height:34px;margin-bottom:6px}
+.tl-ico svg{width:34px;height:34px;display:block}
+.tl-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.15rem;color:var(--cat,var(--cinnabar));line-height:1}
+.tl-city{font-family:'Cormorant',serif;font-weight:600;font-size:1.08rem;color:var(--ink);margin-top:2px}
+.tl-date{font-size:.71rem;color:var(--muted);margin-top:3px;white-space:nowrap}
+
+/* ===== Card pictograms ===== */
+.card-ico{position:absolute;top:18px;right:18px;width:42px;height:42px;color:var(--cinnabar);
+  opacity:.9;transition:transform .25s, opacity .25s;z-index:2}
+.card-ico svg{width:42px;height:42px;display:block}
+.citycard:hover .card-ico{transform:scale(1.12) rotate(-3deg);opacity:1}
+
+/* ===== City Overview tab ===== */
+.city-overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+@media(max-width:600px){.city-overview-grid{grid-template-columns:1fr}}
+.home-base-card{margin-top:22px;padding:18px 20px;border-radius:14px;
+  background:linear-gradient(135deg,var(--paper-2),var(--paper));
+  border:1px solid var(--line);border-left:4px solid var(--cinnabar)}
+.home-base-card.daytrip{border-left-color:var(--gold)}
+.home-base-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--cinnabar);font-weight:700;margin-bottom:6px}
+.home-base-card.daytrip .home-base-label{color:var(--gold-deep,#9a7b1f)}
+.home-base-name{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:700;
+  color:var(--ink);line-height:1.2}
+.home-base-addr{font-size:.78rem;color:var(--muted);margin:3px 0 10px}
+.home-base-body{font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin:0}
+.city-fact-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.city-fact-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.city-fact-value{font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.4}
+.city-trivia{background:color-mix(in srgb,var(--cinnabar) 6%,transparent);border-left:3px solid var(--cinnabar);
+  border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:24px;font-size:.88rem;line-height:1.6;color:var(--ink)}
+#map-overview{height:420px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line);margin-bottom:6px}
+@media(max-width:900px){#map-overview{height:300px}}
+
+/* ===== City Food tab ===== */
+.city-food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.city-food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:8px;z-index:30;
+  background:var(--paper);padding-bottom:6px;margin-bottom:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}}
+@media(max-width:900px){#map-food{height:260px}}
+.food-cat-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.food-cat-btn2{padding:4px 12px;border-radius:14px;border:1px solid var(--line);background:var(--card);
+  font-size:.76rem;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn2.active{color:#fff;border-color:transparent;background:var(--ink-soft)}
+.food-cards-inner{display:flex;flex-direction:column;gap:12px;max-height:680px;overflow-y:auto;
+  padding-right:4px;scrollbar-width:thin}
+.food-cards-inner::-webkit-scrollbar{width:4px}
+.food-cards-inner::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+@media(max-width:900px){.food-cards-inner{max-height:none;overflow-y:visible}}
+#map-food{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+@media(max-width:900px){#map-food{height:340px}}
+.food-map-side{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-side{position:relative;top:0}}
+.food-entry-card{background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:12px 14px;cursor:pointer;transition:box-shadow .18s,transform .12s}
+.food-entry-card:hover{box-shadow:0 4px 14px -6px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-entry-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-entry-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+.food-entry-name{font-weight:600;font-size:1rem;color:var(--ink);font-family:'Cormorant',serif;line-height:1.2}
+.food-entry-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.82rem;color:var(--cinnabar)}
+.food-entry-pill{font-size:.66rem;padding:3px 8px;border-radius:8px;color:#fff;
+  font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+.food-entry-dishes{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin:4px 0 6px}
+.food-entry-desc{font-size:.82rem;color:var(--ink-soft);line-height:1.5;margin:4px 0 6px}
+.food-entry-netizen{font-size:.8rem;color:var(--ink-soft);font-style:italic;line-height:1.45;
+  margin:4px 0 6px;padding:6px 10px;background:var(--paper-2);border-radius:7px;
+  border-left:3px solid var(--gold)}
+.food-allergy-safe-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#2a5c39;background:color-mix(in srgb,#3E7D52 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#7a4200;background:color-mix(in srgb,#C9821E 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot.high{color:#8B0000;background:color-mix(in srgb,#B0202E 10%,transparent)}
+.food-no-pin{font-size:.7rem;color:var(--muted);display:inline-flex;align-items:center;gap:3px;margin-left:6px}
+.food-group-label{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;margin:14px 0 5px;display:flex;align-items:center;gap:6px}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+
+/* ===== Food/Study tab divider ===== */
+.tab-food{margin-left:6px;position:relative}
+.tab-food::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history{margin-left:0}
+.tab-history.active{background:var(--ink)}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Chains section (Prep page) ===== */
+.chains-section{margin-top:40px}
+.chains-rule{display:flex;align-items:center;gap:14px;margin:0 0 22px}
+.chains-rule span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;font-weight:700}
+.chains-rule::before,.chains-rule::after{content:'';flex:1;height:1px;background:var(--line)}
+.chains-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px}
+.chain-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;border-top:3px solid var(--ccat,var(--gold))}
+.chain-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.chain-name{font-family:'Cormorant',serif;font-weight:600;font-size:1.12rem;color:var(--ink);line-height:1.2}
+.chain-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.chain-pill{font-size:.66rem;padding:3px 9px;border-radius:8px;color:#fff;
+  font-weight:700;flex-shrink:0;white-space:nowrap}
+.chain-order-label{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:3px}
+.chain-order{font-size:.84rem;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
+.chain-allergy{font-size:.76rem;padding:5px 9px;border-radius:8px;line-height:1.45;margin-bottom:8px}
+.chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
+.chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
+.chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+</style></head><body>
+<header class="masthead"><div class="wrap">
+      <a class="brand" href="index.html"><span class="seal">囍<span class="seal-name">辛格</span></span>
+        <span><span class="brand-en">The Singer Honeymoon</span><br><span class="brand-sub">China · 2026</span></span></a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'));this.parentNode.querySelector('nav.cities').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="cities">
+      <a href="index.html">Home</a>
+      <div class="navgroup open-parent">
+        <button class="navgroup-btn active" aria-expanded="false"
+          onclick="const g=this.parentNode;g.classList.toggle('open');this.setAttribute('aria-expanded',g.classList.contains('open'))">
+          Destinations <span class="caret">▾</span>
+        </button>
+        <div class="submenu"><a href="taipei.html">Taipei</a><a href="chengdu.html">Chengdu</a><a href="chongqing.html">Chongqing</a><a href="sanya.html">Sanya</a><a href="guangzhou.html" class="active">Guangzhou</a><a href="shenzhen.html">Shenzhen</a><a href="hong-kong.html">Hong Kong</a><a href="macau.html">Macau</a></div>
+      </div>
+      <a href="prep.html" class="prep-link">Prep</a>
+      <a href="study.html" class="prep-link">Study</a>
+      <a href="timeline.html" class="prep-link">Timeline</a></nav>
+    </div>
+    <script>(function(){document.addEventListener('click',function(e){
+      var a=e.target.closest('nav.cities a');if(!a)return;
+      var t=document.querySelector('.nav-toggle.open');if(t){t.classList.remove('open');t.setAttribute('aria-expanded','false');}
+      var n=document.querySelector('nav.cities.open');if(n)n.classList.remove('open');
+    });})();</script></header>
+<div class="wrap">
+  <div class="hero">
+    <div class="watermark">广州</div>
+    <div class="eyebrow">The Singer Honeymoon · China</div>
+    <h1>Guangzhou<span class="zh">广州</span></h1>
+    
+    <div class="rule"><span>4 days · 22 stops</span></div>
+  </div>
+  <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>THU JUL 9</button><button class="tab" data-tab="d1" style="--cat:#2E6F95"><span class="tab-dot"></span>FRI JUL 10</button><button class="tab" data-tab="d2" style="--cat:#C9821E"><span class="tab-dot"></span>SAT JUL 11</button><button class="tab" data-tab="d3" style="--cat:#3E7D52"><span class="tab-dot"></span>SUN JUL 12</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(23)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
+  <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>THU JUL 9</span><span><i style="background:#2E6F95"></i>FRI JUL 10</span><span><i style="background:#C9821E"></i>SAT JUL 11</span><span><i style="background:#3E7D52"></i>SUN JUL 12</span></div>
+  <div class="layout">
+    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Guangzhou at a glance</h2></div><div class="city-trivia">Historically called &#x27;Canton&#x27;, the source of the word &#x27;Cantonese&#x27;. Hosts the world&#x27;s largest trade fair twice yearly.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">19 million</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Guangdong Province</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Cantonese cuisine, Maritime Silk Road, Canton trade history, dim sum</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, hot, wet summers</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">MaxX by Steigenberger. Zhujiang New Town</div><div class="home-base-addr">📍 Jinsui Rd, Tianhe District</div><p class="home-base-body">Your base is in Zhujiang New Town, Guangzhou&#x27;s gleaming modern CBD on the Tianhe side of the Pearl River, the district of glass towers, the opera house, the giant library, and the Canton Tower right across the water. It&#x27;s polished, orderly, and superbly connected by metro, which makes it an easy launch point for the older Yuexiu and Liwan sights across the river. Expect a comfortable international business hotel in a sleek, new-money part of town; the historic, atmospheric Guangzhou (Shamian, the Chen Clan Hall, the old arcades) is a short metro ride away, not on the doorstep.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>THU JUL 9 — Arrival (sleeper in ~8:05 AM) + Center of Canton</h2></div><div class="day-strip"><span>5 stops</span></div><p class="day-intro">You roll into Guangzhou around 8 AM off the sleeper, slightly rumpled, into a city that has been a working port for two thousand years. Drop bags at the MaxX in Zhujiang New Town and dive into the historic core, today is about the layers of old Canton. The City Planning Exhibition Center is the orientation tool (the giant scale model shows the scale of the place), and the Xiaobei district around Baohan Zhijie. Guangzhou&#x27;s &#x27;Little Africa,&#x27; is one of the most unexpected cultural cross-sections in China, a reminder that Guangzhou&#x27;s trade DNA is still very much alive. The afternoon turns to the genuinely world-class: the Nanyue King Museum, built over a 2,000-year-old royal tomb discovered in situ, with its jade burial suit and burial goods, and the Chen Clan Ancestral Hall, perhaps the most elaborately decorated traditional building in all of China, every roofline, beam, and wall a showcase of Cantonese craft. Dr. Sun Yat-Sen Memorial Hall rounds out a dense day of history. After a sleeper train, pace yourself, and let the city&#x27;s famous Cantonese dinner culture be the reward.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:1" data-id="s2">
+      <div class="toprow"><span class="pin">1</span>
+        <h3>Guangzhou City Planning Exhibition Center <span class="zh">广州城市规划展览中心</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:00 (closed Mon)</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> ~20 min metro from hotel</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> No. 296 Yanjiang Middle Rd, Yuexiu District, Guangzhou</span></div><div class="meta"><span><b>Coordinates:</b> 23.1285, 113.2649</span></div><div class="notes">Planning hall number three of the trip&#x27;s four, and the one with the longest story to tell: Guangzhou has been a city for 2,200 years and a trading port for most of them. The scale model and the Greater Bay Area exhibits show how the planners think about stitching Guangzhou, Shenzhen, and Hong Kong into one 70-million-person region.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> The city model is the centerpiece; orient yourself there before the rest of the trip&#x27;s Pearl Delta legs. Bring ID for registration. Compare mentally with Chengdu and Chongqing&#x27;s halls; each city tells on itself.</div><div class="netizen">"&#x27;Eye-opening&#x27; - netizens love the giant city model. Free with ID. Best for grasping Guangzhou&#x27;s rapid growth. Combine with the Nanyue King Museum. PLANNING HALL #3 of 4."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:2" data-id="s3">
+      <div class="toprow"><span class="pin">2</span>
+        <h3>Xiaobei — African Quarter (Little Africa) <span class="zh">小北</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
+      <div class="meta"><span><b>Hours:</b> Daytime; liveliest late morning</span><span><b>Suggested time:</b> 1.5 hr</span><span><b>From previous:</b> ~25 min metro</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Xiaobei Rd / Baohan Zhijie, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1430, 113.2720</span></div><div class="notes">Centered on Xiaobei Road and the lanes around Baohan Zhijie, this is the heart of Guangzhou&#x27;s African community, one of the largest in Asia, rooted in the city&#x27;s centuries-old trade culture. The streets are lined with African restaurants, import-export traders, barbershops, and a genuinely cross-cultural atmosphere found nowhere else in China. Come to eat. Nigerian, Congolese, Ethiopian kitchens, and to experience Guangzhou&#x27;s identity as a true global trading port.</div><div class="netizen">"A working immigrant district, not a tourist attraction, visit respectfully. Best for an authentic African meal. Nate/Amanda: African cooking can use peanuts heavily, ask about every dish."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:3" data-id="s4">
+      <div class="toprow"><span class="pin">3</span>
+        <h3>Nanyue King Museum (Western Han Mausoleum) <span class="zh">南越王博物院</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:30, last entry 17:00 (closed Mon)</span><span><b>Suggested time:</b> 1.5 hr</span><span><b>From previous:</b> ~15 min metro (L2 Yuexiu Park)</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> 867 Jiefang North Rd, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1370, 113.2640</span></div><div class="notes">The 2,100-year-old tomb of Zhao Mo, second king of Nanyue, discovered intact in 1983 under a hill in the middle of the city. You walk through the actual burial chambers, then see what came out of them: a jade burial suit sewn with silk thread, bronzes, gold seals, and a thousand other objects from a kingdom that ruled the south before the Han empire absorbed it.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> The jade suit alone justifies the ¥10 ticket, which may be the best museum value in China. Allow 90 minutes. Walkable from Chen Clan Hall, so the two pair well.</div><div class="netizen">"&#x27;One of China&#x27;s best archaeological museums.&#x27; Rave reviews for the in-situ tomb + jade burial suit. Only ¥10 - incredible value. Allow 1.5 hrs. Closed Mon. A must-see."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:4" data-id="s5">
+      <div class="toprow"><span class="pin">4</span>
+        <h3>Dr. Sun Yat-Sen Memorial Hall <span class="zh">中山纪念堂</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> Grounds 08:00–18:00; interior varies</span><span><b>Suggested time:</b> 45–60 min</span><span><b>From previous:</b> ~15 min walk</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Dongfeng Middle Rd, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1310, 113.2620</span></div><div class="notes">The grand octagonal hall built in 1931 to honor Sun Yat-sen, who launched his career and several uprisings from this city. Palace-style architecture around a 4,700-seat auditorium, set in a banyan-shaded square. The exterior and gardens are the visit; the interior opens for performances.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Free to walk the grounds, and early morning is the calm window. You met Sun in Taipei&#x27;s memorial; this one and the Peasant Movement Institute complete the trip&#x27;s Sun-and-revolution thread. Yuexiu Park with the Five Rams statue is next door.</div><div class="netizen">"&#x27;Grand + photogenic.&#x27; Exterior free + worth it; interior optional (¥10). Good for the Sun Yat-sen thread. Combine with Yuexiu Park&#x27;s Five-Ram Sculpture. Metro accessible."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:5" data-id="s6">
+      <div class="toprow"><span class="pin">5</span>
+        <h3>Chen Clan Ancestral Hall (Guangdong Folk Art Museum) <span class="zh">陈家祠 / 广东民间工艺博物馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:30, last entry 17:00 (closed Mon)</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~10 min taxi</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> 34 Enlongli, Zhongshan 7th Rd, Liwan District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1290, 113.2400</span></div><div class="notes">The Chen Clan Ancestral Hall, finished in 1894 as a combined clan temple and study hall, is the most ornamented building in southern China. Every roofline carries shiwan ceramic figures, hundreds of them, plus brick carving, wood carving, iron casting, and stained glass. The folk art museum inside is almost beside the point; the building is the exhibit.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Look up constantly; the roofline figures are the masterwork. Binoculars or a zoom lens pay off. Allow 90 minutes to 2 hours. Metro Line 1 stops at the entrance (Chenjiaci station).</div><div class="netizen">"&#x27;A masterpiece of Lingnan carving.&#x27; &#x27;Bring binoculars&#x27; for the roof sculptures. Only ¥10 - incredible. Closed Mon. Metro at the door. One of Guangzhou&#x27;s top sights."</div>
+    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>FRI JUL 10 — Religion &amp; Commerce + Pearl River / Canton Tower</h2></div><div class="day-strip"><span>8 stops</span></div><p class="day-intro">A day organized around the Pearl River, moving from Guangzhou&#x27;s religious history to its design-forward present. The morning clusters two remarkable monuments to the city&#x27;s status as an ancient global crossroads: the Huaisheng Mosque, founded by Arab traders in the Tang dynasty and home to what may be the world&#x27;s oldest surviving minaret, and the Sacred Heart Cathedral, a vast all-granite Gothic pile built by French missionaries, two faiths, both arriving by sea, a few minutes&#x27; walk apart. Shamian Island, the leafy former foreign concession, is the romantic, photogenic counterpoint. The afternoon leans into Guangzhou&#x27;s quirkier modern culture: the Railway and Subway museums for transit nerds, the stationery wonderland of Poly Yuzhu Time, and the Design Quarter, a converted-warehouse creative district best reached by Pearl River water bus, a cheap, scenic way to cross the river. The day ends at the Canton Tower, the 600-meter &#x27;Little Waist,&#x27; ideally at dusk so you catch both the daytime panorama and the nightly light show. It&#x27;s a day that shows Guangzhou&#x27;s range, from 7th-century minaret to 21st-century skyline, with the river tying it all together.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s7">
+      <div class="toprow"><span class="pin">1</span>
+        <h3>Huaisheng Mosque &amp; Guangta Minaret <span class="zh">怀圣寺光塔</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 13h10M4 13V9c0-2 2-3 4-3s4 1 4 3v4M8 6V3M6.5 4.5h3"/></svg>Religious Site</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:00 (prayer times vary)</span><span><b>Suggested time:</b> 30–45 min</span><span><b>From previous:</b> ~20 min metro</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Guangta Rd, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1230, 113.2520</span></div><div class="notes">Founded around 627 AD by Arab traders on the maritime silk route, this is plausibly the oldest mosque in China and among the oldest anywhere outside Arabia. The 36-meter Guangta minaret, smooth and pale, doubled for centuries as a lighthouse for ships on the Pearl. Still an active mosque serving the trading community that never stopped coming.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Dress conservatively; access to the interior may be limited outside guided visits and prayer times restrict further. The minaret is the visual anchor. Pairs with Sacred Heart Cathedral for a same-walk study in two imported faiths.</div><div class="netizen">"&#x27;One of the world&#x27;s oldest mosques.&#x27; Entry restricted for non-Muslims - you may only see the exterior. Dress conservatively. Active worship site - be respectful. Free."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:1" data-id="s8">
+      <div class="toprow"><span class="pin">2</span>
+        <h3>Sacred Heart Cathedral (&#x27;Stone House&#x27;) <span class="zh">石室圣心大教堂</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 13h10M4 13V9c0-2 2-3 4-3s4 1 4 3v4M8 6V3M6.5 4.5h3"/></svg>Religious Site</span></div>
+      <div class="meta"><span><b>Hours:</b> Mon: CLOSED | Tue–Fri: 09:00–11:00 &amp; 15:00–17:00 | Sat: 09:00–14:30 | Sun: 13:00–14:30 | 3rd Sunday of month: CLOSED all day</span><span><b>Suggested time:</b> 30–45 min</span><span><b>From previous:</b> ~12 min walk</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> 56 Yide Rd, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1130, 113.2560</span></div><div class="notes">Asia&#x27;s largest Gothic cathedral, built 1863 to 1888 entirely from granite, by French architects and Cantonese stonemasons who&#x27;d never seen Europe. The result has flying buttresses and twin 58-meter spires with details that quietly went Chinese: lion gargoyles, lotus motifs. Locals call it the Stone House. Still an active parish.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Open mornings and early afternoons, closed during Mass; check times locally. Yide Road, the wholesale snack street, is around the corner and makes a good walk-through after.</div><div class="netizen">"&#x27;The Notre-Dame of the Far East.&#x27; Love the all-granite Gothic architecture. Visit outside Mass hours. Morning light best for photos. Free. Combine with Yide Rd snack street (watch allergens)."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:2" data-id="s9">
+      <div class="stop-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/ShamianIsland.JPG/800px-ShamianIsland.JPG" alt="Shamian Island" loading="lazy" decoding="async"></div><div class="toprow"><span class="pin">3</span>
+        <h3>Shamian Island <span class="zh">沙面岛</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 24 hr</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~26 min walk / ~10 min taxi</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Shamian, Liwan District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1080, 113.2410</span></div><div class="notes">The colonial concession island in the Pearl River, ceded to Britain and France after the Second Opium War. Banyan boulevards, consulate mansions, and churches preserved as a museum of the era, now full of cafes and wedding photographers. Pretty, strollable, and a little haunted if you know the history.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Walk it end to end; 90 minutes covers everything. Early morning or golden hour for the light through the banyans. Five minutes from Sacred Heart Cathedral. Bring the camera; this is the honeymoon-photo stop of the city.</div><div class="netizen">"&#x27;Best citywalk spot in Guangzhou.&#x27; Romantic + photogenic - European colonial mansions, tree-lined streets. Early AM or evening to avoid heat. Free. Great for honeymoon photos."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:3" data-id="s10">
+      <div class="toprow"><span class="pin">4</span>
+        <h3>Guangzhou Railway Cultural Museum <span class="zh">广州铁路博物馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:00 (closed Mon)</span><span><b>Suggested time:</b> 1 hr</span><span><b>From previous:</b> ~30 min metro</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Near Pearl River waterfront (confirm on Amap)</span></div><div class="meta"><span><b>Coordinates:</b> 23.1053, 113.3262</span></div><div class="notes">Rail history of the south, from the 1911 Canton-Kowloon line to the high-speed network. Vintage locomotives and rolling stock on display. A modest museum that slots neatly into the day&#x27;s infrastructure thread.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Quick visit, 45 minutes or so. The old locomotives photograph well. Pairs with the Subway Museum and water bus leg.</div><div class="netizen">"Interesting for rail/history fans. Photogenic vintage locomotives. Free. Confirm location on Amap. Combine with Subway Museum."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:4" data-id="s11">
+      <div class="toprow"><span class="pin">5</span>
+        <h3>Guangzhou Subway Museum + water bus <span class="zh">广州地铁博物馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> Tue–Fri 10:00–16:00, Sat–Sun 09:00–17:00 (last entry 30 min prior)</span><span><b>Suggested time:</b> 1 hr</span><span><b>From previous:</b> ~30 min metro</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Near Pearl River waterfront</span></div><div class="meta"><span><b>Coordinates:</b> 23.1100, 113.3700</span></div><div class="notes">A museum about the metro under the city you&#x27;re riding: how Guangzhou built one of the world&#x27;s highest-ridership networks through delta mud and dense urban fabric. Control room simulators, old rolling stock, engineering exhibits.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> From here, take the Pearl River water bus toward the Design Quarter; it&#x27;s ¥2, scenic, and the kind of transit Amanda should experience once. Buy at the pier.</div><div class="netizen">"&#x27;For metro fans only.&#x27; Small but interesting. Free but WeChat reservation. Afterward take the Pearl River water bus (¥2) toward the Design Quarter - scenic + cheap."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:5" data-id="s12">
+      <div class="toprow"><span class="pin">6</span>
+        <h3>Poly Yuzhu Time (Yuzhu Stationery Market) <span class="zh">保利鱼珠时光</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 5.5h9l-.8 8h-7.4zM5.8 5.5V4.6a2.2 2.2 0 0 1 4.4 0v.9"/></svg>Shopping</span></div>
+      <div class="meta"><span><b>Hours:</b> ~10:00–21:00 daily</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> Adjacent to Subway Museum</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Adjacent to Yuzhu Station (Line 5), Guangzhou</span></div><div class="meta"><span><b>Coordinates:</b> 23.1100, 113.3900</span></div><div class="notes">A stationery and lifestyle complex by Yuzhu station that has become the pilgrimage site for China&#x27;s stationery subculture: floors of washi tape, journals, pens, indie paper goods, and small-brand design shops.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Budget real time if stationery is your thing; people lose hours here. Yuzhu station, Line 5, direct. A water bus pier nearby links to the Design Quarter.</div><div class="netizen">"&#x27;Stationery heaven.&#x27; Netizens say it&#x27;s the go-to for washi tape + bullet journal supplies. Multiple floors of indie design vendors. Free to browse. Adjacent to the water bus pier for the Design Quarter."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:6" data-id="s13">
+      <div class="toprow"><span class="pin">7</span>
+        <h3>Guangzhou Design Quarter (Redtory area) <span class="zh">广州设计公社</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 10:00–18:00 (designers vary)</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> Water bus from prev</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Haizhu District, Pearl River</span></div><div class="meta"><span><b>Coordinates:</b> 23.1050, 113.3800</span></div><div class="notes">Former factory warehouses along the Pearl converted into one of China&#x27;s main design industry clusters: studios, galleries, furniture showrooms, riverside cafes. A working district more than an attraction, which is its charm.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Arrive by water bus for the right entrance. Browse the furniture showrooms even without buying; the craft level is the point. Weekdays feel most alive since the studios are working.</div><div class="netizen">"&#x27;Cool former factory turned creative hub.&#x27; Like the design studios + riverside cafes. Coordinates approximate - confirm on Amap. Free. A nice off-beat stop."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:7" data-id="s14">
+      <div class="stop-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Canton_Tower_20241027_%28cropped%29.jpg/800px-Canton_Tower_20241027_%28cropped%29.jpg" alt="Canton Tower (&#x27;Little Waist&#x27;)" loading="lazy" decoding="async"></div><div class="toprow"><span class="pin">8</span>
+        <h3>Canton Tower (&#x27;Little Waist&#x27;) <span class="zh">广州塔 (小蛮腰)</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–22:30, last entry 22:00</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~30 min metro/taxi</span><span><b>Prior booking?:</b> Rec.</span></div><div class="meta"><span><b>Address:</b> Yuejiang West Rd, Haizhu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1089, 113.3189</span></div><div class="notes">The 600-meter tower with the twisted waist, the world&#x27;s second-tallest freestanding tower after Tokyo Skytree. It actually held the world title from 2009 to 2011, until the Skytree topped out. Observation deck at 1,601 feet, an exterior skywalk, and a nightly light show the whole riverfront turns out for.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Go at dusk for both daylight and night views in one ticket. Book online ahead. The classic photo is from the north bank looking across the river; the tower is arguably better from outside than from inside.</div><div class="netizen">"&#x27;Worth it at dusk.&#x27; Night view is spectacular. Tickets ~¥200 - expensive. Best photo from the Pearl River south bank. Pre-book online to skip queues. Sky walk is extra + unnecessary."</div>
+    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>SAT JUL 11 — Museums of Guangzhou + vintage district</h2></div><div class="day-strip"><span>7 stops</span></div><p class="day-intro">A museum-rich day paired with Guangzhou&#x27;s best browsing, built for moving briskly through galleries and lingering where it counts. The morning is art and modern history: the Guangdong Museum of Art on quiet Ersha Island, the Guangzhou Museum of Art with its distinctive Lingnan-school paintings, and the cluster around the city&#x27;s pivotal role in modern China, the Museum of Modern History and the Peasant Movement Institute, where Mao once taught. Guangzhou was the birthplace of modern Chinese nationalism, and these compact sites tell that story well (exhibits skew Chinese-language, so a translation app helps). The afternoon shifts to Dongshankou, the city&#x27;s premier vintage-and-lifestyle district, tree-lined Republican-era lanes, indie boutiques, specialty coffee, and the multi-floor Badmarket for curated vintage and Japanese streetwear. The day can close at the Guangzhou Library, the spectacular book-shaped building in Zhujiang New Town that&#x27;s worth seeing for the architecture alone and makes a cool, calm endpoint. For a city that prides itself on commerce, this is the day to actually shop it, and to slow down among the museums, which here are genuine highlights rather than obligations.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s15">
+      <div class="toprow"><span class="pin">1</span>
+        <h3>Guangdong Museum of Art (Ersha Island) <span class="zh">广东美术馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> Tue–Sun 09:00–17:00 (last entry 16:30)</span><span><b>Suggested time:</b> 1.5 hr</span><span><b>From previous:</b> ~20 min taxi</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Ersha Island, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1180, 113.3210</span></div><div class="notes">The province&#x27;s contemporary art museum on Ersha Island, the quiet, green island in the river that holds the concert hall and consulate residences. Strong rotating shows with a Pearl Delta focus you won&#x27;t see elsewhere.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Combine with a walk around Ersha&#x27;s riverside parks; the island itself is half the visit. Check what&#x27;s showing before committing the time.</div><div class="netizen">"Quiet riverside museum. Rotating exhibits strong on Pearl River Delta artists. Free. Combine with a riverside walk. Pleasant, not a must-see."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:1" data-id="s16">
+      <div class="toprow"><span class="pin">2</span>
+        <h3>Guangdong Overseas Chinese Museum <span class="zh">广东华侨博物馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> Tue–Sun 09:00–17:00 (closed Mon)</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> ~10 min</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Er-sha Island vicinity, Yuexiu District, Guangzhou</span></div><div class="meta"><span><b>Coordinates:</b> 23.1290, 113.2680</span></div><div class="notes">The Guangdong Overseas Chinese Museum tells the story of the Cantonese diaspora, the millions who emigrated from Guangdong across the 19th and 20th centuries to Southeast Asia, the Americas, and beyond, and the deep ties they maintained with home. Exhibits cover the coolie trade, qiaoxiang (emigrant-hometown) culture, remittances, and the role overseas Chinese played in modern China&#x27;s development. Strong context for a city defined by its outward connections.</div><div class="netizen">"Pairs well with the Guangdong Museum of Art on the same museum-day. Quieter than the big-name museums."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:2" data-id="s17">
+      <div class="toprow"><span class="pin">3</span>
+        <h3>Guangzhou Museum of Art <span class="zh">广州艺术博物院</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:00 (closed Mon)</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~25 min metro</span><span><b>Prior booking?:</b> No*</span></div><div class="meta"><span><b>Address:</b> Baiyun Ave area, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1500, 113.3000</span></div><div class="notes">South China&#x27;s classical art collection: Lingnan School painting, the Guangdong tradition that folded Western light and color into Chinese ink painting in the early 20th century. Also ceramics, calligraphy, and sculpture in a garden compound.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Reserve a timed slot via the official WeChat account; free museums here usually require it. The Lingnan galleries are the reason to come; the style barely exists outside this region.</div><div class="netizen">"Major fine-arts museum - Lingnan School collection. &#x27;Excellent but often overlooked.&#x27; Free but WeChat reservation. Coordinates approximate - confirm new building on Amap."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:3" data-id="s18">
+      <div class="toprow"><span class="pin">4</span>
+        <h3>Guangzhou Museum of Modern History <span class="zh">广州近代史博物馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:00 (closed Mon)</span><span><b>Suggested time:</b> 1–2 hr</span><span><b>From previous:</b> ~15 min taxi</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Central Guangzhou (Shishi Memorial Hall)</span></div><div class="meta"><span><b>Coordinates:</b> 23.1280, 113.2620</span></div><div class="notes">Guangzhou&#x27;s role in modern Chinese history, told from the building where much of it happened: Opium Wars, the Canton trade system, the 1911 revolution that started here before it spread. Essential context for why this city keeps appearing at every hinge of the last two centuries.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Pair with Sun Yat-sen Memorial Hall for the full revolutionary-Guangzhou picture. 1 to 2 hours. Central and metro-accessible.</div><div class="netizen">"Covers Opium Wars to 1911 Revolution. &#x27;Informative but dry.&#x27; Free. Pairs with Sun Yat-sen Hall. History buffs only."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:4" data-id="s19">
+      <div class="toprow"><span class="pin">5</span>
+        <h3>Peasant Movement Institute <span class="zh">广州农民运动讲习所</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:00 (closed Mon)</span><span><b>Suggested time:</b> 45–60 min</span><span><b>From previous:</b> ~10 min metro (L1 Nongjiangsuo)</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Zhongshan 4th Rd, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1280, 113.2700</span></div><div class="notes">The school where Mao Zedong trained peasant organizers in 1926, during the brief KMT-Communist alliance, housed in a Ming-era Confucian temple. Preserved dormitories, classrooms, and library. A small site where the scale of what followed makes the modesty striking.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> 45 minutes covers it. Exhibits are mostly Chinese-only; a translation app fills the gaps. Combine with the Museum of Modern History around the corner.</div><div class="netizen">"&#x27;Mao taught here in 1926.&#x27; Interesting contrast of temple architecture + revolutionary history. Free. Exhibits mostly Chinese - use translation app. Quick stop."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:5" data-id="s20">
+      <div class="toprow"><span class="pin">6</span>
+        <h3>Dongshankou / Badmarket <span class="zh">东山口 / Badmarket</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 5.5h9l-.8 8h-7.4zM5.8 5.5V4.6a2.2 2.2 0 0 1 4.4 0v.9"/></svg>Shopping</span></div>
+      <div class="meta"><span><b>Hours:</b> Shops ~11:00–21:00</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~12 min metro (L1 Dongshankou)</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Dongshankou, Yuexiu District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1230, 113.2920</span></div><div class="notes">The vintage district: Republican-era lanes of small Western-style houses, now Guangzhou&#x27;s hub of indie boutiques, specialty coffee, and secondhand fashion. Badmarket is the anchor, a multi-floor curated vintage market spanning streetwear to homeware.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Give it a slow afternoon: browse, coffee, browse. Weekends have the most vendors open. Dongshankou station, Line 1. This is the gift-shopping stop for anyone with taste back home.</div><div class="netizen">"&#x27;Vintage shopping heaven.&#x27; Love the Republican-era lanes + indie boutiques. Badmarket is the multi-floor vintage hub. Best weekends. Great for Amanda if she likes vintage. Free."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:6" data-id="s21">
+      <div class="toprow"><span class="pin">7</span>
+        <h3>Guangzhou Library <span class="zh">广州图书馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3.5h4.2c.5 0 .8.3.8.8V13H3.8c-.5 0-.8-.3-.8-.8zM13 3.5H8.8c-.5 0-.8.3-.8.8V13h4.2c.5 0 .8-.3.8-.8z"/></svg>Library</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–21:00 (closed Mon)</span><span><b>Suggested time:</b> 30–45 min</span><span><b>From previous:</b> ~14 min taxi</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Zhujiang New Town, Tianhe District</span></div><div class="meta"><span><b>Coordinates:</b> 23.1190, 113.3240</span></div><div class="notes">A library shaped like a stack of opening books, holding 5 million volumes in the Zhujiang New Town cultural cluster. The atrium reading halls, all natural light and timber terraces, are some of the best public interior space in China.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Walk in even without reading Chinese; the architecture is the visit, and the air conditioning is a bonus. Sits beside the Guangdong Museum and Opera House, steps from your hotel.</div><div class="netizen">"&#x27;Beautiful unfolding-book architecture.&#x27; Recommend the atrium + reading halls. Free. A cool, quiet break. Near your hotel + Canton Tower."</div>
+    </div></div></section><section class="panel" id="panel-d3" data-dayindex="3" style="--cat:#3E7D52"><div class="day-head"><h2>SUN JUL 12 — Train to Shenzhen + cross to Hong Kong (check out, see Shenzhen tab)</h2></div><div class="day-strip"><span>0 stops</span></div><p class="day-intro">A transition day: check out of the MaxX and make the short high-speed run to Shenzhen, where the day&#x27;s real itinerary unfolds (see the Shenzhen tab). It&#x27;s worth pausing on what this leg represents, you&#x27;re entering the Greater Bay Area&#x27;s beating heart, leaving two-thousand-year-old Canton for a city that, in its modern form, did not exist forty years ago. Keep passports handy for the train and the Hong Kong border crossing later in the day, and travel light through Shenzhen, since you&#x27;ll cross into Hong Kong by evening and won&#x27;t want to be hauling everything through a tech market and a border checkpoint.</p><div class="stops"></div></section><section class="panel" id="panel-food" data-dayindex="-3"><div class="day-head"><h2>Food &amp; drink in Guangzhou</h2></div><div class="food-cat-bar" id="food-cat-bar"><button class="food-cat-btn2 food-cat-all-btn active" data-cat="all" onclick="filterFood(this)" style="background:var(--ink-soft);color:#fff;border-color:transparent">All</button><button class="food-cat-btn2" data-cat="Bakery / Snacks" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#C9821E;display:inline-block;flex-shrink:0"></span>Bakery / Snacks</button><button class="food-cat-btn2" data-cat="Bar" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#1F8A8A;display:inline-block;flex-shrink:0"></span>Bar</button><button class="food-cat-btn2" data-cat="Café / Coffee" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#8A6D1F;display:inline-block;flex-shrink:0"></span>Café / Coffee</button><button class="food-cat-btn2" data-cat="Chinese Food" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#2E6F95;display:inline-block;flex-shrink:0"></span>Chinese Food</button><button class="food-cat-btn2" data-cat="Dim Sum" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#7A4BA8;display:inline-block;flex-shrink:0"></span>Dim Sum</button><button class="food-cat-btn2" data-cat="Hot Pot" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#B0202E;display:inline-block;flex-shrink:0"></span>Hot Pot</button><button class="food-cat-btn2" data-cat="Vegetarian / Vegan" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#5566C0;display:inline-block;flex-shrink:0"></span>Vegetarian / Vegan</button></div><div class="city-food-layout"><div class="food-cards-inner" id="food-cards-inner"><div class="food-group-label" data-cat="Bakery / Snacks"><span style="width:9px;height:9px;border-radius:50%;background:#C9821E;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</div><div class="food-entry-card" data-foodidx="0" data-cat="Bakery / Snacks" data-allergy="" data-tier="generic" onclick="foodCardClick(0)"><div class="food-entry-top"><div><div class="food-entry-name">Crispy Dog Bakery</div><div class="food-entry-zh">Crispy Dog Bakery / 脆皮狗贝果</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Artisan bagels and pastries; popular in the Dongshankou vintage district</div><div class="food-entry-desc">A British-Korean fusion bagel café in Dongshankou, designed with vintage decor reminiscent of a Korean London Bagel Museum. The signature blue dog mascot is plastered everywhere. Firm, chewy bagels with unusual fillings, a fun, photogenic stop in the middle of the vintage shoppin…</div><div class="food-entry-netizen">“British-Korean fusion bagel café in Dongshankou. Vintage decor like a Korean London Bagel Museum, with the signature blue dog mascot. Recommended: plain bagel, signature soda. Bagels are firm and chew…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 东山口, 越秀区</div></div><div class="food-entry-card" data-foodidx="1" data-cat="Bakery / Snacks" data-allergy="" data-tier="generic" onclick="foodCardClick(1)"><div class="food-entry-top"><div><div class="food-entry-name">Ugly Bread (丑面包)</div><div class="food-entry-zh">天井·丑面包搭咖啡</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Sourdough and artisan bread; creative flavour combinations, courtyard space</div><div class="food-entry-desc">A specialist pretzel and artisan bread bakery in Wuyang Village, pretzel knots, pretzel balls, bagels, and baguettes baked daily. A small courtyard space that has developed a loyal following among Guangzhou&#x27;s bread enthusiasts.</div><div class="food-entry-netizen">“Gem bakery in Wuyang Village. Specializes in pretzel knots, pretzel balls, bagels, and baguettes, freshly baked daily. Tiny courtyard is distinctive. Hailed as Guangzhou&#x27;s paradise for pretzel bread l…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州大道中华景大厦229号左边 (五羊邨C口)</div></div><div class="food-entry-card" data-foodidx="2" data-cat="Bakery / Snacks" data-allergy="" data-tier="generic" onclick="foodCardClick(2)"><div class="food-entry-top"><div><div class="food-entry-name">Another Bakery (又一间面包店)</div><div class="food-entry-zh">又一间面包店</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">European-style bakery; sourdough loaves, croissants, seasonal pastries</div><div class="food-entry-desc">A reliable long-running Guangzhou bread chain with consistent quality, fresh-baked goods and tea drinks at very affordable prices. More convenient than artisan, but a solid quick breakfast or afternoon snack option near the CBD.</div><div class="food-entry-netizen">“Trusted long-running Guangzhou bread chain. Fresh-baked goods and tea drinks, egg and cheese sandwiches are especially popular. Very affordable, ~¥14/person. A quick, quality breakfast or afternoon te…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 滨江东路41号 / 天河北路233号中信广场F1</div></div><div class="food-entry-card" data-foodidx="3" data-cat="Bakery / Snacks" data-allergy="" data-tier="generic" onclick="foodCardClick(3)"><div class="food-entry-top"><div><div class="food-entry-name">Big Orange Grilled Bun (大橘烤包)</div><div class="food-entry-zh">大橘烤包</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Signature charcoal-grilled buns; savoury and sweet fillings</div><div class="food-entry-desc">A specialist grilled-bun shop near the Chen Clan Ancestral Hall, known for its charcoal-grilled buns with a crispy exterior and packed filling. The cheese-and-shrimp-paste version is the most popular. Fast turnover, low prices, and usually a short queue.</div><div class="food-entry-netizen">“Viral grilled bun shop near Ximen and Chen Clan Ancestral Hall. Signature cheese-and-shrimp paste grilled bun is the most popular, crispier than McDonald&#x27;s, packed filling. Both savory and sweet optio…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 西华路司马街18号之一首层自编号103号</div></div><div class="food-group-label" data-cat="Bar"><span style="width:9px;height:9px;border-radius:50%;background:#1F8A8A;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bar</title><path d="M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z"/><path d="M3 9h18"/></svg>Bar</div><div class="food-entry-card" data-foodidx="4" data-cat="Bar" data-allergy="✓ Pub food — generally nut-free. Amanda: fish &amp; chips is safe (no shellfish). Wings may have a nut sauce — ask. Good option when allergy communication is exhausting.  |  Nate: wings may have nut sauce — ask. Good option when allergy communication is tiring." data-tier="safe" onclick="foodCardClick(4)"><div class="food-entry-top"><div><div class="food-entry-name">Hooleys</div><div class="food-entry-zh">霍利斯爱尔兰酒吧</div></div><span class="food-entry-pill" style="background:#1F8A8A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bar</title><path d="M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z"/><path d="M3 9h18"/></svg>Bar</span></div><div class="food-entry-dishes">Irish pub, draught Guinness, lagers, pub food (fish &amp; chips, burgers, wings)  •  Fish &amp; chips (Amanda safe); burgers; wings</div><div class="food-entry-desc">A well-run Irish pub popular with expats and travelers. The &quot;I need a beer and chips&quot; option in Guangzhou. Useful for allergy management kitchen is English-friendly.</div><div class="food-entry-netizen">“A well-run Irish pub popular with expats and travelers”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市天河区兴盛路8号101铺</div></div><div class="food-entry-card" data-foodidx="5" data-cat="Bar" data-allergy="Nate: ask about nut content in sauces/wings. Amanda: avoid seafood dishes. Good when allergy communication is tiring." data-tier="specific" onclick="foodCardClick(5)"><div class="food-entry-top"><div><div class="food-entry-name">Elephant and Castle</div><div class="food-entry-zh">象堡英式酒吧</div></div><span class="food-entry-pill" style="background:#1F8A8A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bar</title><path d="M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z"/><path d="M3 9h18"/></svg>Bar</span></div><div class="food-entry-dishes">Western pub food; burgers; draft beer</div><div class="food-entry-desc">Wikivoyage: A well-known British-style pub in Guangzhou popular with the expat crowd reliable Western food and an easy place to communicate about allergies in English.</div><div class="food-entry-netizen">“The most reliably British thing in Guangzhou. Proper pie, real chips, draft beer that is looked after, and bar staff who speak enough English to sort out any food question without drama. The crowd is …”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市越秀区 (confirm on Dianping before visit)</div></div><div class="food-entry-card" data-foodidx="6" data-cat="Bar" data-allergy="Drinks low risk. Confirm nut content on any food." data-tier="specific" onclick="foodCardClick(6)"><div class="food-entry-top"><div><div class="food-entry-name">13 factories</div><div class="food-entry-zh">十三行</div></div><span class="food-entry-pill" style="background:#1F8A8A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bar</title><path d="M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z"/><path d="M3 9h18"/></svg>Bar</span></div><div class="food-entry-dishes">Craft beer; cocktails; Western bites</div><div class="food-entry-desc">Wikivoyage: A bar named for the historic &#x27;Thirteen Factories&#x27; the riverside trading houses where foreign merchants were once confined in old Canton. A nod to Guangzhou&#x27;s deep trade history over a drink.</div><div class="food-entry-netizen">“Named for the old Thirteen Factories, the riverside trading houses where foreign merchants were once confined in old Canton, and the bar leans into that history with some style. Good cocktails, craft …”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市天河区珠江新城华穗路121号保利香槟南门附近</div></div><div class="food-entry-card" data-foodidx="7" data-cat="Bar" data-allergy="Nate: wings/sauces may contain nuts — ask. Amanda: avoid seafood items." data-tier="specific" onclick="foodCardClick(7)"><div class="food-entry-top"><div><div class="food-entry-name">Tavern Sports Bar</div><div class="food-entry-zh">酒馆运动餐吧</div></div><span class="food-entry-pill" style="background:#1F8A8A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bar</title><path d="M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z"/><path d="M3 9h18"/></svg>Bar</span></div><div class="food-entry-dishes">Burgers; wings; beer; live sports</div><div class="food-entry-desc">Wikivoyage: A Western sports bar in Guangzhou TVs, beer, and familiar bar food for a low-effort evening.</div><div class="food-entry-netizen">“A dozen screens, cold draft, wings that arrive fast, and staff who know the kickoff times better than you do. The Tavern is Guangzhou&#x27;s default sports bar and it earns the title. Burger is better than…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市 (confirm on Dianping before visit)</div></div><div class="food-group-label" data-cat="Café / Coffee"><span style="width:9px;height:9px;border-radius:50%;background:#8A6D1F;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</div><div class="food-entry-card" data-foodidx="8" data-cat="Café / Coffee" data-allergy="✓ Coffee and light café fare. Check pastries for nut content.  |  Nate: check pastries for nut content. Coffee low-risk. (verify on-site)" data-tier="safe" onclick="foodCardClick(8)"><div class="food-entry-top"><div><div class="food-entry-name">Kui Yuan</div><div class="food-entry-zh">葵园咖啡</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Specialty coffee, light meals, art gallery space; former CCP meeting location</div><div class="food-entry-desc">A heritage coffee shop and gallery in a building that hosted early CCP meetings in the 1920s. The history + coffee combination is uniquely Guangzhou.</div><div class="food-entry-netizen">“Former CCP meeting location turned café uniquely Guangzhou”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市越秀区吁怡园路9号2楼</div></div><div class="food-entry-card" data-foodidx="9" data-cat="Café / Coffee" data-allergy="" data-tier="generic" onclick="foodCardClick(9)"><div class="food-entry-top"><div><div class="food-entry-name">TamKoKo Tea Garden (泰柯茶园)</div><div class="food-entry-zh">泰柯茶园</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Specialty milk tea; &quot;year&#x27;s best&quot; crowd favourite, hidden gem</div><div class="food-entry-desc">Guangzhou&#x27;s top-ranked milk tea brand, specialising in Thai-style milk teas and creative drinks with a distinctive jewel-red tea base. The &#x27;salted French cheese Thai milk&#x27; is their signature, unconventional but widely praised. Tiny takeaway-only shop; expect a queue.</div><div class="food-entry-netizen">“Guangzhou&#x27;s top-ranked milk tea brand. Thai-style milk teas and creative drinks like the salted French cheese Thai milk, deep, jewel-like tea base with Thai spice finish. Tiny shop, takeaway only, exp…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市天河区天河南一路48号103之二（六运小区内）</div></div><div class="food-entry-card" data-foodidx="10" data-cat="Café / Coffee" data-allergy="" data-tier="generic" onclick="foodCardClick(10)"><div class="food-entry-top"><div><div class="food-entry-name">Zhao Cha (找茶)</div><div class="food-entry-zh">找茶</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">New-wave tea brand; specialty brewed teas and creative tea drinks</div><div class="food-entry-desc">A new-wave tea brand focusing on specialty brewed teas and creative tea-based drinks, more serious about the tea itself than most bubble-tea chains. One of a cluster of similar concepts emerging in the Dongshankou area.</div><div class="food-entry-netizen">“Finally a tea shop that treats tea like tea. The brewed single-origin pours come with actual information about the leaf, and the creative drinks are built on real tea instead of syrup. The Dongshankou…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市天河区林和中路63号东方宝泰购物广场B101（天河店）</div></div><div class="food-group-label" data-cat="Chinese Food"><span style="width:9px;height:9px;border-radius:50%;background:#2E6F95;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</div><div class="food-entry-card" data-foodidx="11" data-cat="Chinese Food" data-allergy="✓ Roast meats are nut-free and shellfish-free as a rule. One of the safer Guangzhou options. Avoid any dishes with XO sauce (contains dried shrimp/scallop — Amanda).  |  Amanda: XO sauce has dried shrimp/scallop — ask for no-XO dishes." data-tier="safe" onclick="foodCardClick(11)"><div class="food-entry-top"><div><div class="food-entry-name">Bingsheng Taste</div><div class="food-entry-zh">炳胜品味</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Cantonese roast meats, char siu (BBQ pork), roast goose, soy sauce chicken; rice plates  •  Secret black char siu; pineapple bun (shrimp-free); soy goose intest…</div><div class="food-entry-desc">Lonely Planet flagship pick for Guangzhou roast meats. The roast goose and char siu are the draws order a combo rice plate.</div><div class="food-entry-netizen">“One of Guangzhou&#x27;s most acclaimed Cantonese brands. ★ Michelin guide”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市天河区天河东路168号</div></div><div class="food-entry-card" data-foodidx="12" data-cat="Chinese Food" data-allergy="⚠️ Verify no peanut/nut garnish in soups. Some broth bases use dried seafood — Amanda confirm &quot;没有海鲜&quot; (no seafood in the broth). Generally adventurous but manageable.  |  Amanda: some broth bases use dried seafood — confirm. Nate: verify no nut garnish." data-tier="specific" onclick="foodCardClick(12)"><div class="food-entry-top"><div><div class="food-entry-name">Dade Dun Pin</div><div class="food-entry-zh">大德炖品</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Traditional medicinal soups, snake soup, scorpion broth, herbal tonic dishes (Cantonese health cuisine)  •  Cantonese health-cuisine stewed soups</div><div class="food-entry-desc">A Guangzhou institution for Cantonese health-cuisine soups. Snake soup is the most famous mild, clear, served with chrysanthemum petals. An unusual and memorable meal.</div><div class="food-entry-netizen">“A Guangzhou institution for slow-stewed tonic soups”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市越秀区海珠中路31号</div></div><div class="food-entry-card" data-foodidx="13" data-cat="Chinese Food" data-allergy="Amanda: no shellfish here. Nate: soup broth peanut-oil unlikely. (verify on-site)" data-tier="specific" onclick="foodCardClick(13)"><div class="food-entry-top"><div><div class="food-entry-name">达扬原味炖品 (Dayang Yuanwei Stewed Soup)</div><div class="food-entry-zh">达扬原味炖品</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Whole coconut with black-boned chicken soup</div><div class="food-entry-desc">A Guangzhou specialist in Cantonese slow-stewed soups (dun pin), the signature is a whole young coconut stuffed with black-boned chicken and simmered for hours. One of the most soothing and distinctly Cantonese things on the list.</div><div class="food-entry-netizen">“A whole young coconut, stuffed with black-boned chicken, steamed for hours until the broth tastes like both and neither. That is the order here and nothing else comes close. The shop does Cantonese sl…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广东省广州市越秀区德政中路304号（农讲所地铁站A口步行200米）</div></div><div class="food-entry-card" data-foodidx="14" data-cat="Chinese Food" data-allergy="Amanda: beef, no shellfish here. Nate: chili sauce likely safe — confirm." data-tier="specific" onclick="foodCardClick(14)"><div class="food-entry-top"><div><div class="food-entry-name">日月年小食店 (Riyue Nian Snack Shop)</div><div class="food-entry-zh">日月年小食店</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Beef ball noodles; brisket noodles</div><div class="food-entry-desc">A legendary hole-in-the-wall on the edge of the historic Xiguan district, known as much for its atmosphere as its food. The beef ball noodles and brisket bowls are the staples. Cantonese simplicity done right.</div><div class="food-entry-netizen">“A legendary three-no hole-in-the-wall”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广东省广州市荔湾区逢源路72号（长寿路站D1出口步行290米）</div></div><div class="food-group-label" data-cat="Dim Sum"><span style="width:9px;height:9px;border-radius:50%;background:#7A4BA8;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</div><div class="food-entry-card" data-foodidx="15" data-cat="Dim Sum" data-allergy="⚠️ Har gow (shrimp dumplings) and many dim sum items contain shellfish — Amanda must avoid. Congee, cheung fun (rice noodle rolls) with beef or pork are safer.  |  Amanda: boat congee may contain shredded seafood — verify." data-tier="specific" onclick="foodCardClick(15)"><div class="food-entry-top"><div><div class="food-entry-name">Chen Tianji</div><div class="food-entry-zh">陈添记</div></div><span class="food-entry-pill" style="background:#7A4BA8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</span></div><div class="food-entry-dishes">Cantonese breakfast and dim sum, congee, fried dough (youtiao), har gow, cheung fun  •  Cold fish skin; boat congee; steamed rice rolls</div><div class="food-entry-desc">Old-school Guangzhou cha chaan teng (tea restaurant) style breakfast. Early start they open around 6 AM. Congee with pork and century egg is the move.</div><div class="food-entry-netizen">“A 40-year Xi Guan shop that has sold only three items for decades”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot high">⚠ Must check</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市荔湾区宝华路59号</div></div><div class="food-entry-card" data-foodidx="16" data-cat="Dim Sum" data-allergy="⚠️ moderate risk — Amanda shellfish allergy: shrimp is unavoidable in a dim sum kitchen (high cross-contamination risk). Nate: safe. Amanda: stick to red rice noodle rolls (肠粉 with beef/pork), char siu bao, turnip cake (蘿蔔糕), and taro dumplings — avoid har gow and siu mai entirely.  |  Amanda: AVOID har gow, siu mai (shrimp). (verify on-site)" data-tier="specific" onclick="foodCardClick(16)"><div class="food-entry-top"><div><div class="food-entry-name">Tao Tao Ju</div><div class="food-entry-zh">陶陶居酒家</div></div><span class="food-entry-pill" style="background:#7A4BA8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</span></div><div class="food-entry-dishes">Qing Dynasty dim sum institution (est. 1880); shrimp dumplings (har gow), red rice noodle rolls, century-old roast goose, char siu  •  Baked BBQ pork bun; turni…</div><div class="food-entry-desc">One of Guangzhou&#x27;s most historic and revered dim sum houses over 140 years old. A mandatory stop for a proper Cantonese yum cha experience. The roast goose is exceptional.</div><div class="food-entry-netizen">“Guangzhou&#x27;s most famous dim sum house, since 1880. Very crowded. ★ Michelin guide”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市天河区北京路102-168号天河城7楼707-708号商铺</div></div><div class="food-entry-card" data-foodidx="17" data-cat="Dim Sum" data-allergy="⚠️ moderate risk — Amanda shellfish allergy: high cross-contamination risk with shrimp in a dim sum kitchen. Same safe/avoid strategy as Tao Tao Ju: rice noodle rolls with beef/pork, char siu bao, turnip cake are safe; skip har gow and siu mai.  |  Amanda: AVOID shrimp rice rolls, har gow. (verify on-site)" data-tier="specific" onclick="foodCardClick(17)"><div class="food-entry-top"><div><div class="food-entry-name">Dian Dou De</div><div class="food-entry-zh">點都德</div></div><span class="food-entry-pill" style="background:#7A4BA8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</span></div><div class="food-entry-dishes">Popular dim sum chain; red rice noodle rolls (肠粉), crispy taro dumplings, baked char siu bao  •  Tangerine-peel beef balls; pan-fried turnip cake</div><div class="food-entry-desc">Frequently mentioned alongside Tao Tao Ju as the best accessible Guangzhou dim sum. Good backup if Tao Tao Ju has a long queue. Consistent quality across branches.</div><div class="food-entry-netizen">“Consistent quality, affordable. ★ Michelin guide”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市天河区花城大道86号高德汇2座4楼</div></div><div class="food-entry-card" data-foodidx="18" data-cat="Dim Sum" data-allergy="Ask staff for nut-free dim sum options." data-tier="specific" onclick="foodCardClick(18)"><div class="food-entry-top"><div><div class="food-entry-name">云香酒楼 (Yunxiang Restaurant)</div><div class="food-entry-zh">雲香楼</div></div><span class="food-entry-pill" style="background:#7A4BA8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</span></div><div class="food-entry-dishes">Yun Xiang crispy chicken; Bing Hua Dan San (sweet crispy egg twists)</div><div class="food-entry-desc">A Guangzhou dim sum restaurant known for its crispy Yun Xiang chicken and the Bing Hua Dan San, sweet crispy egg twists that are a house specialty. A more local alternative to the tourist-heavy big-name dim sum halls.</div><div class="food-entry-netizen">“An old-school dim sum house that the neighborhood still treats as its own. The crispy Yun Xiang chicken is the dish everyone orders, skin like glass, and the sweet dan san egg twists are the right way…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广东省广州市荔湾区东华东路342号4楼</div></div><div class="food-entry-card" data-foodidx="19" data-cat="Dim Sum" data-allergy="Nate: fine pastry dough may use almond flour — confirm. Amanda: ask for shrimp-free steamed items." data-tier="specific" onclick="foodCardClick(19)"><div class="food-entry-top"><div><div class="food-entry-name">玉堂春暖 (Jade River)</div><div class="food-entry-zh">玉堂春暖</div></div><span class="food-entry-pill" style="background:#7A4BA8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Dim Sum</title><circle cx="12" cy="12" r="3"/><path d="M12 9V6M12 18v-3M9 12H6M18 12h-3"/><path d="M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7"/></svg>Dim Sum</span></div><div class="food-entry-dishes">Lemongrass-scented pigeon; baked pork buns</div><div class="food-entry-desc">A Guangzhou restaurant known for lemongrass-scented pigeon and baked pork buns. Cantonese cooking with a slightly elevated, fragrant touch. The pigeon is the draw.</div><div class="food-entry-netizen">“The lemongrass pigeon is worth planning a morning around, fragrant in a way roast pigeon usually is not, and the baked pork buns run a close second. The room leans old-world Cantonese, unhurried servi…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广东省广州市荔湾区沙面南街1号白天鹅宾馆3层</div></div><div class="food-group-label" data-cat="Hot Pot"><span style="width:9px;height:9px;border-radius:50%;background:#B0202E;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</div><div class="food-entry-card" data-foodidx="20" data-cat="Hot Pot" data-allergy="✓ Can request nut-free, shellfish-free broth. Avoid sesame dipping sauce. Staff are trained for allergy requests — best chain option for allergy management." data-tier="safe" onclick="foodCardClick(20)"><div class="food-entry-top"><div><div class="food-entry-name">Haidilao Hot Pot</div><div class="food-entry-zh">海底捞火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Customizable hot pot; choose your own broth, meats, vegetables, tofu</div><div class="food-entry-desc">Choose a non-spicy or tomato broth to avoid chili oil.</div><div class="food-entry-netizen">“Every hotpot chain in China and Haidilao is still the one everyone names first. The robot delivery, the free snacks while you wait, the table-side service, it is a whole event before the food even arr…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span><span class="food-no-pin">📍 no pin</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 全国各地 (nationwide)</div></div><div class="food-entry-card" data-foodidx="21" data-cat="Hot Pot" data-allergy="Nate: traditional satay dip contains peanuts — avoid. Amanda: low risk (clear broth). (verify on-site)" data-tier="specific" onclick="foodCardClick(21)"><div class="food-entry-top"><div><div class="food-entry-name">骏犇潮州兄弟牛肉火锅 (Junben Chaozhou Beef Hotpot)</div><div class="food-entry-zh">骏犇潮州兄弟牛肉火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Lean beef brisket slices (Chaozhou clear-broth beef hotpot)</div><div class="food-entry-desc">Chaozhou-style clear-broth beef hotpot, the Shantou/Chaozhou tradition of paper-thin beef brisket slices cooked in a clean, lightly seasoned broth, with house-made satay sauce on the side. A more delicate alternative to Chongqing-style hotpot. Nate: the traditional satay dipping …</div><div class="food-entry-netizen">“Chaozhou beef hotpot is the quiet opposite of the Sichuan kind: a clear, clean broth and paper-thin brisket slices you swish for seconds, not minutes. The house satay sauce is the soul of the table. C…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广东省广州市天河区长兴路8号1楼东面</div></div><div class="food-group-label" data-cat="Vegetarian / Vegan"><span style="width:9px;height:9px;border-radius:50%;background:#5566C0;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Vegetarian / Vegan</title><path d="M12 2C6 2 3 7 3 12c0 5 3 10 9 10s9-5 9-10c0-5-3-10-9-10Z"/><path d="M12 8c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z"/></svg>Vegetarian / Vegan</div><div class="food-entry-card" data-foodidx="22" data-cat="Vegetarian / Vegan" data-allergy="✓ low risk: Fully vegetarian kitchen. Staff actively manage allergy requests — among the safest dining options on the whole trip. Worth seeking out if in the area or if allergy fatigue is setting in.  |  Vegan — very safe. Nate: ask about nuts/peanut oil." data-tier="safe" onclick="foodCardClick(22)"><div class="food-entry-top"><div><div class="food-entry-name">Seven Colored Cloud (七色云蔬食餐厅)</div><div class="food-entry-zh">七色云蔬食餐厅</div></div><span class="food-entry-pill" style="background:#5566C0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Vegetarian / Vegan</title><path d="M12 2C6 2 3 7 3 12c0 5 3 10 9 10s9-5 9-10c0-5-3-10-9-10Z"/><path d="M12 8c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z"/></svg>Vegetarian / Vegan</span></div><div class="food-entry-dishes">Fully vegetarian/vegan; staff proactively ask about allergies; seasonal Chinese vegetarian dishes  •  Vegan dishes, very safe</div><div class="food-entry-desc">Location note: Panyu District is ~30 min from your hotel in Zhujiang New Town. Worth a dedicated visit if you want a guaranteed safe meal, but not convenient as a quick lunch stop.</div><div class="food-entry-netizen">“Staff proactively ask about allergies. In Panyu (~30 min from Zhujiang New Town)”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 广州市番禺区南浦沿沙路21号二楼</div></div></div><div class="food-map-side"><div id="map-food"></div></div></div></section><section class="panel" id="panel-history" data-dayindex="-1"><div class="study-intro"><span class="study-kicker">For Amanda</span><h2>Read before Guangzhou</h2></div><div class="study-wrap"><div class="era-band"><h3 class="era-band-h">Through the eras</h3><div class="era-grid"><div class="era-card"><span class="era-label">Canton System (1757–1842)</span><p>For nearly a century Canton was the single port where Westerners were allowed to trade with China, under tightly controlled rules. All the tea, silk and porcelain flowing west, and all the friction over Britain&#x27;s opium flowing in, funneled through here, making Guangzhou the flashpoint where the tensions that erupted into the Opium Wars built up.</p></div><div class="era-card"><span class="era-label">Treaty-port era</span><p>After the wars, a foreign concession grew on genteel, tree-lined Shamian Island, walled off from the Chinese city. Guangzhou also became a hotbed of revolution: it was Sun Yat-sen&#x27;s base, the site of early uprisings against the Qing, and a crucible of both Nationalist and early Communist organizing in the 1920s.</p></div><div class="era-card"><span class="era-label">Today</span><p>A sprawling metropolis of ~19 million and still China&#x27;s great commercial gateway, host of the massive twice-yearly Canton Fair, a manufacturing and trading powerhouse, and the cultural capital of the Cantonese world. Older, denser and more lived-in than glossy Shenzhen next door.</p></div></div></div><div class="study-wrap"><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Understand Guangzhou — two thousand years of trade<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Guangzhou is the city the West knew first, under the name &#x27;Canton&#x27;, the source word for both the cuisine and the dialect. Sitting at the head of the Pearl River Delta where the river fans out toward the sea, it has been a working port for over two millennia, the southern terminus of the Maritime Silk Road and, for centuries, the single point where foreign traders were permitted to do business with China at all. That deep mercantile DNA still defines the place: this is a city of commerce, wholesale markets, and the twice-yearly Canton Fair, less polished than Shanghai and prouder of it. The river is the spine. The historic core sits in Yuexiu (Sun Yat-sen Memorial Hall, the Chen Clan hall, the old mosque and cathedral); the gleaming new financial district, Zhujiang New Town, rises across the water in Tianhe around the Canton Tower and the opera house; colonial Shamian Island sits in the river itself. Guangzhou is also genuinely cosmopolitan in a way few Chinese cities are, it holds one of Asia&#x27;s largest African merchant communities, and above all it is a city that eats: Cantonese food is arguably China&#x27;s most refined regional cuisine, and dim sum (yum cha) is a local institution rather than a tourist event.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Cantonese culture &amp; Lingnan art<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Cantonese culture is its own world within China, a distinct language (not mutually intelligible with Mandarin), a celebrated culinary tradition (this is the home of dim sum and yum cha, the leisurely tea-and-small-plates meal), and Lingnan art and architecture, the refined southern regional style you&#x27;ll see at the dazzling Chen Clan Ancestral Hall. Eat well here: Cantonese cooking prizes freshness and subtlety over the fire of Sichuan.</p><div class="term"><span class="term-k">饮茶 yum cha</span><span class="term-v">&#x27;Drink tea&#x27; (Cantonese) — the dim sum brunch of small plates and tea.</span></div></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Canton today: provincial capital, GBA anchor<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Guangzhou is the capital of Guangdong, China&#x27;s most populous and richest province, and has been the country&#x27;s gateway to foreign trade for over a thousand years, the original &#x27;Canton&#x27; of the tea-and-silk trade. Today it&#x27;s one of the four core cities of the Greater Bay Area, Beijing&#x27;s project to fuse eleven Pearl River Delta cities into a single megaregion of ~88 million people rivalling the Tokyo and San Francisco bay areas. Within that cluster Guangzhou plays the commercial-and-manufacturing role: the trade-fair city, the wholesale-market city, the place where the world still comes to source goods, even as neighbouring Shenzhen takes the tech crown.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Canton: 2,000 years of trade<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Guangzhou, historically &#x27;Canton&#x27; to the West, has been a major port for over 2,000 years and was, for a long stretch, the *only* Chinese port foreigners could legally trade through. That made it China&#x27;s window on the world: the origin of the word &#x27;Cantonese,&#x27; the source of Canton&#x27;s famous cuisine, and a city shaped by waves of merchants, missionaries and revolutionaries. It feels older and more lived-in than Shenzhen or Hong Kong, with deep layers to peel back.</p><div class="term"><span class="term-k">广州 Guǎngzhōu</span><span class="term-v">Guangzhou — known historically in English as &#x27;Canton,&#x27; the source of &#x27;Cantonese.&#x27;</span></div></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>A thousand years of foreigners: Tang to Ming<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Guangzhou has been China&#x27;s most cosmopolitan city for over a millennium. Arab and Persian traders settled here in the 8th century under the Tang, building one of the world&#x27;s oldest mosques (Huaisheng) and living in established foreign quarters; an Arab merchant left a detailed account of the city&#x27;s porcelain, granaries, and mosque as early as 851. As the eastern terminus of the maritime Silk Road, the city drew Indians, Southeast Asians, Jews, and Persians to trade in porcelain, silk, and spices, a genuinely international port a thousand years before Shanghai existed.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The Maritime Silk Road<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Guangzhou was the eastern anchor of the Maritime Silk Road, the seaborne trade network that carried silk, porcelain and tea out and brought spices, silver and ideas in. Arab and Persian traders settled here over a thousand years ago; the Huaisheng Mosque, among the world&#x27;s oldest, dates to that era. This trading DNA is why the city has long been China&#x27;s most outward-facing, and why it still hosts the country&#x27;s biggest trade fair.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The Canton System: China&#x27;s one window (1757–1842)<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>For nearly a century, Guangzhou was the single legal point of contact between China and the West. Under the Canton System (1757–1842), all foreign trade funneled through here and ran through the Cohong, a guild of licensed Chinese merchants. Foreign traders were confined to the riverside &#x27;Thirteen Factories&#x27;, warehouses flying the flags of Britain, the US, France, and others, where they lived only during the trading season and were barred from the walled city. This was where China met, and tightly managed, the West: tea and silk out, silver in.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Opium, war, and the unraveling<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>The Canton trade carried the seeds of catastrophe. To balance their thirst for tea, the British flooded China with Indian opium through Guangzhou; when Commissioner Lin Zexu seized and destroyed it in 1839, the First Opium War followed, a humiliating defeat that opened the treaty ports and began what China calls its &#x27;century of humiliation.&#x27; Guangzhou sat at the very center of the encounter that reshaped modern China, and the Pearl River waterfront was its stage.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Modern history: 1911 &amp; the revolution<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Guangzhou is the cradle of modern China. Sun Yat-sen, founding father of the Chinese republic, was based here; the 1911 revolution that ended 2,000 years of imperial rule drew much of its energy from the city, and both the Nationalists and early Communists organized here in the 1920s. The Sun Yat-sen Memorial Hall and the Peasant Movement Institute on the itinerary are where that history happened.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Cradle of revolution<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Guangzhou birthed modern Chinese politics. Sun Yat-sen, the father of the republic, was Cantonese and based his revolutionary movement here; the city hosted the Whampoa Military Academy that trained both Nationalist and Communist commanders, and Mao Zedong taught at the Peasant Movement Institute here in 1926. Far from Beijing and open to foreign ideas through its port, Guangzhou was repeatedly where China&#x27;s revolutions were incubated before they swept north.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Shamian Island: the foreign concession<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>After the Opium Wars, foreign powers were granted Shamian, a Pearl River sandbank turned into an Anglo-French concession in 1859. Linked to the city by two bridges closed each night, it became a leafy European township of stone mansions, churches, banks, a yacht club, and a cricket field, home to British, American, French, German, Portuguese, and Japanese trading firms. Its preserved colonial architecture is why Shamian is now one of Guangzhou&#x27;s most atmospheric quarters, and a favorite for wedding photos.</p></div></article></div></div></section></div>
+    <div class="map-col" id="main-map-col"><div class="map-frame"><div id="map"></div>
+      <div class="map-cap"><span class="map-cap-dot"></span><span id="mapcap">Showing today's stops</span></div>
+    </div></div>
+  </div>
+</div>
+<footer>For Amanda, from Nate. Made with love in Los Angeles for use in China.</footer>
+<script src="assets/leaflet/leaflet.js"></script>
+<script>
+// hmBaseLayers(map): attach CartoDB Voyager (English, default) + Amap base layers with a switcher.
+function hmBaseLayers(map){
+  // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
+  var osm = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
+     detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Gaode/Amap road tiles, no API key needed; reachable inside mainland China.
+  var amap = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+    {maxZoom:19, subdomains:['1','2','3','4'], attribution:'\u00A9 \u9AD8\u5FB7\u5730\u56FE Amap', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Esri World Street Map. English labels. May or may not be reachable in mainland China.
+  var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom:19, attribution:'Tiles \u00A9 Esri', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  osm.addTo(map); // default: English labels, works everywhere outside China
+  L.control.layers(
+    {'English (CartoDB)': osm, 'Amap \u9AD8\u5FB7 (China)': amap, 'Esri (English)': esri},
+    {}, {position:'topright', collapsed:true}
+  ).addTo(map);
+  // If CartoDB tiles fail (e.g. inside mainland China), fall back to Amap.
+  var osmFailed = 0;
+  osm.on('tileerror', function(){ osmFailed++; if(osmFailed===4 && map.hasLayer(osm)){
+    map.removeLayer(osm); amap.addTo(map);
+  }});
+  return map;
+}
+
+// toggleStudy(headerEl): collapse/expand a study block (no persistence, resets each open).
+window.toggleStudy=function toggleStudy(el){
+  var block = el.closest('.study-block');
+  if(block){ block.classList.toggle('done'); }
+}
+</script>
+<script>
+const PTS  = [{"id": "s1", "lat": 23.12259916014082, "lng": 113.31758095856877, "name": "MaxX by Steigenberger Zhujiang New Town", "num": "\u2302", "cat": "Hotel", "color": "#888888", "day": "THU JUL 9", "dayIndex": 0, "hotel": true}, {"id": "s2", "lat": 23.131176623127434, "lng": 113.25957010921108, "name": "Guangzhou City Planning Exhibition Center", "num": "1", "cat": "Museum", "color": "#B0202E", "day": "THU JUL 9", "dayIndex": 0}, {"id": "s3", "lat": 23.145665916803782, "lng": 113.26666331007658, "name": "Xiaobei \u2014 African Quarter (Little Africa)", "num": "2", "cat": "Activity", "color": "#B0202E", "day": "THU JUL 9", "dayIndex": 0}, {"id": "s4", "lat": 23.139673713131696, "lng": 113.25867014201212, "name": "Nanyue King Museum (Western Han Mausoleum)", "num": "3", "cat": "Museum", "color": "#B0202E", "day": "THU JUL 9", "dayIndex": 0}, {"id": "s5", "lat": 23.133677105610534, "lng": 113.25667177386693, "name": "Dr. Sun Yat-Sen Memorial Hall", "num": "4", "cat": "Landmark", "color": "#B0202E", "day": "THU JUL 9", "dayIndex": 0}, {"id": "s6", "lat": 23.13167890760806, "lng": 113.23467501419213, "name": "Chen Clan Ancestral Hall (Guangdong Folk Art Museum)", "num": "5", "cat": "Museum", "color": "#B0202E", "day": "THU JUL 9", "dayIndex": 0}, {"id": "s7", "lat": 23.125683057298914, "lng": 113.24667610722472, "name": "Huaisheng Mosque & Guangta Minaret", "num": "1", "cat": "Religious Site", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s8", "lat": 23.115686492996048, "lng": 113.25067573310272, "name": "Sacred Heart Cathedral ('Stone House')", "num": "2", "cat": "Religious Site", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s9", "lat": 23.110687808156275, "lng": 113.23567669701899, "name": "Shamian Island", "num": "3", "cat": "Landmark", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s10", "lat": 23.10789908916985, "lng": 113.32077537177486, "name": "Guangzhou Railway Cultural Museum", "num": "4", "cat": "Museum", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s11", "lat": 23.11252303114113, "lng": 113.36449639515993, "name": "Guangzhou Subway Museum + water bus", "num": "5", "cat": "Museum", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s12", "lat": 23.112505139828592, "lng": 113.38447862667807, "name": "Poly Yuzhu Time (Yuzhu Stationery Market)", "num": "6", "cat": "Shopping", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s13", "lat": 23.107514339104572, "lng": 113.37448582964085, "name": "Guangzhou Design Quarter (Redtory area)", "num": "7", "cat": "Landmark", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s14", "lat": 23.111511443545112, "lng": 113.31349009739004, "name": "Canton Tower ('Little Waist')", "num": "8", "cat": "Landmark", "color": "#2E6F95", "day": "FRI JUL 10", "dayIndex": 1}, {"id": "s15", "lat": 23.12060376344295, "lng": 113.31558519525571, "name": "Guangdong Museum of Art (Ersha Island)", "num": "1", "cat": "Museum", "color": "#C9821E", "day": "SAT JUL 11", "dayIndex": 2}, {"id": "s16", "lat": 23.131674493796897, "lng": 113.26266776278688, "name": "Guangdong Overseas Chinese Museum", "num": "2", "cat": "Museum", "color": "#C9821E", "day": "SAT JUL 11", "dayIndex": 2}, {"id": "s17", "lat": 23.15262826844671, "lng": 113.29462372780067, "name": "Guangzhou Museum of Art", "num": "3", "cat": "Museum", "color": "#C9821E", "day": "SAT JUL 11", "dayIndex": 2}, {"id": "s18", "lat": 23.13067831199993, "lng": 113.2566719751342, "name": "Guangzhou Museum of Modern History", "num": "4", "cat": "Museum", "color": "#C9821E", "day": "SAT JUL 11", "dayIndex": 2}, {"id": "s19", "lat": 23.130673470398644, "lng": 113.26466614711576, "name": "Peasant Movement Institute", "num": "5", "cat": "Museum", "color": "#C9821E", "day": "SAT JUL 11", "dayIndex": 2}, {"id": "s20", "lat": 23.12565119613087, "lng": 113.28663899476075, "name": "Dongshankou / Badmarket", "num": "6", "cat": "Shopping", "color": "#C9821E", "day": "SAT JUL 11", "dayIndex": 2}, {"id": "s21", "lat": 23.12159766587923, "lng": 113.3185789708931, "name": "Guangzhou Library", "num": "7", "cat": "Library", "color": "#C9821E", "day": "SAT JUL 11", "dayIndex": 2}, {"id": "s22", "lat": 23.12259916014082, "lng": 113.31758095856877, "name": "MaxX Guangzhou \u2014 check out", "num": "\u2302", "cat": "Hotel", "color": "#888888", "day": "SUN JUL 12", "dayIndex": 3, "hotel": true}];
+const FOOD = [{"name": "Crispy Dog Bakery", "zh": "Crispy Dog Bakery / \u8106\u76ae\u72d7\u8d1d\u679c", "cat": "Bakery / Snacks", "dishes": "Artisan bagels and pastries; popular in the Dongshankou vintage district", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#C9821E", "lat": 23.12565119613087, "lng": 113.28663899476075, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Ugly Bread (\u4e11\u9762\u5305)", "zh": "\u5929\u4e95\u00b7\u4e11\u9762\u5305\u642d\u5496\u5561", "cat": "Bakery / Snacks", "dishes": "Sourdough and artisan bread; creative flavour combinations, courtyard space", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#C9821E", "lat": 23.122623229261183, "lng": 113.30460710488465, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Another Bakery (\u53c8\u4e00\u95f4\u9762\u5305\u5e97)", "zh": "\u53c8\u4e00\u95f4\u9762\u5305\u5e97", "cat": "Bakery / Snacks", "dishes": "European-style bakery; sourdough loaves, croissants, seasonal pastries", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#C9821E", "lat": 23.109675950813845, "lng": 113.2716605309214, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Big Orange Grilled Bun (\u5927\u6a58\u70e4\u5305)", "zh": "\u5927\u6a58\u70e4\u5305", "cat": "Bakery / Snacks", "dishes": "Signature charcoal-grilled buns; savoury and sweet fillings", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#C9821E", "lat": 23.128681935212853, "lng": 113.24467618922772, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Hooleys", "zh": "\u970d\u5229\u65af\u7231\u5c14\u5170\u9152\u5427", "cat": "Bar", "dishes": "Irish pub, draught Guinness, lagers, pub food (fish & chips, burgers, wings)  \u2022  Fish & chips (Amanda safe); burgers; wings", "allergy": "\u2713 Pub food \u2014 generally nut-free. Amanda: fish & chips is safe (no shellfish). Wings may have a nut sauce \u2014 ask. Good option when allergy communication is exhausting.  |  Nate: wings may have nut sauce \u2014 ask. Good option when allergy communication is tiring.", "color": "#1F8A8A", "lat": 23.13153219496229, "lng": 113.3525126884285, "source": "", "iconPaths": "<path d=\"M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z\"/><path d=\"M3 9h18\"/>"}, {"name": "Elephant and Castle", "zh": "\u8c61\u5821\u82f1\u5f0f\u9152\u5427", "cat": "Bar", "dishes": "Western pub food; burgers; draft beer", "allergy": "Nate: ask about nut content in sauces/wings. Amanda: avoid seafood dishes. Good when allergy communication is tiring.", "color": "#1F8A8A", "lat": 23.12667581624545, "lng": 113.26366727549942, "source": "", "iconPaths": "<path d=\"M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z\"/><path d=\"M3 9h18\"/>"}, {"name": "13 factories", "zh": "\u5341\u4e09\u884c", "cat": "Bar", "dishes": "Craft beer; cocktails; Western bites", "allergy": "Drinks low risk. Confirm nut content on any food.", "color": "#1F8A8A", "lat": 23.119592761326786, "lng": 113.32157293066005, "source": "", "iconPaths": "<path d=\"M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z\"/><path d=\"M3 9h18\"/>"}, {"name": "Tavern Sports Bar", "zh": "\u9152\u9986\u8fd0\u52a8\u9910\u5427", "cat": "Bar", "dishes": "Burgers; wings; beer; live sports", "allergy": "Nate: wings/sauces may contain nuts \u2014 ask. Amanda: avoid seafood items.", "color": "#1F8A8A", "lat": 23.1214024921489, "lng": 113.31608411725668, "source": "", "iconPaths": "<path d=\"M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z\"/><path d=\"M3 9h18\"/>"}, {"name": "Kui Yuan", "zh": "\u8475\u56ed\u5496\u5561", "cat": "Caf\u00e9 / Coffee", "dishes": "Specialty coffee, light meals, art gallery space; former CCP meeting location", "allergy": "\u2713 Coffee and light caf\u00e9 fare. Check pastries for nut content.  |  Nate: check pastries for nut content. Coffee low-risk. (verify on-site)", "color": "#8A6D1F", "lat": 23.13966829814563, "lng": 113.26666371317518, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "TamKoKo Tea Garden (\u6cf0\u67ef\u8336\u56ed)", "zh": "\u6cf0\u67ef\u8336\u56ed", "cat": "Caf\u00e9 / Coffee", "dishes": "Specialty milk tea; \"year's best\" crowd favourite, hidden gem", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#8A6D1F", "lat": 23.133595095366314, "lng": 113.31738062338594, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Zhao Cha (\u627e\u8336)", "zh": "\u627e\u8336", "cat": "Caf\u00e9 / Coffee", "dishes": "New-wave tea brand; specialty brewed teas and creative tea drinks", "allergy": "\u26a0\ufe0f Trendy reco \u2014 allergy verification required on site. Not yet vetted for nut/shellfish safety.", "color": "#8A6D1F", "lat": 23.15058415872486, "lng": 113.31957494502122, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Bingsheng Taste", "zh": "\u70b3\u80dc\u54c1\u5473", "cat": "Chinese Food", "dishes": "Cantonese roast meats, char siu (BBQ pork), roast goose, soy sauce chicken; rice plates  \u2022  Secret black char siu; pineapple bun (shrimp-free); soy goose intestine", "allergy": "\u2713 Roast meats are nut-free and shellfish-free as a rule. One of the safer Guangzhou options. Avoid any dishes with XO sauce (contains dried shrimp/scallop \u2014 Amanda).  |  Amanda: XO sauce has dried shrimp/scallop \u2014 ask for no-XO dishes.", "color": "#2E6F95", "lat": 23.131527617199342, "lng": 113.35550788729005, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "Dade Dun Pin", "zh": "\u5927\u5fb7\u7096\u54c1", "cat": "Chinese Food", "dishes": "Traditional medicinal soups, snake soup, scorpion broth, herbal tonic dishes (Cantonese health cuisine)  \u2022  Cantonese health-cuisine stewed soups", "allergy": "\u26a0\ufe0f Verify no peanut/nut garnish in soups. Some broth bases use dried seafood \u2014 Amanda confirm \"\u6ca1\u6709\u6d77\u9c9c\" (no seafood in the broth). Generally adventurous but manageable.  |  Amanda: some broth bases use dried seafood \u2014 confirm. Nate: verify no nut garnish.", "color": "#2E6F95", "lat": 23.123681584462677, "lng": 113.2556730012031, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "\u8fbe\u626c\u539f\u5473\u7096\u54c1 (Dayang Yuanwei Stewed Soup)", "zh": "\u8fbe\u626c\u539f\u5473\u7096\u54c1", "cat": "Chinese Food", "dishes": "Whole coconut with black-boned chicken soup", "allergy": "Amanda: no shellfish here. Nate: soup broth peanut-oil unlikely. (verify on-site)", "color": "#2E6F95", "lat": 23.126669976333428, "lng": 113.270660498339, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "\u65e5\u6708\u5e74\u5c0f\u98df\u5e97 (Riyue Nian Snack Shop)", "zh": "\u65e5\u6708\u5e74\u5c0f\u98df\u5e97", "cat": "Chinese Food", "dishes": "Beef ball noodles; brisket noodles", "allergy": "Amanda: beef, no shellfish here. Nate: chili sauce likely safe \u2014 confirm.", "color": "#2E6F95", "lat": 23.12168295441646, "lng": 113.23467568449433, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "Chen Tianji", "zh": "\u9648\u6dfb\u8bb0", "cat": "Dim Sum", "dishes": "Cantonese breakfast and dim sum, congee, fried dough (youtiao), har gow, cheung fun  \u2022  Cold fish skin; boat congee; steamed rice rolls", "allergy": "\u26a0\ufe0f Har gow (shrimp dumplings) and many dim sum items contain shellfish \u2014 Amanda must avoid. Congee, cheung fun (rice noodle rolls) with beef or pork are safer.  |  Amanda: boat congee may contain shredded seafood \u2014 verify.", "color": "#7A4BA8", "lat": 23.12968119702905, "lng": 113.248675396391, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9V6M12 18v-3M9 12H6M18 12h-3\"/><path d=\"M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7\"/>"}, {"name": "Tao Tao Ju", "zh": "\u9676\u9676\u5c45\u9152\u5bb6", "cat": "Dim Sum", "dishes": "Qing Dynasty dim sum institution (est. 1880); shrimp dumplings (har gow), red rice noodle rolls, century-old roast goose, char siu  \u2022  Baked BBQ pork bun; turnip cake; char siu bao; beef/pork cheung fun", "allergy": "\u26a0\ufe0f moderate risk \u2014 Amanda shellfish allergy: shrimp is unavoidable in a dim sum kitchen (high cross-contamination risk). Nate: safe. Amanda: stick to red rice noodle rolls (\u80a0\u7c89 with beef/pork), char siu bao, turnip cake (\u863f\u8514\u7cd5), and taro dumplings \u2014 avoid har gow and siu mai entirely.  |  Amanda: AVOID har gow, siu mai (shrimp). (verify on-site)", "color": "#7A4BA8", "lat": 23.128675703059905, "lng": 113.2626679641482, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9V6M12 18v-3M9 12H6M18 12h-3\"/><path d=\"M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7\"/>"}, {"name": "Dian Dou De", "zh": "\u9ede\u90fd\u5fb7", "cat": "Dim Sum", "dishes": "Popular dim sum chain; red rice noodle rolls (\u80a0\u7c89), crispy taro dumplings, baked char siu bao  \u2022  Tangerine-peel beef balls; pan-fried turnip cake", "allergy": "\u26a0\ufe0f moderate risk \u2014 Amanda shellfish allergy: high cross-contamination risk with shrimp in a dim sum kitchen. Same safe/avoid strategy as Tao Tao Ju: rice noodle rolls with beef/pork, char siu bao, turnip cake are safe; skip har gow and siu mai.  |  Amanda: AVOID shrimp rice rolls, har gow. (verify on-site)", "color": "#7A4BA8", "lat": 23.121599566932776, "lng": 113.31758102636962, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9V6M12 18v-3M9 12H6M18 12h-3\"/><path d=\"M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7\"/>"}, {"name": "\u4e91\u9999\u9152\u697c (Yunxiang Restaurant)", "zh": "\u96f2\u9999\u697c", "cat": "Dim Sum", "dishes": "Yun Xiang crispy chicken; Bing Hua Dan San (sweet crispy egg twists)", "allergy": "Ask staff for nut-free dim sum options.", "color": "#7A4BA8", "lat": 23.124659673745327, "lng": 113.28064806211903, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9V6M12 18v-3M9 12H6M18 12h-3\"/><path d=\"M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7\"/>"}, {"name": "\u7389\u5802\u6625\u6696 (Jade River)", "zh": "\u7389\u5802\u6625\u6696", "cat": "Dim Sum", "dishes": "Lemongrass-scented pigeon; baked pork buns", "allergy": "Nate: fine pastry dough may use almond flour \u2014 confirm. Amanda: ask for shrimp-free steamed items.", "color": "#7A4BA8", "lat": 23.10868922261604, "lng": 113.2376772639592, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9V6M12 18v-3M9 12H6M18 12h-3\"/><path d=\"M7 7l1.5 1.5M15.5 15.5 17 17M7 17l1.5-1.5M15.5 8.5 17 7\"/>"}, {"name": "Haidilao Hot Pot", "zh": "\u6d77\u5e95\u635e\u706b\u9505", "cat": "Hot Pot", "dishes": "Customizable hot pot; choose your own broth, meats, vegetables, tofu", "allergy": "\u2713 Can request nut-free, shellfish-free broth. Avoid sesame dipping sauce. Staff are trained for allergy requests \u2014 best chain option for allergy management.", "color": "#B0202E", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "\u9a8f\u7287\u6f6e\u5dde\u5144\u5f1f\u725b\u8089\u706b\u9505 (Junben Chaozhou Beef Hotpot)", "zh": "\u9a8f\u7287\u6f6e\u5dde\u5144\u5f1f\u725b\u8089\u706b\u9505", "cat": "Hot Pot", "dishes": "Lean beef brisket slices (Chaozhou clear-broth beef hotpot)", "allergy": "Nate: traditional satay dip contains peanuts \u2014 avoid. Amanda: low risk (clear broth). (verify on-site)", "color": "#B0202E", "lat": 23.17052665366239, "lng": 113.34652031070372, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "Seven Colored Cloud (\u4e03\u8272\u4e91\u852c\u98df\u9910\u5385)", "zh": "\u4e03\u8272\u4e91\u852c\u98df\u9910\u5385", "cat": "Vegetarian / Vegan", "dishes": "Fully vegetarian/vegan; staff proactively ask about allergies; seasonal Chinese vegetarian dishes  \u2022  Vegan dishes, very safe", "allergy": "\u2713 low risk: Fully vegetarian kitchen. Staff actively manage allergy requests \u2014 among the safest dining options on the whole trip. Worth seeking out if in the area or if allergy fatigue is setting in.  |  Vegan \u2014 very safe. Nate: ask about nuts/peanut oil.", "color": "#5566C0", "lat": 23.037664286669873, "lng": 113.30161860865671, "source": "", "iconPaths": "<path d=\"M12 2C6 2 3 7 3 12c0 5 3 10 9 10s9-5 9-10c0-5-3-10-9-10Z\"/><path d=\"M12 8c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z\"/>"}];
+const CAT_COLORS = {"Hot Pot": "#B0202E", "Chinese Food": "#2E6F95", "Dim Sum": "#7A4BA8", "Caf\u00e9 / Coffee": "#8A6D1F", "Bar": "#1F8A8A", "International": "#C24E8C", "Bakery / Snacks": "#C9821E", "Seafood": "#3E7D52", "Vegetarian / Vegan": "#5566C0", "Other": "#888"};
+const FALLBACK = [23.12565119613087,113.28663899476075];
+
+// ── Itinerary map (lazy init — deferred until first day tab shown) ────
+let map = null;
+const markers = {};
+window.initDayMap=function initDayMap(){
+  if(map) return;
+  const _mapEl = document.getElementById('map');
+  if(!_mapEl) return;
+  // Clear any stale Leaflet state from a prior failed attempt
+  if(_mapEl._leaflet_id) {
+    try{ _mapEl._leaflet_map && _mapEl._leaflet_map.remove(); }catch(e){}
+    delete _mapEl._leaflet_id;
+    _mapEl.innerHTML = '';
+    _mapEl.removeAttribute('tabindex');
+  }
+  map = L.map('map', {scrollWheelZoom:true});
+  hmBaseLayers(map);
+  window.__hmMaps = window.__hmMaps || {};
+  window.__hmMaps[document.querySelector('.vpage[style*="block"], .vpage:not([style])') ? 
+    (document.querySelector('.panel') ? document.querySelector('.panel').closest('.vpage')?.dataset.page : null) : null] = map;
+  // simpler: store keyed by the map container's page ancestor
+  const _pg = document.querySelector('#map').closest('[data-page]');
+  if(_pg) window.__hmMaps[_pg.dataset.page] = map;
+  PTS.forEach(p=>{
+  const icon = p.hotel
+    ? L.divIcon({className:'hm-pin',html:`<div style="width:22px;height:22px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 6px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:13px;line-height:1">⌂</span></div>`,iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-13]})
+    : L.divIcon({className:'hm-pin',html:
+      `<div style="position:relative;width:30px;height:30px">
+        <div style="width:30px;height:30px;border-radius:9px;background:${p.color};
+          border:2px solid #fff;box-shadow:0 4px 10px -3px rgba(0,0,0,.55);
+          display:flex;align-items:center;justify-content:center">
+          <span style="color:#fff;font:600 13px 'Cormorant',Georgia,serif">${p.num}</span></div>
+        <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
+          border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid ${p.color};
+          filter:drop-shadow(0 2px 1px rgba(0,0,0,.3))"></div>
+      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-34]});
+  const popup = p.hotel
+    ? `<b>${p.name}</b><br><span style="color:#888">Hotel · ${p.day}</span>`
+    : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
+  const m=L.marker([p.lat,p.lng],{icon}).bindPopup(popup);
+  m._dayIndex=p.dayIndex; markers[p.id]=m;
+  m.on('click',()=>highlight(p.id));
+  });
+}  // end initDayMap
+window.fitDay=function fitDay(di){
+  initDayMap();
+  const shown=[];
+  Object.values(markers).forEach(m=>{
+    if(di===null||m._dayIndex===di){m.addTo(map);shown.push(m.getLatLng());}
+    else map.removeLayer(m);
+  });
+  if(shown.length) map.fitBounds(shown,{padding:[45,45],maxZoom:15});
+  else map.setView(FALLBACK,11);
+  setTimeout(()=>map.invalidateSize(),60);
+}
+function highlight(id){
+  const el=document.querySelector(`.stop[data-id="${id}"]`);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1400);}
+}
+
+// ── Overview map ───────────────────────────────────────────────
+let mapOv=null;
+function initOverviewMap(){
+  if(mapOv) return;
+  mapOv=L.map('map-overview',{scrollWheelZoom:false});
+  hmBaseLayers(mapOv);
+  const bounds=[];
+  PTS.forEach(p=>{
+    const icon = p.hotel
+      ? L.divIcon({className:'hm-pin',html:`<div style="width:18px;height:18px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 5px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:11px;line-height:1">⌂</span></div>`,iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-11]})
+      : L.divIcon({className:'hm-pin',html:
+        `<div style="position:relative;width:24px;height:24px">
+          <div style="width:24px;height:24px;border-radius:7px;background:${p.color};
+            border:2px solid #fff;box-shadow:0 3px 8px -2px rgba(0,0,0,.45);
+            display:flex;align-items:center;justify-content:center">
+            <span style="color:#fff;font:600 10px 'Cormorant',Georgia,serif">${p.num}</span></div>
+          <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
+            border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid ${p.color}"></div>
+        </div>`,iconSize:[24,29],iconAnchor:[12,29],popupAnchor:[0,-26]});
+    const popup = p.hotel
+      ? `<b>${p.name}</b><br><span style="color:#888">Hotel</span>`
+      : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
+    L.marker([p.lat,p.lng],{icon}).bindPopup(popup).addTo(mapOv);
+    bounds.push([p.lat,p.lng]);
+  });
+  if(bounds.length) mapOv.fitBounds(bounds,{padding:[35,35],maxZoom:14});
+  else mapOv.setView(FALLBACK,11);
+}
+
+// ── Food map ───────────────────────────────────────────────────
+let mapFood=null; let foodMarkers=[];
+function initFoodMap(){
+  if(mapFood) return;
+  mapFood=L.map('map-food',{scrollWheelZoom:false});
+  hmBaseLayers(mapFood);
+  const bounds=[];
+  FOOD.forEach((e,i)=>{
+    if(!e.lat||!e.lng) return;
+    const color=e.color||'#888';
+    const iconPaths=e.iconPaths||'';
+    const icon=L.divIcon({className:'',html:
+      `<div style="position:relative;width:30px;height:36px">
+        <div style="width:30px;height:30px;border-radius:8px;background:${color};
+          border:2px solid rgba(255,255,255,.9);box-shadow:0 3px 8px -2px rgba(0,0,0,.5);
+          display:flex;align-items:center;justify-content:center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"
+            fill="none" stroke="rgba(255,255,255,.95)" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">${iconPaths}</svg>
+        </div>
+        <div style="position:absolute;left:50%;top:30px;transform:translateX(-50%);width:0;height:0;
+          border-left:5px solid transparent;border-right:5px solid transparent;
+          border-top:7px solid ${color};filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))"></div>
+      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-37]});
+    const allergy=e.allergy||'';
+    const GENERIC=["trendy reco","not yet vetted","allergy verification required on site"];
+    const isGeneric=GENERIC.some(p=>allergy.toLowerCase().includes(p));
+    const isSafe=allergy.startsWith('✓'); const isHigh=/MUST AVOID|HIGH RISK/.test(allergy);
+    let allergyHtml='';
+    if(isSafe) allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:rgba(62,125,82,.1);color:#1e5c32;border-left:3px solid #3E7D52">${allergy.substring(0,200)}</div>`;
+    else if(!isGeneric&&allergy){const bg=isHigh?'rgba(176,32,46,.1)':'rgba(201,130,30,.1)';const bc=isHigh?'#B0202E':'#C9821E';const tc=isHigh?'#6b0000':'#5a2e00';allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:${bg};color:${tc};border-left:3px solid ${bc};line-height:1.45">${allergy.substring(0,250)}${allergy.length>250?'…':''}</div>`;}
+    const m=L.marker([e.lat,e.lng],{icon})
+      .bindPopup(`<div style="max-width:240px;font-family:sans-serif">
+        <div style="font-weight:700;font-size:.9rem">${e.name}</div>
+        ${e.zh?`<div style="color:#B0202E;font-size:.78rem">${e.zh}</div>`:''}
+        <div style="display:inline-block;margin:4px 0;padding:2px 7px;border-radius:7px;background:${color};color:#fff;font-size:.68rem;font-weight:700">${e.cat}</div>
+        ${e.dishes?`<div style="font-size:.78rem;color:#444;margin:3px 0">${e.dishes.substring(0,100)}${e.dishes.length>100?'…':''}</div>`:''}
+        ${allergyHtml}</div>`,{maxWidth:260}).addTo(mapFood);
+    m._foodIdx=i; m._cat=e.cat; foodMarkers.push(m);
+    m.on('click',()=>highlightFoodCard(i));
+    bounds.push([e.lat,e.lng]);
+  });
+  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
+  else mapFood.setView(FALLBACK,12);
+}
+window.filterFoodMap=window.filterFoodMap=function filterFoodMap(cat){
+  const bounds=[];
+  foodMarkers.forEach(m=>{
+    if(cat==='all'||m._cat===cat){if(!mapFood.hasLayer(m))m.addTo(mapFood);bounds.push(m.getLatLng());}
+    else{if(mapFood.hasLayer(m))mapFood.removeLayer(m);}
+  });
+  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
+}
+window.highlightFoodCard=window.highlightFoodCard=function highlightFoodCard(idx){
+  document.querySelectorAll('.food-entry-card').forEach(c=>c.classList.remove('highlighted'));
+  const card=document.querySelector(`.food-entry-card[data-foodidx="${idx}"]`);
+  if(card){
+    card.classList.add('highlighted');
+    const box=document.getElementById('food-cards-inner');
+    if(box&&box.scrollHeight>box.clientHeight){
+      // scroll within the list container only, so the sticky map stays put
+      const ct=card.offsetTop-box.offsetTop-box.clientHeight/2+card.clientHeight/2;
+      box.scrollTo({top:ct,behavior:'smooth'});
+    } else {
+      card.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  }
+}
+window.foodCardClick=window.foodCardClick=function foodCardClick(idx){
+  highlightFoodCard(idx);
+  const m=foodMarkers.find(m=>m._foodIdx===idx);
+  if(m){mapFood.setView(m.getLatLng(),16,{animate:true});m.openPopup();}
+}
+window.filterFood=window.filterFood=function filterFood(btn){
+  document.querySelectorAll('.food-cat-btn2').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cat=btn.dataset.cat;
+  document.querySelectorAll('.food-entry-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';});
+  document.querySelectorAll('.food-group-label').forEach(g=>{g.style.display=(cat==='all'||g.dataset.cat===cat)?'':'none';});
+  // Init food map if not yet open, then filter
+  if(!mapFood) initFoodMap();
+  filterFoodMap(cat);
+}
+
+// ── Tab switching ──────────────────────────────────────────────
+const tabBtns=[...document.querySelectorAll('.tab')];
+const panelEls=[...document.querySelectorAll('.panel')];
+const mapCol=document.getElementById('main-map-col');
+const capEl=document.getElementById('mapcap');
+function activate(tab){
+  tabBtns.forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  panelEls.forEach(p=>p.classList.toggle('show',p.id===`panel-${tab}`));
+  if(tab==='overview'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+    setTimeout(()=>{initOverviewMap();if(mapOv)mapOv.invalidateSize();},80);
+  } else if(tab==='history'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+  } else if(tab==='food'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.add('full-width');
+    setTimeout(()=>{initFoodMap();if(mapFood)mapFood.invalidateSize();},80);
+  } else {
+    mapCol.classList.remove('hidden');document.querySelector('.layout').classList.remove('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+    const di=parseInt(tab.replace('d',''),10);
+    // map lives in a column that may have been display:none; invalidate after
+    // the browser has applied layout, then fit. Multiple ticks cover slow reflow.
+    requestAnimationFrame(()=>{
+      if(typeof initDayMap==='function') initDayMap();
+      fitDay(di);
+      setTimeout(()=>{if(map)map.invalidateSize();},120);
+      setTimeout(()=>{if(map){map.invalidateSize();fitDay(di);}},320);
+    });
+    const btn=tabBtns.find(b=>b.dataset.tab===tab);
+    capEl.textContent=btn?btn.textContent.trim()+'. '+PTS.filter(p=>p.dayIndex===di).length+' stops':'';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+tabBtns.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab)));
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.stop');if(!card)return;
+  const m=markers[card.dataset.id];
+  if(m&&map){if(!map.hasLayer(m))m.addTo(map);map.flyTo(m.getLatLng(),16,{duration:.6});m.openPopup();}
+});
+// ── Swipe between tabs (mobile) ───────────────────────────────
+let _tx=null,_ty=null;
+document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;_ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(_tx===null)return;
+  const dx=e.changedTouches[0].clientX-_tx, dy=e.changedTouches[0].clientY-_ty;
+  _tx=null;
+  if(Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*0.7)return;
+  if(e.target.closest('.leaflet-container,.day-route'))return;
+  const cur=tabBtns.findIndex(b=>b.classList.contains('active'));
+  const nxt=cur+(dx<0?1:-1);
+  if(nxt>=0&&nxt<tabBtns.length)activate(tabBtns[nxt].dataset.tab);
+},{passive:true});
+
+// ── Today smart view ──────────────────────────────────────────
+const DAYDATES={"2026-07-09": "d0", "2026-07-10": "d1", "2026-07-11": "d2", "2026-07-12": "d3"};
+(function(){
+  const now=new Date();
+  const iso=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const todayTab=DAYDATES[iso];
+  if(todayTab){
+    const btn=tabBtns.find(b=>b.dataset.tab===todayTab);
+    if(btn){btn.classList.add('today-tab');
+      if(!location.hash){activate(todayTab);return;}
+    }
+  }
+  const hash=location.hash.replace('#','');
+  activate(['overview','history','food'].includes(hash)||hash.startsWith('d')?hash:'overview');
+})();
+</script>
+</body></html>
