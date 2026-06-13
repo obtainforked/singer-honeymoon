@@ -753,6 +753,16 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
 .tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
 .tt-stamp.collected .tt-name::after{content:' ✓';color:var(--cinnabar)}
+/* locked (final) stamp: dimmed, dashed, with a small lock badge — until departure day */
+.tt-stamp.locked{cursor:not-allowed}
+.tt-stamp.locked .tt-ring{border-style:dashed;border-color:var(--muted);color:var(--muted);
+  background:transparent;opacity:.7}
+.tt-stamp.locked:hover .tt-ring{transform:rotate(-6deg)}
+.tt-stamp.locked:nth-child(2n):hover .tt-ring{transform:rotate(4deg)}
+.tt-lock{position:absolute;right:-2px;bottom:-2px;font-size:.8rem;
+  filter:grayscale(.3) drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+.tt-stamp{position:relative}
+.tt-stamp .tt-ring{position:relative}
 
 /* Completion celebration: a screenshottable free-boba coupon */
 .tt-done{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
@@ -1061,11 +1071,11 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     </section>
   <section class="tea-trail reveal">
       <h3 class="tea-trail-h"><span>The Tea &amp; Pastry Trail</span><span class="tt-zh">茶點之旅</span></h3>
-      <p class="tea-trail-sub">For Amanda: 11 sweet stops, from a monk's tatami tearoom in Taipei
-      to Lord Stow's egg tarts in Macau, by way of boba on the beach and a silk-stocking milk tea.
-      Tap each one as you go &mdash; fill all 11 to finish the trail.</p>
-      <div class="tt-progress"><span id="tt-count">0</span> / 11 collected</div>
-      <div class="tt-grid"><button type="button" class="tt-stamp" data-idx="0" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">Eighty-Eightea Rinbansyo</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="1" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">50 Lan bubble tea</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="2" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 30</span></span><span class="tt-name">People&#x27;s Park teahouses</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-idx="3" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">甜</span><span class="tt-date">Jul 4</span></span><span class="tt-name">Bingfen iced jelly</span><span class="tt-city">Chongqing</span></button><button type="button" class="tt-stamp" data-idx="4" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 7</span></span><span class="tt-name">Boba on the beach</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-idx="5" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 9</span></span><span class="tt-name">Cantonese egg tarts</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-idx="6" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 13</span></span><span class="tt-name">Boba drone delivery</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-idx="7" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Silk-stocking milk tea</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="8" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Palm Court · The Langham</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="9" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">餅</span><span class="tt-date">Jul 16</span></span><span class="tt-name">The Lobby · The Peninsula</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="10" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 17</span></span><span class="tt-name">Lord Stow&#x27;s egg tarts</span><span class="tt-city">Macau</span></button></div>
+      <p class="tea-trail-sub">For Amanda: 12 sweet stops, from a monk's tatami tearoom in Taipei
+      to one last tart in the Cathay lounge. Tap each one as you go &mdash; the final stamp stays locked
+      🔒 until you're homeward bound. Fill all 12 to finish the trail.</p>
+      <div class="tt-progress"><span id="tt-count">0</span> / 12 collected</div>
+      <div class="tt-grid"><button type="button" class="tt-stamp" data-idx="0" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">Eighty-Eightea Rinbansyo</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="1" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">50 Lan bubble tea</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="2" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 30</span></span><span class="tt-name">People&#x27;s Park teahouses</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-idx="3" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">甜</span><span class="tt-date">Jul 4</span></span><span class="tt-name">Bingfen iced jelly</span><span class="tt-city">Chongqing</span></button><button type="button" class="tt-stamp" data-idx="4" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 7</span></span><span class="tt-name">Boba on the beach</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-idx="5" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 9</span></span><span class="tt-name">Cantonese egg tarts</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-idx="6" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 13</span></span><span class="tt-name">Boba drone delivery</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-idx="7" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Silk-stocking milk tea</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="8" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Palm Court · The Langham</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="9" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">餅</span><span class="tt-date">Jul 16</span></span><span class="tt-name">The Lobby · The Peninsula</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="10" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 17</span></span><span class="tt-name">Lord Stow&#x27;s egg tarts</span><span class="tt-city">Macau</span></button><button type="button" class="tt-stamp" data-idx="11" aria-pressed="false" data-unlock="2026-07-18"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 18</span><span class="tt-lock" aria-hidden="true">🔒</span></span><span class="tt-name">Cathay lounge, HKG</span><span class="tt-city">Homebound</span></button></div>
     </section>
     <div id="tt-done" class="tt-done" hidden>
       <div class="tt-done-card">
@@ -1229,12 +1239,26 @@ if(document.getElementById('routemap')){
   var got={};
   try{got=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){got={};}
   var countEl=document.getElementById('tt-count');
+  var progEl=document.querySelector('.tt-progress');
+  var progBase=progEl?progEl.innerHTML:'';
+  function chinaYMD(){
+    try{var p={};new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',
+      year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date())
+      .forEach(function(x){p[x.type]=x.value;});return p.year+'-'+p.month+'-'+p.day;}
+    catch(e){var n=new Date(Date.now()+(480+new Date().getTimezoneOffset())*60000);
+      return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+  }
+  function locked(s){var u=s.dataset.unlock;return !!u && chinaYMD() < u;}
   function n(){return Object.keys(got).filter(function(k){return got[k];}).length;}
   function paint(){
     stamps.forEach(function(s){
+      var lk=locked(s);
+      if(lk) got[s.dataset.idx]=false;        // can't hold a locked stamp collected
       var on=!!got[s.dataset.idx];
+      s.classList.toggle('locked',lk);
       s.classList.toggle('collected',on);
       s.setAttribute('aria-pressed',on?'true':'false');
+      s.setAttribute('aria-disabled',lk?'true':'false');
     });
     if(countEl)countEl.textContent=n();
   }
@@ -1242,8 +1266,20 @@ if(document.getElementById('routemap')){
     var d=document.getElementById('tt-done');if(!d)return;
     d.hidden=false; void d.offsetWidth; d.classList.add('show');
   }
+  var hintT=null;
+  function hint(msg){
+    if(!progEl)return;
+    progEl.textContent=msg;
+    clearTimeout(hintT);
+    hintT=setTimeout(function(){
+      progEl.innerHTML=progBase;
+      countEl=document.getElementById('tt-count');
+      paint();
+    },2600);
+  }
   stamps.forEach(function(s){
     s.addEventListener('click',function(){
+      if(locked(s)){ hint('That one unlocks on your way home ✈'); return; }
       var i=s.dataset.idx, was=n();
       got[i]=!got[i];
       try{localStorage.setItem(KEY,JSON.stringify(got));}catch(e){}
@@ -1258,6 +1294,8 @@ if(document.getElementById('routemap')){
     setTimeout(function(){d.hidden=true;},300);
   });
   paint();
+  // re-check the lock so the final stamp opens up the moment departure day arrives
+  setInterval(paint, 60000);
 })();
 
 // ── Date-aware hero card: countdown → live day tracker → just married.

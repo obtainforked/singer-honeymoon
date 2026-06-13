@@ -753,6 +753,16 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
 .tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
 .tt-stamp.collected .tt-name::after{content:' ✓';color:var(--cinnabar)}
+/* locked (final) stamp: dimmed, dashed, with a small lock badge — until departure day */
+.tt-stamp.locked{cursor:not-allowed}
+.tt-stamp.locked .tt-ring{border-style:dashed;border-color:var(--muted);color:var(--muted);
+  background:transparent;opacity:.7}
+.tt-stamp.locked:hover .tt-ring{transform:rotate(-6deg)}
+.tt-stamp.locked:nth-child(2n):hover .tt-ring{transform:rotate(4deg)}
+.tt-lock{position:absolute;right:-2px;bottom:-2px;font-size:.8rem;
+  filter:grayscale(.3) drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+.tt-stamp{position:relative}
+.tt-stamp .tt-ring{position:relative}
 
 /* Completion celebration: a screenshottable free-boba coupon */
 .tt-done{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
