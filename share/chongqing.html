@@ -1,0 +1,1322 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Chongqing &middot; The Singer Honeymoon</title>
+<link rel="stylesheet" href="assets/leaflet/leaflet.css">
+<style>
+/* ===== Fonts (vendored, offline) ===== */
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-400.woff2') format('woff2'),url('assets/fonts/notosc-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'NotoSC';src:url('assets/fonts/notosc-latin-700.woff2') format('woff2'),url('assets/fonts/notosc-700.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --cinnabar:#C0392B; --cinnabar-deep:#9A2018; --vermillion:#D9483B;
+  --gold:#C9A227; --gold-soft:#E4C76B;
+  --ink:#1f1a17; --ink-soft:#4a4138; --muted:#8a7d6d;
+  --paper:#F3EBDD; --paper-2:#EDE3D2; --card:#FCF7EC; --line:#DDD0B8;
+  --shadow:24px 30px 60px -28px rgba(60,38,20,.45);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0}html{scroll-padding-top:58px}.vpage{scroll-margin-top:58px}.hero{scroll-margin-top:58px}.hero{padding-top:18px}
+body{
+  font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun","Iowan Old Style",Georgia,serif;
+  color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(217,72,59,.07), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(201,162,39,.08), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23000' stroke-opacity='0.018' stroke-width='1'/%3E%3C/svg%3E");
+}
+a{color:var(--cinnabar);text-underline-offset:2px}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 26px}
+
+/* ===== Masthead ===== */
+header.masthead{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(252,247,236,.82);backdrop-filter:blur(12px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(255,255,255,.6), 0 8px 30px -20px rgba(60,38,20,.4);
+  padding-top:env(safe-area-inset-top);
+}
+.masthead .wrap{display:flex;align-items:center;justify-content:space-between;padding:13px 26px;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:1.05rem;letter-spacing:.02em;text-decoration:none;color:inherit}
+.brand .seal{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:34px;height:40px;border-radius:7px;background:var(--cinnabar);color:#fff;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:.95rem;
+  box-shadow:0 2px 8px -2px rgba(154,32,24,.7), inset 0 0 0 1px rgba(255,255,255,.25);
+  line-height:1.1;gap:1px;
+}
+.brand .seal-name{font-size:.45rem;letter-spacing:.05em;opacity:.85}
+.brand .brand-en{font-family:'Cormorant',serif;font-size:1.3rem;letter-spacing:.04em}
+.brand .brand-sub{color:var(--muted);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase}
+nav.cities{display:flex;flex-wrap:wrap;gap:2px}
+nav.cities a{
+  position:relative;text-decoration:none;color:var(--ink-soft);font-size:.86rem;
+  padding:7px 11px;border-radius:6px;transition:color .2s, background .2s;
+}
+nav.cities a::after{content:'';position:absolute;left:11px;right:11px;bottom:3px;height:2px;
+  background:var(--cinnabar);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+nav.cities a:hover{color:var(--cinnabar)}
+nav.cities a:hover::after{transform:scaleX(1)}
+nav.cities a.active{color:var(--cinnabar);font-weight:700}
+nav.cities a.active::after{transform:scaleX(1)}
+
+/* Destinations dropdown group */
+.navgroup{position:relative;display:inline-block}
+.navgroup-btn{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:.86rem;
+  font-family:inherit;padding:7px 11px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+.navgroup-btn:hover,.navgroup-btn.active{color:var(--cinnabar)}
+.navgroup-btn.active{font-weight:700}
+.navgroup .caret{font-size:.7rem;transition:transform .2s}
+.navgroup .submenu{position:absolute;top:100%;left:0;min-width:180px;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px -12px rgba(60,38,20,.4);
+  padding:6px;display:none;flex-direction:column;z-index:1100;margin-top:4px}
+.navgroup .submenu a{padding:9px 12px;border-radius:6px;font-size:.86rem;color:var(--ink-soft);
+  text-decoration:none}
+.navgroup .submenu a::after{display:none}
+.navgroup .submenu a:hover{background:var(--paper);color:var(--cinnabar)}
+.navgroup .submenu a.active{color:var(--cinnabar);font-weight:700}
+/* open on hover (desktop) or when toggled open (click) */
+@media(hover:hover){.navgroup:hover .submenu{display:flex}.navgroup:hover .caret{transform:rotate(180deg)}}
+.navgroup.open .submenu{display:flex}
+.navgroup.open .caret{transform:rotate(180deg)}
+
+/* Hamburger toggle, hidden on desktop, shown on mobile */
+.nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:42px;height:42px;padding:9px;background:none;border:1px solid var(--line);
+  border-radius:9px;cursor:pointer}
+.nav-toggle span{display:block;height:2px;width:100%;background:var(--ink);border-radius:2px;
+  transition:transform .25s, opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:760px){
+  .nav-toggle{display:flex}
+  nav.cities{display:none;flex-direction:column;gap:0;width:100%;order:3;
+    margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
+  nav.cities.open{display:flex}
+  nav.cities>a{font-size:1rem;padding:12px 6px;border-bottom:1px solid var(--line);border-radius:0}
+  nav.cities a::after{display:none}
+  nav.cities a.active{background:color-mix(in srgb,var(--cinnabar) 8%,transparent)}
+  /* Destinations group inline on mobile */
+  .navgroup{display:block;width:100%}
+  .navgroup-btn{width:100%;justify-content:space-between;font-size:1rem;padding:12px 6px;
+    border-bottom:1px solid var(--line)}
+  .navgroup .submenu{position:static;display:none;border:none;box-shadow:none;background:transparent;
+    margin:0;padding:0;border-radius:0}
+  .navgroup.open .submenu{display:flex}
+  .navgroup .submenu a{padding:11px 6px 11px 22px;border-bottom:1px solid var(--line);
+    border-radius:0;font-size:.95rem}
+  @media(hover:hover){.navgroup:hover .submenu{display:none}}
+  .navgroup.open .submenu{display:flex}
+}
+
+/* ===== Hero ===== */
+.hero{position:relative;padding:54px 0 26px;overflow:hidden}
+.hero .watermark{
+  position:absolute;right:-6px;top:50%;transform:translateY(-50%);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:clamp(7rem,18vw,15rem);
+  color:var(--cinnabar);opacity:.07;line-height:.8;pointer-events:none;user-select:none;
+  letter-spacing:-.04em;
+}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--cinnabar);
+  font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:14px}
+.hero .eyebrow::before{content:'';width:30px;height:1px;background:var(--cinnabar);display:inline-block}
+.hero h1{
+  font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(2.6rem,6vw,4.4rem);line-height:1;margin:0;letter-spacing:.01em;
+  color:var(--ink);
+}
+.hero h1 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);margin-left:.3em;font-size:.7em}
+.hero .sub{color:var(--ink-soft);font-size:1.05rem;margin-top:14px;max-width:62ch}
+.hero .rule{display:flex;align-items:center;gap:12px;margin-top:22px;color:var(--gold)}
+.hero .rule::before,.hero .rule::after{content:'';height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);flex:1}
+.hero .rule span{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== Layout ===== */
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start;padding-bottom:70px}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  /* On mobile, show the map first, then the day's stops below it */
+  .layout .map-col{order:-1}
+  .layout .itinerary{order:1}
+}
+#map{height:600px;border-radius:14px;position:sticky;top:88px;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line);overflow:hidden}
+@media(max-width:900px){#map{position:relative;top:0;height:360px}}
+.map-frame{position:relative;border-radius:14px;overflow:hidden}
+.map-frame::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  box-shadow:inset 0 0 0 4px rgba(192,57,43,.0), inset 0 0 30px rgba(60,38,20,.12)}
+
+/* ===== Day sections ===== */
+.day{margin-bottom:40px}
+.day h2{
+  display:flex;align-items:center;gap:12px;margin:0 0 18px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;letter-spacing:.01em;
+  color:var(--ink);
+}
+.day h2 .daydot{width:13px;height:13px;border-radius:50%;background:var(--cat,#888);flex:0 0 13px;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--cat,#888) 22%, transparent)}
+.day h2 .daytext{flex:1}
+.day h2 .dayline{height:1px;flex:0 0 40px;background:var(--cat,var(--line));opacity:.5}
+
+/* ===== Stop cards ===== */
+.stop{
+  position:relative;background:var(--card);border-radius:12px;
+  padding:16px 18px 16px 20px;margin-bottom:14px;cursor:pointer;overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(60,38,20,.04);
+  transition:transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s, border-color .18s;
+}
+.stop::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat,#888)}
+.stop:hover{transform:translateY(-3px);box-shadow:0 14px 30px -16px rgba(60,38,20,.4);border-color:color-mix(in srgb,var(--cat,#888) 40%,var(--line))}
+.stop.flash{box-shadow:0 0 0 2px var(--cat,#888), 0 14px 30px -14px rgba(60,38,20,.5)}
+.stop-img{margin:-16px -18px 14px -20px;height:180px;overflow:hidden;border-radius:10px 10px 0 0}
+.stop-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.stop:hover .stop-img img{transform:scale(1.04)}
+.stop .toprow{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.pin{
+  width:27px;height:27px;flex:0 0 27px;border-radius:8px;
+  background:var(--cat,#888);color:#fff;
+  font-family:'Cormorant',serif;font-size:.95rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25), 0 2px 6px -2px rgba(0,0,0,.4);
+}
+.stop h3{margin:0;font-size:1.12rem;font-weight:700;letter-spacing:.005em;line-height:1.25}
+.stop .zh{color:var(--cinnabar);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.92rem;margin-left:6px;font-weight:400;opacity:.85}
+.tag{margin-left:auto;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);background:transparent;border:1px solid var(--line);
+  padding:3px 9px;border-radius:20px}
+.meta{display:flex;flex-wrap:wrap;gap:7px 18px;margin:11px 0 0;font-size:.85rem;color:var(--ink-soft)}
+.meta span b{color:var(--muted);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.meta a{font-weight:700;white-space:nowrap}
+.notes{font-size:.88rem;margin-top:11px;line-height:1.6;color:var(--ink-soft)}
+.stop-protip{font-size:.88rem;line-height:1.6;margin:8px 0;padding:7px 11px;background:var(--paper-2);border-radius:8px;border-left:3px solid var(--cinnabar)}
+.protip-label{font-weight:700;color:var(--cinnabar);margin-right:5px}
+.notes b{color:var(--cinnabar);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:3px}
+.netizen{position:relative;font-size:.85rem;margin-top:12px;padding:9px 13px 9px 30px;
+  color:var(--ink-soft);font-style:italic;background:var(--paper-2);border-radius:8px;line-height:1.55}
+.netizen::before{content:'\201C';position:absolute;left:8px;top:0px;font-family:'Cormorant',serif;
+  font-size:2.1rem;color:var(--gold);line-height:1}
+.badge{display:inline-flex;align-items:center;font-size:.62rem;color:#fff;padding:3px 9px;border-radius:20px;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.badge.booked{background:#3E7D52;box-shadow:0 2px 6px -2px rgba(62,125,82,.6)}
+.badge.tobook{background:var(--cinnabar);box-shadow:0 2px 6px -2px rgba(192,57,43,.6)}
+
+/* ===== Legend ===== */
+.legend{display:flex;gap:9px 16px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--ink-soft);
+  margin:0 0 22px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.legend .legend-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.legend span:not(.legend-title){display:inline-flex;align-items:center}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:6px;
+  box-shadow:0 0 0 3px color-mix(in srgb,currentColor 0%, transparent)}
+
+/* ===== Offline note ===== */
+.offnote{display:flex;gap:11px;align-items:flex-start;
+  background:linear-gradient(180deg,#FCF6E4,#F8EFD6);border:1px solid var(--gold-soft);
+  border-radius:12px;padding:13px 16px;font-size:.85rem;margin:0 0 20px;color:var(--ink-soft);line-height:1.5}
+.offnote b{color:var(--cinnabar-deep)}
+.offnote .ico{flex:0 0 22px;width:22px;height:22px;border-radius:6px;background:var(--gold);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;margin-top:1px}
+
+/* ===== Food page ===== */
+.food-city-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.food-city-tab{padding:8px 16px;border-radius:20px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink-soft);font-size:.85rem;cursor:pointer;
+  font-family:inherit;transition:all .2s}
+.food-city-tab:hover{border-color:var(--cinnabar);color:var(--cinnabar)}
+.food-city-tab.active{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
+.food-cat-filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+.food-cat-btn{padding:5px 13px;border-radius:14px;border:1px solid var(--line);
+  background:var(--card);font-size:.78rem;cursor:pointer;transition:all .18s;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn:hover{filter:brightness(.95)}
+.food-cat-btn.active{color:#fff;border-color:transparent}
+.food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.food-map-col{order:-1}}
+#foodmap{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);
+  outline:1px solid var(--line)}
+@media(max-width:900px){#foodmap{height:360px}}
+.food-map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-col{position:relative;top:0}}
+.food-cards{display:flex;flex-direction:column;gap:14px}
+.food-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;position:relative;overflow:hidden;cursor:pointer;
+  transition:box-shadow .2s, transform .15s}
+.food-card:hover{box-shadow:0 4px 18px -8px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.food-card-name{font-family:'Cormorant',serif;font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.2}
+.food-card-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.food-cat-pill{font-size:.7rem;padding:3px 9px;border-radius:10px;color:#fff;
+  white-space:nowrap;flex-shrink:0;font-weight:600;letter-spacing:.03em}
+.food-card-dishes{font-size:.85rem;color:var(--ink-soft);margin:4px 0 8px;line-height:1.5}
+.food-card-netizen{font-size:.82rem;color:var(--ink-soft);font-style:italic;line-height:1.5;
+  margin:6px 0 8px;padding:7px 11px;background:var(--paper-2);border-radius:8px;
+  border-left:3px solid var(--gold)}
+.food-allergy-badge{font-size:.74rem;padding:3px 8px;border-radius:8px;display:inline-block;margin-top:4px}
+.food-allergy-safe{background:color-mix(in srgb,#3E7D52 12%,transparent);color:#2a5c39}
+.food-allergy-warn{background:color-mix(in srgb,#C9821E 12%,transparent);color:#8a5200}
+.food-card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--line)}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+.food-count-badge{font-size:.78rem;color:var(--muted);padding:3px 8px;
+  background:var(--paper-2);border-radius:8px;margin-left:auto}
+/* Category colour map. JS reads data-cat attribute */
+.cat-hot-pot{--ccat:#B0202E}
+.cat-chinese-food{--ccat:#2E6F95}
+.cat-dim-sum{--ccat:#7A4BA8}
+.cat-cafe-coffee{--ccat:#8A6D1F}
+.cat-bar{--ccat:#1F8A8A}
+.cat-international{--ccat:#C24E8C}
+.cat-bakery-snacks{--ccat:#C9821E}
+.cat-seafood{--ccat:#3E7D52}
+.cat-vegetarian-vegan{--ccat:#5566C0}
+.cat-other{--ccat:#888}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.8rem;text-align:center}
+footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:.8em}
+
+/* ===== Home page ===== */
+.summary{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px 30px 26px;margin-top:34px;margin-bottom:34px;box-shadow:0 1px 2px rgba(60,38,20,.05);overflow:hidden}
+.summary::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.summary p{margin:0;font-size:1.05rem;line-height:1.7;color:var(--ink-soft)}
+.summary .summary-lead{font-size:1.08rem;line-height:1.75}
+.summary .hl-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 8px}
+@media(max-width:760px){.summary .hl-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.summary .hl-strip{grid-template-columns:1fr}}
+.summary .hl{display:flex;align-items:center;gap:11px;text-decoration:none;
+  background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 13px;
+  transition:transform .18s, box-shadow .18s, border-color .18s}
+.summary .hl:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(60,38,20,.4);
+  border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 45%,var(--line))}
+.summary .hl-ico{flex:0 0 30px;width:30px;height:30px;color:var(--cat,var(--cinnabar))}
+.summary .hl-ico svg{width:30px;height:30px;display:block}
+.summary .hl-t{font-size:.86rem;line-height:1.3;color:var(--ink)}
+.summary .stats{display:flex;gap:30px;margin-top:20px;flex-wrap:wrap}
+.summary .stat{display:flex;flex-direction:column}
+.summary .stat .n{font-family:'Cormorant',serif;font-size:2.2rem;font-weight:600;color:var(--cinnabar);line-height:1}
+.summary .stat .l{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.summary .stats-foot{margin-top:10px;font-size:.74rem;color:var(--muted);font-style:italic}
+
+
+.citygrid{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;padding-bottom:60px}
+.citycard{flex:1 1 280px;max-width:340px;min-width:260px;box-sizing:border-box;position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:24px 22px 22px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(60,38,20,.05);
+  transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s}
+.citycard::after{content:attr(data-zh);position:absolute;right:-8px;bottom:-26px;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:6rem;line-height:1;
+  color:var(--cinnabar);opacity:.06;transition:opacity .22s, transform .22s;letter-spacing:-.04em}
+.citycard:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+.citycard:hover::after{opacity:.12;transform:scale(1.08) translateY(-4px)}
+.citycard .num{font-family:'Cormorant',serif;color:var(--gold);font-size:.95rem;letter-spacing:.1em}
+.citycard h3{margin:6px 0 2px;font-family:'Cormorant',serif;font-weight:600;font-size:2rem;line-height:1;color:var(--ink)}
+.citycard h3 .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;color:var(--cinnabar);font-size:.62em;margin-left:.25em}
+.citycard .dates{font-size:.84rem;color:var(--muted);margin-top:8px}
+.citycard .count{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;margin-top:16px;
+  color:var(--cinnabar);font-weight:700}
+.citycard .count::after{content:'\2192';transition:transform .22s}
+.citycard:hover .count::after{transform:translateX(4px)}
+
+/* ===== Entrance animations ===== */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards}
+@media(prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1}}
+
+/* ===== Leaflet popup restyle ===== */
+.leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 10px 30px -12px rgba(60,38,20,.5);
+  background:var(--card);border:1px solid var(--line)}
+.leaflet-popup-content{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif;margin:11px 14px;font-size:.86rem;color:var(--ink)}
+.leaflet-popup-tip{background:var(--card)}
+.leaflet-container{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.leaflet-bar a{border-radius:4px}
+
+/* ===== Day sub-tabs ===== */
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:2px}
+.tab{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  font-family:'NotoSC',serif;font-size:.86rem;color:var(--ink-soft);
+  background:var(--card);border:1px solid var(--line);border-radius:30px;
+  padding:8px 15px;transition:all .18s;white-space:nowrap}
+.tab .tab-dot{width:9px;height:9px;border-radius:50%;background:var(--cat,var(--muted));flex:0 0 9px;transition:transform .18s}
+.tab:hover{border-color:color-mix(in srgb,var(--cat,var(--cinnabar)) 50%,var(--line));transform:translateY(-1px)}
+.tab.active{background:var(--cat,var(--cinnabar));color:#fff;border-color:transparent;
+  box-shadow:0 5px 14px -5px color-mix(in srgb,var(--cat,var(--cinnabar)) 80%,transparent)}
+.tab.active .tab-dot{background:#fff;transform:scale(1.1)}
+.tab-history{margin-left:6px;position:relative}
+.tab-history::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history.active{background:var(--ink);}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Panels (tab content) ===== */
+.panel{display:none;animation:rise .45s cubic-bezier(.2,.7,.3,1)}
+.panel.show{display:block}
+.day-head h2{display:flex;align-items:baseline;gap:10px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.7rem;color:var(--ink);line-height:1.1}
+.tag svg{vertical-align:-1.5px;margin-right:4px;opacity:.85}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.panel.show .stop{animation:cardIn .45s cubic-bezier(.2,.7,.3,1) both;animation-delay:min(calc(var(--i,0)*45ms),400ms)}
+.tab.today-tab::after{content:"·";color:var(--cinnabar);font-weight:900;margin-left:4px;font-size:1.2em;line-height:0}
+
+.globe-box canvas{width:100%;height:auto;display:block;cursor:grab;touch-action:none}
+.budget-total span{font-size:.85rem;font-family:inherit;color:#9a8f7d;font-weight:400;margin-left:8px}
+.budget-bar i{display:block}
+.budget-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+.globe-box{flex:0 1 480px;max-width:560px}
+@media(max-width:640px){.globe-legend{grid-template-columns:1fr}}
+
+.panel.show .day-route{animation:cardIn .5s cubic-bezier(.2,.7,.3,1) both}
+@media (prefers-reduced-motion:reduce){.panel.active .stop,.panel.show .day-route{animation:none}}
+
+.day-strip{display:flex;gap:14px;font-size:.8rem;color:#8a8a8a;margin:2px 0 6px}
+.day-strip .strip-book{color:var(--cinnabar);font-weight:600}
+
+.day-intro{font-size:.98rem;line-height:1.7;color:var(--ink-soft);margin:6px 0 22px;
+  padding:14px 18px;background:var(--card);border-radius:12px;
+  border:1px solid var(--line);border-left:4px solid var(--cat,var(--cinnabar))}
+.day-intro-empty{color:var(--muted);font-style:italic}
+
+/* ===== Sticky map column ===== */
+.map-col{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.map-col{position:relative;top:0}}
+.map-col.hidden{display:none}
+.map-cap{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);
+  letter-spacing:.04em}
+.map-cap-dot{width:8px;height:8px;border-radius:50%;background:var(--cinnabar);
+  box-shadow:0 0 0 4px rgba(192,57,43,.15)}
+/* when a tab hides the map, the single column behaves per tab type:
+   - Study/Overview: capped to a readable width, CENTERED in the container
+   - Food: spans the full container width (it has its own internal map + card grid) */
+.layout:has(.map-col.hidden){grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map{grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+.layout.no-map.full-width{max-width:none;margin-left:0;margin-right:0}
+
+/* ===== Study / History ===== */
+.study-intro{margin-bottom:22px}
+.study-kicker{display:inline-block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px}
+.study-intro h2{font-family:'Cormorant',serif;font-weight:600;font-size:2.1rem;margin:0;color:var(--ink)}
+.study-wrap{display:flex;flex-direction:column;gap:18px}
+/* Collapsible "China, the big picture" */
+.china-collapse{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin:0 0 26px;overflow:hidden}
+.china-collapse>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:18px 22px;font-family:'Cormorant',serif}
+.china-collapse>summary::-webkit-details-marker{display:none}
+.china-collapse .cc-title{font-weight:600;font-size:1.4rem;color:var(--ink)}
+.china-collapse .cc-meta{font-family:'NotoSC',sans-serif;font-size:.78rem;color:var(--muted);
+  letter-spacing:.04em}
+.china-collapse .cc-chev{margin-left:auto;color:var(--cinnabar);font-size:1rem;transition:transform .2s}
+.china-collapse[open] .cc-chev{transform:rotate(180deg)}
+.china-collapse[open]>summary{border-bottom:1px solid var(--line)}
+.china-collapse .cc-body{padding:20px 22px 8px}
+.china-collapse .cc-meta::before{content:'';display:inline-block;width:1px;height:13px;
+  background:var(--line);margin-right:14px;vertical-align:middle}
+@media(max-width:560px){.china-collapse .cc-meta{display:none}}
+.era-band{margin-bottom:26px}
+.era-band-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.4rem;color:var(--ink);
+  margin:0 0 14px;display:flex;align-items:center;gap:12px}
+.era-band-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.era-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.era-card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cinnabar);
+  border-radius:12px;padding:14px 15px;position:relative}
+.era-card .era-label{display:block;font-family:'Cormorant',serif;font-weight:600;font-size:1rem;
+  color:var(--cinnabar-deep);letter-spacing:.02em;margin-bottom:6px}
+.era-card p{margin:0;font-size:.85rem;line-height:1.55;color:var(--ink-soft)}
+@media(max-width:560px){.era-grid{grid-template-columns:1fr}}
+.study-block{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px 26px;box-shadow:0 1px 2px rgba(60,38,20,.04);position:relative;overflow:hidden}
+.study-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--cinnabar),var(--gold))}
+.study-block h3{font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;margin:0 0 10px;color:var(--cinnabar-deep)}
+.study-block p{margin:0;font-size:1rem;line-height:1.8;color:var(--ink-soft)}
+.study-block .term{display:flex;gap:10px;margin-top:14px;padding-top:13px;border-top:1px dotted var(--line);font-size:.92rem}
+.study-block .term-k{flex:0 0 auto;font-weight:700;color:var(--ink);font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif}
+.study-block .term-v{color:var(--ink-soft)}
+/* ===== Collapsible study blocks ===== */
+.study-block.collapsible h3{cursor:pointer;display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;user-select:none;transition:color .15s}
+.study-block.collapsible h3:hover{color:var(--cinnabar)}
+.study-block .sb-check{flex:0 0 auto;width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--line);background:var(--paper);display:inline-flex;
+  align-items:center;justify-content:center;font-size:.9rem;color:transparent;
+  transition:all .18s;line-height:1}
+.study-block .sb-chevron{flex:0 0 auto;margin-left:auto;font-size:.8rem;color:var(--muted);
+  transition:transform .2s}
+.study-block .sb-body{overflow:hidden;transition:max-height .25s ease, opacity .2s ease;
+  max-height:4000px;opacity:1}
+/* collapsed (= checked/done) state */
+.study-block.done{opacity:.72;background:var(--paper-2)}
+.study-block.done .sb-check{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff}
+.study-block.done .sb-chevron{transform:rotate(-90deg)}
+.study-block.done .sb-body{max-height:0;opacity:0;margin:0}
+.study-block.done h3{margin-bottom:0;color:var(--muted)}
+.study-empty{background:var(--card);border:1px dashed var(--gold-soft);border-radius:14px;padding:26px 28px;color:var(--ink-soft)}
+.study-empty h3{font-family:'Cormorant',serif;font-size:1.5rem;color:var(--cinnabar-deep);margin:0 0 8px}
+.study-empty p{margin:0;line-height:1.7}
+.study-empty code{background:var(--paper-2);padding:1px 6px;border-radius:4px}
+
+/* ===== Prep page ===== */
+.prep-h{font-family:'Cormorant',serif;font-weight:600;font-size:1.8rem;color:var(--ink);
+  margin:42px 0 18px;display:flex;align-items:center;gap:12px}
+.prep-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.prep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;padding-bottom:60px}
+.prep-card{display:flex;flex-direction:column;text-decoration:none;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:20px;transition:all .2s;position:relative;overflow:hidden}
+.prep-card .zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:2rem;color:var(--cinnabar);line-height:1}
+.prep-card .en{font-family:'Cormorant',serif;font-size:1.25rem;color:var(--ink);margin-top:4px}
+.prep-card .st{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.prep-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--cinnabar) 35%,var(--line))}
+
+/* ===== City description (under city title) ===== */
+.city-desc{font-size:1.04rem;line-height:1.75;color:var(--ink-soft);max-width:64ch;margin:16px 0 0;
+  font-family:'NotoSC',serif}
+
+/* ===== Home: full-bleed hero ===== */
+.home-hero{position:relative;overflow:hidden;
+  background:linear-gradient(150deg,#C5402E 0%,#A8241A 55%,#8C1C14 100%);
+  border-bottom:1px solid rgba(0,0,0,.12);
+  box-shadow:inset 0 -40px 60px -40px rgba(40,8,10,.5)}
+.home-hero-inner{position:relative;z-index:2;padding:64px 0 72px;max-width:60%}
+@media(max-width:820px){.home-hero-inner{max-width:100%}}
+.home-wm{font-size:clamp(10rem,26vw,24rem);right:-2%;opacity:.06}
+/* China-map hero backdrop */
+.hero-map{position:absolute;top:50%;right:1%;transform:translateY(-50%);
+  height:96%;width:62%;pointer-events:none;z-index:1}
+@media(max-width:820px){.hero-map{opacity:.3;right:-18%;width:115%;height:auto}}
+.hero-map .hm-land{fill:rgba(255,210,160,.06);stroke:rgba(255,210,160,.15);stroke-width:1}
+.hero-map .hm-route{fill:none;stroke:rgba(245,220,160,.6);stroke-width:3;
+  stroke-dasharray:2 9;stroke-linecap:round;opacity:.85}
+/* Floating ink characters */
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0}
+  8%{opacity:.72}
+  78%{opacity:.5}
+  100%{transform:translateY(-110vh);opacity:0}
+}
+.char-float{position:absolute;z-index:1;bottom:-30px;
+  color:rgba(240,200,75,.68);
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  animation:floatUp linear infinite;pointer-events:none;user-select:none;line-height:1}
+.home-title{font-family:'Cormorant',serif;font-weight:600;
+  font-size:clamp(3.4rem,9vw,7rem);line-height:.92;margin:8px 0 0;color:#F5E2A8;letter-spacing:.005em}
+.home-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:clamp(1.3rem,3vw,2rem);color:#D4923A;
+  margin-top:14px;letter-spacing:.12em}
+.home-hero .eyebrow{color:rgba(245,220,160,.55)}
+.home-hero .sub{margin-top:20px;font-size:1.12rem;max-width:54ch;color:rgba(245,225,185,.82)}
+.char-float.char-ico{display:inline-block;line-height:0}
+.char-float.char-ico svg{width:36px;height:36px}
+.hero-clouds{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:80px;display:block}
+
+/* ===== Section heading ===== */
+.sec-h{display:flex;align-items:baseline;gap:14px;margin:46px 0 22px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:2rem;color:var(--ink)}
+.sec-h .sec-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.2rem;color:var(--cinnabar);opacity:.8}
+.sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent);align-self:center}
+
+/* ===== Route map (home) ===== */
+.route-wrap{margin-bottom:20px}
+.route-frame{position:relative;border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+#routemap{height:480px;width:100%;background:var(--paper-2)}
+@media(max-width:700px){#routemap{height:380px}}
+.route-cap{margin:12px 2px 16px;font-size:.86rem;color:var(--muted);font-style:italic}
+.route-pin{transition:transform .15s}
+.route-pin:hover{transform:scale(1.12);z-index:1000}
+
+/* ===== Journey legs (white box between maps) ===== */
+.journey{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:22px 26px 14px;margin:32px 0 8px;box-shadow:0 1px 2px rgba(60,38,20,.05)}
+.journey-h{display:flex;align-items:baseline;gap:11px;margin:0 0 14px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.journey-h .journey-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1rem;color:var(--cinnabar);opacity:.8}
+.legs{list-style:none;margin:0;padding:0;position:relative}
+.legs::before{content:'';position:absolute;left:90px;top:6px;bottom:18px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--line));opacity:.55}
+.leg{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative}
+.leg-date{flex:0 0 60px;text-align:right;font-size:.82rem;font-weight:700;color:var(--ink-soft);
+  font-variant-numeric:lining-nums;padding-top:7px}
+.leg-mode{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--paper-2);
+  border:2px solid var(--line);color:var(--cinnabar);display:flex;align-items:center;justify-content:center;
+  z-index:1;position:relative}
+.leg-mode svg{width:19px;height:19px}
+.leg-body{display:flex;flex-direction:column;padding-top:3px}
+.leg-route{font-family:'Cormorant',serif;font-weight:600;font-size:1.18rem;color:var(--ink);line-height:1.2}
+.leg-arrow{color:var(--cinnabar);margin:0 3px}
+.leg-detail{font-size:.84rem;color:var(--muted);margin-top:2px}
+@media(max-width:560px){.legs::before{left:90px}.leg-route{font-size:1.05rem}}
+
+/* ===== Timeline card strip (restored, under the map) ===== */
+.timeline{overflow-x:auto;padding:32px 4px 10px;scrollbar-width:thin;position:relative}
+.timeline-inner{position:relative;display:flex;align-items:stretch;gap:0;
+  width:fit-content;margin-left:auto;margin-right:auto}
+.timeline-inner::before{content:'';position:absolute;left:8px;right:8px;top:34px;height:3px;
+  background:linear-gradient(90deg,var(--line),var(--gold),var(--line));border-radius:3px;z-index:0}
+.tl-end{flex:0 0 auto;align-self:flex-start;margin-top:22px;font-size:.78rem;font-weight:700;
+  color:var(--muted);background:var(--paper-2);border:1px solid var(--line);border-radius:20px;
+  padding:5px 12px;white-space:nowrap;position:relative;z-index:2}
+.tl-stop{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  text-decoration:none;min-width:122px;position:relative;padding:0 6px;z-index:1}
+.tl-node{width:26px;height:26px;border-radius:50%;background:var(--cat,#888);color:#fff;
+  border:3px solid var(--paper);display:flex;align-items:center;justify-content:center;
+  font-family:'NotoSC',Georgia,serif;font-weight:700;font-size:.82rem;line-height:1;z-index:2;
+  font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--cat,#888) 28%,transparent);transition:transform .2s}
+.tl-node>b{display:block;font-weight:700}
+.tl-card{display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:11px;
+  background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cat,#888);
+  border-radius:12px;padding:12px 14px 13px;min-width:108px;transition:transform .2s, box-shadow .2s}
+.tl-stop:hover .tl-card{transform:translateY(-4px);box-shadow:0 12px 26px -14px rgba(60,38,20,.5)}
+.tl-stop:hover .tl-node{transform:scale(1.18)}
+.tl-ico{color:var(--cat,var(--cinnabar));width:34px;height:34px;margin-bottom:6px}
+.tl-ico svg{width:34px;height:34px;display:block}
+.tl-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.15rem;color:var(--cat,var(--cinnabar));line-height:1}
+.tl-city{font-family:'Cormorant',serif;font-weight:600;font-size:1.08rem;color:var(--ink);margin-top:2px}
+.tl-date{font-size:.71rem;color:var(--muted);margin-top:3px;white-space:nowrap}
+
+/* ===== Card pictograms ===== */
+.card-ico{position:absolute;top:18px;right:18px;width:42px;height:42px;color:var(--cinnabar);
+  opacity:.9;transition:transform .25s, opacity .25s;z-index:2}
+.card-ico svg{width:42px;height:42px;display:block}
+.citycard:hover .card-ico{transform:scale(1.12) rotate(-3deg);opacity:1}
+
+/* ===== City Overview tab ===== */
+.city-overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+@media(max-width:600px){.city-overview-grid{grid-template-columns:1fr}}
+.home-base-card{margin-top:22px;padding:18px 20px;border-radius:14px;
+  background:linear-gradient(135deg,var(--paper-2),var(--paper));
+  border:1px solid var(--line);border-left:4px solid var(--cinnabar)}
+.home-base-card.daytrip{border-left-color:var(--gold)}
+.home-base-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--cinnabar);font-weight:700;margin-bottom:6px}
+.home-base-card.daytrip .home-base-label{color:var(--gold-deep,#9a7b1f)}
+.home-base-name{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:700;
+  color:var(--ink);line-height:1.2}
+.home-base-addr{font-size:.78rem;color:var(--muted);margin:3px 0 10px}
+.home-base-body{font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin:0}
+.city-fact-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.city-fact-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.city-fact-value{font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.4}
+.city-trivia{background:color-mix(in srgb,var(--cinnabar) 6%,transparent);border-left:3px solid var(--cinnabar);
+  border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:24px;font-size:.88rem;line-height:1.6;color:var(--ink)}
+#map-overview{height:420px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line);margin-bottom:6px}
+@media(max-width:900px){#map-overview{height:300px}}
+
+/* ===== City Food tab ===== */
+.city-food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:900px){.city-food-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:8px;z-index:30;
+  background:var(--paper);padding-bottom:6px;margin-bottom:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}}
+@media(max-width:900px){#map-food{height:260px}}
+.food-cat-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.food-cat-btn2{padding:4px 12px;border-radius:14px;border:1px solid var(--line);background:var(--card);
+  font-size:.76rem;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.food-cat-btn2.active{color:#fff;border-color:transparent;background:var(--ink-soft)}
+.food-cards-inner{display:flex;flex-direction:column;gap:12px;max-height:680px;overflow-y:auto;
+  padding-right:4px;scrollbar-width:thin}
+.food-cards-inner::-webkit-scrollbar{width:4px}
+.food-cards-inner::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+@media(max-width:900px){.food-cards-inner{max-height:none;overflow-y:visible}}
+#map-food{height:480px;border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
+@media(max-width:900px){#map-food{height:340px}}
+.food-map-side{position:sticky;top:88px;align-self:start}
+@media(max-width:900px){.food-map-side{position:relative;top:0}}
+.food-entry-card{background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:12px 14px;cursor:pointer;transition:box-shadow .18s,transform .12s}
+.food-entry-card:hover{box-shadow:0 4px 14px -6px rgba(60,38,20,.25);transform:translateY(-1px)}
+.food-entry-card.highlighted{box-shadow:0 0 0 2px var(--cinnabar)}
+.food-entry-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+.food-entry-name{font-weight:600;font-size:1rem;color:var(--ink);font-family:'Cormorant',serif;line-height:1.2}
+.food-entry-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.82rem;color:var(--cinnabar)}
+.food-entry-pill{font-size:.66rem;padding:3px 8px;border-radius:8px;color:#fff;
+  font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+.food-entry-dishes{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin:4px 0 6px}
+.food-entry-desc{font-size:.82rem;color:var(--ink-soft);line-height:1.5;margin:4px 0 6px}
+.food-entry-netizen{font-size:.8rem;color:var(--ink-soft);font-style:italic;line-height:1.45;
+  margin:4px 0 6px;padding:6px 10px;background:var(--paper-2);border-radius:7px;
+  border-left:3px solid var(--gold)}
+.food-allergy-safe-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#2a5c39;background:color-mix(in srgb,#3E7D52 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;
+  color:#7a4200;background:color-mix(in srgb,#C9821E 10%,transparent);padding:2px 7px;border-radius:7px}
+.food-allergy-warn-dot.high{color:#8B0000;background:color-mix(in srgb,#B0202E 10%,transparent)}
+.food-no-pin{font-size:.7rem;color:var(--muted);display:inline-flex;align-items:center;gap:3px;margin-left:6px}
+.food-group-label{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;margin:14px 0 5px;display:flex;align-items:center;gap:6px}
+.food-empty{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
+.food-meta-item{font-size:.76rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+
+/* ===== Food/Study tab divider ===== */
+.tab-food{margin-left:6px;position:relative}
+.tab-food::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+  width:1px;height:22px;background:var(--line)}
+.tab-history{margin-left:0}
+.tab-history.active{background:var(--ink)}
+.tab-history .tab-dot{background:#9a8f80;box-shadow:0 0 0 2px color-mix(in srgb,#9a8f80 30%,transparent)}
+.tab-history.active .tab-dot{background:#fff}
+
+/* ===== Chains section (Prep page) ===== */
+.chains-section{margin-top:40px}
+.chains-rule{display:flex;align-items:center;gap:14px;margin:0 0 22px}
+.chains-rule span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;font-weight:700}
+.chains-rule::before,.chains-rule::after{content:'';flex:1;height:1px;background:var(--line)}
+.chains-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px}
+.chain-card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;border-top:3px solid var(--ccat,var(--gold))}
+.chain-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.chain-name{font-family:'Cormorant',serif;font-weight:600;font-size:1.12rem;color:var(--ink);line-height:1.2}
+.chain-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.88rem;color:var(--cinnabar);margin-top:1px}
+.chain-pill{font-size:.66rem;padding:3px 9px;border-radius:8px;color:#fff;
+  font-weight:700;flex-shrink:0;white-space:nowrap}
+.chain-order-label{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:3px}
+.chain-order{font-size:.84rem;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
+.chain-allergy{font-size:.76rem;padding:5px 9px;border-radius:8px;line-height:1.45;margin-bottom:8px}
+.chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
+.chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
+.chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+
+/* ===== Hero today-card ===== */
+.hero-today{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-top:22px;
+  padding:12px 18px;border-radius:12px;background:rgba(250,243,228,.13);
+  border:1px solid rgba(250,243,228,.28);backdrop-filter:blur(3px);
+  font-size:.92rem;color:#F6EDDC}
+.hero-today b{font-weight:700;color:#fff}
+.hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
+.hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
+.hero-today a:hover{text-decoration:underline}
+
+/* ===== Red thread caption ===== */
+.thread-cap{display:flex;align-items:center;gap:10px;margin:10px 2px 0;font-size:.84rem;
+  color:var(--muted);font-style:italic}
+.thread-cap::before{content:'';flex:0 0 34px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#B0202E 70%,transparent);box-shadow:0 0 0 .5px #B0202E}
+.thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-style:normal;color:var(--cinnabar)}
+
+/* ===== High Tea Trail ===== */
+.tea-trail{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:26px 28px;margin:34px 0;box-shadow:var(--shadow)}
+.tea-trail-h{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.tea-trail-h .tt-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:.95rem;color:var(--cinnabar)}
+.tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 20px}
+.tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
+.tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tt-ring{width:86px;height:86px;border-radius:50%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;transform:rotate(-6deg)}
+.tt-stamp:nth-child(2n) .tt-ring{transform:rotate(4deg)}
+.tt-ring .tt-cha{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:1.5rem;line-height:1;font-weight:700}
+.tt-ring .tt-date{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
+.tt-stamp.booked .tt-ring{background:var(--cinnabar);color:#FBF3E4;
+  box-shadow:0 4px 14px -6px rgba(154,32,24,.75), inset 0 0 0 2px rgba(255,255,255,.3);}
+.tt-stamp.planned .tt-ring{border:2.5px solid var(--cinnabar);color:var(--cinnabar)}
+.tt-stamp.optional .tt-ring{border:2px dashed color-mix(in srgb,var(--cinnabar) 55%,var(--line));
+  color:color-mix(in srgb,var(--cinnabar) 70%,var(--muted))}
+.tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
+.tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
+.tt-stamp.booked .tt-name::after{content:' ✓';color:var(--cinnabar)}
+
+/* ===== Boarding pass ===== */
+.bpass{display:flex;align-items:stretch;margin:6px 0 20px;border-radius:14px;overflow:hidden;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);max-width:640px}
+.bp-stub{flex:0 0 88px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:16px 10px;background:color-mix(in srgb,var(--cat,var(--cinnabar)) 9%,var(--card));
+  border-right:2px dashed var(--line);color:var(--cat,var(--cinnabar));position:relative}
+.bp-stub svg{width:30px;height:30px}
+.bp-stub span{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-align:center}
+.bp-stub::before,.bp-stub::after{content:'';position:absolute;right:-8px;width:14px;height:14px;
+  border-radius:50%;background:var(--paper);border:1px solid var(--line)}
+.bp-stub::before{top:-8px}.bp-stub::after{bottom:-8px}
+.bp-main{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.bp-route{font-family:'Cormorant',serif;font-weight:700;font-size:1.25rem;color:var(--ink);
+  letter-spacing:.04em;line-height:1.15}
+.bp-route .bp-arr{color:var(--cat,var(--cinnabar))}
+.bp-carrier{font-size:.8rem;color:var(--ink-soft)}
+.bp-note{font-size:.76rem;color:var(--muted);font-style:italic;margin-top:3px}
+.bp-code{flex:0 0 40px;margin:12px 14px 12px 4px;border-radius:3px;
+  background:repeating-linear-gradient(90deg,var(--ink-soft) 0 2px,transparent 2px 5px,
+    var(--ink-soft) 5px 6px,transparent 6px 10px);opacity:.55}
+@media(max-width:560px){.bp-code{display:none}.bp-stub{flex-basis:70px}}
+
+/* ===== Phrase of the day ===== */
+.phrase-chip{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:9px;
+  margin:0 0 14px;padding:8px 14px;border-radius:30px;
+  background:color-mix(in srgb,var(--gold) 9%,var(--card));
+  border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));font-size:.84rem}
+.pc-k{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft,#8a6d1f);font-weight:700}
+.pc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.06rem;
+  font-weight:700;color:var(--cinnabar)}
+.pc-pin{color:var(--ink-soft)}
+.pc-say{color:var(--muted);font-style:italic}
+.pc-en{color:var(--ink-soft)}
+@media(max-width:560px){.pc-say{display:none}}
+
+/* ===== Weather strip (city hero) ===== */
+.wx-strip{display:flex;align-items:flex-start;gap:10px;margin:14px 0 0;font-size:.85rem;
+  color:var(--ink-soft);max-width:640px}
+.wx-strip svg{flex:0 0 20px;width:20px;height:20px;color:var(--gold);margin-top:1px}
+.wx-strip b{color:var(--ink)}
+
+/* ===== City crest watermark (hero keeps its overflow:hidden clip) ===== */
+.crest-mark{position:absolute;right:14px;bottom:2px;pointer-events:none;color:var(--cinnabar);
+  opacity:.1;transform:rotate(-5deg)}
+.crest-mark svg{width:170px;height:170px}
+@media(max-width:700px){.crest-mark svg{width:110px;height:110px}.crest-mark{right:4px}}
+</style></head><body>
+
+<div id="gate" style="
+  position:fixed;inset:0;z-index:99999;
+  background:#FAF6EE;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Georgia',serif;
+">
+  <style>
+    @keyframes gateStampIn{
+      0%{transform:scale(2.6) rotate(-16deg);opacity:0}
+      55%{transform:scale(.92) rotate(-4deg);opacity:1}
+      75%{transform:scale(1.05) rotate(-6deg)}
+      100%{transform:scale(1) rotate(-5deg);opacity:1}}
+    @keyframes gateInkRing{
+      0%{transform:scale(.6);opacity:.55}
+      100%{transform:scale(1.9);opacity:0}}
+    #gate-stamp{display:none;position:absolute;inset:0;align-items:center;justify-content:center;
+      pointer-events:none;z-index:5}
+    #gate-stamp.stamping .gs-seal{animation:gateStampIn .5s cubic-bezier(.2,.7,.3,1.2) forwards}
+    #gate-stamp.stamping .gs-ring{animation:gateInkRing .9s ease-out .42s forwards}
+    .gs-seal{width:108px;height:124px;border-radius:18px;background:#C03828;color:#FBF3E4;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      font-family:'Songti SC','Noto Serif CJK SC','SimSun',serif;font-weight:700;font-size:3rem;
+      line-height:1;opacity:0;
+      box-shadow:0 10px 32px -8px rgba(154,32,24,.85), inset 0 0 0 2.5px rgba(255,255,255,.28);}
+    .gs-seal small{font-size:.95rem;letter-spacing:.18em;opacity:.85}
+    .gs-ring{position:absolute;width:150px;height:150px;border-radius:26px;
+      border:3px solid #C03828;opacity:0}
+  </style>
+  <div id="gate-card" style="
+    max-width:360px;width:90%;position:relative;
+    background:#fff;border:1px solid #DDD0B8;border-radius:16px;
+    padding:40px 36px;text-align:center;
+    box-shadow:0 8px 40px rgba(60,38,20,.12);
+  ">
+    <div id="gate-stamp"><div class="gs-ring"></div><div class="gs-seal">囍<small>辛格</small></div></div>
+    <div style="
+      display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+      width:54px;height:64px;border-radius:11px;background:#C03828;color:#fff;
+      font-family:'Songti SC','Noto Serif CJK SC','SimSun',serif;font-weight:700;font-size:1.6rem;
+      box-shadow:0 3px 12px -2px rgba(154,32,24,.7), inset 0 0 0 1px rgba(255,255,255,.25);
+      line-height:1.05;gap:2px;margin-bottom:16px;
+    ">囍<span style="font-size:.55rem;letter-spacing:.08em;opacity:.85">辛格</span></div>
+    <h1 style="font-size:1.25rem;margin:0 0 6px;color:#2A1F14">The Singer Honeymoon</h1>
+    <p style="font-size:.85rem;color:#7A6A58;margin:0 0 28px">
+      Private — please enter the password to continue.
+    </p>
+    <div style="position:relative;margin-bottom:12px">
+      <input id="gate-pw" type="password" placeholder="Password"
+        style="
+          width:100%;box-sizing:border-box;
+          padding:10px 42px 10px 14px;border:1.5px solid #DDD0B8;border-radius:10px;
+          font-size:1rem;outline:none;font-family:inherit;
+        "
+        autocomplete="current-password">
+      <button id="gate-eye" type="button" tabindex="-1"
+        onclick="(function(){var i=document.getElementById('gate-pw');var b=document.getElementById('gate-eye');i.type=i.type==='password'?'text':'password';b.innerHTML=i.type==='password'?'<svg width=18 height=18 viewBox='0 0 24 24' fill='none' stroke='#999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>':'<svg width=18 height=18 viewBox='0 0 24 24' fill='none' stroke='#999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>';})()"
+        style="
+          position:absolute;right:12px;top:50%;transform:translateY(-50%);
+          background:none;border:none;padding:4px;cursor:pointer;line-height:0;
+        "
+        aria-label="Show/hide password">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <p id="gate-err" style="color:#B0202E;font-size:.8rem;min-height:1.2em;margin:0 0 12px"></p>
+    <button id="gate-btn"
+      style="
+        width:100%;padding:11px;border:none;border-radius:10px;
+        background:#C03828;color:#fff;font-size:.95rem;font-weight:600;
+        cursor:pointer;font-family:inherit;
+      "
+    >Enter</button>
+  </div>
+</div>
+<script>
+(function(){
+  var HASH = '28f60e14072c2d5a07f06df42452be673f65b8717ec271a21beae625c605d6af';
+  var KEY  = 'hn_auth_v1';
+  async function sha256(s){
+    var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+  function unlock(instant){
+    var g=document.getElementById('gate');
+    if(instant){g.style.display='none';return;}
+    var st=document.getElementById('gate-stamp');
+    st.style.display='flex'; st.classList.add('stamping');
+    setTimeout(function(){
+      g.style.transition='opacity .5s ease'; g.style.opacity='0';
+      setTimeout(function(){g.style.display='none';},520);
+    }, 1150);
+  }
+  if(localStorage.getItem(KEY)===HASH){unlock(true);return;}
+  document.getElementById('gate-btn').addEventListener('click', check);
+  document.getElementById('gate-pw').addEventListener('keydown',function(e){if(e.key==='Enter')check();});
+  async function check(){
+    var h=await sha256(document.getElementById('gate-pw').value.trim());
+    if(h===HASH){localStorage.setItem(KEY,HASH);unlock(false);}
+    else{document.getElementById('gate-err').textContent='Incorrect password — try again.';}
+  }
+})();
+</script>
+
+<header class="masthead"><div class="wrap">
+      <a class="brand" href="index.html"><span class="seal">囍<span class="seal-name">辛格</span></span>
+        <span><span class="brand-en">The Singer Honeymoon</span><br><span class="brand-sub">China · 2026</span></span></a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'));this.parentNode.querySelector('nav.cities').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="cities">
+      <a href="index.html">Home</a>
+      <div class="navgroup open-parent">
+        <button class="navgroup-btn active" aria-expanded="false"
+          onclick="const g=this.parentNode;g.classList.toggle('open');this.setAttribute('aria-expanded',g.classList.contains('open'))">
+          Destinations <span class="caret">▾</span>
+        </button>
+        <div class="submenu"><a href="taipei.html">Taipei</a><a href="chengdu.html">Chengdu</a><a href="chongqing.html" class="active">Chongqing</a><a href="sanya.html">Sanya</a><a href="guangzhou.html">Guangzhou</a><a href="shenzhen.html">Shenzhen</a><a href="hong-kong.html">Hong Kong</a><a href="macau.html">Macau</a></div>
+      </div>
+      
+      <a href="study.html" class="prep-link">Study</a>
+      <a href="timeline.html" class="prep-link">Timeline</a></nav>
+    </div>
+    <script>(function(){document.addEventListener('click',function(e){
+      var a=e.target.closest('nav.cities a');if(!a)return;
+      var t=document.querySelector('.nav-toggle.open');if(t){t.classList.remove('open');t.setAttribute('aria-expanded','false');}
+      var n=document.querySelector('nav.cities.open');if(n)n.classList.remove('open');
+    });})();</script></header>
+<div class="wrap">
+  <div class="hero">
+    <div class="watermark">重庆</div>
+    <div class="crest-mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 40h32"/><rect x="12" y="26" width="9" height="14"/><rect x="22" y="18" width="9" height="22"/><rect x="31" y="30" width="7" height="10"/><path d="M12 26l4.5-5 4.5 5M22 18l4.5-5 4.5 5"/></svg></div>
+    <div class="eyebrow">The Singer Honeymoon · China</div>
+    <h1>Chongqing<span class="zh">重庆</span></h1>
+    
+    <div class="wx-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5 5l1.8 1.8M17.2 17.2L19 19M19 5l-1.8 1.8M6.8 17.2L5 19"/></svg><span><b>July in Chongqing:</b> ~95°F, 78% humidity, one of China&#x27;s three &#x27;furnace cities&#x27;. There is no outfit that survives this. Plan the day around air-conditioning.</span></div>
+    <div class="rule"><span>3 days · 18 stops</span></div>
+  </div>
+  <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>FRI JUL 3</button><button class="tab" data-tab="d1" style="--cat:#2E6F95"><span class="tab-dot"></span>SAT JUL 4</button><button class="tab" data-tab="d2" style="--cat:#C9821E"><span class="tab-dot"></span>SUN JUL 5</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(21)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
+  <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>FRI JUL 3</span><span><i style="background:#2E6F95"></i>SAT JUL 4</span><span><i style="background:#C9821E"></i>SUN JUL 5</span></div>
+  <div class="layout">
+    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Chongqing at a glance</h2></div><div class="city-trivia">The world&#x27;s most populous municipality. Its 3D metro system includes a train that passes through a residential apartment block.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">32 million (municipality, 9M urban core)</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Direct-controlled municipality</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Vertical cityscape, hot pot, Yangtze River, WWII wartime capital</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, extremely humid, hot summers</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">Maiyue Hotel. Jiefangbei</div><div class="home-base-addr">📍 Xinhua Rd, Yuzhong District</div><p class="home-base-body">You&#x27;re staying right in the heart of the action, by Jiefangbei, the Liberation Monument and the city&#x27;s main downtown pedestrian core on the Yuzhong peninsula. This is the dense, vertical, neon Chongqing of the postcards: Hongyadong, the Yangtze cable car, and the riverfront are all within walking distance or a short hop. Being central means it&#x27;s lively and a little loud, and in Chongqing &#x27;walkable&#x27; can mean stairs and steep lanes between street levels, but you couldn&#x27;t be better placed for the city&#x27;s signature sights, most of them lit up beautifully after dark.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>FRI JUL 3 — Wartime Capital</h2></div><div class="day-strip"><span>8 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">微辣</span><span class="pc-pin">wēi là</span><span class="pc-say">&ldquo;way lah&rdquo;</span><span class="pc-en">mildly spicy — the wise hotpot order</span></div><p class="day-intro">You arrive in Chongqing by train at midday and the city announces itself immediately, there&#x27;s no easing in to a place built vertically across river gorges. After checking into the Maiyue Hotel by Jiefangbei, head straight to Renmin Square: the Great Hall of the People and the free Three Gorges Museum are directly across the plaza from each other and together make the best cultural morning in the city, Ba-Shu bronzes, WWII bombing raids, and the artifacts pulled from the gorges before the dam rose. The Planning Exhibition Hall nearby puts Chongqing&#x27;s impossible topography into a scale model you can actually read. The Lianglukou Grand Escalator on the way back is ten minutes and worth every second. By late afternoon, make for Ciqikou, the old riverside town, and as dusk falls the day ends at its two signature experiences: dinner at the Filling Station underground hotpot and Hongyadong lit up over the Jialing River after dark. Show your allergy card at the Filling Station and ask about the oil; peanut oil is a real risk in Chongqing hotpot.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
+      <div class="toprow"><span class="pin">1</span>
+        <h3>Chongqing North Railway Station <span class="zh">重庆北站</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="2.5" width="8" height="8.5" rx="1.5"/><path d="M4 8h8M6.2 13.5 5 15M9.8 13.5 11 15"/></svg>Train Station</span></div>
+      <div class="meta"><span><b>Hours:</b> Arrive 12:35 PM</span><span><b>From previous:</b> — (arrival)</span></div><div class="meta"><span><b>Address:</b> Lushan Blvd, Yubei District 401121</span></div><div class="meta"><span><b>Coordinates:</b> 29.7060, 106.5530</span></div><div class="notes">One of the city&#x27;s two main rail hubs and your arrival point from Chengdu. Big, busy, and well-signed. The metro connects directly from the station concourse.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Take Line 9 toward Jiefangbei rather than a taxi. The line tunnels and bridges through some genuinely extreme terrain, and it doubles as your first look at how this city is built. Have small bills or your transit code ready.</div><div class="netizen">"Busy but efficient. Netizens recommend Metro Line 9 into the city - a spectacle (world&#x27;s highest metro station, Baishibao). Follow signs to metro; taxi queues long. Passports for ticket checks."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:2" data-id="s3">
+      <div class="toprow"><span class="pin">2</span>
+        <h3>Great Hall of the People <span class="zh">重庆人民大礼堂</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> Exterior daily; interior ~08:30–17:30</span><span><b>Suggested time:</b> 30–45 min</span><span><b>From previous:</b> ~15 min metro from hotel (Jiefangbei to Renmin Square)</span></div><div class="meta"><span><b>Address:</b> No. 173 Renmin Rd, Yuzhong District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5640, 106.5460</span></div><div class="notes">A Soviet-era take on Chinese palace architecture, finished in 1954 and modeled loosely on the Temple of Heaven. The green-tiled dome and sweeping staircase make it the grandest civic building in western China. You&#x27;re here for the exterior; the auditorium inside only opens for events.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Photograph it from the plaza, then cross to the Three Gorges Museum. The Three Gorges Antique Market nearby is worth a browse for curios and Mao-era memorabilia if time allows.</div><div class="netizen">"&#x27;Impressive outside, skip the inside.&#x27; Netizens say interior is dated, not worth ¥10-20. Best viewed across the plaza from Three Gorges Museum. Free exterior. Quick photo stop."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:3" data-id="s4">
+      <div class="toprow"><span class="pin">3</span>
+        <h3>Three Gorges Museum <span class="zh">重庆中国三峡博物馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> Tue–Sun 09:00–17:00 (last entry 16:30)</span><span><b>Suggested time:</b> 2–3 hr</span><span><b>From previous:</b> ~3 min walk (across plaza)</span></div><div class="meta"><span><b>Address:</b> No. 236 Renmin Rd, Yuzhong District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5648, 106.5440</span></div><div class="notes">The major museum of the region, with 170,000-plus artifacts. The collections to prioritize: Ba-Shu bronzes from the cultures that predate Chinese rule here, artifacts salvaged before the Three Gorges Dam flooded a thousand archaeological sites, and the galleries on the WWII bombing of Chongqing, when this was China&#x27;s wartime capital under siege.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Free with passport registration. Give it 2 to 3 hours and don&#x27;t skip the wartime galleries upstairs. Directly across the plaza from the Great Hall, so the pairing is automatic.</div><div class="netizen">"&#x27;Excellent and underrated.&#x27; Highlights: Ba-Shu bronzes, dam-rescue relics, WWII bombing history. Free but WeChat reservation. Allow 2-3 hrs. Closed Mon. Combine with Great Hall."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:4" data-id="s5">
+      <div class="toprow"><span class="pin">4</span>
+        <h3>Lianglukou Grand Escalator <span class="zh">两路口大手扫梯</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="9" rx="2"/><path d="M3 7.5h10M5.5 14h5"/></svg>Transit</span></div>
+      <div class="meta"><span><b>Hours:</b> 06:30–23:00</span><span><b>Suggested time:</b> 15 min</span><span><b>From previous:</b> ~10 min metro (Lines 1/3 from Renmin Square)</span></div><div class="meta"><span><b>Address:</b> Lianglukou, Yuzhong District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5520, 106.5500</span></div><div class="notes">A 367-foot escalator climbing 174 feet at a 30-degree pitch, the third-highest in Asia. Only a Pyongyang Metro escalator (about 210 feet of rise) and the Rustaveli station escalator in Tbilisi (197 feet) beat it. Built in 1996 to replace a funicular, it hauls commuters between the Lianglukou metro interchange and the old Caiyuanba railway station below. Pure infrastructure that happens to be spectacular: the ride takes 2.5 minutes and costs ¥2.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Ride it downhill from Lianglukou station (Exit 3, signs point the way) for the full vertigo. It&#x27;s the same fare system as the metro. Eling Park is nearby if you want panoramic views afterward. Fun footnote for the infrastructure-minded: Chongqing municipality also now holds the world record for longest outdoor escalator system, the 905-meter Wushan Goddess escalator that opened in February 2026, three hours east of the city.</div><div class="netizen">"&#x27;A commuter escalator that feels like an amusement ride.&#x27; A fun way to feel Chongqing&#x27;s verticality. ¥2 (metro fare). Hours follow metro schedule. Ride once for the novelty."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:5" data-id="s6">
+      <div class="toprow"><span class="pin">5</span>
+        <h3>Chongqing Planning Exhibition Hall <span class="zh">重庆规划展览馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–17:00, last 16:30 (closed Mon)</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> ~8 min walk (both on Renmin Square)</span></div><div class="meta"><span><b>Address:</b> Near People&#x27;s Great Hall, Yuzhong District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5650, 106.5710</span></div><div class="notes">Chongqing&#x27;s answer to the planning halls you saw in Chengdu, and the best single primer on why this city looks the way it does. The centerpiece is a giant scale model of the municipality that makes the vertical geography click: ridgelines, two rivers, buildings stacked up cliff faces. Interactive exhibits cover the megaprojects in progress.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Head straight for the big model and spend your time there. It&#x27;s near the Great Hall and Three Gorges Museum, so all three combine into one walking loop. Bring your passport for registration.</div><div class="netizen">"&#x27;Best way to understand Chongqing&#x27;s 3D madness.&#x27; Netizens love the giant scale model showing vertical topography. Free with passport. Combine with People&#x27;s Great Hall + Three Gorges Museum."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:6" data-id="s7">
+      <div class="toprow"><span class="pin">6</span>
+        <h3>Ciqikou Ancient Town <span class="zh">磁器口古镇</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 09:00–22:00</span><span><b>Suggested time:</b> 1–2 hr</span><span><b>From previous:</b> ~20 min metro (Line 1, Renmin Square to Ciqikou)</span></div><div class="meta"><span><b>Address:</b> Shapingba District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5800, 106.4480</span></div><div class="notes">A 1,700-year-old riverside village swallowed by the city, with Ming and Qing era lanes that are now firmly on the tourist circuit. Crowded, yes. The real reason to come is the Chongqing 1949 Show staged nearby, a rotating-theater production about the city at the end of the civil war that locals rate as the best big show in town. The lanes themselves are good for an hour of snacks and browsing.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Book 1949 Show tickets well ahead; it sells out. In the lanes, try mao xue wang and the thousand-layer sesame cakes. Metro Line 1 runs straight to Ciqikou station. Weekday afternoons are far calmer.</div><div class="netizen">"&#x27;Touristy but fun.&#x27; Main draw is the 1949 show, not the town itself. Food stalls use nuts - allergy cards. Free. Show sells out - book on Damai. Crowded weekends."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:7" data-id="s8">
+      <div class="toprow"><span class="pin">7</span>
+        <h3>Filling Station (地下之城 Underground Hotpot) <span class="zh">地下之城老火锅</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7c0 2.4 2.2 4.5 5 4.5S13 9.4 13 7zM2 7h12M8 11.5V14M5.5 14h5M10 6.5 12.5 2"/></svg>Food</span></div>
+      <div class="meta"><span><b>Hours:</b> ~11:00–22:00</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~10 min walk from Ciqikou</span></div><div class="meta"><span><b>Address:</b> Yuzhong District cliff face, near Ciqikou/Hongyadong, Chongqing</span></div><div class="meta"><span><b>Coordinates:</b> 29.5630, 106.5780</span></div><div class="notes">Hotpot inside the wartime air raid shelters carved into the Yuzhong cliffs. During the bombing campaign of 1938 to 1943 these tunnels held thousands of sheltering residents; now one section serves spicy beef-tallow hotpot under bare rock. Dinner here is half meal, half history lesson, and fully Chongqing.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Reserve ahead, especially weekends. Order the classic spicy broth (or a split pot if you want an exit ramp from the heat). The tunnels run cool, so bring a layer. The entrance is easy to walk past; follow the cliff face.</div><div class="netizen">"&#x27;Underground hotpot in the bomb shelters - surreal and delicious.&#x27; Netizens say it&#x27;s theatrical + genuinely good. Book ahead. Cold in the tunnels. ALLERGY: ask specifically about peanut oil in the broth + sesame in dipping sauces."</div>
+    </div><div class="stop" style="--cat:#B0202E;--i:8" data-id="s9">
+      <div class="toprow"><span class="pin">8</span>
+        <h3>Hongyadong Folk Custom Scene Area <span class="zh">洪崖洞</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 10:00–22:00 (best at night)</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> ~10 min walk from Filling Station</span></div><div class="meta"><span><b>Address:</b> Cangbai Rd, Yuzhong District 400011</span></div><div class="meta"><span><b>Coordinates:</b> 29.5640, 106.5840</span></div><div class="notes">⚠️ UPDATED 2026: Free entry but requires advance reservation via the official Hongyadong WeChat mini-program. Lights switch on at 19:30. An 11-story stilted folk-village complex hanging off the cliff over the Jialing River, and the single most photographed thing in the city. Inside it&#x27;s shops and restaurants; outside, after dark, it glows like the bathhouse from Spirited Away.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Reserve on the WeChat mini-program before you go, then arrive 30 minutes before the 19:30 light-up to stake out a position. The classic full-facade shot is from Qianximen Bridge across the river. Skip the interior shops; the building is the show.</div><div class="netizen">"&#x27;Spirited Away in real life&#x27;, magical at night. Best photo: Qianximen Bridge. Go after 8 PM. Free. Walkable from hotel."</div>
+    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>SAT JUL 4 — 3D City</h2></div><div class="day-strip"><span>6 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">好吃</span><span class="pc-pin">hǎochī</span><span class="pc-say">&ldquo;how-chrr&rdquo;</span><span class="pc-en">delicious</span></div><p class="day-intro">A focused afternoon-and-evening in the Jiefangbei and river-crossing parts of the city. Start at the Chongqing Art Gallery and work through the two Jiefangbei shopping and viewpoint stops nearby. The evening crosses the river: Firefly Bay&#x27;s Maomao theme park on the south bank, the Yangtze Ropeway strung across the gorge, and the drone show over the river confluence at Chaotianmen to close the night. A lighter day after Friday&#x27;s museum run, but the ropeway and the drone show are the two things that make Chongqing feel like no other city on the trip.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s10">
+      <div class="toprow"><span class="pin">1</span>
+        <h3>Chongqing Art Gallery <span class="zh">重庆美术馆</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 6.5 8 3l6 3.5M3 7v5M6.3 7v5M9.7 7v5M13 7v5M2 12.5h12"/></svg>Museum</span></div>
+      <div class="meta"><span><b>Hours:</b> Tue–Sun 09:00–17:00 (last entry 16:30)</span><span><b>Suggested time:</b> 1 hr</span><span><b>From previous:</b> ~15 min metro from hotel (Jiefangbei)</span></div><div class="meta"><span><b>Address:</b> Linjiang Rd, Jiefangbei, Yuzhong District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5560, 106.5780</span></div><div class="notes">The municipal art museum, with rotating shows of Chinese and international contemporary work. A quieter, more local stop than the blockbuster sights, and a good pressure valve on a packed day.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Check what&#x27;s on before you commit; shows rotate and quality varies with the exhibition. Pairs with a riverfront walk.</div><div class="netizen">"Small + quiet - &#x27;only if you have time.&#x27; Free. Rotating contemporary art. Not a must-see. Closed Mon."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:1" data-id="s11">
+      <div class="toprow"><span class="pin">2</span>
+        <h3>Datang Plaza <span class="zh">大唐广场</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 5.5h9l-.8 8h-7.4zM5.8 5.5V4.6a2.2 2.2 0 0 1 4.4 0v.9"/></svg>Shopping</span></div>
+      <div class="meta"><span><b>Hours:</b> Shops ~10:00–22:00</span><span><b>Suggested time:</b> 45 min</span><span><b>From previous:</b> ~15 min metro (Renmin Square to Jiefangbei)</span></div><div class="meta"><span><b>Address:</b> Yuzhong District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5560, 106.5700</span></div><div class="notes">A stepped leisure complex stitched into the hillside, bridging a serious elevation gap between street levels. Shopping and restaurants across its terraces, but the real payoff is the viewpoints over the stacked city.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Come for the terrace views, stay if something catches your eye. Connects naturally with the Jiefangbei shopping district.</div><div class="netizen">"Hillside shopping complex. Good cityscape viewpoints from the stepped terraces. Free. Coordinates approximate. Optional - not a must-see."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:2" data-id="s12">
+      <div class="toprow"><span class="pin">3</span>
+        <h3>Chongqing World Financial Center (WFC) / Miniso Land <span class="zh">重庆环球金融中心</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 5.5h9l-.8 8h-7.4zM5.8 5.5V4.6a2.2 2.2 0 0 1 4.4 0v.9"/></svg>Shopping</span></div>
+      <div class="meta"><span><b>Hours:</b> Miniso Land ~10:00–22:00</span><span><b>Suggested time:</b> 1 hr</span><span><b>From previous:</b> ~5 min walk (Jiefangbei core)</span></div><div class="meta"><span><b>Address:</b> Jiefangbei CBD, Yuzhong District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5590, 106.5780</span></div><div class="notes">A Jiefangbei skyscraper whose draw, improbably, is Miniso Land: several floors of the brand&#x27;s themed retail, including a Chongqing-exclusive panda merchandise line on the upper levels, plus city views.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> The Chongqing Limited panda series on the upper floors is the souvenir play; it isn&#x27;t sold elsewhere. Quick stop, 30 to 45 minutes.</div><div class="netizen">"Miniso Land popular with young netizens for &#x27;Chongqing limited&#x27; panda merch. Upper floors have free city views. Good for a quick shop."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:3" data-id="s13">
+      <div class="toprow"><span class="pin">4</span>
+        <h3>Firefly Bar Harbour Maomao Theme Park <span class="zh">萤火虫主题公园</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
+      <div class="meta"><span><b>Suggested time:</b> 1–2 hr</span></div><div class="meta"><span><b>Address:</b> Pet Paradise, Nan&#x27;an District</span></div><div class="meta"><span><b>Coordinates:</b> 29.5294, 106.5355</span></div><div class="notes">A cat-themed amusement park: installations, interactive exhibits, cafes, resident cats. Whimsical, very Chinese-internet-culture, and a complete tonal break from the industrial heritage and war museums.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Best treated as an optional stop if the day has room.</div><div class="netizen">"Unverified location - replaced &#x27;Peacock Bay Fish Village&#x27; in Wanderlog. No reliable netizen reviews. Likely a small local attraction. Skip if unconfirmed."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:4" data-id="s14">
+      <div class="toprow"><span class="pin">5</span>
+        <h3>Yangtze River Ropeway (cableway) <span class="zh">长江索道</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
+      <div class="meta"><span><b>Hours:</b> 08:00–21:00 (last entry 21:00)</span><span><b>Suggested time:</b> 30–45 min (4-min ride)</span><span><b>From previous:</b> ~6 min walk from prev</span></div><div class="meta"><span><b>Address:</b> No. 151 Xinhua Rd, Yuzhong District (north stn)</span></div><div class="meta"><span><b>Coordinates:</b> 29.5610, 106.5870</span></div><div class="notes">The cable car across the Yangtze, once daily transit for river-crossing commuters, now the most popular way to see the city from the air. Four minutes gliding over the river with the skyline, gorge, and stacked hillside neighborhoods below.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Buy tickets ahead on Trip.com or you&#x27;ll queue, sometimes for over an hour on weekends. Ride toward the south bank for the better skyline angle, and morning light is best for photos. The north terminal is walkable from Jiefangbei.</div><div class="netizen">"&#x27;Iconic but crowded.&#x27; Book online + board from quieter station. Best at dusk. 4-min ride, camera ready. Queue hits 1 hr; pre-booking helps."</div>
+    </div><div class="stop" style="--cat:#2E6F95;--i:5" data-id="s15">
+      <div class="toprow"><span class="pin">6</span>
+        <h3>Drone Show at Chaotianmen River <span class="zh">朝天门无人机表演</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
+      <div class="meta"><span><b>Hours:</b> 20:45:00</span><span><b>Suggested time:</b> 45–60 min</span><span><b>From previous:</b> ~5 min walk from cableway north station</span></div><div class="meta"><span><b>Address:</b> Chaotianmen Riverfront, Yuzhong District, Chongqing</span></div><div class="meta"><span><b>Coordinates:</b> 29.5640, 106.5900</span></div><div class="notes">A large-scale drone light show over the confluence of the Yangtze and Jialing rivers at Chaotianmen, the tip of the peninsula. Hundreds of drones forming images over the water with the Raffles City horizontal-skyscraper complex behind. When it runs, it&#x27;s a stunner.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Not nightly. Best vantage points are the Chaotianmen docks or across on the Jiangbei side.</div><div class="netizen">"Netizens call it &#x27;breathtaking&#x27; when it runs."</div>
+    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>SUN JUL 5 — Fly to Sanya</h2></div><div class="day-strip"><span>3 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">机场</span><span class="pc-pin">jīchǎng</span><span class="pc-say">&ldquo;jee-chahng&rdquo;</span><span class="pc-en">airport</span></div><div class="bpass" style="--cat:#C9821E"><div class="bp-stub"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg><span>Flight</span></div><div class="bp-main"><div class="bp-route">CKG <span class="bp-arr">→</span> SYX</div><div class="bp-carrier">China Southern CZ 2331 · 11:05 AM – 1:20 PM · 2h 15m</div><div class="bp-note">Leave Jiefangbei by 8:30 AM</div></div><div class="bp-code"></div></div><p class="day-intro">Checkout morning. Leave the hotel by 8:30 AM for the 11:05 AM flight to Sanya. Jiefangbei square is two minutes from the lobby, worth a last look before loading out. Chongqing East Railway Station is optional and in the opposite direction from the airport so only attempt it if you are up early enough to be there by 7:00 AM and move fast. The flight south trades mountain-city concrete for tropical Hainan in under two hours.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s16">
+      <div class="toprow"><span class="pin">1</span>
+        <h3>Jiefangbei (People&#x27;s Liberation Monument) <span class="zh">解放碑</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
+      <div class="meta"><span><b>Hours:</b> 24 hr (shops ~10:00–22:00)</span><span><b>Suggested time:</b> 15 min</span><span><b>From previous:</b> ~5 min walk</span></div><div class="meta"><span><b>Address:</b> Zourong Rd, Yuzhong District 400010</span></div><div class="meta"><span><b>Coordinates:</b> 29.5575, 106.5773</span></div><div class="notes">The 27-meter clock tower at the center of downtown, built in 1947 to mark victory over Japan — the only WWII victory monument of its kind in China. The pedestrian district around it is the commercial heart of the city. The hotel is two minutes away; a quick circuit around the base on departure morning makes a good final Chongqing moment.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> You&#x27;ll walk past this every day in Jiefangbei. On departure morning, a five-minute detour to the base before loading out is worth it for a final photo with the tower lit in the early light.</div><div class="netizen">"&#x27;The heart of Chongqing&#x27; - best at night when lit. Free. Ringed by luxury malls. Three Gorges Antique Market nearby worth a browse. Quick photo stop."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:1" data-id="s17">
+      <div class="toprow"><span class="pin">2</span>
+        <h3>Chongqing East Railway Station (optional) <span class="zh">重庆东站</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="2.5" width="8" height="8.5" rx="1.5"/><path d="M4 8h8M6.2 13.5 5 15M9.8 13.5 11 15"/></svg>Train Station</span></div>
+      <div class="meta"><span><b>Hours:</b> 24 hr (shops 07:00–22:00)</span><span><b>Suggested time:</b> 30–60 min</span><span><b>From previous:</b> ~35 min metro from Jiefangbei (opposite direction from airport)</span></div><div class="meta"><span><b>Address:</b> Nan&#x27;an/Banan area (2024 mega-hub)</span></div><div class="meta"><span><b>Coordinates:</b> 29.4500, 106.6600</span></div><div class="notes">The world&#x27;s largest railway station by floor area: 1.22 million sq m, 15 platforms, 29 tracks. A staggering piece of infrastructure worth 20 minutes if you have them. Timing caveat: it&#x27;s in the opposite direction from CKG airport. From here to the airport is roughly 45-55 min — only realistic on Sunday if you head there by 7:00 AM and keep it to a quick walk through the main hall.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Treat this as a drive-by, not a stop. A taxi from Jiefangbei to the station and straight on to the airport may work better than two metro rides on departure morning.</div><div class="netizen">"&#x27;World&#x27;s largest station - a megastructure spectacle.&#x27; Opened 2024, 15 million sq ft. Infrastructure fans only; you don&#x27;t depart here. Free to view. Out of the way - only with spare time."</div>
+    </div><div class="stop" style="--cat:#C9821E;--i:2" data-id="s18">
+      <div class="toprow"><span class="pin">3</span>
+        <h3>Chongqing Jiangbei Int&#x27;l Airport (CKG) <span class="zh">重庆江北国际机场</span></h3>
+        
+        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 9.5 14 5l-1 2.8-4.5 1.7L7 13l-1.5-.5-.3-2.7L2.6 8.6z"/></svg>Airport</span></div>
+      <div class="meta"><span><b>Hours:</b> Flight 11:05</span><span><b>From previous:</b> ~40–50 min (metro L3/L10)</span></div><div class="meta"><span><b>Address:</b> Yubei District</span></div><div class="meta"><span><b>Coordinates:</b> 29.7192, 106.6417</span></div><div class="notes">Check out of Maiyue first. CZ 2331 to Sanya 11:05 AM–1:20 PM. Allow 2–2.5 hr before a domestic flight; aim to leave the hotel by 8:30. Then Banyan Tree Sanya check-in (next leg).</div><div class="netizen">"Large, modern. Arrive 2-2.5 hrs before a domestic flight. Metro L3/10 reliable + cheap (¥6-8). Taxi ~¥60-80. Limited food after security."</div>
+    </div></div></section><section class="panel" id="panel-food" data-dayindex="-3"><div class="day-head"><h2>Food &amp; drink in Chongqing</h2></div><div class="food-cat-bar" id="food-cat-bar"><button class="food-cat-btn2 food-cat-all-btn active" data-cat="all" onclick="filterFood(this)" style="background:var(--ink-soft);color:#fff;border-color:transparent">All</button><button class="food-cat-btn2" data-cat="Bakery / Snacks" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#C9821E;display:inline-block;flex-shrink:0"></span>Bakery / Snacks</button><button class="food-cat-btn2" data-cat="Bar" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#1F8A8A;display:inline-block;flex-shrink:0"></span>Bar</button><button class="food-cat-btn2" data-cat="Café / Coffee" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#8A6D1F;display:inline-block;flex-shrink:0"></span>Café / Coffee</button><button class="food-cat-btn2" data-cat="Chinese Food" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#2E6F95;display:inline-block;flex-shrink:0"></span>Chinese Food</button><button class="food-cat-btn2" data-cat="Hot Pot" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#B0202E;display:inline-block;flex-shrink:0"></span>Hot Pot</button><button class="food-cat-btn2" data-cat="International" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#C24E8C;display:inline-block;flex-shrink:0"></span>International</button></div><div class="city-food-layout"><div class="food-cards-inner" id="food-cards-inner"><div class="food-group-label" data-cat="Bakery / Snacks"><span style="width:9px;height:9px;border-radius:50%;background:#C9821E;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</div><div class="food-entry-card" data-foodidx="0" data-cat="Bakery / Snacks" data-allergy="" data-tier="none" onclick="foodCardClick(0)"><div class="food-entry-top"><div><div class="food-entry-name">BAMU Bakery (八目烘焙)</div><div class="food-entry-zh">八目烘焙咖啡</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Artisan bread and coffee; specialty baked goods</div><div class="food-entry-desc">Artisan bakery and café with a focus on specialty baked goods, sourdough, pastries, and coffee. One of a cluster of serious independent bakeries that have emerged in Chongqing over the past few years.</div><div class="food-entry-netizen">“Good bread is still hard to find in Chongqing and BAMU is doing it properly. The sourdough has a real crust, the croissants are actually laminated instead of just folded, and the coffee is better than…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-no-pin">📍 no pin</span></div></div><div class="food-entry-card" data-foodidx="1" data-cat="Bakery / Snacks" data-allergy="" data-tier="none" onclick="foodCardClick(1)"><div class="food-entry-top"><div><div class="food-entry-name">Just 糕 (Mochi Gelato)</div><div class="food-entry-zh">Just 糕</div></div><span class="food-entry-pill" style="background:#C9821E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bakery / Snacks</title><path d="M9 4h6l3 4H6L9 4Z"/><path d="M6 8v1a6 6 0 0 0 12 0V8"/><path d="M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z"/></svg>Bakery / Snacks</span></div><div class="food-entry-dishes">Mochi-wrapped gelato; Japanese-fusion dessert</div><div class="food-entry-desc">Japanese-fusion mochi gelato: glutinous rice skin wrapped around fresh gelato in seasonal flavours. A small, well-regarded dessert stop in the Jiefangbei area.</div><div class="food-entry-netizen">“Mochi-wrapped gelato sounds like a gimmick until you eat one. The rice skin is thin and chewy, the gelato inside is fresh and not too sweet, and the seasonal flavors rotate fast enough that I keep goi…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-no-pin">📍 no pin</span></div></div><div class="food-group-label" data-cat="Bar"><span style="width:9px;height:9px;border-radius:50%;background:#1F8A8A;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bar</title><path d="M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z"/><path d="M3 9h18"/></svg>Bar</div><div class="food-entry-card" data-foodidx="2" data-cat="Bar" data-allergy="" data-tier="none" onclick="foodCardClick(2)"><div class="food-entry-top"><div><div class="food-entry-name">Hip Tip Jazz Bar</div><div class="food-entry-zh">嘿趣爵士酒吧</div></div><span class="food-entry-pill" style="background:#1F8A8A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Bar</title><path d="M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z"/><path d="M3 9h18"/></svg>Bar</span></div><div class="food-entry-dishes">Cocktails, craft beer, live jazz and blues most evenings  •  Craft beer; cocktails (no food)</div><div class="food-entry-desc">One of Chongqing&#x27;s best live music venues the vertigo-inducing neon glow of the city&#x27;s nightlife in a tight underground space.</div><div class="food-entry-netizen">“One of Chongqing&#x27;s best live music venues”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市江北区洋河东路9号27号</div></div><div class="food-group-label" data-cat="Café / Coffee"><span style="width:9px;height:9px;border-radius:50%;background:#8A6D1F;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</div><div class="food-entry-card" data-foodidx="3" data-cat="Café / Coffee" data-allergy="" data-tier="none" onclick="foodCardClick(3)"><div class="food-entry-top"><div><div class="food-entry-name">Wuyinmen</div><div class="food-entry-zh">五印门咖啡</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Specialty coffee, Sichuan peppercorn latte, creative drinks  •  Sichuan peppercorn latte; specialty coffee; creative drinks</div><div class="food-entry-desc">The Sichuan pepper latte is the signature slightly numbing, floral, and unlike anything elsewhere. Great spot for a mid-afternoon break in Nan&#x27;an.</div><div class="food-entry-netizen">“Famous for Sichuan pepper latte numbing, floral, unlike anywhere else”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市南岸区涂山路81号</div></div><div class="food-entry-card" data-foodidx="4" data-cat="Café / Coffee" data-allergy="" data-tier="none" onclick="foodCardClick(4)"><div class="food-entry-top"><div><div class="food-entry-name">Coffeeholic (荷丽可)</div><div class="food-entry-zh">荷麗可 COFFEE HOLIC</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Specialty coffee in a creative warehouse park setting; Eling Park area</div><div class="food-entry-desc">Nordic-style specialty café inside the No. 2 Factory (Eling) creative park, one of Chongqing&#x27;s best arts-and-culture warehouse complexes. Clean Scandinavian aesthetic, serious pour-overs and single-origin espresso, and a terrace that regularly tops the Eling café rankings.</div><div class="food-entry-netizen">“Nordic-style specialty café inside the No. 2 Factory creative park. Minimal, clean, design-forward. Single-cup set ~¥39, excellent pour-overs and single-origin. Very artsy, great for photos. Regularly…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 鹅岭正街1号贰厂文创公园华江楼G层</div></div><div class="food-entry-card" data-foodidx="5" data-cat="Café / Coffee" data-allergy="" data-tier="none" onclick="foodCardClick(5)"><div class="food-entry-top"><div><div class="food-entry-name">Topia Cafe</div><div class="food-entry-zh">Topia</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Coffee and brunch in a restored historic building; Yuzhong heritage district</div><div class="food-entry-desc">A carefully converted Republican-era building on Minsheng Road, three-story brick-and-timber construction with preserved grey walls and arched windows. Independent café with hand-brewed specialty drinks and a quiet, retro atmosphere at odds with the city&#x27;s usual intensity.</div><div class="food-entry-netizen">“Independent café hidden inside a historic Republican-era building on Minsheng Road, three-story brick-and-wood structure with preserved grey walls and arched windows. Good hand-brews and signature dri…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 民生路73号 / 鲁祖庙核心区75号1楼3号</div></div><div class="food-entry-card" data-foodidx="6" data-cat="Café / Coffee" data-allergy="" data-tier="none" onclick="foodCardClick(6)"><div class="food-entry-top"><div><div class="food-entry-name">Dandy Art House</div><div class="food-entry-zh">Dandy Art House</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Gallery café in Eling Creative Park; art exhibitions, cocktails, coffee</div><div class="food-entry-desc">Gallery café by day, cocktail bar by night, housed in one of No. 2 Factory&#x27;s most photogenic spaces. Became widely known as a filming location for the 2019 film &#x27;Better Days.&#x27; Large-format portrait photography covers the walls; the atmosphere is more art space than café.</div><div class="food-entry-netizen">“One of the most photogenic spaces in No. 2 Factory, coffee by day, bar by night. Blew up as a filming location for &#x27;Better Days.&#x27; Large-format portrait photography creates a strong artistic atmosphere…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 鹅岭正街1号TESTBED2贰厂文创公园7号楼</div></div><div class="food-entry-card" data-foodidx="7" data-cat="Café / Coffee" data-allergy="" data-tier="none" onclick="foodCardClick(7)"><div class="food-entry-top"><div><div class="food-entry-name">Wandering Garden Coffee (晚起花园)</div><div class="food-entry-zh">晚起花园咖啡</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Garden-style specialty coffee; hidden courtyard in Liangjiang New Area</div><div class="food-entry-desc">A garden-concept specialty coffee house in Liangjiang New Area, deliberately removed from Chongqing&#x27;s commercial core, described by regulars as a &#x27;secret forest garden.&#x27; Known for fresh-baked waffles and handmade tiramisu alongside the coffee.</div><div class="food-entry-netizen">“Forest-vibe &#x27;secret garden&#x27; café in Liangjiang New Area. Far from the main commercial strips with dedicated parking. Recommended: freshly baked waffles, handmade tiramisu, fruit waffles. Quiet and pea…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 留云路1号附25号, 两江新区</div></div><div class="food-entry-card" data-foodidx="8" data-cat="Café / Coffee" data-allergy="" data-tier="none" onclick="foodCardClick(8)"><div class="food-entry-top"><div><div class="food-entry-name">Exit Babylon (出空间)</div><div class="food-entry-zh">出空间</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Pet-friendly café; riverside/seaside setting</div><div class="food-entry-desc">A pet-friendly café with a riverside or seaside setting, notable mainly as a relaxed, animal-friendly spot in a city not overstocked with them. Details unconfirmed; verify location on Amap before visiting.</div><div class="food-entry-netizen">“Came for the river view, stayed because a very confident cat decided my lap was furniture. It is a relaxed, pet-friendly spot, which is rarer in Chongqing than you would think. Coffee is decent, the b…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-no-pin">📍 no pin</span></div></div><div class="food-entry-card" data-foodidx="9" data-cat="Café / Coffee" data-allergy="" data-tier="none" onclick="foodCardClick(9)"><div class="food-entry-top"><div><div class="food-entry-name">Cotiz (Chongqing)</div><div class="food-entry-zh">Cotiz</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Minimalist Kyoto-inspired coffee; clean aesthetic</div><div class="food-entry-desc">Chongqing outpost of the Kyoto-minimalist coffee concept. Clean lines, precise espresso, and an aesthetic that&#x27;s deliberately at odds with Chongqing&#x27;s usual maximalism. A quiet counterpoint to the city&#x27;s vertigo.</div><div class="food-entry-netizen">“Walking in here after the noise of Jiefangbei feels like someone turned the city volume down. Bare walls, quiet music, espresso pulled with real care. It is the Kyoto school of coffee, restraint as a …”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-no-pin">📍 no pin</span></div></div><div class="food-group-label" data-cat="Chinese Food"><span style="width:9px;height:9px;border-radius:50%;background:#2E6F95;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</div><div class="food-entry-card" data-foodidx="10" data-cat="Chinese Food" data-allergy="" data-tier="none" onclick="foodCardClick(10)"><div class="food-entry-top"><div><div class="food-entry-name">Huashi Mashed Pea Noodles</div><div class="food-entry-zh">华氏豌豆面</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Xiaomian noodles tossed with mashed green peas, chili oil, and Sichuan peppercorn  •  Pea &amp; pork noodles (wan za mian); chili oil noodles</div><div class="food-entry-desc">Chongqing&#x27;s xiaomian (small noodles) are the city&#x27;s soul food cheap, fiery, eaten standing up. Pea paste version is a regional specialty. One of the best bowls in the city.</div><div class="food-entry-netizen">“Affordable and delicious. Still very popular after 1 PM. Visit before 10 AM”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝中区民生路85号</div></div><div class="food-entry-card" data-foodidx="11" data-cat="Chinese Food" data-allergy="" data-tier="none" onclick="foodCardClick(11)"><div class="food-entry-top"><div><div class="food-entry-name">Xi Shang Yuan Courtyard Restaurant</div><div class="food-entry-zh">喜上园</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Classic Chongqing home-cooking; spicy blood curd (毛血旺), spicy chicken (辣子鸡); courtyard-style dining  •  Mao Xue Wang (blood curd); La Zi Ji (spicy chicken); fis…</div><div class="food-entry-desc">Local favourite known for fresh ingredients, generous portions and classic Chongqing dishes in a courtyard setting. Less touristy than Jiefangbei area restaurants.</div><div class="food-entry-netizen">“Local favorite, fresh ingredients, generous portions. Courtyard setting, less touristy”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝北区宝华大道16号</div></div><div class="food-entry-card" data-foodidx="12" data-cat="Chinese Food" data-allergy="" data-tier="none" onclick="foodCardClick(12)"><div class="food-entry-top"><div><div class="food-entry-name">花市豌杂面 (Huashi Wan Zha Mian)</div><div class="food-entry-zh">花市豌杂面</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Wan Za Mian (noodles w/ peas + pork sauce); braised beef noodles</div><div class="food-entry-desc">A Chongqing noodle shop specialising in wan za mian, thin noodles tossed with mashed green peas and a minced pork sauce, the city&#x27;s quieter answer to xiaomian. Braised beef noodles are the secondary order. Widely considered the best of its kind.</div><div class="food-entry-netizen">“Widely considered the best of its kind in Chongqing. Recommended for breakfast”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝中区民生路85号（临江门地铁站3号口步行280米）</div></div><div class="food-entry-card" data-foodidx="13" data-cat="Chinese Food" data-allergy="" data-tier="none" onclick="foodCardClick(13)"><div class="food-entry-top"><div><div class="food-entry-name">杨记隆府 (Yangji Longfu)</div><div class="food-entry-zh">杨记隆府</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Republican-era spicy chicken (Minguo La Zi Ji); king rabbit; signature fish</div><div class="food-entry-desc">A theatrical Jiefangbei restaurant built around Republican-era Chongqing aesthetics, known for its crispy spicy chicken (Minguo style) and king rabbit. Dramatic presentations and a strong local following.</div><div class="food-entry-netizen">“Very popular in Jiefangbei, authentic Chongqing taste, theatrical presentations. Rated 4.9/5”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝中区解放碑民权路</div></div><div class="food-group-label" data-cat="Hot Pot"><span style="width:9px;height:9px;border-radius:50%;background:#B0202E;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</div><div class="food-entry-card" data-foodidx="14" data-cat="Hot Pot" data-allergy="" data-tier="none" onclick="foodCardClick(14)"><div class="food-entry-top"><div><div class="food-entry-name">Haidilao Hot Pot</div><div class="food-entry-zh">海底捞火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Customizable hot pot; choose your own broth, meats, vegetables, tofu</div><div class="food-entry-desc">Choose a non-spicy or tomato broth to avoid chili oil.</div><div class="food-entry-netizen">“Every hotpot chain in China and Haidilao is still the one everyone names first. The robot delivery, the free snacks while you wait, the table-side service, it is a whole event before the food even arr…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-no-pin">📍 no pin</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 全国各地 (nationwide)</div></div><div class="food-entry-card" data-foodidx="15" data-cat="Hot Pot" data-allergy="" data-tier="none" onclick="foodCardClick(15)"><div class="food-entry-top"><div><div class="food-entry-name">Guanghuan Hot Pot</div><div class="food-entry-zh">光环火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Neighbourhood-style Chongqing hot pot; signature bright-red spicy broth; cook-your-own meats, offal, vegetables, tofu  •  Braised beef; 7-second tripe; spicy be…</div><div class="food-entry-desc">&quot;Certified Chongqing resident! Absolutely amazing!!!&quot; praised for its bright red, flavorful broth. A local neighbourhood joint rather than a tourist hot pot chain. 📍 Address needed check HappyCow/map apps closer to the date.</div><div class="food-entry-netizen">“Authentic old Chongqing hot pot, bright red broth. Staff helped allergic customer. Big crowds”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 — 搜大众点评确认最近分店）</div></div><div class="food-entry-card" data-foodidx="16" data-cat="Hot Pot" data-allergy="" data-tier="none" onclick="foodCardClick(16)"><div class="food-entry-top"><div><div class="food-entry-name">佩姐老火锅 (Peijie Old Hotpot)</div><div class="food-entry-zh">珮姐老火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Mao du (tripe); yellow throat; fresh beef</div><div class="food-entry-desc">A Chongqing hotpot institution known for premium cuts: mao du (tripe cooked to the precise snap), yellow throat, and fresh beef. Old-school broth, no-frills setting, consistent quality.</div><div class="food-entry-netizen">“The quintessential Chongqing hotpot experience”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝中区朝天门来福士广场2楼108号</div></div><div class="food-entry-card" data-foodidx="17" data-cat="Hot Pot" data-allergy="" data-tier="none" onclick="foodCardClick(17)"><div class="food-entry-top"><div><div class="food-entry-name">洞亭鲜火锅 (Dongting Xian Hotpot)</div><div class="food-entry-zh">洞亭火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Fresh tripe; premium duck intestine; crispy fried pork (xian zha su rou)</div><div class="food-entry-desc">WWII air-raid shelter hotpot, the tunnels carved into Chongqing&#x27;s cliff face that sheltered residents during the wartime bombing are now one of the city&#x27;s most atmospheric dining spaces. Dongting specialises in fresh tripe and premium duck intestine in a classic spicy Chongqing b…</div><div class="food-entry-netizen">“Eating hotpot inside a real WWII bomb shelter”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝中区中山三路149号附1号</div></div><div class="food-entry-card" data-foodidx="18" data-cat="Hot Pot" data-allergy="" data-tier="none" onclick="foodCardClick(18)"><div class="food-entry-top"><div><div class="food-entry-name">邓记莽子老火锅 (Dengji Mangzi Old Hotpot)</div><div class="food-entry-zh">邓记莽子老火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Mangzi beef (莽子牛肉); premium tripe; crispy pork; duck blood</div><div class="food-entry-desc">An old-school Chongqing neighbourhood hotpot known for thick-cut mangzi beef, crispy tripe, and duck blood in a heavily spiced beef-tallow broth. Locals queue past midnight. The most traditional of the Chongqing hotpot options on the list.</div><div class="food-entry-netizen">“Old-school Chongqing neighborhood hotpot. Known for thick mangzi beef, crispy tripe, and duck blood. Beef tallow broth, heavily spicy. Locals still queue past midnight. Affordable, note: broth and dip…”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝中区中兴路王爷石堡10号（较场口地铁站5号口步行150米）</div></div><div class="food-entry-card" data-foodidx="19" data-cat="Hot Pot" data-allergy="" data-tier="none" onclick="foodCardClick(19)"><div class="food-entry-top"><div><div class="food-entry-name">Chongqing Filling Station (Underground Hotpot — 地下之城)</div><div class="food-entry-zh">地下之城老火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Classic Chongqing hotpot in WWII air-raid shelters</div><div class="food-entry-desc">eating hotpot in WWII bomb shelters.&quot; Book ahead. Underground tunnels cold bring a light layer.</div><div class="food-entry-netizen">“Surreal and delicious eating hotpot in WWII bomb shelters. Book ahead. Underground tunnels cold bring a light layer”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市江北区五里店街道劳动新一村（原长安工业公司群力厂对面）人防工程</div></div><div class="food-group-label" data-cat="International"><span style="width:9px;height:9px;border-radius:50%;background:#C24E8C;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</div><div class="food-entry-card" data-foodidx="20" data-cat="International" data-allergy="" data-tier="none" onclick="foodCardClick(20)"><div class="food-entry-top"><div><div class="food-entry-name">Aleia Restaurant</div><div class="food-entry-zh">Aleia阿利亚·西班牙餐厅</div></div><span class="food-entry-pill" style="background:#C24E8C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>International</title><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>International</span></div><div class="food-entry-dishes">Spanish fine dining; paprika-grilled octopus, Iberian charcuterie, iced sangria; palate-break option  •  Iberian charcuterie; paprika-grilled octopus; Spanish f…</div><div class="food-entry-desc">Spanish Michelin-starred restaurant in the heart of Jiefangbei a reliable Western fine-dining safe haven for palate fatigue mid-trip. English-friendly service.</div><div class="food-entry-netizen">“Spanish fine dining in Jiefangbei reliable Western palate-break, English-friendly”</div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 重庆市渝中区大都会东方广场6楼</div></div></div><div class="food-map-side"><div id="map-food"></div></div></div></section><section class="panel" id="panel-history" data-dayindex="-1"><div class="study-intro"><span class="study-kicker">For Amanda</span><h2>Read before Chongqing</h2></div><div class="study-wrap"><div class="era-band"><h3 class="era-band-h">Through the eras</h3><div class="era-grid"><div class="era-card"><span class="era-label">1890s</span><p>Forced open as a treaty port in 1890, the furthest inland the Western powers pried China open, bringing foreign trade and steamships hundreds of miles up the Yangtze into the mountainous interior.</p></div><div class="era-card"><span class="era-label">WWII (1938–45)</span><p>Chongqing&#x27;s defining hour: when Japan seized the coast, it became China&#x27;s wartime capital (1938–45). Shielded by mountains and notorious fog but bombed relentlessly from the air for years, its people sheltered in tunnels blasted into the cliffs, some of which are now the hot-pot caverns and shops you&#x27;ll visit. The Three Gorges Museum tells this story powerfully.</p></div><div class="era-card"><span class="era-label">Today</span><p>Made a directly-governed municipality in 1997, Chongqing exploded into one of the world&#x27;s largest urban areas (30+ million in its administrative region) and the booming gateway to China&#x27;s developing west. Its surreal vertical cityscape, metros through buildings, stacked highways, cliffside towers, has made it a viral &#x27;cyberpunk&#x27; destination.</p></div></div></div><div class="study-wrap"><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Understand Chongqing — the 3D city<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Most cities are read on a flat map. Chongqing has to be read in cross-section. Built on a red-sandstone promontory where the Jialing River meets the Yangtze, the old core is effectively a peninsula clinging to hillsides, and the terrain, not any planner, dictated how the city grew. Roads stack on roads; a building&#x27;s &#x27;ground floor&#x27; might be its tenth; metro lines burst out of cliffs and run through apartment blocks. Locals call it the &#x27;8D city,&#x27; and the joke is that your navigation app simply gives up. The municipality is enormous and mostly mountainous, over 30 million people across an area the size of a small country, but as a visitor you&#x27;ll spend nearly all your time in Yuzhong, the central peninsula district that holds Jiefangbei, Hongyadong, and the riverfronts. Across the water, Nan&#x27;an offers the One Tree lookout and the south-bank views; Shapingba holds Ciqikou old town. The rivers are the organizing logic of everything: where they meet (Chaotianmen), what crosses them (the cable car, dozens of bridges), and how the city climbs away from them. Administratively, Chongqing is one of only four cities that report directly to Beijing rather than to a province, but culturally it&#x27;s still Sichuanese at heart, which is to say: built around the hotpot table, and unbothered by your spice tolerance.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The Mountain City (山城): vertical urbanism<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Chongqing is built on mountains where the Yangtze and Jialing rivers meet, so the city goes vertical in ways nowhere else does: monorails punch through apartment buildings, a single tower can have its ground floor on level 1 and *also* on level 22, and escalators and cable cars work as everyday commuting. Locals call it the &#x27;Mountain City&#x27; (山城). The disorientation is the point, give in to it and just ride the metro and the ropeway for the views.</p><div class="term"><span class="term-k">山城 shān chéng</span><span class="term-v">&#x27;Mountain City&#x27; — Chongqing&#x27;s nickname for its vertical, hill-stacked cityscape.</span></div></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Mountain city, river city<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Chongqing&#x27;s whole culture is shaped by its impossible terrain, built vertically across the steep confluence of the Yangtze and Jialing rivers. For most of its history the rivers were the only highways, making it the great trans-shipment port of the upper Yangtze, where the goods of the southwest met the river trade downstream to Shanghai. The cable cars, cliffside stilt houses, monorail through a building, and the boatmen&#x27;s culture all flow from a city that learned to live on near-vertical riverbanks.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Hot pot origins<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Chongqing hot pot was born on these riverbanks among boat trackers and dockworkers, who cooked cheap offcuts in a cauldron of chili, Sichuan peppercorn and beef tallow to ward off the river damp. The result is málà. &#x27;numbing-spicy&#x27;, the tingling, fiery flavor that defines the city. You cook raw ingredients yourself in the bubbling broth. Order a split pot so you can dial the heat, and remember refined oils are used here, confirm with our allergen cards regardless.</p><div class="term"><span class="term-k">麻辣 má là</span><span class="term-v">&#x27;Numbing-spicy&#x27; — the tongue-tingling Sichuan peppercorn + chili sensation.</span></div></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Hotpot: the boatmen&#x27;s meal<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Chongqing hotpot was born on the Yangtze docks. The story goes that boat haulers and dockworkers cooked cheap offcuts, tripe, offal, in a fiery communal broth of beef tallow, chilies, and Sichuan peppercorns to ward off the river damp. What began as poor men&#x27;s food became the city&#x27;s defining ritual and its most famous export. The numbing, oily, intensely spicy Chongqing style is distinct from milder hotpots elsewhere, and a real allergy minefield, since peanut and sesame turn up in broths and dipping sauces.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The Three Gorges &amp; the river<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Chongqing sits at the head of the Three Gorges, the dramatic canyons where the Yangtze cuts through the mountains downstream. The colossal Three Gorges Dam (completed 2012, the world&#x27;s largest power station) raised the river and submerged towns and antiquities, many rescued artifacts now live in the city&#x27;s Three Gorges Museum. The river is Chongqing&#x27;s reason for being: trade artery, defensive moat, and the source of its fog and its food.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The Ba people and an ancient identity<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Long before it was Chinese in any modern sense, this was the land of the Ba, an ancient kingdom absorbed by the Qin in the 4th century BC, leaving a distinct regional identity, bronze artifacts, and folklore that the Three Gorges Museum documents. The rugged, fiercely independent Ba reputation still feeds Chongqing&#x27;s self-image as a tough, spicy, do-it-its-own-way city, culturally its own thing, even though it was administratively part of Sichuan until 1997.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>A treaty port opened to the world (1890s)<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Chongqing&#x27;s modern history opens in 1890–91, when it became a treaty port, the furthest-inland point opened to foreign trade on the Yangtze. British and later Japanese concessions established themselves on the river, steamships eventually conquered the treacherous Three Gorges passage, and this remote mountain city was wired into global commerce. The opening seeded the foreign banks, trading houses, and consulates whose traces still mark the older riverfront districts.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>A city that has governed itself twice over<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Chongqing holds an unusual place in modern China, it has been a directly-governed seat of power not once but twice. When Japan took the coast in 1937, the Nationalist government fled up the Yangtze and made Chongqing the provisional wartime capital; for eight years, government ministries, universities, and entire factories relocated here and the population more than tripled under relentless bombing. Then in 1997 it was split from Sichuan and made a province-level municipality answering directly to Beijing, one of only four (with Beijing, Shanghai, Tianjin). Its boundaries swell to a province-sized 82,000 km² and over 30 million people, though most of that is rural; the actual city is around 16 million. It governs itself like a province because, in scale, it is one.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>WWII wartime capital<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>During WWII, after Japan took the coast, Chongqing became China&#x27;s wartime capital (1938–45). Shielded by mountains and fog, it endured years of relentless aerial bombing, among the most-bombed cities of the war, while sheltering its population in tunnels carved into the rock. Some of those air-raid shelters are now restaurants and shops; the hot pot cavern on the itinerary is literally one of them. The Three Gorges Museum tells this story powerfully.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Wartime capital and the bombing (1938–45)<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>From 1938 to 1943, Chongqing endured one of the most sustained aerial bombing campaigns in history, as Japan tried to break Free China&#x27;s will from the air. The population sheltered in vast tunnel networks carved into the bedrock, the same caves that now house atmospheric hotpot restaurants. As the Nationalist wartime capital, the city absorbed the relocated government, refugees, universities, and entire factories; its population more than tripled, and it became the diplomatic stage where China and the Allies coordinated the Pacific war.</p></div></article></div></div></section></div>
+    <div class="map-col" id="main-map-col"><div class="map-frame"><div id="map"></div>
+      <div class="map-cap"><span class="map-cap-dot"></span><span id="mapcap">Showing today's stops</span></div>
+    </div></div>
+  </div>
+</div>
+<footer>For Amanda, from Nate. Made with love in Los Angeles for use in China.<br><button onclick="(function(){localStorage.removeItem('hn_auth_v1');location.reload();})()" style="margin-top:10px;background:none;border:none;font-size:.75rem;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:inherit;opacity:.5">Logout</button></footer>
+<script src="assets/leaflet/leaflet.js"></script>
+<script>
+// hmBaseLayers(map): attach CartoDB Voyager (English, default) + Amap base layers with a switcher.
+function hmBaseLayers(map){
+  // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
+  var osm = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
+     detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Gaode/Amap road tiles, no API key needed; reachable inside mainland China.
+  var amap = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+    {maxZoom:19, subdomains:['1','2','3','4'], attribution:'\u00A9 \u9AD8\u5FB7\u5730\u56FE Amap', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  // Esri World Street Map. English labels. May or may not be reachable in mainland China.
+  var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom:19, attribution:'Tiles \u00A9 Esri', crossOrigin:true,
+     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
+  osm.addTo(map); // default: English labels, works everywhere outside China
+  L.control.layers(
+    {'English (CartoDB)': osm, 'Amap \u9AD8\u5FB7 (China)': amap, 'Esri (English)': esri},
+    {}, {position:'topright', collapsed:true}
+  ).addTo(map);
+  // If CartoDB tiles fail (e.g. inside mainland China), fall back to Amap.
+  var osmFailed = 0;
+  osm.on('tileerror', function(){ osmFailed++; if(osmFailed===4 && map.hasLayer(osm)){
+    map.removeLayer(osm); amap.addTo(map);
+  }});
+  return map;
+}
+
+// toggleStudy(headerEl): collapse/expand a study block (no persistence, resets each open).
+window.toggleStudy=function toggleStudy(el){
+  var block = el.closest('.study-block');
+  if(block){ block.classList.toggle('done'); }
+}
+</script>
+<script>
+const PTS  = [{"id": "s1", "lat": 29.70881339231542, "lng": 106.5492763291192, "name": "Chongqing North Railway Station", "num": "1", "cat": "Train Station", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s2", "lat": 29.559888164541253, "lng": 106.57331214789711, "name": "Maiyue Hotel \u2013 Jiefangbei", "num": "\u2302", "cat": "Hotel", "color": "#888888", "day": "FRI JUL 3", "dayIndex": 0, "hotel": true}, {"id": "s3", "lat": 29.56683672872202, "lng": 106.54227179838958, "name": "Great Hall of the People", "num": "2", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s4", "lat": 29.567632026767505, "lng": 106.54026769544895, "name": "Three Gorges Museum", "num": "3", "cat": "Museum", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s5", "lat": 29.554849449328394, "lng": 106.54628013347214, "name": "Lianglukou Grand Escalator", "num": "4", "cat": "Transit", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s6", "lat": 29.567878986104944, "lng": 106.56730759929934, "name": "Chongqing Planning Exhibition Hall", "num": "5", "cat": "Museum", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s7", "lat": 29.58256814103776, "lng": 106.4440141415631, "name": "Ciqikou Ancient Town", "num": "6", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s8", "lat": 29.565886938422185, "lng": 106.57431229513385, "name": "Filling Station (\u5730\u4e0b\u4e4b\u57ce Underground Hotpot)", "num": "7", "cat": "Food", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s9", "lat": 29.566891062306745, "lng": 106.5803141299561, "name": "Hongyadong Folk Custom Scene Area", "num": "8", "cat": "Landmark", "color": "#B0202E", "day": "FRI JUL 3", "dayIndex": 0}, {"id": "s10", "lat": 29.558889426569237, "lng": 106.574312705204, "name": "Chongqing Art Gallery", "num": "1", "cat": "Museum", "color": "#2E6F95", "day": "SAT JUL 4", "dayIndex": 1}, {"id": "s11", "lat": 29.55888096188658, "lng": 106.56630726754149, "name": "Datang Plaza", "num": "2", "cat": "Shopping", "color": "#2E6F95", "day": "SAT JUL 4", "dayIndex": 1}, {"id": "s12", "lat": 29.56188835282673, "lng": 106.5743125294733, "name": "Chongqing World Financial Center (WFC) / Miniso Land", "num": "3", "cat": "Shopping", "color": "#2E6F95", "day": "SAT JUL 4", "dayIndex": 1}, {"id": "s13", "lat": 29.5322249484498, "lng": 106.53175089741917, "name": "Firefly Bar Harbour Maomao Theme Park", "num": "4", "cat": "Activity", "color": "#2E6F95", "day": "SAT JUL 4", "dayIndex": 1}, {"id": "s14", "lat": 29.563893746272225, "lng": 106.58331454307756, "name": "Yangtze River Ropeway (cableway)", "num": "5", "cat": "Activity", "color": "#2E6F95", "day": "SAT JUL 4", "dayIndex": 1}, {"id": "s15", "lat": 29.566893913820863, "lng": 106.58631413172998, "name": "Drone Show at Chaotianmen River", "num": "6", "cat": "Activity", "color": "#2E6F95", "day": "SAT JUL 4", "dayIndex": 1}, {"id": "s16", "lat": 29.560388260987523, "lng": 106.57361227369853, "name": "Jiefangbei (People's Liberation Monument)", "num": "1", "cat": "Landmark", "color": "#C9821E", "day": "SUN JUL 5", "dayIndex": 2}, {"id": "s17", "lat": 29.452873724756042, "lng": 106.65620247196082, "name": "Chongqing East Railway Station (optional)", "num": "2", "cat": "Train Station", "color": "#C9821E", "day": "SUN JUL 5", "dayIndex": 2}, {"id": "s18", "lat": 29.722017352441746, "lng": 106.63793366796212, "name": "Chongqing Jiangbei Int'l Airport (CKG)", "num": "3", "cat": "Airport", "color": "#C9821E", "day": "SUN JUL 5", "dayIndex": 2}];
+const FOOD = [{"name": "BAMU Bakery (\u516b\u76ee\u70d8\u7119)", "zh": "\u516b\u76ee\u70d8\u7119\u5496\u5561", "cat": "Bakery / Snacks", "dishes": "Artisan bread and coffee; specialty baked goods", "allergy": "", "color": "#C9821E", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Just \u7cd5 (Mochi Gelato)", "zh": "Just \u7cd5", "cat": "Bakery / Snacks", "dishes": "Mochi-wrapped gelato; Japanese-fusion dessert", "allergy": "", "color": "#C9821E", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M9 4h6l3 4H6L9 4Z\"/><path d=\"M6 8v1a6 6 0 0 0 12 0V8\"/><path d=\"M8 15v1m4-1v1m4-1v1M6 18h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2Z\"/>"}, {"name": "Hip Tip Jazz Bar", "zh": "\u563f\u8da3\u7235\u58eb\u9152\u5427", "cat": "Bar", "dishes": "Cocktails, craft beer, live jazz and blues most evenings  \u2022  Craft beer; cocktails (no food)", "allergy": "", "color": "#1F8A8A", "lat": 29.580893928352186, "lng": 106.52653527116149, "source": "", "iconPaths": "<path d=\"M8 22V12m8 10V12M3 9l3-7h12l3 7H3Z\"/><path d=\"M3 9h18\"/>"}, {"name": "Wuyinmen", "zh": "\u4e94\u5370\u95e8\u5496\u5561", "cat": "Caf\u00e9 / Coffee", "dishes": "Specialty coffee, Sichuan peppercorn latte, creative drinks  \u2022  Sichuan peppercorn latte; specialty coffee; creative drinks", "allergy": "", "color": "#8A6D1F", "lat": 29.50539259990384, "lng": 106.55950323164885, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Coffeeholic (\u8377\u4e3d\u53ef)", "zh": "\u8377\u9e97\u53ef COFFEE HOLIC", "cat": "Caf\u00e9 / Coffee", "dishes": "Specialty coffee in a creative warehouse park setting; Eling Park area", "allergy": "", "color": "#8A6D1F", "lat": 29.560820391605752, "lng": 106.53425502650855, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Topia Cafe", "zh": "Topia", "cat": "Caf\u00e9 / Coffee", "dishes": "Coffee and brunch in a restored historic building; Yuzhong heritage district", "allergy": "", "color": "#8A6D1F", "lat": 29.560885867074607, "lng": 106.57131093584825, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Dandy Art House", "zh": "Dandy Art House", "cat": "Caf\u00e9 / Coffee", "dishes": "Gallery caf\u00e9 in Eling Creative Park; art exhibitions, cocktails, coffee", "allergy": "", "color": "#8A6D1F", "lat": 29.560820391605752, "lng": 106.53425502650855, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Wandering Garden Coffee (\u665a\u8d77\u82b1\u56ed)", "zh": "\u665a\u8d77\u82b1\u56ed\u5496\u5561", "cat": "Caf\u00e9 / Coffee", "dishes": "Garden-style specialty coffee; hidden courtyard in Liangjiang New Area", "allergy": "", "color": "#8A6D1F", "lat": 29.64284056528685, "lng": 106.5562909972657, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Exit Babylon (\u51fa\u7a7a\u95f4)", "zh": "\u51fa\u7a7a\u95f4", "cat": "Caf\u00e9 / Coffee", "dishes": "Pet-friendly caf\u00e9; riverside/seaside setting", "allergy": "", "color": "#8A6D1F", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Cotiz (Chongqing)", "zh": "Cotiz", "cat": "Caf\u00e9 / Coffee", "dishes": "Minimalist Kyoto-inspired coffee; clean aesthetic", "allergy": "", "color": "#8A6D1F", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Huashi Mashed Pea Noodles", "zh": "\u534e\u6c0f\u8c4c\u8c46\u9762", "cat": "Chinese Food", "dishes": "Xiaomian noodles tossed with mashed green peas, chili oil, and Sichuan peppercorn  \u2022  Pea & pork noodles (wan za mian); chili oil noodles", "allergy": "", "color": "#2E6F95", "lat": 29.566282384470785, "lng": 106.56980961840398, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "Xi Shang Yuan Courtyard Restaurant", "zh": "\u559c\u4e0a\u56ed", "cat": "Chinese Food", "dishes": "Classic Chongqing home-cooking; spicy blood curd (\u6bdb\u8840\u65fa), spicy chicken (\u8fa3\u5b50\u9e21); courtyard-style dining  \u2022  Mao Xue Wang (blood curd); La Zi Ji (spicy chicken); fish in chili oil", "allergy": "", "color": "#2E6F95", "lat": 29.61875390634874, "lng": 106.516205605912, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "\u82b1\u5e02\u8c4c\u6742\u9762 (Huashi Wan Zha Mian)", "zh": "\u82b1\u5e02\u8c4c\u6742\u9762", "cat": "Chinese Food", "dishes": "Wan Za Mian (noodles w/ peas + pork sauce); braised beef noodles", "allergy": "", "color": "#2E6F95", "lat": 29.558885547728515, "lng": 106.57031039861748, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "\u6768\u8bb0\u9686\u5e9c (Yangji Longfu)", "zh": "\u6768\u8bb0\u9686\u5e9c", "cat": "Chinese Food", "dishes": "Republican-era spicy chicken (Minguo La Zi Ji); king rabbit; signature fish", "allergy": "", "color": "#2E6F95", "lat": 29.563887643161408, "lng": 106.57431241230813, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "Haidilao Hot Pot", "zh": "\u6d77\u5e95\u635e\u706b\u9505", "cat": "Hot Pot", "dishes": "Customizable hot pot; choose your own broth, meats, vegetables, tofu", "allergy": "", "color": "#B0202E", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "Guanghuan Hot Pot", "zh": "\u5149\u73af\u706b\u9505", "cat": "Hot Pot", "dishes": "Neighbourhood-style Chongqing hot pot; signature bright-red spicy broth; cook-your-own meats, offal, vegetables, tofu  \u2022  Braised beef; 7-second tripe; spicy beef; fried rice; eel", "allergy": "", "color": "#B0202E", "lat": 29.567883396193857, "lng": 106.57131052565398, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "\u4f69\u59d0\u8001\u706b\u9505 (Peijie Old Hotpot)", "zh": "\u73ee\u59d0\u8001\u706b\u9505", "cat": "Hot Pot", "dishes": "Mao du (tripe); yellow throat; fresh beef", "allergy": "", "color": "#B0202E", "lat": 29.56589390177262, "lng": 106.58531432133394, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "\u6d1e\u4ead\u9c9c\u706b\u9505 (Dongting Xian Hotpot)", "zh": "\u6d1e\u4ead\u706b\u9505", "cat": "Hot Pot", "dishes": "Fresh tripe; premium duck intestine; crispy fried pork (xian zha su rou)", "allergy": "", "color": "#B0202E", "lat": 29.5598455858312, "lng": 106.54527799400472, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "\u9093\u8bb0\u83bd\u5b50\u8001\u706b\u9505 (Dengji Mangzi Old Hotpot)", "zh": "\u9093\u8bb0\u83bd\u5b50\u8001\u706b\u9505", "cat": "Hot Pot", "dishes": "Mangzi beef (\u83bd\u5b50\u725b\u8089); premium tripe; crispy pork; duck blood", "allergy": "", "color": "#B0202E", "lat": 29.554882410783776, "lng": 106.56630750199834, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "Chongqing Filling Station (Underground Hotpot \u2014 \u5730\u4e0b\u4e4b\u57ce)", "zh": "\u5730\u4e0b\u4e4b\u57ce\u8001\u706b\u9505", "cat": "Hot Pot", "dishes": "Classic Chongqing hotpot in WWII air-raid shelters", "allergy": "", "color": "#B0202E", "lat": 29.587842087493502, "lng": 106.54828175384264, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "Aleia Restaurant", "zh": "Aleia\u963f\u5229\u4e9a\u00b7\u897f\u73ed\u7259\u9910\u5385", "cat": "International", "dishes": "Spanish fine dining; paprika-grilled octopus, Iberian charcuterie, iced sangria; palate-break option  \u2022  Iberian charcuterie; paprika-grilled octopus; Spanish fine dining", "allergy": "", "color": "#C24E8C", "lat": 29.56388376434165, "lng": 106.57031010562868, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20\"/>"}];
+const CAT_COLORS = {"Hot Pot": "#B0202E", "Chinese Food": "#2E6F95", "Dim Sum": "#7A4BA8", "Caf\u00e9 / Coffee": "#8A6D1F", "Bar": "#1F8A8A", "International": "#C24E8C", "Bakery / Snacks": "#C9821E", "Seafood": "#3E7D52", "Vegetarian / Vegan": "#5566C0", "Other": "#888"};
+const FALLBACK = [29.565886938422185,106.57361227369853];
+
+// ── Itinerary map (lazy init — deferred until first day tab shown) ────
+let map = null;
+const markers = {};
+window.initDayMap=function initDayMap(){
+  if(map) return;
+  const _mapEl = document.getElementById('map');
+  if(!_mapEl) return;
+  // Clear any stale Leaflet state from a prior failed attempt
+  if(_mapEl._leaflet_id) {
+    try{ _mapEl._leaflet_map && _mapEl._leaflet_map.remove(); }catch(e){}
+    delete _mapEl._leaflet_id;
+    _mapEl.innerHTML = '';
+    _mapEl.removeAttribute('tabindex');
+  }
+  map = L.map('map', {scrollWheelZoom:true});
+  hmBaseLayers(map);
+  window.__hmMaps = window.__hmMaps || {};
+  window.__hmMaps[document.querySelector('.vpage[style*="block"], .vpage:not([style])') ? 
+    (document.querySelector('.panel') ? document.querySelector('.panel').closest('.vpage')?.dataset.page : null) : null] = map;
+  // simpler: store keyed by the map container's page ancestor
+  const _pg = document.querySelector('#map').closest('[data-page]');
+  if(_pg) window.__hmMaps[_pg.dataset.page] = map;
+  PTS.forEach(p=>{
+  const icon = p.hotel
+    ? L.divIcon({className:'hm-pin',html:`<div style="width:22px;height:22px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 6px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:13px;line-height:1">⌂</span></div>`,iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-13]})
+    : L.divIcon({className:'hm-pin',html:
+      `<div style="position:relative;width:30px;height:30px">
+        <div style="width:30px;height:30px;border-radius:9px;background:${p.color};
+          border:2px solid #fff;box-shadow:0 4px 10px -3px rgba(0,0,0,.55);
+          display:flex;align-items:center;justify-content:center">
+          <span style="color:#fff;font:600 13px 'Cormorant',Georgia,serif">${p.num}</span></div>
+        <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
+          border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid ${p.color};
+          filter:drop-shadow(0 2px 1px rgba(0,0,0,.3))"></div>
+      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-34]});
+  const popup = p.hotel
+    ? `<b>${p.name}</b><br><span style="color:#888">Hotel · ${p.day}</span>`
+    : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
+  const m=L.marker([p.lat,p.lng],{icon}).bindPopup(popup);
+  m._dayIndex=p.dayIndex; markers[p.id]=m;
+  m.on('click',()=>highlight(p.id));
+  });
+}  // end initDayMap
+window.fitDay=function fitDay(di){
+  initDayMap();
+  const shown=[];
+  Object.values(markers).forEach(m=>{
+    if(di===null||m._dayIndex===di){m.addTo(map);shown.push(m.getLatLng());}
+    else map.removeLayer(m);
+  });
+  if(shown.length) map.fitBounds(shown,{padding:[45,45],maxZoom:15});
+  else map.setView(FALLBACK,11);
+  setTimeout(()=>map.invalidateSize(),60);
+}
+function highlight(id){
+  const el=document.querySelector(`.stop[data-id="${id}"]`);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1400);}
+}
+
+// ── Overview map ───────────────────────────────────────────────
+let mapOv=null;
+function initOverviewMap(){
+  if(mapOv) return;
+  mapOv=L.map('map-overview',{scrollWheelZoom:false});
+  hmBaseLayers(mapOv);
+  const bounds=[];
+  PTS.forEach(p=>{
+    const icon = p.hotel
+      ? L.divIcon({className:'hm-pin',html:`<div style="width:18px;height:18px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 5px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:11px;line-height:1">⌂</span></div>`,iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-11]})
+      : L.divIcon({className:'hm-pin',html:
+        `<div style="position:relative;width:24px;height:24px">
+          <div style="width:24px;height:24px;border-radius:7px;background:${p.color};
+            border:2px solid #fff;box-shadow:0 3px 8px -2px rgba(0,0,0,.45);
+            display:flex;align-items:center;justify-content:center">
+            <span style="color:#fff;font:600 10px 'Cormorant',Georgia,serif">${p.num}</span></div>
+          <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
+            border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid ${p.color}"></div>
+        </div>`,iconSize:[24,29],iconAnchor:[12,29],popupAnchor:[0,-26]});
+    const popup = p.hotel
+      ? `<b>${p.name}</b><br><span style="color:#888">Hotel</span>`
+      : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
+    L.marker([p.lat,p.lng],{icon}).bindPopup(popup).addTo(mapOv);
+    bounds.push([p.lat,p.lng]);
+  });
+  if(bounds.length) mapOv.fitBounds(bounds,{padding:[35,35],maxZoom:14});
+  else mapOv.setView(FALLBACK,11);
+}
+
+// ── Food map ───────────────────────────────────────────────────
+let mapFood=null; let foodMarkers=[];
+function initFoodMap(){
+  if(mapFood) return;
+  mapFood=L.map('map-food',{scrollWheelZoom:false});
+  hmBaseLayers(mapFood);
+  const bounds=[];
+  FOOD.forEach((e,i)=>{
+    if(!e.lat||!e.lng) return;
+    const color=e.color||'#888';
+    const iconPaths=e.iconPaths||'';
+    const icon=L.divIcon({className:'',html:
+      `<div style="position:relative;width:30px;height:36px">
+        <div style="width:30px;height:30px;border-radius:8px;background:${color};
+          border:2px solid rgba(255,255,255,.9);box-shadow:0 3px 8px -2px rgba(0,0,0,.5);
+          display:flex;align-items:center;justify-content:center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"
+            fill="none" stroke="rgba(255,255,255,.95)" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">${iconPaths}</svg>
+        </div>
+        <div style="position:absolute;left:50%;top:30px;transform:translateX(-50%);width:0;height:0;
+          border-left:5px solid transparent;border-right:5px solid transparent;
+          border-top:7px solid ${color};filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))"></div>
+      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-37]});
+    const allergy=e.allergy||'';
+    const GENERIC=["trendy reco","not yet vetted","allergy verification required on site"];
+    const isGeneric=GENERIC.some(p=>allergy.toLowerCase().includes(p));
+    const isSafe=allergy.startsWith('✓'); const isHigh=/MUST AVOID|HIGH RISK/.test(allergy);
+    let allergyHtml='';
+    if(isSafe) allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:rgba(62,125,82,.1);color:#1e5c32;border-left:3px solid #3E7D52">${allergy.substring(0,200)}</div>`;
+    else if(!isGeneric&&allergy){const bg=isHigh?'rgba(176,32,46,.1)':'rgba(201,130,30,.1)';const bc=isHigh?'#B0202E':'#C9821E';const tc=isHigh?'#6b0000':'#5a2e00';allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:${bg};color:${tc};border-left:3px solid ${bc};line-height:1.45">${allergy.substring(0,250)}${allergy.length>250?'…':''}</div>`;}
+    const m=L.marker([e.lat,e.lng],{icon})
+      .bindPopup(`<div style="max-width:240px;font-family:sans-serif">
+        <div style="font-weight:700;font-size:.9rem">${e.name}</div>
+        ${e.zh?`<div style="color:#B0202E;font-size:.78rem">${e.zh}</div>`:''}
+        <div style="display:inline-block;margin:4px 0;padding:2px 7px;border-radius:7px;background:${color};color:#fff;font-size:.68rem;font-weight:700">${e.cat}</div>
+        ${e.dishes?`<div style="font-size:.78rem;color:#444;margin:3px 0">${e.dishes.substring(0,100)}${e.dishes.length>100?'…':''}</div>`:''}
+        ${allergyHtml}</div>`,{maxWidth:260}).addTo(mapFood);
+    m._foodIdx=i; m._cat=e.cat; foodMarkers.push(m);
+    m.on('click',()=>highlightFoodCard(i));
+    bounds.push([e.lat,e.lng]);
+  });
+  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
+  else mapFood.setView(FALLBACK,12);
+}
+window.filterFoodMap=window.filterFoodMap=function filterFoodMap(cat){
+  const bounds=[];
+  foodMarkers.forEach(m=>{
+    if(cat==='all'||m._cat===cat){if(!mapFood.hasLayer(m))m.addTo(mapFood);bounds.push(m.getLatLng());}
+    else{if(mapFood.hasLayer(m))mapFood.removeLayer(m);}
+  });
+  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
+}
+window.highlightFoodCard=window.highlightFoodCard=function highlightFoodCard(idx){
+  document.querySelectorAll('.food-entry-card').forEach(c=>c.classList.remove('highlighted'));
+  const card=document.querySelector(`.food-entry-card[data-foodidx="${idx}"]`);
+  if(card){
+    card.classList.add('highlighted');
+    const box=document.getElementById('food-cards-inner');
+    if(box&&box.scrollHeight>box.clientHeight){
+      // scroll within the list container only, so the sticky map stays put
+      const ct=card.offsetTop-box.offsetTop-box.clientHeight/2+card.clientHeight/2;
+      box.scrollTo({top:ct,behavior:'smooth'});
+    } else {
+      card.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  }
+}
+window.foodCardClick=window.foodCardClick=function foodCardClick(idx){
+  highlightFoodCard(idx);
+  const m=foodMarkers.find(m=>m._foodIdx===idx);
+  if(m){mapFood.setView(m.getLatLng(),16,{animate:true});m.openPopup();}
+}
+window.filterFood=window.filterFood=function filterFood(btn){
+  document.querySelectorAll('.food-cat-btn2').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cat=btn.dataset.cat;
+  document.querySelectorAll('.food-entry-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';});
+  document.querySelectorAll('.food-group-label').forEach(g=>{g.style.display=(cat==='all'||g.dataset.cat===cat)?'':'none';});
+  // Init food map if not yet open, then filter
+  if(!mapFood) initFoodMap();
+  filterFoodMap(cat);
+}
+
+// ── Tab switching ──────────────────────────────────────────────
+const tabBtns=[...document.querySelectorAll('.tab')];
+const panelEls=[...document.querySelectorAll('.panel')];
+const mapCol=document.getElementById('main-map-col');
+const capEl=document.getElementById('mapcap');
+function activate(tab){
+  tabBtns.forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  panelEls.forEach(p=>p.classList.toggle('show',p.id===`panel-${tab}`));
+  if(tab==='overview'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+    setTimeout(()=>{initOverviewMap();if(mapOv)mapOv.invalidateSize();},80);
+  } else if(tab==='history'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+  } else if(tab==='food'){
+    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
+    document.querySelector('.layout').classList.add('full-width');
+    setTimeout(()=>{initFoodMap();if(mapFood)mapFood.invalidateSize();},80);
+  } else {
+    mapCol.classList.remove('hidden');document.querySelector('.layout').classList.remove('no-map');
+    document.querySelector('.layout').classList.remove('full-width');
+    const di=parseInt(tab.replace('d',''),10);
+    // map lives in a column that may have been display:none; invalidate after
+    // the browser has applied layout, then fit. Multiple ticks cover slow reflow.
+    requestAnimationFrame(()=>{
+      if(typeof initDayMap==='function') initDayMap();
+      fitDay(di);
+      setTimeout(()=>{if(map)map.invalidateSize();},120);
+      setTimeout(()=>{if(map){map.invalidateSize();fitDay(di);}},320);
+    });
+    const btn=tabBtns.find(b=>b.dataset.tab===tab);
+    capEl.textContent=btn?btn.textContent.trim()+'. '+PTS.filter(p=>p.dayIndex===di).length+' stops':'';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+tabBtns.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab)));
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.stop');if(!card)return;
+  const m=markers[card.dataset.id];
+  if(m&&map){if(!map.hasLayer(m))m.addTo(map);map.flyTo(m.getLatLng(),16,{duration:.6});m.openPopup();}
+});
+// ── Swipe between tabs (mobile) ───────────────────────────────
+let _tx=null,_ty=null;
+document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;_ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(_tx===null)return;
+  const dx=e.changedTouches[0].clientX-_tx, dy=e.changedTouches[0].clientY-_ty;
+  _tx=null;
+  if(Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*0.7)return;
+  if(e.target.closest('.leaflet-container,.day-route'))return;
+  const cur=tabBtns.findIndex(b=>b.classList.contains('active'));
+  const nxt=cur+(dx<0?1:-1);
+  if(nxt>=0&&nxt<tabBtns.length)activate(tabBtns[nxt].dataset.tab);
+},{passive:true});
+
+// ── Today smart view ──────────────────────────────────────────
+const DAYDATES={"2026-07-03": "d0", "2026-07-04": "d1", "2026-07-05": "d2"};
+(function(){
+  const now=new Date();
+  const iso=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const todayTab=DAYDATES[iso];
+  if(todayTab){
+    const btn=tabBtns.find(b=>b.dataset.tab===todayTab);
+    if(btn){btn.classList.add('today-tab');
+      if(!location.hash){activate(todayTab);return;}
+    }
+  }
+  const hash=location.hash.replace('#','');
+  activate(['overview','history','food'].includes(hash)||hash.startsWith('d')?hash:'overview');
+})();
+</script>
+</body></html>
