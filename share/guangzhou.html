@@ -764,9 +764,12 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .tt-stamp{position:relative}
 .tt-stamp .tt-ring{position:relative}
 
-/* Completion celebration: a screenshottable free-boba coupon (above the gate) */
-.tt-done{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;
+/* Completion celebration: a screenshottable free-boba coupon (above the gate).
+   Hidden by default via display:none (NOT the [hidden] attribute, which a same-
+   specificity .tt-done{display:flex} would override); shown only with .show. */
+.tt-done{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;
   background:rgba(40,24,14,.55);backdrop-filter:blur(4px);padding:20px;overflow-y:auto;cursor:pointer}
+.tt-done.show{display:flex}
 .tt-done.show .tt-done-card{animation:ttCardIn .5s cubic-bezier(.2,.7,.3,1.2) both}
 .tt-done-card{position:relative;max-width:400px;width:100%;text-align:center;cursor:default;
   background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px 28px 24px;
