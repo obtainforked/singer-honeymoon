@@ -752,27 +752,48 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
 .tt-stamp.collected .tt-name::after{content:' ✓';color:var(--cinnabar)}
 
-/* Completion celebration overlay */
+/* Completion celebration: a screenshottable free-boba coupon */
 .tt-done{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
   background:rgba(40,24,14,.55);backdrop-filter:blur(4px);padding:20px}
 .tt-done.show .tt-done-card{animation:ttCardIn .5s cubic-bezier(.2,.7,.3,1.2) both}
-.tt-done-card{position:relative;max-width:380px;width:100%;text-align:center;
-  background:var(--card);border:1px solid var(--line);border-radius:20px;padding:40px 34px 30px;
+.tt-done-card{position:relative;max-width:400px;width:100%;text-align:center;
+  background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px 28px 24px;
   box-shadow:0 30px 70px -30px rgba(0,0,0,.6)}
 @keyframes ttCardIn{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
-.tt-done-stamp{position:relative;display:flex;align-items:center;justify-content:center;height:120px;margin-bottom:6px}
-.tt-done-seal{width:104px;height:118px;border-radius:17px;background:#C03828;color:#FBF3E4;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:2.1rem;line-height:1.05;
-  box-shadow:0 10px 30px -8px rgba(154,32,24,.85), inset 0 0 0 2.5px rgba(255,255,255,.28);opacity:0}
-.tt-done-seal small{font-size:.62rem;letter-spacing:.2em;opacity:.85}
-.tt-done-ring{position:absolute;width:150px;height:150px;border-radius:26px;border:3px solid #C03828;opacity:0}
-.tt-done.show .tt-done-seal{animation:gateStampIn .5s cubic-bezier(.2,.7,.3,1.2) .1s forwards}
-.tt-done.show .tt-done-ring{animation:gateInkRing .9s ease-out .5s forwards}
-.tt-done-card h3{font-family:'Cormorant',serif;font-weight:600;font-size:1.7rem;color:var(--ink);margin:10px 0 8px}
-.tt-done-card p{font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin:0 0 22px}
-.tt-done-card #tt-done-close{background:#C03828;color:#fff;border:none;border-radius:10px;
-  padding:10px 22px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit}
+.bc-kicker{font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink);
+  line-height:1.2;margin:0 0 18px}
+/* The ticket */
+.bc-ticket{position:relative;display:flex;align-items:stretch;text-align:left;overflow:hidden;
+  background:linear-gradient(135deg,#C5402E 0%,#A8241A 100%);color:#FBEFD8;border-radius:14px;
+  box-shadow:0 14px 34px -16px rgba(154,32,24,.9), inset 0 0 0 1.5px rgba(255,255,255,.16)}
+.tt-done.show .bc-ticket{animation:bcPop .55s cubic-bezier(.2,.7,.3,1.5) both}
+@keyframes bcPop{0%{transform:scale(.7) rotate(-4deg);opacity:0}60%{transform:scale(1.03) rotate(1deg)}100%{transform:none;opacity:1}}
+.bc-stub{flex:0 0 92px;display:flex;align-items:center;justify-content:center;padding:18px 8px;
+  border-right:2px dashed rgba(255,239,216,.5);color:#FBEFD8;position:relative}
+.bc-stub svg{width:48px;height:62px}
+.bc-stub::before,.bc-stub::after{content:'';position:absolute;right:-9px;width:16px;height:16px;
+  border-radius:50%;background:var(--card)}
+.bc-stub::before{top:-9px}.bc-stub::after{bottom:-9px}
+.bc-main{flex:1;padding:16px 18px;min-width:0}
+.bc-title{font-family:'Cormorant',serif;font-weight:700;font-size:1.65rem;line-height:1.05;color:#fff}
+.bc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:.92rem;
+  color:#F4D9B6;margin:2px 0 8px}
+.bc-terms{font-size:.7rem;line-height:1.5;color:rgba(251,239,216,.85)}
+.bc-code{height:26px;margin-top:10px;border-radius:2px;
+  background:repeating-linear-gradient(90deg,#FBEFD8 0 2px,transparent 2px 5px,#FBEFD8 5px 6px,transparent 6px 10px);
+  opacity:.6}
+.bc-seal{position:absolute;right:10px;bottom:8px;font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:1.3rem;font-weight:700;color:#fff;border:2px solid rgba(255,255,255,.7);border-radius:8px;
+  padding:1px 6px;transform:rotate(-12deg);opacity:0}
+.tt-done.show .bc-seal{animation:gateStampIn .45s cubic-bezier(.2,.7,.3,1.2) .55s forwards}
+/* shine sweep across the ticket */
+.bc-shine{position:absolute;top:0;left:-60%;width:50%;height:100%;z-index:2;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.35),transparent)}
+.tt-done.show .bc-shine{animation:bcShine 1s ease-out .7s 1}
+@keyframes bcShine{from{left:-60%}to{left:130%}}
+.bc-sign{font-size:.84rem;color:var(--ink-soft);font-style:italic;margin:18px 0 16px}
+.tt-done-card #tt-done-close{background:none;border:1px solid var(--line);border-radius:10px;
+  padding:8px 20px;font-size:.85rem;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit}
 
 /* ===== Boarding pass ===== */
 .bpass{display:flex;align-items:stretch;margin:6px 0 20px;border-radius:14px;overflow:hidden;
@@ -1046,12 +1067,30 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     </section>
     <div id="tt-done" class="tt-done" hidden>
       <div class="tt-done-card">
-        <div class="tt-done-stamp"><span class="tt-done-ring"></span>
-          <span class="tt-done-seal">圓滿<small>蜜月</small></span></div>
-        <h3>The cup is full.</h3>
-        <p>All 11 stops, from a tatami teahouse in Taipei to Lord Stow's last tart in Macau.
-        You tasted your way across China together &mdash; here's to refills, for the rest of your lives.</p>
-        <button type="button" id="tt-done-close">圓滿 &middot; close</button>
+        <div class="bc-kicker">The pot's empty, the trip was sweet</div>
+        <div class="bc-ticket">
+          <div class="bc-shine"></div>
+          <div class="bc-stub">
+            <svg viewBox="0 0 48 64" fill="none" stroke="currentColor" stroke-width="2.4"
+                 stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+              <path d="M13 19h22l-2.4 38a3 3 0 0 1-3 2.8H18.4a3 3 0 0 1-3-2.8Z"/>
+              <path d="M11 19h26"/><path d="M30 19l5-11"/>
+              <circle cx="20" cy="52" r="2.2" fill="currentColor" stroke="none"/>
+              <circle cx="27" cy="50" r="2.2" fill="currentColor" stroke="none"/>
+              <circle cx="24" cy="56" r="2.2" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div class="bc-main">
+            <div class="bc-title">One Free Boba</div>
+            <div class="bc-zh">珍珠奶茶 &middot; 一杯</div>
+            <div class="bc-terms">Redeemable the day you land back home in Los Angeles.
+              No expiry. Refills implied.</div>
+            <div class="bc-code"></div>
+          </div>
+          <span class="bc-seal">圓滿</span>
+        </div>
+        <p class="bc-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p>
+        <button type="button" id="tt-done-close">close</button>
       </div>
     </div>
   <h2 class="sec-h"><span>The Cities</span><span class="sec-zh">城市</span></h2>
