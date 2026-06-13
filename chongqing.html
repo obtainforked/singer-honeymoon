@@ -692,6 +692,96 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
 .chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
 .chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+
+/* ===== Hero today-card ===== */
+.hero-today{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-top:22px;
+  padding:12px 18px;border-radius:12px;background:rgba(250,243,228,.13);
+  border:1px solid rgba(250,243,228,.28);backdrop-filter:blur(3px);
+  font-size:.92rem;color:#F6EDDC}
+.hero-today b{font-weight:700;color:#fff}
+.hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
+.hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
+.hero-today a:hover{text-decoration:underline}
+
+/* ===== Red thread caption ===== */
+.thread-cap{display:flex;align-items:center;gap:10px;margin:10px 2px 0;font-size:.84rem;
+  color:var(--muted);font-style:italic}
+.thread-cap::before{content:'';flex:0 0 34px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#B0202E 70%,transparent);box-shadow:0 0 0 .5px #B0202E}
+.thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-style:normal;color:var(--cinnabar)}
+
+/* ===== High Tea Trail ===== */
+.tea-trail{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:26px 28px;margin:34px 0;box-shadow:var(--shadow)}
+.tea-trail-h{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.tea-trail-h .tt-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:.95rem;color:var(--cinnabar)}
+.tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 20px}
+.tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
+.tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tt-ring{width:86px;height:86px;border-radius:50%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;transform:rotate(-6deg)}
+.tt-stamp:nth-child(2n) .tt-ring{transform:rotate(4deg)}
+.tt-ring .tt-cha{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:1.5rem;line-height:1;font-weight:700}
+.tt-ring .tt-date{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
+.tt-stamp.booked .tt-ring{background:var(--cinnabar);color:#FBF3E4;
+  box-shadow:0 4px 14px -6px rgba(154,32,24,.75), inset 0 0 0 2px rgba(255,255,255,.3);}
+.tt-stamp.planned .tt-ring{border:2.5px solid var(--cinnabar);color:var(--cinnabar)}
+.tt-stamp.optional .tt-ring{border:2px dashed color-mix(in srgb,var(--cinnabar) 55%,var(--line));
+  color:color-mix(in srgb,var(--cinnabar) 70%,var(--muted))}
+.tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
+.tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
+.tt-stamp.booked .tt-name::after{content:' ✓';color:var(--cinnabar)}
+
+/* ===== Boarding pass ===== */
+.bpass{display:flex;align-items:stretch;margin:6px 0 20px;border-radius:14px;overflow:hidden;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);max-width:640px}
+.bp-stub{flex:0 0 88px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:16px 10px;background:color-mix(in srgb,var(--cat,var(--cinnabar)) 9%,var(--card));
+  border-right:2px dashed var(--line);color:var(--cat,var(--cinnabar));position:relative}
+.bp-stub svg{width:30px;height:30px}
+.bp-stub span{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-align:center}
+.bp-stub::before,.bp-stub::after{content:'';position:absolute;right:-8px;width:14px;height:14px;
+  border-radius:50%;background:var(--paper);border:1px solid var(--line)}
+.bp-stub::before{top:-8px}.bp-stub::after{bottom:-8px}
+.bp-main{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.bp-route{font-family:'Cormorant',serif;font-weight:700;font-size:1.25rem;color:var(--ink);
+  letter-spacing:.04em;line-height:1.15}
+.bp-route .bp-arr{color:var(--cat,var(--cinnabar))}
+.bp-carrier{font-size:.8rem;color:var(--ink-soft)}
+.bp-note{font-size:.76rem;color:var(--muted);font-style:italic;margin-top:3px}
+.bp-code{flex:0 0 40px;margin:12px 14px 12px 4px;border-radius:3px;
+  background:repeating-linear-gradient(90deg,var(--ink-soft) 0 2px,transparent 2px 5px,
+    var(--ink-soft) 5px 6px,transparent 6px 10px);opacity:.55}
+@media(max-width:560px){.bp-code{display:none}.bp-stub{flex-basis:70px}}
+
+/* ===== Phrase of the day ===== */
+.phrase-chip{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:9px;
+  margin:0 0 14px;padding:8px 14px;border-radius:30px;
+  background:color-mix(in srgb,var(--gold) 9%,var(--card));
+  border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));font-size:.84rem}
+.pc-k{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft,#8a6d1f);font-weight:700}
+.pc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.06rem;
+  font-weight:700;color:var(--cinnabar)}
+.pc-pin{color:var(--ink-soft)}
+.pc-say{color:var(--muted);font-style:italic}
+.pc-en{color:var(--ink-soft)}
+@media(max-width:560px){.pc-say{display:none}}
+
+/* ===== Weather strip (city hero) ===== */
+.wx-strip{display:flex;align-items:flex-start;gap:10px;margin:14px 0 0;font-size:.85rem;
+  color:var(--ink-soft);max-width:640px}
+.wx-strip svg{flex:0 0 20px;width:20px;height:20px;color:var(--gold);margin-top:1px}
+.wx-strip b{color:var(--ink)}
+
+/* ===== City crest watermark (hero keeps its overflow:hidden clip) ===== */
+.crest-mark{position:absolute;right:14px;bottom:2px;pointer-events:none;color:var(--cinnabar);
+  opacity:.1;transform:rotate(-5deg)}
+.crest-mark svg{width:170px;height:170px}
+@media(max-width:700px){.crest-mark svg{width:110px;height:110px}.crest-mark{right:4px}}
 </style></head><body>
 
 <div id="gate" style="
@@ -700,12 +790,35 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   display:flex;align-items:center;justify-content:center;
   font-family:'Georgia',serif;
 ">
-  <div style="
-    max-width:360px;width:90%;
+  <style>
+    @keyframes gateStampIn{
+      0%{transform:scale(2.6) rotate(-16deg);opacity:0}
+      55%{transform:scale(.92) rotate(-4deg);opacity:1}
+      75%{transform:scale(1.05) rotate(-6deg)}
+      100%{transform:scale(1) rotate(-5deg);opacity:1}}
+    @keyframes gateInkRing{
+      0%{transform:scale(.6);opacity:.55}
+      100%{transform:scale(1.9);opacity:0}}
+    #gate-stamp{display:none;position:absolute;inset:0;align-items:center;justify-content:center;
+      pointer-events:none;z-index:5}
+    #gate-stamp.stamping .gs-seal{animation:gateStampIn .5s cubic-bezier(.2,.7,.3,1.2) forwards}
+    #gate-stamp.stamping .gs-ring{animation:gateInkRing .9s ease-out .42s forwards}
+    .gs-seal{width:108px;height:124px;border-radius:18px;background:#C03828;color:#FBF3E4;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      font-family:'Songti SC','Noto Serif CJK SC','SimSun',serif;font-weight:700;font-size:3rem;
+      line-height:1;opacity:0;
+      box-shadow:0 10px 32px -8px rgba(154,32,24,.85), inset 0 0 0 2.5px rgba(255,255,255,.28);}
+    .gs-seal small{font-size:.95rem;letter-spacing:.18em;opacity:.85}
+    .gs-ring{position:absolute;width:150px;height:150px;border-radius:26px;
+      border:3px solid #C03828;opacity:0}
+  </style>
+  <div id="gate-card" style="
+    max-width:360px;width:90%;position:relative;
     background:#fff;border:1px solid #DDD0B8;border-radius:16px;
     padding:40px 36px;text-align:center;
     box-shadow:0 8px 40px rgba(60,38,20,.12);
   ">
+    <div id="gate-stamp"><div class="gs-ring"></div><div class="gs-seal">囍<small>辛格</small></div></div>
     <div style="
       display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
       width:54px;height:64px;border-radius:11px;background:#C03828;color:#fff;
@@ -753,13 +866,22 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
     return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
   }
-  function unlock(){document.getElementById('gate').style.display='none';}
-  if(localStorage.getItem(KEY)===HASH){unlock();return;}
+  function unlock(instant){
+    var g=document.getElementById('gate');
+    if(instant){g.style.display='none';return;}
+    var st=document.getElementById('gate-stamp');
+    st.style.display='flex'; st.classList.add('stamping');
+    setTimeout(function(){
+      g.style.transition='opacity .5s ease'; g.style.opacity='0';
+      setTimeout(function(){g.style.display='none';},520);
+    }, 1150);
+  }
+  if(localStorage.getItem(KEY)===HASH){unlock(true);return;}
   document.getElementById('gate-btn').addEventListener('click', check);
   document.getElementById('gate-pw').addEventListener('keydown',function(e){if(e.key==='Enter')check();});
   async function check(){
     var h=await sha256(document.getElementById('gate-pw').value.trim());
-    if(h===HASH){localStorage.setItem(KEY,HASH);unlock();}
+    if(h===HASH){localStorage.setItem(KEY,HASH);unlock(false);}
     else{document.getElementById('gate-err').textContent='Incorrect password — try again.';}
   }
 })();
@@ -792,15 +914,17 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 <div class="wrap">
   <div class="hero">
     <div class="watermark">重庆</div>
+    <div class="crest-mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 40h32"/><rect x="12" y="26" width="9" height="14"/><rect x="22" y="18" width="9" height="22"/><rect x="31" y="30" width="7" height="10"/><path d="M12 26l4.5-5 4.5 5M22 18l4.5-5 4.5 5"/></svg></div>
     <div class="eyebrow">The Singer Honeymoon · China</div>
     <h1>Chongqing<span class="zh">重庆</span></h1>
     
+    <div class="wx-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5 5l1.8 1.8M17.2 17.2L19 19M19 5l-1.8 1.8M6.8 17.2L5 19"/></svg><span><b>July in Chongqing:</b> ~95°F, 78% humidity, one of China&#x27;s three &#x27;furnace cities&#x27;. There is no outfit that survives this. Plan the day around air-conditioning.</span></div>
     <div class="rule"><span>3 days · 18 stops</span></div>
   </div>
   <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>FRI JUL 3</button><button class="tab" data-tab="d1" style="--cat:#2E6F95"><span class="tab-dot"></span>SAT JUL 4</button><button class="tab" data-tab="d2" style="--cat:#C9821E"><span class="tab-dot"></span>SUN JUL 5</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(21)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
   <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>FRI JUL 3</span><span><i style="background:#2E6F95"></i>SAT JUL 4</span><span><i style="background:#C9821E"></i>SUN JUL 5</span></div>
   <div class="layout">
-    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Chongqing at a glance</h2></div><div class="city-trivia">The world&#x27;s most populous municipality. Its 3D metro system includes a train that passes through a residential apartment block.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">32 million (municipality, 9M urban core)</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Direct-controlled municipality</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Vertical cityscape, hot pot, Yangtze River, WWII wartime capital</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, extremely humid, hot summers</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">Maiyue Hotel. Jiefangbei</div><div class="home-base-addr">📍 Xinhua Rd, Yuzhong District</div><p class="home-base-body">You&#x27;re staying right in the heart of the action, by Jiefangbei, the Liberation Monument and the city&#x27;s main downtown pedestrian core on the Yuzhong peninsula. This is the dense, vertical, neon Chongqing of the postcards: Hongyadong, the Yangtze cable car, and the riverfront are all within walking distance or a short hop. Being central means it&#x27;s lively and a little loud, and in Chongqing &#x27;walkable&#x27; can mean stairs and steep lanes between street levels, but you couldn&#x27;t be better placed for the city&#x27;s signature sights, most of them lit up beautifully after dark.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>FRI JUL 3 — Wartime Capital</h2></div><div class="day-strip"><span>8 stops</span></div><p class="day-intro">You arrive in Chongqing by train at midday and the city announces itself immediately, there&#x27;s no easing in to a place built vertically across river gorges. After checking into the Maiyue Hotel by Jiefangbei, head straight to Renmin Square: the Great Hall of the People and the free Three Gorges Museum are directly across the plaza from each other and together make the best cultural morning in the city, Ba-Shu bronzes, WWII bombing raids, and the artifacts pulled from the gorges before the dam rose. The Planning Exhibition Hall nearby puts Chongqing&#x27;s impossible topography into a scale model you can actually read. The Lianglukou Grand Escalator on the way back is ten minutes and worth every second. By late afternoon, make for Ciqikou, the old riverside town, and as dusk falls the day ends at its two signature experiences: dinner at the Filling Station underground hotpot and Hongyadong lit up over the Jialing River after dark. Show your allergy card at the Filling Station and ask about the oil; peanut oil is a real risk in Chongqing hotpot.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
+    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Chongqing at a glance</h2></div><div class="city-trivia">The world&#x27;s most populous municipality. Its 3D metro system includes a train that passes through a residential apartment block.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">32 million (municipality, 9M urban core)</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Direct-controlled municipality</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Vertical cityscape, hot pot, Yangtze River, WWII wartime capital</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, extremely humid, hot summers</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">Maiyue Hotel. Jiefangbei</div><div class="home-base-addr">📍 Xinhua Rd, Yuzhong District</div><p class="home-base-body">You&#x27;re staying right in the heart of the action, by Jiefangbei, the Liberation Monument and the city&#x27;s main downtown pedestrian core on the Yuzhong peninsula. This is the dense, vertical, neon Chongqing of the postcards: Hongyadong, the Yangtze cable car, and the riverfront are all within walking distance or a short hop. Being central means it&#x27;s lively and a little loud, and in Chongqing &#x27;walkable&#x27; can mean stairs and steep lanes between street levels, but you couldn&#x27;t be better placed for the city&#x27;s signature sights, most of them lit up beautifully after dark.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>FRI JUL 3 — Wartime Capital</h2></div><div class="day-strip"><span>8 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">微辣</span><span class="pc-pin">wēi là</span><span class="pc-say">&ldquo;way lah&rdquo;</span><span class="pc-en">mildly spicy — the wise hotpot order</span></div><p class="day-intro">You arrive in Chongqing by train at midday and the city announces itself immediately, there&#x27;s no easing in to a place built vertically across river gorges. After checking into the Maiyue Hotel by Jiefangbei, head straight to Renmin Square: the Great Hall of the People and the free Three Gorges Museum are directly across the plaza from each other and together make the best cultural morning in the city, Ba-Shu bronzes, WWII bombing raids, and the artifacts pulled from the gorges before the dam rose. The Planning Exhibition Hall nearby puts Chongqing&#x27;s impossible topography into a scale model you can actually read. The Lianglukou Grand Escalator on the way back is ten minutes and worth every second. By late afternoon, make for Ciqikou, the old riverside town, and as dusk falls the day ends at its two signature experiences: dinner at the Filling Station underground hotpot and Hongyadong lit up over the Jialing River after dark. Show your allergy card at the Filling Station and ask about the oil; peanut oil is a real risk in Chongqing hotpot.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
       <div class="toprow"><span class="pin">1</span>
         <h3>Chongqing North Railway Station <span class="zh">重庆北站</span></h3>
         
@@ -848,7 +972,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
       <div class="meta"><span><b>Hours:</b> 10:00–22:00 (best at night)</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> ~10 min walk from Filling Station</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Cangbai Rd, Yuzhong District 400011</span></div><div class="meta"><span><b>Coordinates:</b> 29.5640, 106.5840</span></div><div class="notes">⚠️ UPDATED 2026: Free entry but requires advance reservation via the official Hongyadong WeChat mini-program. Lights switch on at 19:30. An 11-story stilted folk-village complex hanging off the cliff over the Jialing River, and the single most photographed thing in the city. Inside it&#x27;s shops and restaurants; outside, after dark, it glows like the bathhouse from Spirited Away.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Reserve on the WeChat mini-program before you go, then arrive 30 minutes before the 19:30 light-up to stake out a position. The classic full-facade shot is from Qianximen Bridge across the river. Skip the interior shops; the building is the show.</div><div class="netizen">"&#x27;Spirited Away in real life&#x27;, magical at night. Best photo: Qianximen Bridge. Go after 8 PM. Free. Walkable from hotel."</div>
-    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>SAT JUL 4 — 3D City</h2></div><div class="day-strip"><span>6 stops</span></div><p class="day-intro">A focused afternoon-and-evening in the Jiefangbei and river-crossing parts of the city. Start at the Chongqing Art Gallery and work through the two Jiefangbei shopping and viewpoint stops nearby. The evening crosses the river: Firefly Bay&#x27;s Maomao theme park on the south bank, the Yangtze Ropeway strung across the gorge, and the drone show over the river confluence at Chaotianmen to close the night. A lighter day after Friday&#x27;s museum run, but the ropeway and the drone show are the two things that make Chongqing feel like no other city on the trip.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s10">
+    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>SAT JUL 4 — 3D City</h2></div><div class="day-strip"><span>6 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">好吃</span><span class="pc-pin">hǎochī</span><span class="pc-say">&ldquo;how-chrr&rdquo;</span><span class="pc-en">delicious</span></div><p class="day-intro">A focused afternoon-and-evening in the Jiefangbei and river-crossing parts of the city. Start at the Chongqing Art Gallery and work through the two Jiefangbei shopping and viewpoint stops nearby. The evening crosses the river: Firefly Bay&#x27;s Maomao theme park on the south bank, the Yangtze Ropeway strung across the gorge, and the drone show over the river confluence at Chaotianmen to close the night. A lighter day after Friday&#x27;s museum run, but the ropeway and the drone show are the two things that make Chongqing feel like no other city on the trip.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s10">
       <div class="toprow"><span class="pin">1</span>
         <h3>Chongqing Art Gallery <span class="zh">重庆美术馆</span></h3>
         
@@ -884,7 +1008,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
       <div class="meta"><span><b>Hours:</b> 20:45:00</span><span><b>Suggested time:</b> 45–60 min</span><span><b>From previous:</b> ~5 min walk from cableway north station</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Chaotianmen Riverfront, Yuzhong District, Chongqing</span></div><div class="meta"><span><b>Coordinates:</b> 29.5640, 106.5900</span></div><div class="notes">A large-scale drone light show over the confluence of the Yangtze and Jialing rivers at Chaotianmen, the tip of the peninsula. Hundreds of drones forming images over the water with the Raffles City horizontal-skyscraper complex behind. When it runs, it&#x27;s a stunner.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Not nightly. Confirm the schedule on Dianping or Xiaohongshu before building the evening around it. Best vantage points are the Chaotianmen docks or across on the Jiangbei side.</div><div class="netizen">"Netizens call it &#x27;breathtaking&#x27; when it runs. Not a daily show, confirm schedule on Dianping or Xiaohongshu before building your evening around it."</div>
-    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>SUN JUL 5 — Fly to Sanya</h2></div><div class="day-strip"><span>3 stops</span></div><p class="day-intro">Checkout morning. Leave the hotel by 8:30 AM for the 11:05 AM flight to Sanya. Jiefangbei square is two minutes from the lobby, worth a last look before loading out. Chongqing East Railway Station is optional and in the opposite direction from the airport so only attempt it if you are up early enough to be there by 7:00 AM and move fast. The flight south trades mountain-city concrete for tropical Hainan in under two hours.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s16">
+    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>SUN JUL 5 — Fly to Sanya</h2></div><div class="day-strip"><span>3 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">机场</span><span class="pc-pin">jīchǎng</span><span class="pc-say">&ldquo;jee-chahng&rdquo;</span><span class="pc-en">airport</span></div><div class="bpass" style="--cat:#C9821E"><div class="bp-stub"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg><span>Flight</span></div><div class="bp-main"><div class="bp-route">CKG <span class="bp-arr">→</span> SYX</div><div class="bp-carrier">China Southern CZ 2331 · 11:05 AM – 1:20 PM · 2h 15m</div><div class="bp-note">Leave Jiefangbei by 8:30 AM</div></div><div class="bp-code"></div></div><p class="day-intro">Checkout morning. Leave the hotel by 8:30 AM for the 11:05 AM flight to Sanya. Jiefangbei square is two minutes from the lobby, worth a last look before loading out. Chongqing East Railway Station is optional and in the opposite direction from the airport so only attempt it if you are up early enough to be there by 7:00 AM and move fast. The flight south trades mountain-city concrete for tropical Hainan in under two hours.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s16">
       <div class="toprow"><span class="pin">1</span>
         <h3>Jiefangbei (People&#x27;s Liberation Monument) <span class="zh">解放碑</span></h3>
         

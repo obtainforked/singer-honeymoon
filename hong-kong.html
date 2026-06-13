@@ -692,6 +692,96 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
 .chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
 .chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+
+/* ===== Hero today-card ===== */
+.hero-today{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-top:22px;
+  padding:12px 18px;border-radius:12px;background:rgba(250,243,228,.13);
+  border:1px solid rgba(250,243,228,.28);backdrop-filter:blur(3px);
+  font-size:.92rem;color:#F6EDDC}
+.hero-today b{font-weight:700;color:#fff}
+.hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
+.hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
+.hero-today a:hover{text-decoration:underline}
+
+/* ===== Red thread caption ===== */
+.thread-cap{display:flex;align-items:center;gap:10px;margin:10px 2px 0;font-size:.84rem;
+  color:var(--muted);font-style:italic}
+.thread-cap::before{content:'';flex:0 0 34px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#B0202E 70%,transparent);box-shadow:0 0 0 .5px #B0202E}
+.thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-style:normal;color:var(--cinnabar)}
+
+/* ===== High Tea Trail ===== */
+.tea-trail{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:26px 28px;margin:34px 0;box-shadow:var(--shadow)}
+.tea-trail-h{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.tea-trail-h .tt-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:.95rem;color:var(--cinnabar)}
+.tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 20px}
+.tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
+.tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tt-ring{width:86px;height:86px;border-radius:50%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;transform:rotate(-6deg)}
+.tt-stamp:nth-child(2n) .tt-ring{transform:rotate(4deg)}
+.tt-ring .tt-cha{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:1.5rem;line-height:1;font-weight:700}
+.tt-ring .tt-date{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
+.tt-stamp.booked .tt-ring{background:var(--cinnabar);color:#FBF3E4;
+  box-shadow:0 4px 14px -6px rgba(154,32,24,.75), inset 0 0 0 2px rgba(255,255,255,.3);}
+.tt-stamp.planned .tt-ring{border:2.5px solid var(--cinnabar);color:var(--cinnabar)}
+.tt-stamp.optional .tt-ring{border:2px dashed color-mix(in srgb,var(--cinnabar) 55%,var(--line));
+  color:color-mix(in srgb,var(--cinnabar) 70%,var(--muted))}
+.tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
+.tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
+.tt-stamp.booked .tt-name::after{content:' ✓';color:var(--cinnabar)}
+
+/* ===== Boarding pass ===== */
+.bpass{display:flex;align-items:stretch;margin:6px 0 20px;border-radius:14px;overflow:hidden;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);max-width:640px}
+.bp-stub{flex:0 0 88px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:16px 10px;background:color-mix(in srgb,var(--cat,var(--cinnabar)) 9%,var(--card));
+  border-right:2px dashed var(--line);color:var(--cat,var(--cinnabar));position:relative}
+.bp-stub svg{width:30px;height:30px}
+.bp-stub span{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-align:center}
+.bp-stub::before,.bp-stub::after{content:'';position:absolute;right:-8px;width:14px;height:14px;
+  border-radius:50%;background:var(--paper);border:1px solid var(--line)}
+.bp-stub::before{top:-8px}.bp-stub::after{bottom:-8px}
+.bp-main{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.bp-route{font-family:'Cormorant',serif;font-weight:700;font-size:1.25rem;color:var(--ink);
+  letter-spacing:.04em;line-height:1.15}
+.bp-route .bp-arr{color:var(--cat,var(--cinnabar))}
+.bp-carrier{font-size:.8rem;color:var(--ink-soft)}
+.bp-note{font-size:.76rem;color:var(--muted);font-style:italic;margin-top:3px}
+.bp-code{flex:0 0 40px;margin:12px 14px 12px 4px;border-radius:3px;
+  background:repeating-linear-gradient(90deg,var(--ink-soft) 0 2px,transparent 2px 5px,
+    var(--ink-soft) 5px 6px,transparent 6px 10px);opacity:.55}
+@media(max-width:560px){.bp-code{display:none}.bp-stub{flex-basis:70px}}
+
+/* ===== Phrase of the day ===== */
+.phrase-chip{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:9px;
+  margin:0 0 14px;padding:8px 14px;border-radius:30px;
+  background:color-mix(in srgb,var(--gold) 9%,var(--card));
+  border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));font-size:.84rem}
+.pc-k{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft,#8a6d1f);font-weight:700}
+.pc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.06rem;
+  font-weight:700;color:var(--cinnabar)}
+.pc-pin{color:var(--ink-soft)}
+.pc-say{color:var(--muted);font-style:italic}
+.pc-en{color:var(--ink-soft)}
+@media(max-width:560px){.pc-say{display:none}}
+
+/* ===== Weather strip (city hero) ===== */
+.wx-strip{display:flex;align-items:flex-start;gap:10px;margin:14px 0 0;font-size:.85rem;
+  color:var(--ink-soft);max-width:640px}
+.wx-strip svg{flex:0 0 20px;width:20px;height:20px;color:var(--gold);margin-top:1px}
+.wx-strip b{color:var(--ink)}
+
+/* ===== City crest watermark (hero keeps its overflow:hidden clip) ===== */
+.crest-mark{position:absolute;right:14px;bottom:2px;pointer-events:none;color:var(--cinnabar);
+  opacity:.1;transform:rotate(-5deg)}
+.crest-mark svg{width:170px;height:170px}
+@media(max-width:700px){.crest-mark svg{width:110px;height:110px}.crest-mark{right:4px}}
 </style></head><body>
 
 <div id="gate" style="
@@ -700,12 +790,35 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   display:flex;align-items:center;justify-content:center;
   font-family:'Georgia',serif;
 ">
-  <div style="
-    max-width:360px;width:90%;
+  <style>
+    @keyframes gateStampIn{
+      0%{transform:scale(2.6) rotate(-16deg);opacity:0}
+      55%{transform:scale(.92) rotate(-4deg);opacity:1}
+      75%{transform:scale(1.05) rotate(-6deg)}
+      100%{transform:scale(1) rotate(-5deg);opacity:1}}
+    @keyframes gateInkRing{
+      0%{transform:scale(.6);opacity:.55}
+      100%{transform:scale(1.9);opacity:0}}
+    #gate-stamp{display:none;position:absolute;inset:0;align-items:center;justify-content:center;
+      pointer-events:none;z-index:5}
+    #gate-stamp.stamping .gs-seal{animation:gateStampIn .5s cubic-bezier(.2,.7,.3,1.2) forwards}
+    #gate-stamp.stamping .gs-ring{animation:gateInkRing .9s ease-out .42s forwards}
+    .gs-seal{width:108px;height:124px;border-radius:18px;background:#C03828;color:#FBF3E4;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      font-family:'Songti SC','Noto Serif CJK SC','SimSun',serif;font-weight:700;font-size:3rem;
+      line-height:1;opacity:0;
+      box-shadow:0 10px 32px -8px rgba(154,32,24,.85), inset 0 0 0 2.5px rgba(255,255,255,.28);}
+    .gs-seal small{font-size:.95rem;letter-spacing:.18em;opacity:.85}
+    .gs-ring{position:absolute;width:150px;height:150px;border-radius:26px;
+      border:3px solid #C03828;opacity:0}
+  </style>
+  <div id="gate-card" style="
+    max-width:360px;width:90%;position:relative;
     background:#fff;border:1px solid #DDD0B8;border-radius:16px;
     padding:40px 36px;text-align:center;
     box-shadow:0 8px 40px rgba(60,38,20,.12);
   ">
+    <div id="gate-stamp"><div class="gs-ring"></div><div class="gs-seal">囍<small>辛格</small></div></div>
     <div style="
       display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
       width:54px;height:64px;border-radius:11px;background:#C03828;color:#fff;
@@ -753,13 +866,22 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
     return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
   }
-  function unlock(){document.getElementById('gate').style.display='none';}
-  if(localStorage.getItem(KEY)===HASH){unlock();return;}
+  function unlock(instant){
+    var g=document.getElementById('gate');
+    if(instant){g.style.display='none';return;}
+    var st=document.getElementById('gate-stamp');
+    st.style.display='flex'; st.classList.add('stamping');
+    setTimeout(function(){
+      g.style.transition='opacity .5s ease'; g.style.opacity='0';
+      setTimeout(function(){g.style.display='none';},520);
+    }, 1150);
+  }
+  if(localStorage.getItem(KEY)===HASH){unlock(true);return;}
   document.getElementById('gate-btn').addEventListener('click', check);
   document.getElementById('gate-pw').addEventListener('keydown',function(e){if(e.key==='Enter')check();});
   async function check(){
     var h=await sha256(document.getElementById('gate-pw').value.trim());
-    if(h===HASH){localStorage.setItem(KEY,HASH);unlock();}
+    if(h===HASH){localStorage.setItem(KEY,HASH);unlock(false);}
     else{document.getElementById('gate-err').textContent='Incorrect password — try again.';}
   }
 })();
@@ -792,21 +914,23 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 <div class="wrap">
   <div class="hero">
     <div class="watermark">香港</div>
+    <div class="crest-mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 34h34l-4 7H11l-4-7Z"/><path d="M22 32V8l-11 3 11 5M22 16l9-3v19M22 13l9-2"/><path d="M22 8v26M28 20v12"/><path d="M5 38c3-2 5-2 8 0s5 2 8 0 5-2 8 0 5 2 8 0"/></svg></div>
     <div class="eyebrow">The Singer Honeymoon · China</div>
     <h1>Hong Kong<span class="zh">香港</span></h1>
     
+    <div class="wx-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5 5l1.8 1.8M17.2 17.2L19 19M19 5l-1.8 1.8M6.8 17.2L5 19"/></svg><span><b>July in Hong Kong:</b> ~88°F, 80% humidity, humid with passing squalls. The harbour breeze is a rumor. Duck into the MTR between stops.</span></div>
     <div class="rule"><span>6 days · 32 stops</span></div>
   </div>
   <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>MON JUL 13</button><button class="tab" data-tab="d1" style="--cat:#2E6F95"><span class="tab-dot"></span>TUE JUL 14</button><button class="tab" data-tab="d2" style="--cat:#C9821E"><span class="tab-dot"></span>WED JUL 15</button><button class="tab" data-tab="d3" style="--cat:#3E7D52"><span class="tab-dot"></span>THU JUL 16</button><button class="tab" data-tab="d4" style="--cat:#7A4BA8"><span class="tab-dot"></span>FRI JUL 17</button><button class="tab" data-tab="d5" style="--cat:#C24E8C"><span class="tab-dot"></span>SAT JUL 18</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(36)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
   <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>MON JUL 13</span><span><i style="background:#2E6F95"></i>TUE JUL 14</span><span><i style="background:#C9821E"></i>WED JUL 15</span><span><i style="background:#3E7D52"></i>THU JUL 16</span><span><i style="background:#7A4BA8"></i>FRI JUL 17</span><span><i style="background:#C24E8C"></i>SAT JUL 18</span></div>
   <div class="layout">
-    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Hong Kong at a glance</h2></div><div class="city-trivia">British colony 1842–1997, returned under &#x27;One Country, Two Systems&#x27;. Has its own currency, immigration, and legal system.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">7.5 million</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Special Administrative Region</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Skyline, Cantonese culture, finance, dim sum, Star Ferry, Peak Tram</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, hot wet summers, mild winters</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">The Langham, Hong Kong</div><div class="home-base-addr">📍 8 Peking Rd, Tsim Sha Tsui, Kowloon</div><p class="home-base-body">Home for the whole back half of the trip is the Langham, a grande-dame luxury hotel in the thick of Tsim Sha Tsui. Kowloon&#x27;s dense, dazzling shopping and museum quarter, steps from the harbourfront promenade with its skyline view and the nightly light show. You&#x27;re moments from the Star Ferry across to Hong Kong Island, the MTR, the museums, and Canton Road&#x27;s luxury strip, with the markets of Mong Kok a little further up. Expect refined, classic, beautifully run, and an unbeatable location for tackling both sides of the harbour, plus the day trips out to Shenzhen and Macau.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>MON JUL 13 — Shenzhen</h2></div><div class="day-strip"><span>1 stops</span></div><p class="day-intro">Today is a Shenzhen day trip, the full itinerary lives on the Shenzhen tab. You&#x27;re based at The Langham in Tsim Sha Tsui and crossing the border north for the day&#x27;s tech-and-design exploring, returning to Hong Kong by evening. Carry your passport for the crossing in both directions, and budget time for the checkpoint queues, which can be slow. Remember that mainland China and Hong Kong are separate jurisdictions: different currency, different data and SIM situation, different payment apps. The China tools you set up earlier. Amap, WeChat Pay, Alipay, keep working north of the border; plan your data so you&#x27;re not stranded between systems mid-day.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
+    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Hong Kong at a glance</h2></div><div class="city-trivia">British colony 1842–1997, returned under &#x27;One Country, Two Systems&#x27;. Has its own currency, immigration, and legal system.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">7.5 million</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Special Administrative Region</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Skyline, Cantonese culture, finance, dim sum, Star Ferry, Peak Tram</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, hot wet summers, mild winters</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">The Langham, Hong Kong</div><div class="home-base-addr">📍 8 Peking Rd, Tsim Sha Tsui, Kowloon</div><p class="home-base-body">Home for the whole back half of the trip is the Langham, a grande-dame luxury hotel in the thick of Tsim Sha Tsui. Kowloon&#x27;s dense, dazzling shopping and museum quarter, steps from the harbourfront promenade with its skyline view and the nightly light show. You&#x27;re moments from the Star Ferry across to Hong Kong Island, the MTR, the museums, and Canton Road&#x27;s luxury strip, with the markets of Mong Kok a little further up. Expect refined, classic, beautifully run, and an unbeatable location for tackling both sides of the harbour, plus the day trips out to Shenzhen and Macau.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>MON JUL 13 — Shenzhen</h2></div><div class="day-strip"><span>1 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">早晨</span><span class="pc-pin">jóusàhn</span><span class="pc-say">&ldquo;joh-sahn&rdquo;</span><span class="pc-en">good morning (Cantonese)</span></div><p class="day-intro">Today is a Shenzhen day trip, the full itinerary lives on the Shenzhen tab. You&#x27;re based at The Langham in Tsim Sha Tsui and crossing the border north for the day&#x27;s tech-and-design exploring, returning to Hong Kong by evening. Carry your passport for the crossing in both directions, and budget time for the checkpoint queues, which can be slow. Remember that mainland China and Hong Kong are separate jurisdictions: different currency, different data and SIM situation, different payment apps. The China tools you set up earlier. Amap, WeChat Pay, Alipay, keep working north of the border; plan your data so you&#x27;re not stranded between systems mid-day.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
       <div class="toprow"><span class="pin">1</span>
         <h3>See Shenzhen tab for Jul 13 </h3>
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="9" rx="2"/><path d="M3 7.5h10M5.5 14h5"/></svg>Transit</span></div>
       <div class="notes">Jul 13 is the Shenzhen day trip from HK. HK sightseeing resumes Jul 14.</div>
-    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>TUE JUL 14 — Harbour, High Tea, and Kowloon</h2></div><div class="day-strip"><span>6 stops</span></div><p class="day-intro">Your first full Hong Kong day works the harbour and Kowloon, mixing the city&#x27;s museum heavyweights with one of its great rituals. The morning takes in the Kowloon Mosque on Nathan Road and the waterfront Hong Kong Museum of Art, whose Canton export-art collection and harbour views are both standouts. The set-piece of the day is High Tea at the Langham&#x27;s Palm Court, the hotel is one of the birthplaces of Hong Kong&#x27;s afternoon-tea tradition, so this is the rare tourist ritual that&#x27;s also genuinely yours, in your own base hotel; book a table. The afternoon belongs to M+, the vast West Kowloon museum of visual culture that opened in 2021, allow several hours for the Sigg collection of Chinese contemporary art and the harbour-facing galleries (note it&#x27;s closed Tuesdays, so the day&#x27;s timing matters). Cap it at Kowloon Walled City Park, the serene garden built on the site of what was once the densest, most lawless place on earth, the small exhibition there is essential context. It&#x27;s a day of contrasts: white-glove colonial ritual, world-class contemporary art, and the ghost of an anarchic vanished city, all within Kowloon.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s2">
+    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>TUE JUL 14 — Harbour, High Tea, and Kowloon</h2></div><div class="day-strip"><span>6 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">唔該</span><span class="pc-pin">m̀hgōi</span><span class="pc-say">&ldquo;mm-goy&rdquo;</span><span class="pc-en">please / thank you (Cantonese)</span></div><p class="day-intro">Your first full Hong Kong day works the harbour and Kowloon, mixing the city&#x27;s museum heavyweights with one of its great rituals. The morning takes in the Kowloon Mosque on Nathan Road and the waterfront Hong Kong Museum of Art, whose Canton export-art collection and harbour views are both standouts. The set-piece of the day is High Tea at the Langham&#x27;s Palm Court, the hotel is one of the birthplaces of Hong Kong&#x27;s afternoon-tea tradition, so this is the rare tourist ritual that&#x27;s also genuinely yours, in your own base hotel; book a table. The afternoon belongs to M+, the vast West Kowloon museum of visual culture that opened in 2021, allow several hours for the Sigg collection of Chinese contemporary art and the harbour-facing galleries (note it&#x27;s closed Tuesdays, so the day&#x27;s timing matters). Cap it at Kowloon Walled City Park, the serene garden built on the site of what was once the densest, most lawless place on earth, the small exhibition there is essential context. It&#x27;s a day of contrasts: white-glove colonial ritual, world-class contemporary art, and the ghost of an anarchic vanished city, all within Kowloon.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s2">
       <div class="toprow"><span class="pin">1</span>
         <h3>Kowloon Mosque &amp; Islamic Centre <span class="zh">九龍清真寺</span></h3>
         
@@ -842,7 +966,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
       <div class="meta"><span><b>Hours:</b> Nightly 20:00 (~10 min)</span><span><b>Suggested time:</b> 30 min</span></div><div class="meta"><span><b>Address:</b> TST Promenade / Victoria Harbour</span></div><div class="meta"><span><b>Coordinates:</b> 22.2940, 114.1720</span></div><div class="notes">The nightly light-and-laser show across the harbour towers, 8 PM sharp, about 10 minutes. Guinness lists it as the world&#x27;s largest permanent light show. From the TST promenade the skyline performs for you across the water.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Stake out the promenade rail by 7:45. It&#x27;s genuinely better from the Kowloon side, which you&#x27;re on. Honest expectations: it&#x27;s a pleasant 10 minutes, not a life event; the skyline itself is the show.</div><div class="netizen">"Show is at 8:00 PM sharp. The TST promenade (Avenue of Stars) is the prime free vantage; arrive ~10 min early."</div>
-    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>WED JUL 15 — Hong Kong Island</h2></div><div class="day-strip"><span>10 stops</span></div><p class="day-intro">Hong Kong Island, top to bottom, the day climbs to the Peak, works down through Central&#x27;s heritage, and ends at the races. Ride the Star Ferry across first (the best cheap thrill in the city), then take the historic Peak Tram up Victoria Peak for the postcard panorama; the free Lion&#x27;s Pavilion viewpoint just below the Tower has the same view without the ticket. Descend into Central for a dense run of small, excellent stops: the free Zoological and Botanical Gardens, the Flagstaff House tea-ware museum in Hong Kong Park, the Asia Society&#x27;s beautifully restored military compound, and Tai Kwun, the former Central Police Station turned heritage-and-arts complex that&#x27;s an absolute must. Thread in the hillside Jamia Mosque and the perpetually incense-hazed Man Mo Temple, riding the Central-Mid-Levels Escalator, the world&#x27;s longest outdoor covered escalator, between them. The day builds to its finale: Happy Valley Racecourse on a Wednesday night, the season finale, with floodlights, skyscrapers ringing the track, fireworks, and a Jockeys&#x27; Parade. Put HK$10 on a horse and join the crowd; it&#x27;s one of the most purely Hong Kong experiences there is. Smart-casual for the members&#x27; areas.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s8">
+    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>WED JUL 15 — Hong Kong Island</h2></div><div class="day-strip"><span>10 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">加油！</span><span class="pc-pin">gā yáu</span><span class="pc-say">&ldquo;gah-yow&rdquo;</span><span class="pc-en">go! — for the horses at Happy Valley</span></div><p class="day-intro">Hong Kong Island, top to bottom, the day climbs to the Peak, works down through Central&#x27;s heritage, and ends at the races. Ride the Star Ferry across first (the best cheap thrill in the city), then take the historic Peak Tram up Victoria Peak for the postcard panorama; the free Lion&#x27;s Pavilion viewpoint just below the Tower has the same view without the ticket. Descend into Central for a dense run of small, excellent stops: the free Zoological and Botanical Gardens, the Flagstaff House tea-ware museum in Hong Kong Park, the Asia Society&#x27;s beautifully restored military compound, and Tai Kwun, the former Central Police Station turned heritage-and-arts complex that&#x27;s an absolute must. Thread in the hillside Jamia Mosque and the perpetually incense-hazed Man Mo Temple, riding the Central-Mid-Levels Escalator, the world&#x27;s longest outdoor covered escalator, between them. The day builds to its finale: Happy Valley Racecourse on a Wednesday night, the season finale, with floodlights, skyscrapers ringing the track, fireworks, and a Jockeys&#x27; Parade. Put HK$10 on a horse and join the crowd; it&#x27;s one of the most purely Hong Kong experiences there is. Smart-casual for the members&#x27; areas.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s8">
       <div class="toprow"><span class="pin">1</span>
         <h3>The Peak Tram + Sky Terrace 428 <span class="zh">山頂纜車</span></h3>
         
@@ -902,7 +1026,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
       <div class="meta"><span><b>Hours:</b> Wed races ~19:00–23:00</span><span><b>Suggested time:</b> 2–3 hr</span><span><b>From previous:</b> ~36 min tram/taxi</span><span><b>Prior booking?:</b> Yes</span></div><div class="meta"><span><b>Address:</b> Wong Nai Chung Rd, Happy Valley</span></div><div class="meta"><span><b>Coordinates:</b> 22.2720, 114.1820</span></div><div class="notes">A full racecourse in a natural amphitheater of skyscrapers, racing since 1846 on what was once malarial swamp. Wednesday night races are a Hong Kong institution: floodlights, beer, thousands of punters, the city towering over the home straight. ⚠️ July 15 is the season finale, with fireworks and the Jockeys&#x27; Parade.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Your Wednesday is finale night; expect the year&#x27;s biggest crowd. Public enclosure is HK$10 at the gate, but the Langham concierge may be able to arrange the tourist hospitality box; ask early in the stay. Put HK$10 on a horse, hold a beer, soak it in. Smart casual if you end up in members&#x27; areas.</div><div class="netizen">"&#x27;Electric atmosphere.&#x27; Go for the experience, not to win. Entry HK$10. Check schedule - season ends ~July, confirm Jul 15 is a race night. Bet HK$10, grab a beer."</div>
-    </div></div></section><section class="panel" id="panel-d3" data-dayindex="3" style="--cat:#3E7D52"><div class="day-head"><h2>THU JUL 16 — Into the New Territories</h2></div><div class="day-strip"><span>6 stops</span></div><p class="day-intro">A change of texture: out to the New Territories in the morning, back to the Kowloon market streets by evening. Start in Tai Po at the Hong Kong Railway Museum, set in a lovely 1913 station, a half-day&#x27;s worth of New Territories air and a reminder of how the railway stitched the region together. Back in town, the Hong Kong Museum of History delivers &#x27;The Hong Kong Story,&#x27; the single best overview of the territory&#x27;s six-thousand-year arc, with a particularly powerful WWII-occupation section (free admission, allow a couple of hours). The evening is for Mong Kok, Hong Kong&#x27;s most densely packed district and its market heartland: the kilometre-long Ladies&#x27; Market for browsing and haggling, then the fragrant Flower Market Road with the adjacent Goldfish and Bird markets, a sensory cluster few visitors find. Go after dark when the stalls are fully open and the neighbourhood is at full voltage. It&#x27;s a day of range, from quiet colonial railway heritage to the loudest, most crowded street life in the city.</p><div class="stops"><div class="stop" style="--cat:#3E7D52;--i:0" data-id="s18">
+    </div></div></section><section class="panel" id="panel-d3" data-dayindex="3" style="--cat:#3E7D52"><div class="day-head"><h2>THU JUL 16 — Into the New Territories</h2></div><div class="day-strip"><span>6 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">幾多錢？</span><span class="pc-pin">géidō chín</span><span class="pc-say">&ldquo;gay-dor cheen&rdquo;</span><span class="pc-en">how much? (Cantonese)</span></div><p class="day-intro">A change of texture: out to the New Territories in the morning, back to the Kowloon market streets by evening. Start in Tai Po at the Hong Kong Railway Museum, set in a lovely 1913 station, a half-day&#x27;s worth of New Territories air and a reminder of how the railway stitched the region together. Back in town, the Hong Kong Museum of History delivers &#x27;The Hong Kong Story,&#x27; the single best overview of the territory&#x27;s six-thousand-year arc, with a particularly powerful WWII-occupation section (free admission, allow a couple of hours). The evening is for Mong Kok, Hong Kong&#x27;s most densely packed district and its market heartland: the kilometre-long Ladies&#x27; Market for browsing and haggling, then the fragrant Flower Market Road with the adjacent Goldfish and Bird markets, a sensory cluster few visitors find. Go after dark when the stalls are fully open and the neighbourhood is at full voltage. It&#x27;s a day of range, from quiet colonial railway heritage to the loudest, most crowded street life in the city.</p><div class="stops"><div class="stop" style="--cat:#3E7D52;--i:0" data-id="s18">
       <div class="toprow"><span class="pin">1</span>
         <h3>Hong Kong Railway Museum <span class="zh">香港鐵路博物館</span></h3>
         
@@ -938,13 +1062,13 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 5.5h9l-.8 8h-7.4zM5.8 5.5V4.6a2.2 2.2 0 0 1 4.4 0v.9"/></svg>Shopping</span></div>
       <div class="meta"><span><b>Hours:</b> ~07:00–19:00</span><span><b>Suggested time:</b> 1 hr</span><span><b>From previous:</b> ~10 min walk from Ladies&#x27; Market</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Prince Edward, Mong Kok</span></div><div class="meta"><span><b>Coordinates:</b> 22.3250, 114.1690</span></div><div class="notes">Three markets in three blocks of Prince Edward: Flower Market Road&#x27;s wholesale blooms, the Yuen Po Street Bird Garden where old men air their songbirds in carved cages, and the Goldfish Market&#x27;s wall of bagged fish glowing like stained glass. Old Kowloon at its most concentrated.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Morning for the freshest flowers and the most birds out for airing. The goldfish bags photograph beautifully. All three are a continuous 20-minute walk, then the MTR back from Prince Edward station.</div><div class="netizen">"&#x27;Aromatic + colorful.&#x27; Morning best for fresh flowers. Free. Quintessential Mong Kok cluster. Great for photography."</div>
-    </div></div></section><section class="panel" id="panel-d4" data-dayindex="4" style="--cat:#7A4BA8"><div class="day-head"><h2>FRI JUL 17 — Five centuries of Macau in one day</h2></div><div class="day-strip"><span>1 stops</span></div><p class="day-intro">A day trip across the Pearl River estuary. The TurboJET ferry from Sheung Wan lands at Macau&#x27;s Outer Harbour terminal in about an hour. The day sweeps the UNESCO historic centre, Senado Square to the Ruins of St. Paul&#x27;s and Monte Fort, then crosses to Taipa for the Houses Museum and the House of Dancing Water, before the bridge bus from Cotai carries you back over the world&#x27;s longest sea crossing to Hong Kong. The full stop-by-stop plan lives on the Macau page.</p><div class="stops"><div class="stop" style="--cat:#7A4BA8;--i:0" data-id="s24">
+    </div></div></section><section class="panel" id="panel-d4" data-dayindex="4" style="--cat:#7A4BA8"><div class="day-head"><h2>FRI JUL 17 — Five centuries of Macau in one day</h2></div><div class="day-strip"><span>1 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">蛋撻</span><span class="pc-pin">daahn taat</span><span class="pc-say">&ldquo;dahn taht&rdquo;</span><span class="pc-en">egg tart</span></div><p class="day-intro">A day trip across the Pearl River estuary. The TurboJET ferry from Sheung Wan lands at Macau&#x27;s Outer Harbour terminal in about an hour. The day sweeps the UNESCO historic centre, Senado Square to the Ruins of St. Paul&#x27;s and Monte Fort, then crosses to Taipa for the Houses Museum and the House of Dancing Water, before the bridge bus from Cotai carries you back over the world&#x27;s longest sea crossing to Hong Kong. The full stop-by-stop plan lives on the Macau page.</p><div class="stops"><div class="stop" style="--cat:#7A4BA8;--i:0" data-id="s24">
       <div class="toprow"><span class="pin">1</span>
         <h3>Macau day trip — see the Macau tab <span class="zh">澳門</span></h3>
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="9" rx="2"/><path d="M3 7.5h10M5.5 14h5"/></svg>Transit</span></div>
       <div class="meta"><span><b>Hours:</b> TurboJET roughly every 30 min from ~07:00</span><span><b>Suggested time:</b> Full day</span><span><b>From previous:</b> ~10 min MTR/taxi from the hotel to Sheung Wan</span></div><div class="meta"><span><b>Address:</b> HK–Macau Ferry Terminal, Shun Tak Centre, Sheung Wan</span></div><div class="meta"><span><b>Coordinates:</b> 22.2867, 114.1522</span></div><div class="notes">Ferry out in the morning; HZMB bridge bus back from Cotai in the evening. All Macau stops are on the Macau page.</div>
-    </div></div></section><section class="panel" id="panel-d5" data-dayindex="5" style="--cat:#C24E8C"><div class="day-head"><h2>SAT JUL 18 — Hong Kong cleanup</h2></div><div class="day-strip"><span>8 stops</span></div><p class="day-intro">The last day before a late-night flight out, a Central and Sheung Wan farewell loop, timed loosely since you don&#x27;t fly until 12:05 AM. Browse Cat Street&#x27;s antiques and curios in Sheung Wan, then PMQ, the former Police Married Quarters turned design hub, for locally made souvenirs with more soul than the markets. The Hong Kong Palace Museum in West Kowloon is the day&#x27;s cultural anchor. Beijing Palace Museum treasures shown outside the mainland for the first time, so book ahead and allow a few hours. Close with two pieces of colonial Hong Kong: the Edwardian General Post Office (buy stamps, send postcards home for the postmark) and St John&#x27;s Cathedral, the oldest Western church building in the city, a quiet garden refuge in the heart of Central. Check out of the Langham, store your bags, and pace the day so you reach the airport with time to spare for the overnight Cathay flight back to LA. A calm, unhurried end to the trip. (optional)</p><div class="stops"><div class="stop" style="--cat:#C24E8C;--i:0" data-id="s25">
+    </div></div></section><section class="panel" id="panel-d5" data-dayindex="5" style="--cat:#C24E8C"><div class="day-head"><h2>SAT JUL 18 — Hong Kong cleanup</h2></div><div class="day-strip"><span>8 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">再見</span><span class="pc-pin">joigin</span><span class="pc-say">&ldquo;joy-geen&rdquo;</span><span class="pc-en">goodbye (Cantonese)</span></div><div class="bpass" style="--cat:#C24E8C"><div class="bp-stub"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg><span>Flight</span></div><div class="bp-main"><div class="bp-route">HKG <span class="bp-arr">→</span> LAX</div><div class="bp-carrier">Cathay Pacific CX 880 · 12:05 AM (Jul 19) – 10:35 PM (−1) · 13h 30m</div><div class="bp-note">You land in Los Angeles before the date you took off</div></div><div class="bp-code"></div></div><p class="day-intro">The last day before a late-night flight out, a Central and Sheung Wan farewell loop, timed loosely since you don&#x27;t fly until 12:05 AM. Browse Cat Street&#x27;s antiques and curios in Sheung Wan, then PMQ, the former Police Married Quarters turned design hub, for locally made souvenirs with more soul than the markets. The Hong Kong Palace Museum in West Kowloon is the day&#x27;s cultural anchor. Beijing Palace Museum treasures shown outside the mainland for the first time, so book ahead and allow a few hours. Close with two pieces of colonial Hong Kong: the Edwardian General Post Office (buy stamps, send postcards home for the postmark) and St John&#x27;s Cathedral, the oldest Western church building in the city, a quiet garden refuge in the heart of Central. Check out of the Langham, store your bags, and pace the day so you reach the airport with time to spare for the overnight Cathay flight back to LA. A calm, unhurried end to the trip. (optional)</p><div class="stops"><div class="stop" style="--cat:#C24E8C;--i:0" data-id="s25">
       <div class="toprow"><span class="pin">1</span>
         <h3>Noon Day Gun (optional) <span class="zh">怡和午炮</span></h3>
         

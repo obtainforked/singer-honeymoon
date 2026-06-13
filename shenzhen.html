@@ -692,6 +692,96 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
 .chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
 .chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+
+/* ===== Hero today-card ===== */
+.hero-today{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-top:22px;
+  padding:12px 18px;border-radius:12px;background:rgba(250,243,228,.13);
+  border:1px solid rgba(250,243,228,.28);backdrop-filter:blur(3px);
+  font-size:.92rem;color:#F6EDDC}
+.hero-today b{font-weight:700;color:#fff}
+.hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
+.hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
+.hero-today a:hover{text-decoration:underline}
+
+/* ===== Red thread caption ===== */
+.thread-cap{display:flex;align-items:center;gap:10px;margin:10px 2px 0;font-size:.84rem;
+  color:var(--muted);font-style:italic}
+.thread-cap::before{content:'';flex:0 0 34px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#B0202E 70%,transparent);box-shadow:0 0 0 .5px #B0202E}
+.thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-style:normal;color:var(--cinnabar)}
+
+/* ===== High Tea Trail ===== */
+.tea-trail{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:26px 28px;margin:34px 0;box-shadow:var(--shadow)}
+.tea-trail-h{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.tea-trail-h .tt-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:.95rem;color:var(--cinnabar)}
+.tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 20px}
+.tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
+.tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tt-ring{width:86px;height:86px;border-radius:50%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;transform:rotate(-6deg)}
+.tt-stamp:nth-child(2n) .tt-ring{transform:rotate(4deg)}
+.tt-ring .tt-cha{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:1.5rem;line-height:1;font-weight:700}
+.tt-ring .tt-date{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
+.tt-stamp.booked .tt-ring{background:var(--cinnabar);color:#FBF3E4;
+  box-shadow:0 4px 14px -6px rgba(154,32,24,.75), inset 0 0 0 2px rgba(255,255,255,.3);}
+.tt-stamp.planned .tt-ring{border:2.5px solid var(--cinnabar);color:var(--cinnabar)}
+.tt-stamp.optional .tt-ring{border:2px dashed color-mix(in srgb,var(--cinnabar) 55%,var(--line));
+  color:color-mix(in srgb,var(--cinnabar) 70%,var(--muted))}
+.tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
+.tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
+.tt-stamp.booked .tt-name::after{content:' ✓';color:var(--cinnabar)}
+
+/* ===== Boarding pass ===== */
+.bpass{display:flex;align-items:stretch;margin:6px 0 20px;border-radius:14px;overflow:hidden;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);max-width:640px}
+.bp-stub{flex:0 0 88px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:16px 10px;background:color-mix(in srgb,var(--cat,var(--cinnabar)) 9%,var(--card));
+  border-right:2px dashed var(--line);color:var(--cat,var(--cinnabar));position:relative}
+.bp-stub svg{width:30px;height:30px}
+.bp-stub span{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-align:center}
+.bp-stub::before,.bp-stub::after{content:'';position:absolute;right:-8px;width:14px;height:14px;
+  border-radius:50%;background:var(--paper);border:1px solid var(--line)}
+.bp-stub::before{top:-8px}.bp-stub::after{bottom:-8px}
+.bp-main{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.bp-route{font-family:'Cormorant',serif;font-weight:700;font-size:1.25rem;color:var(--ink);
+  letter-spacing:.04em;line-height:1.15}
+.bp-route .bp-arr{color:var(--cat,var(--cinnabar))}
+.bp-carrier{font-size:.8rem;color:var(--ink-soft)}
+.bp-note{font-size:.76rem;color:var(--muted);font-style:italic;margin-top:3px}
+.bp-code{flex:0 0 40px;margin:12px 14px 12px 4px;border-radius:3px;
+  background:repeating-linear-gradient(90deg,var(--ink-soft) 0 2px,transparent 2px 5px,
+    var(--ink-soft) 5px 6px,transparent 6px 10px);opacity:.55}
+@media(max-width:560px){.bp-code{display:none}.bp-stub{flex-basis:70px}}
+
+/* ===== Phrase of the day ===== */
+.phrase-chip{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:9px;
+  margin:0 0 14px;padding:8px 14px;border-radius:30px;
+  background:color-mix(in srgb,var(--gold) 9%,var(--card));
+  border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));font-size:.84rem}
+.pc-k{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft,#8a6d1f);font-weight:700}
+.pc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.06rem;
+  font-weight:700;color:var(--cinnabar)}
+.pc-pin{color:var(--ink-soft)}
+.pc-say{color:var(--muted);font-style:italic}
+.pc-en{color:var(--ink-soft)}
+@media(max-width:560px){.pc-say{display:none}}
+
+/* ===== Weather strip (city hero) ===== */
+.wx-strip{display:flex;align-items:flex-start;gap:10px;margin:14px 0 0;font-size:.85rem;
+  color:var(--ink-soft);max-width:640px}
+.wx-strip svg{flex:0 0 20px;width:20px;height:20px;color:var(--gold);margin-top:1px}
+.wx-strip b{color:var(--ink)}
+
+/* ===== City crest watermark (hero keeps its overflow:hidden clip) ===== */
+.crest-mark{position:absolute;right:14px;bottom:2px;pointer-events:none;color:var(--cinnabar);
+  opacity:.1;transform:rotate(-5deg)}
+.crest-mark svg{width:170px;height:170px}
+@media(max-width:700px){.crest-mark svg{width:110px;height:110px}.crest-mark{right:4px}}
 </style></head><body>
 
 <div id="gate" style="
@@ -700,12 +790,35 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   display:flex;align-items:center;justify-content:center;
   font-family:'Georgia',serif;
 ">
-  <div style="
-    max-width:360px;width:90%;
+  <style>
+    @keyframes gateStampIn{
+      0%{transform:scale(2.6) rotate(-16deg);opacity:0}
+      55%{transform:scale(.92) rotate(-4deg);opacity:1}
+      75%{transform:scale(1.05) rotate(-6deg)}
+      100%{transform:scale(1) rotate(-5deg);opacity:1}}
+    @keyframes gateInkRing{
+      0%{transform:scale(.6);opacity:.55}
+      100%{transform:scale(1.9);opacity:0}}
+    #gate-stamp{display:none;position:absolute;inset:0;align-items:center;justify-content:center;
+      pointer-events:none;z-index:5}
+    #gate-stamp.stamping .gs-seal{animation:gateStampIn .5s cubic-bezier(.2,.7,.3,1.2) forwards}
+    #gate-stamp.stamping .gs-ring{animation:gateInkRing .9s ease-out .42s forwards}
+    .gs-seal{width:108px;height:124px;border-radius:18px;background:#C03828;color:#FBF3E4;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      font-family:'Songti SC','Noto Serif CJK SC','SimSun',serif;font-weight:700;font-size:3rem;
+      line-height:1;opacity:0;
+      box-shadow:0 10px 32px -8px rgba(154,32,24,.85), inset 0 0 0 2.5px rgba(255,255,255,.28);}
+    .gs-seal small{font-size:.95rem;letter-spacing:.18em;opacity:.85}
+    .gs-ring{position:absolute;width:150px;height:150px;border-radius:26px;
+      border:3px solid #C03828;opacity:0}
+  </style>
+  <div id="gate-card" style="
+    max-width:360px;width:90%;position:relative;
     background:#fff;border:1px solid #DDD0B8;border-radius:16px;
     padding:40px 36px;text-align:center;
     box-shadow:0 8px 40px rgba(60,38,20,.12);
   ">
+    <div id="gate-stamp"><div class="gs-ring"></div><div class="gs-seal">囍<small>辛格</small></div></div>
     <div style="
       display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
       width:54px;height:64px;border-radius:11px;background:#C03828;color:#fff;
@@ -753,13 +866,22 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
     return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
   }
-  function unlock(){document.getElementById('gate').style.display='none';}
-  if(localStorage.getItem(KEY)===HASH){unlock();return;}
+  function unlock(instant){
+    var g=document.getElementById('gate');
+    if(instant){g.style.display='none';return;}
+    var st=document.getElementById('gate-stamp');
+    st.style.display='flex'; st.classList.add('stamping');
+    setTimeout(function(){
+      g.style.transition='opacity .5s ease'; g.style.opacity='0';
+      setTimeout(function(){g.style.display='none';},520);
+    }, 1150);
+  }
+  if(localStorage.getItem(KEY)===HASH){unlock(true);return;}
   document.getElementById('gate-btn').addEventListener('click', check);
   document.getElementById('gate-pw').addEventListener('keydown',function(e){if(e.key==='Enter')check();});
   async function check(){
     var h=await sha256(document.getElementById('gate-pw').value.trim());
-    if(h===HASH){localStorage.setItem(KEY,HASH);unlock();}
+    if(h===HASH){localStorage.setItem(KEY,HASH);unlock(false);}
     else{document.getElementById('gate-err').textContent='Incorrect password — try again.';}
   }
 })();
@@ -792,15 +914,17 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 <div class="wrap">
   <div class="hero">
     <div class="watermark">深圳</div>
+    <div class="crest-mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="15" y="15" width="18" height="18" rx="2"/><rect x="21" y="21" width="6" height="6"/><path d="M21 15v-5M27 15v-5M21 38v-5M27 38v-5M15 21h-5M15 27h-5M38 21h5M38 27h5"/></svg></div>
     <div class="eyebrow">The Singer Honeymoon · China</div>
     <h1>Shenzhen<span class="zh">深圳</span></h1>
     
+    <div class="wx-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5 5l1.8 1.8M17.2 17.2L19 19M19 5l-1.8 1.8M6.8 17.2L5 19"/></svg><span><b>July in Shenzhen:</b> ~90°F, 80% humidity, typhoon-season showers. The malls connect underground; you can cross half the city without surfacing.</span></div>
     <div class="rule"><span>2 days · 12 stops</span></div>
   </div>
   <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>SUN JUL 12</button><button class="tab" data-tab="d1" style="--cat:#2E6F95"><span class="tab-dot"></span>MON JUL 13</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(20)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
   <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>SUN JUL 12</span><span><i style="background:#2E6F95"></i>MON JUL 13</span></div>
   <div class="layout">
-    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Shenzhen at a glance</h2></div><div class="city-trivia">Had ~30,000 residents in 1979. Today it has 17 million and a median age of around 30, the world&#x27;s fastest city-building story.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">17 million</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Guangdong Province</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Tech industry, China&#x27;s first SEZ, world&#x27;s fastest urbanisation, DJI / Tencent / Huawei</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, warm and rainy</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card daytrip"><div class="home-base-label">🚆 Not an overnight, a day trip</div><p class="home-base-body">You&#x27;re not staying in Shenzhen. These are day trips across the border from your base at the Langham in Hong Kong, returning to Kowloon at night. Crossing is its own small adventure: Shenzhen is a separate customs zone, so you&#x27;ll clear immigration at the border (Futian or Lo Wu), bring passports, and remember the mainland rules kick in once you&#x27;re across (different apps, payments, and the Great Firewall). Treat each Shenzhen day as a self-contained expedition into China&#x27;s tech capital, then come home to Hong Kong.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>SUN JUL 12 — The Chinese Miracle</h2></div><div class="day-strip"><span>6 stops</span></div><p class="day-intro">Shenzhen spans two day-trip days split between the main city (Saturday) and a return visit from Hong Kong (Monday). Coming over from Guangzhou, you spend the day on the tech-and-design pilgrimage this city was made for before crossing into Hong Kong by evening. The arc runs through the Civic Center cluster, where MOCAPE pairs cutting-edge contemporary art with an urban-planning hall whose &#x27;before&#x27; photos of rice paddies under today&#x27;s skyline make the 40-year miracle visceral, alongside the architecturally striking Library and Shenzhen Museum. Lianhuashan Park offers the skyline view from the Deng Xiaoping statue (and, fittingly, drone food delivery to your picnic spot). The OCT arts district and the DJI Sky City flagship are the hardware-and-design heart of the day, the vast Huaqiangbei electronics market, the world&#x27;s hardware bazaar, rewards anyone with a shopping list, and Window of the World offers a only-in-Shenzhen spectacle of the globe&#x27;s landmarks in miniature. Luohu Commercial City is the place for tailoring, though anything that needs to fit is better reserved for Hong Kong. A spa stop at Tenz makes a good decompression before the border. Then cross at Futian or Lo Wu into Hong Kong and check into The Langham, your base for the rest of the trip.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
+    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Shenzhen at a glance</h2></div><div class="city-trivia">Had ~30,000 residents in 1979. Today it has 17 million and a median age of around 30, the world&#x27;s fastest city-building story.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">17 million</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Guangdong Province</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Tech industry, China&#x27;s first SEZ, world&#x27;s fastest urbanisation, DJI / Tencent / Huawei</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, warm and rainy</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card daytrip"><div class="home-base-label">🚆 Not an overnight, a day trip</div><p class="home-base-body">You&#x27;re not staying in Shenzhen. These are day trips across the border from your base at the Langham in Hong Kong, returning to Kowloon at night. Crossing is its own small adventure: Shenzhen is a separate customs zone, so you&#x27;ll clear immigration at the border (Futian or Lo Wu), bring passports, and remember the mainland rules kick in once you&#x27;re across (different apps, payments, and the Great Firewall). Treat each Shenzhen day as a self-contained expedition into China&#x27;s tech capital, then come home to Hong Kong.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>SUN JUL 12 — The Chinese Miracle</h2></div><div class="day-strip"><span>6 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">高科技</span><span class="pc-pin">gāokējì</span><span class="pc-say">&ldquo;gaow-kuh-jee&rdquo;</span><span class="pc-en">high tech</span></div><p class="day-intro">Shenzhen spans two day-trip days split between the main city (Saturday) and a return visit from Hong Kong (Monday). Coming over from Guangzhou, you spend the day on the tech-and-design pilgrimage this city was made for before crossing into Hong Kong by evening. The arc runs through the Civic Center cluster, where MOCAPE pairs cutting-edge contemporary art with an urban-planning hall whose &#x27;before&#x27; photos of rice paddies under today&#x27;s skyline make the 40-year miracle visceral, alongside the architecturally striking Library and Shenzhen Museum. Lianhuashan Park offers the skyline view from the Deng Xiaoping statue (and, fittingly, drone food delivery to your picnic spot). The OCT arts district and the DJI Sky City flagship are the hardware-and-design heart of the day, the vast Huaqiangbei electronics market, the world&#x27;s hardware bazaar, rewards anyone with a shopping list, and Window of the World offers a only-in-Shenzhen spectacle of the globe&#x27;s landmarks in miniature. Luohu Commercial City is the place for tailoring, though anything that needs to fit is better reserved for Hong Kong. A spa stop at Tenz makes a good decompression before the border. Then cross at Futian or Lo Wu into Hong Kong and check into The Langham, your base for the rest of the trip.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1">
       <div class="toprow"><span class="pin">1</span>
         <h3>MOCAPE — Museum of Contemp. Art &amp; Planning <span class="zh">当代艺术与城市规划馆</span></h3>
         
@@ -836,7 +960,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="9" rx="2"/><path d="M3 7.5h10M5.5 14h5"/></svg>Transit</span></div>
       <div class="meta"><span><b>Hours:</b> Border ~06:30–22:30</span><span><b>Suggested time:</b> 45–90 min</span><span><b>From previous:</b> Metro to Futian Checkpoint</span><span><b>Prior booking?:</b> Bring passports</span></div><div class="meta"><span><b>Address:</b> Futian Port, Shenzhen</span></div><div class="meta"><span><b>Coordinates:</b> 22.5170, 114.0700</span></div><div class="notes">The crossing back to Hong Kong. Futian and Luohu both link the Shenzhen metro directly to the MTR East Rail line; co-located immigration means one queue, two stamps, and you&#x27;re on a Hong Kong train. Allow 45 to 75 minutes total depending on the hour.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Futian checkpoint tends to run quieter than Luohu. Keep passports and HK arrival info handy. The East Rail ride south to Tsim Sha Tsui East is about 40 minutes; the Langham is a short taxi from there.</div><div class="netizen">"Busy but efficient. Weekdays faster. Have passports + any HK entry docs ready. Allow 45-90 min. Last crossing 22:30. MTR to Tsim Sha Tsui ~45 min."</div>
-    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>MON JUL 13 — Factory of the World</h2></div><div class="day-strip"><span>5 stops</span></div><p class="day-intro">Back across the border for round two. Today is the commercial and consumer Shenzhen: the DJI campus if you pre-arranged it, Huaqiangbei for electronics, Luohu for tailoring, and Tenz to decompress before the MTR back to Tsim Sha Tsui.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s8">
+    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>MON JUL 13 — Factory of the World</h2></div><div class="day-strip"><span>5 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">无人机</span><span class="pc-pin">wúrénjī</span><span class="pc-say">&ldquo;oo-ren-jee&rdquo;</span><span class="pc-en">drone</span></div><p class="day-intro">Back across the border for round two. Today is the commercial and consumer Shenzhen: the DJI campus if you pre-arranged it, Huaqiangbei for electronics, Luohu for tailoring, and Tenz to decompress before the MTR back to Tsim Sha Tsui.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s8">
       <div class="toprow"><span class="pin">1</span>
         <h3>A return to Shenzhen from Hong Kong focused on the city&#x27;s hardware ecosystem and design culture. Begin at DJI Sky City, the drone manufacturer&#x27;s flagship experience and retail space. From there, navigate two tiers of Shenzhen&#x27;s electronics world: the raw, wholesale Huaqiang market (components, parts, tools, gadgets) and the more refined tailoring district at Luohu Commercial City, where bespoke suiting happens in minutes. Close the afternoon at Tenz Spa, trading the city&#x27;s velocity for stillness. Window of the World is optional if theme parks appeal; it sits nearby but offers a different flavor than the rest of the day&#x27;s focus. <span class="zh">大疆天空之城</span></h3>
         

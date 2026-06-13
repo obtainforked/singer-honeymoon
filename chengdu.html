@@ -692,6 +692,96 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .chain-allergy.safe{background:color-mix(in srgb,#3E7D52 10%,transparent);color:#1e5c32;border-left:3px solid #3E7D52}
 .chain-allergy.warn{background:color-mix(in srgb,#C9821E 10%,transparent);color:#5a2e00;border-left:3px solid #C9821E}
 .chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
+
+/* ===== Hero today-card ===== */
+.hero-today{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-top:22px;
+  padding:12px 18px;border-radius:12px;background:rgba(250,243,228,.13);
+  border:1px solid rgba(250,243,228,.28);backdrop-filter:blur(3px);
+  font-size:.92rem;color:#F6EDDC}
+.hero-today b{font-weight:700;color:#fff}
+.hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
+.hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
+.hero-today a:hover{text-decoration:underline}
+
+/* ===== Red thread caption ===== */
+.thread-cap{display:flex;align-items:center;gap:10px;margin:10px 2px 0;font-size:.84rem;
+  color:var(--muted);font-style:italic}
+.thread-cap::before{content:'';flex:0 0 34px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#B0202E 70%,transparent);box-shadow:0 0 0 .5px #B0202E}
+.thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-style:normal;color:var(--cinnabar)}
+
+/* ===== High Tea Trail ===== */
+.tea-trail{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:26px 28px;margin:34px 0;box-shadow:var(--shadow)}
+.tea-trail-h{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.tea-trail-h .tt-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:.95rem;color:var(--cinnabar)}
+.tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 20px}
+.tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
+.tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tt-ring{width:86px;height:86px;border-radius:50%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;transform:rotate(-6deg)}
+.tt-stamp:nth-child(2n) .tt-ring{transform:rotate(4deg)}
+.tt-ring .tt-cha{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:1.5rem;line-height:1;font-weight:700}
+.tt-ring .tt-date{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
+.tt-stamp.booked .tt-ring{background:var(--cinnabar);color:#FBF3E4;
+  box-shadow:0 4px 14px -6px rgba(154,32,24,.75), inset 0 0 0 2px rgba(255,255,255,.3);}
+.tt-stamp.planned .tt-ring{border:2.5px solid var(--cinnabar);color:var(--cinnabar)}
+.tt-stamp.optional .tt-ring{border:2px dashed color-mix(in srgb,var(--cinnabar) 55%,var(--line));
+  color:color-mix(in srgb,var(--cinnabar) 70%,var(--muted))}
+.tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
+.tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
+.tt-stamp.booked .tt-name::after{content:' ✓';color:var(--cinnabar)}
+
+/* ===== Boarding pass ===== */
+.bpass{display:flex;align-items:stretch;margin:6px 0 20px;border-radius:14px;overflow:hidden;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);max-width:640px}
+.bp-stub{flex:0 0 88px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:16px 10px;background:color-mix(in srgb,var(--cat,var(--cinnabar)) 9%,var(--card));
+  border-right:2px dashed var(--line);color:var(--cat,var(--cinnabar));position:relative}
+.bp-stub svg{width:30px;height:30px}
+.bp-stub span{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-align:center}
+.bp-stub::before,.bp-stub::after{content:'';position:absolute;right:-8px;width:14px;height:14px;
+  border-radius:50%;background:var(--paper);border:1px solid var(--line)}
+.bp-stub::before{top:-8px}.bp-stub::after{bottom:-8px}
+.bp-main{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.bp-route{font-family:'Cormorant',serif;font-weight:700;font-size:1.25rem;color:var(--ink);
+  letter-spacing:.04em;line-height:1.15}
+.bp-route .bp-arr{color:var(--cat,var(--cinnabar))}
+.bp-carrier{font-size:.8rem;color:var(--ink-soft)}
+.bp-note{font-size:.76rem;color:var(--muted);font-style:italic;margin-top:3px}
+.bp-code{flex:0 0 40px;margin:12px 14px 12px 4px;border-radius:3px;
+  background:repeating-linear-gradient(90deg,var(--ink-soft) 0 2px,transparent 2px 5px,
+    var(--ink-soft) 5px 6px,transparent 6px 10px);opacity:.55}
+@media(max-width:560px){.bp-code{display:none}.bp-stub{flex-basis:70px}}
+
+/* ===== Phrase of the day ===== */
+.phrase-chip{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:9px;
+  margin:0 0 14px;padding:8px 14px;border-radius:30px;
+  background:color-mix(in srgb,var(--gold) 9%,var(--card));
+  border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));font-size:.84rem}
+.pc-k{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft,#8a6d1f);font-weight:700}
+.pc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-size:1.06rem;
+  font-weight:700;color:var(--cinnabar)}
+.pc-pin{color:var(--ink-soft)}
+.pc-say{color:var(--muted);font-style:italic}
+.pc-en{color:var(--ink-soft)}
+@media(max-width:560px){.pc-say{display:none}}
+
+/* ===== Weather strip (city hero) ===== */
+.wx-strip{display:flex;align-items:flex-start;gap:10px;margin:14px 0 0;font-size:.85rem;
+  color:var(--ink-soft);max-width:640px}
+.wx-strip svg{flex:0 0 20px;width:20px;height:20px;color:var(--gold);margin-top:1px}
+.wx-strip b{color:var(--ink)}
+
+/* ===== City crest watermark (hero keeps its overflow:hidden clip) ===== */
+.crest-mark{position:absolute;right:14px;bottom:2px;pointer-events:none;color:var(--cinnabar);
+  opacity:.1;transform:rotate(-5deg)}
+.crest-mark svg{width:170px;height:170px}
+@media(max-width:700px){.crest-mark svg{width:110px;height:110px}.crest-mark{right:4px}}
 </style></head><body>
 
 <div id="gate" style="
@@ -700,12 +790,35 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   display:flex;align-items:center;justify-content:center;
   font-family:'Georgia',serif;
 ">
-  <div style="
-    max-width:360px;width:90%;
+  <style>
+    @keyframes gateStampIn{
+      0%{transform:scale(2.6) rotate(-16deg);opacity:0}
+      55%{transform:scale(.92) rotate(-4deg);opacity:1}
+      75%{transform:scale(1.05) rotate(-6deg)}
+      100%{transform:scale(1) rotate(-5deg);opacity:1}}
+    @keyframes gateInkRing{
+      0%{transform:scale(.6);opacity:.55}
+      100%{transform:scale(1.9);opacity:0}}
+    #gate-stamp{display:none;position:absolute;inset:0;align-items:center;justify-content:center;
+      pointer-events:none;z-index:5}
+    #gate-stamp.stamping .gs-seal{animation:gateStampIn .5s cubic-bezier(.2,.7,.3,1.2) forwards}
+    #gate-stamp.stamping .gs-ring{animation:gateInkRing .9s ease-out .42s forwards}
+    .gs-seal{width:108px;height:124px;border-radius:18px;background:#C03828;color:#FBF3E4;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      font-family:'Songti SC','Noto Serif CJK SC','SimSun',serif;font-weight:700;font-size:3rem;
+      line-height:1;opacity:0;
+      box-shadow:0 10px 32px -8px rgba(154,32,24,.85), inset 0 0 0 2.5px rgba(255,255,255,.28);}
+    .gs-seal small{font-size:.95rem;letter-spacing:.18em;opacity:.85}
+    .gs-ring{position:absolute;width:150px;height:150px;border-radius:26px;
+      border:3px solid #C03828;opacity:0}
+  </style>
+  <div id="gate-card" style="
+    max-width:360px;width:90%;position:relative;
     background:#fff;border:1px solid #DDD0B8;border-radius:16px;
     padding:40px 36px;text-align:center;
     box-shadow:0 8px 40px rgba(60,38,20,.12);
   ">
+    <div id="gate-stamp"><div class="gs-ring"></div><div class="gs-seal">囍<small>辛格</small></div></div>
     <div style="
       display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
       width:54px;height:64px;border-radius:11px;background:#C03828;color:#fff;
@@ -753,13 +866,22 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
     return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
   }
-  function unlock(){document.getElementById('gate').style.display='none';}
-  if(localStorage.getItem(KEY)===HASH){unlock();return;}
+  function unlock(instant){
+    var g=document.getElementById('gate');
+    if(instant){g.style.display='none';return;}
+    var st=document.getElementById('gate-stamp');
+    st.style.display='flex'; st.classList.add('stamping');
+    setTimeout(function(){
+      g.style.transition='opacity .5s ease'; g.style.opacity='0';
+      setTimeout(function(){g.style.display='none';},520);
+    }, 1150);
+  }
+  if(localStorage.getItem(KEY)===HASH){unlock(true);return;}
   document.getElementById('gate-btn').addEventListener('click', check);
   document.getElementById('gate-pw').addEventListener('keydown',function(e){if(e.key==='Enter')check();});
   async function check(){
     var h=await sha256(document.getElementById('gate-pw').value.trim());
-    if(h===HASH){localStorage.setItem(KEY,HASH);unlock();}
+    if(h===HASH){localStorage.setItem(KEY,HASH);unlock(false);}
     else{document.getElementById('gate-err').textContent='Incorrect password — try again.';}
   }
 })();
@@ -792,21 +914,23 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 <div class="wrap">
   <div class="hero">
     <div class="watermark">成都</div>
+    <div class="crest-mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="26" r="13"/><circle cx="14" cy="13" r="4.5" fill="currentColor"/><circle cx="34" cy="13" r="4.5" fill="currentColor"/><ellipse cx="18.5" cy="24" rx="2.6" ry="3.4" fill="currentColor"/><ellipse cx="29.5" cy="24" rx="2.6" ry="3.4" fill="currentColor"/><circle cx="24" cy="30" r="1.6" fill="currentColor"/></svg></div>
     <div class="eyebrow">The Singer Honeymoon · China</div>
     <h1>Chengdu<span class="zh">成都</span></h1>
     
+    <div class="wx-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5 5l1.8 1.8M17.2 17.2L19 19M19 5l-1.8 1.8M6.8 17.2L5 19"/></svg><span><b>July in Chengdu:</b> ~88°F, 80% humidity, overcast with drizzle. Muggy and grey. The pandas prefer it that way; so do the teahouses.</span></div>
     <div class="rule"><span>5 days · 21 stops</span></div>
   </div>
   <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>MON JUN 29</button><button class="tab" data-tab="d1" style="--cat:#2E6F95"><span class="tab-dot"></span>TUE JUN 30</button><button class="tab" data-tab="d2" style="--cat:#C9821E"><span class="tab-dot"></span>WED JUL 1</button><button class="tab" data-tab="d3" style="--cat:#3E7D52"><span class="tab-dot"></span>THU JUL 2</button><button class="tab" data-tab="d4" style="--cat:#7A4BA8"><span class="tab-dot"></span>FRI JUL 3</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(23)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
   <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>MON JUN 29</span><span><i style="background:#2E6F95"></i>TUE JUN 30</span><span><i style="background:#C9821E"></i>WED JUL 1</span><span><i style="background:#3E7D52"></i>THU JUL 2</span><span><i style="background:#7A4BA8"></i>FRI JUL 3</span></div>
   <div class="layout">
-    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Chengdu at a glance</h2></div><div class="city-trivia">One of China&#x27;s &#x27;New First-Tier&#x27; cities and the economic hub of western China. Consistently rated China&#x27;s most liveable city.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">21 million (urban)</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Sichuan Province</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Giant pandas, Sichuan cuisine, teahouse culture, face-changing opera</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, foggy, mild</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">Terra Art Sky Garden Boutique Hotel</div><div class="home-base-addr">📍 Gaosheng Bridge, Wuhou District</div><p class="home-base-body">Your base in Chengdu is a small boutique hotel in Wuhou, the district wrapped around the Wuhou Shrine and the Jinli old street, central, leafy, and walkable, with the metro close by for the panda base and the museums. Wuhou is one of Chengdu&#x27;s most pleasant areas to be based: tree-lined, full of teahouses and snack streets, and an easy reach of People&#x27;s Park and the Kuanzhai Alley historic lanes. Expect a calm, design-led little hotel rather than a big-brand tower. Chengdu&#x27;s whole vibe is unhurried, and the neighborhood matches it.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>MON JUN 29 — Arrival on the Mainland</h2></div><div class="day-strip"><span>1 stops</span></div><p class="day-intro">An evening arrival after the Taipei layover. The flight from Taoyuan lands in Chengdu in the early evening; after the metro ride from Tianfu Airport, the night belongs to the hotel and, if energy allows, the Cheersum spa. Chengdu announces itself even from the taxi window: street-level hotpot smoke, neon characters, and the easy density of a city that has been a regional capital for two thousand years. There is nothing to see tonight. That starts tomorrow.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:1" data-id="s2">
+    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Chengdu at a glance</h2></div><div class="city-trivia">One of China&#x27;s &#x27;New First-Tier&#x27; cities and the economic hub of western China. Consistently rated China&#x27;s most liveable city.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">21 million (urban)</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Sichuan Province</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Giant pandas, Sichuan cuisine, teahouse culture, face-changing opera</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, foggy, mild</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div><div class="home-base-card"><div class="home-base-label">🛏 Home base</div><div class="home-base-name">Terra Art Sky Garden Boutique Hotel</div><div class="home-base-addr">📍 Gaosheng Bridge, Wuhou District</div><p class="home-base-body">Your base in Chengdu is a small boutique hotel in Wuhou, the district wrapped around the Wuhou Shrine and the Jinli old street, central, leafy, and walkable, with the metro close by for the panda base and the museums. Wuhou is one of Chengdu&#x27;s most pleasant areas to be based: tree-lined, full of teahouses and snack streets, and an easy reach of People&#x27;s Park and the Kuanzhai Alley historic lanes. Expect a calm, design-led little hotel rather than a big-brand tower. Chengdu&#x27;s whole vibe is unhurried, and the neighborhood matches it.</p></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>MON JUN 29 — Arrival on the Mainland</h2></div><div class="day-strip"><span>1 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">你好</span><span class="pc-pin">nǐ hǎo</span><span class="pc-say">&ldquo;nee how&rdquo;</span><span class="pc-en">hello</span></div><p class="day-intro">An evening arrival after the Taipei layover. The flight from Taoyuan lands in Chengdu in the early evening; after the metro ride from Tianfu Airport, the night belongs to the hotel and, if energy allows, the Cheersum spa. Chengdu announces itself even from the taxi window: street-level hotpot smoke, neon characters, and the easy density of a city that has been a regional capital for two thousand years. There is nothing to see tonight. That starts tomorrow.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:1" data-id="s2">
       <div class="toprow"><span class="pin">1</span>
         <h3>Qianshen (Chengdu Branch) (optional) <span class="zh">千深（成都店）</span></h3>
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2.2 2.2"/></svg>Activity</span></div>
       <div class="meta"><span><b>Hours:</b> 24 hours</span><span><b>Suggested time:</b> 1–2 hr (post-flight relaxation)</span><span><b>From previous:</b> Confirm on Amap</span><span><b>Prior booking?:</b> Rec.</span></div><div class="meta"><span><b>Address:</b> Wuhou District, Tianfu 1st Street No.798, Xincheng International Square, Floors F &amp; F1</span></div><div class="meta"><span><b>Coordinates:</b> 30.5608, 104.0522</span></div><div class="notes">Cheersum Spa (长舒一口气) is one of Chengdu&#x27;s most-praised late-night spa and bathhouse complexes, housed across multiple floors in the Wuhou area near the hotel. The format is classic bathe-and-relax: hot and cold thermal pools, steam rooms, private soaking tubs, and a full menu of massage treatments bookable on arrival. It operates until well past midnight, purpose-built for exactly this kind of post-long-haul-flight recovery.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Bring your passport for registration at the entrance. The Tibetan Buddhist art collection on the upper floors is especially impressive and often overlooked. Allow at least 2–3 hours. Audio guides available for rent at the entrance.</div><div class="netizen">"&#x27;Perfect first-night Chengdu move.&#x27; Netizens consistently recommend arriving, soaking, and sleeping rather than trying to sightsee. Private soaking room for two is the pick, book on-site. Massage add-ons praised as strong value. Some note the entrance is easy to miss, use Amap."</div>
-    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>TUE JUN 30 — Easing into the rhythm</h2></div><div class="day-strip"><span>6 stops</span></div><p class="day-intro">Our first full day eases into Chengdu through its cultural core rather than its headline attractions, a deliberate way to take the city&#x27;s measure before the pandas. The morning belongs to the Sichuan Museum and the neighbouring Library and Art Gallery, a tight cluster that lays out the region&#x27;s Ba-Shu heritage, Tibetan Buddhist art, and Sichuanese painting in a few air-conditioned hours. A short walk away, the Huangcheng Mosque is a quiet reminder of Chengdu&#x27;s long Hui Muslim presence. By afternoon the rhythm shifts to the thing Chengdu is actually famous for: doing very little, beautifully. People&#x27;s Park is the place to see it, teahouses thick with mahjong and gossip, rowboats on the lake, roving ear-cleaners with their tuning forks. From there it&#x27;s a stroll into Kuanzhai Alley, the restored Qing-era lanes are now full of teahouses and snack stalls. It&#x27;s a day built to acclimatize: culture in the morning, the city&#x27;s famous unhurried pace in the afternoon.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s3">
+    </div></div></section><section class="panel" id="panel-d1" data-dayindex="1" style="--cat:#2E6F95"><div class="day-head"><h2>TUE JUN 30 — Easing into the rhythm</h2></div><div class="day-strip"><span>6 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">来一壶茶</span><span class="pc-pin">lái yī hú chá</span><span class="pc-say">&ldquo;lie ee hoo chah&rdquo;</span><span class="pc-en">a pot of tea, please</span></div><p class="day-intro">Our first full day eases into Chengdu through its cultural core rather than its headline attractions, a deliberate way to take the city&#x27;s measure before the pandas. The morning belongs to the Sichuan Museum and the neighbouring Library and Art Gallery, a tight cluster that lays out the region&#x27;s Ba-Shu heritage, Tibetan Buddhist art, and Sichuanese painting in a few air-conditioned hours. A short walk away, the Huangcheng Mosque is a quiet reminder of Chengdu&#x27;s long Hui Muslim presence. By afternoon the rhythm shifts to the thing Chengdu is actually famous for: doing very little, beautifully. People&#x27;s Park is the place to see it, teahouses thick with mahjong and gossip, rowboats on the lake, roving ear-cleaners with their tuning forks. From there it&#x27;s a stroll into Kuanzhai Alley, the restored Qing-era lanes are now full of teahouses and snack stalls. It&#x27;s a day built to acclimatize: culture in the morning, the city&#x27;s famous unhurried pace in the afternoon.</p><div class="stops"><div class="stop" style="--cat:#2E6F95;--i:0" data-id="s3">
       <div class="toprow"><span class="pin">1</span>
         <h3>Sichuan Museum <span class="zh">四川博物院</span></h3>
         
@@ -842,7 +966,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         
         <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
       <div class="meta"><span><b>Hours:</b> 24 hr (shops ~10:00–23:00)</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~6 min (metro L4 one stop)</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> No. 127 Changshun Upper St, Qingyang District</span></div><div class="meta"><span><b>Coordinates:</b> 30.6694, 104.0497</span></div><div class="notes">Three parallel Qing dynasty alleys: Kuan (Wide), Zhai (Narrow), and Jing (Well). The stone-paved lanes are lined with preserved courtyard houses (siheyuan) that now hold teahouses, restaurants, boutiques, bars, and galleries. Locals come here to drink tea, get their ears cleaned the traditional way, and watch the crowds go by. Give it a slow hour or two.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Visit in the morning (before 10 AM) to avoid the largest crowds. Zhai (Narrow) Alley is the most traditional and photogenic. Try dan dan noodles, rabbit head, and cold jelly snacks from street vendors. Jing (Well) Alley has the best bars for evening drinks.</div><div class="netizen">"&#x27;Photogenic but touristy.&#x27; Netizens WARN street snacks (dan dan noodles, cold jelly) often contain peanut/sesame - use allergy cards. Best early AM or late evening. Shops are pricey. Jing Alley is quieter."</div>
-    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>WED JUL 1 — Pandas</h2></div><div class="day-strip"><span>5 stops</span></div><p class="day-intro">Today is the one most people come to Chengdu for. We will be starting early: the Giant Panda Breeding Base is best at opening (7:30 AM), when the pandas are awake and feeding; by late morning they slump into the long bamboo-fueled naps that make midday visits a bust. Our private tour begins at opening, so we should have a good shot at seeing some panda activity. The afternoon swings deliberately from cuddly to contemporary: Tianfu Art Park and the Chengdu Art Museum trade pandas for bold modern architecture and rotating exhibitions, and then Chunxi Road and the Taikoo Li mall deliver Chengdu&#x27;s commercial energy, flagship stores, street snacks, and the panda-themed souvenir hunting that&#x27;s obligatory here. Locomotive Square, an offbeat industrial-heritage spot full of vintage steam engines turned public art, makes a quieter, more photogenic end to the day. It&#x27;s a study in Chengdu&#x27;s range: the world&#x27;s most famous conservation centre in the morning, glossy 21st-century consumer China by dusk.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s9">
+    </div></div></section><section class="panel" id="panel-d2" data-dayindex="2" style="--cat:#C9821E"><div class="day-head"><h2>WED JUL 1 — Pandas</h2></div><div class="day-strip"><span>5 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">熊猫</span><span class="pc-pin">xióngmāo</span><span class="pc-say">&ldquo;shyong-maow&rdquo;</span><span class="pc-en">panda</span></div><p class="day-intro">Today is the one most people come to Chengdu for. We will be starting early: the Giant Panda Breeding Base is best at opening (7:30 AM), when the pandas are awake and feeding; by late morning they slump into the long bamboo-fueled naps that make midday visits a bust. Our private tour begins at opening, so we should have a good shot at seeing some panda activity. The afternoon swings deliberately from cuddly to contemporary: Tianfu Art Park and the Chengdu Art Museum trade pandas for bold modern architecture and rotating exhibitions, and then Chunxi Road and the Taikoo Li mall deliver Chengdu&#x27;s commercial energy, flagship stores, street snacks, and the panda-themed souvenir hunting that&#x27;s obligatory here. Locomotive Square, an offbeat industrial-heritage spot full of vintage steam engines turned public art, makes a quieter, more photogenic end to the day. It&#x27;s a study in Chengdu&#x27;s range: the world&#x27;s most famous conservation centre in the morning, glossy 21st-century consumer China by dusk.</p><div class="stops"><div class="stop" style="--cat:#C9821E;--i:0" data-id="s9">
       <div class="toprow"><span class="pin">1</span>
         <h3>Chengdu Research Base of Giant Panda Breeding <span class="zh">成都大熊猫繁育研究基地</span></h3>
         
@@ -874,7 +998,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
       <div class="meta"><span><b>Hours:</b> 24 hr (shops ~10:00–22:00)</span><span><b>Suggested time:</b> 45–60 min</span><span><b>From previous:</b> ~12 min taxi</span><span><b>Prior booking?:</b> No</span></div><div class="meta"><span><b>Address:</b> Creative rail-heritage park, Chengdu</span></div><div class="meta"><span><b>Coordinates:</b> 30.6700, 104.0900</span></div><div class="notes">Locomotive Square is a unique industrial heritage outdoor space in Chengdu featuring vintage steam locomotives, freight cars, and rail equipment displayed as public art and landmarks. The area has been transformed into a creative park with shops, cafes, art studios, and exhibition spaces centered around the preserved railway heritage. It&#x27;s a photogenic and offbeat attraction popular with younger locals.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Great for unique photos with the vintage locomotives. The area is particularly atmospheric in the evening when lit up. Combine with nearby creative districts for a full afternoon. A local favorite that&#x27;s off the typical tourist circuit.</div><div class="netizen">"Offbeat + photogenic - a &#x27;hidden gem for rail fans.&#x27; Vintage locomotives turned art. Best lit at night. Quick 45-min stop.
 
 THU JUL 2. Old Engineering, New Ambitions"</div>
-    </div></div></section><section class="panel" id="panel-d3" data-dayindex="3" style="--cat:#3E7D52"><div class="day-head"><h2>THU JUL 2 — Old &amp; new Chengdu</h2></div><div class="day-strip"><span>7 stops</span></div><p class="day-intro">A day that brackets Chengdu&#x27;s history at both ends, ancient engineering in the morning, megacity ambition in the afternoon. Start with a short high-speed hop out to Dujiangyan, the 2,200-year-old irrigation system that made the whole Chengdu Plain fertile and earned Sichuan its &#x27;Land of Abundance&#x27; name. It&#x27;s a UNESCO site and a genuine marvel: The &#x27;no-dam&#x27; design has been quietly working since 256 BC. The nearby Dujiangyan Library is a worthwhile architectural curiosity if time allows. Back in the city, the mood flips hard toward the future. The Chengdu Planning Exhibition Hall lays out the city&#x27;s vast growth ambitions in scale-model form. The New Century Global Center is one of the largest buildings on earth by floor area, complete with an indoor beach and artificial sun. It is a surreal monument to modern Chinese scale that&#x27;s worth walking through even if you skip the water park. MOCA Chengdu is an optional contemporary-art stop if energy holds. The day ends in old Chengdu again, at Jinli, the lantern-lit historic street beside the Wuhou Shrine, best after dark when the red lanterns glow and the snack stalls open. The day ends back in the city at Shufeng Yayun: the booked Sichuan opera with face-changing, fire-breathing, and shadow puppetry, doors at 7:30 PM.</p><div class="stops"><div class="stop" style="--cat:#3E7D52;--i:0" data-id="s14">
+    </div></div></section><section class="panel" id="panel-d3" data-dayindex="3" style="--cat:#3E7D52"><div class="day-head"><h2>THU JUL 2 — Old &amp; new Chengdu</h2></div><div class="day-strip"><span>7 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">多少钱？</span><span class="pc-pin">duōshao qián</span><span class="pc-say">&ldquo;dwor-shaow chyen&rdquo;</span><span class="pc-en">how much is it?</span></div><p class="day-intro">A day that brackets Chengdu&#x27;s history at both ends, ancient engineering in the morning, megacity ambition in the afternoon. Start with a short high-speed hop out to Dujiangyan, the 2,200-year-old irrigation system that made the whole Chengdu Plain fertile and earned Sichuan its &#x27;Land of Abundance&#x27; name. It&#x27;s a UNESCO site and a genuine marvel: The &#x27;no-dam&#x27; design has been quietly working since 256 BC. The nearby Dujiangyan Library is a worthwhile architectural curiosity if time allows. Back in the city, the mood flips hard toward the future. The Chengdu Planning Exhibition Hall lays out the city&#x27;s vast growth ambitions in scale-model form. The New Century Global Center is one of the largest buildings on earth by floor area, complete with an indoor beach and artificial sun. It is a surreal monument to modern Chinese scale that&#x27;s worth walking through even if you skip the water park. MOCA Chengdu is an optional contemporary-art stop if energy holds. The day ends in old Chengdu again, at Jinli, the lantern-lit historic street beside the Wuhou Shrine, best after dark when the red lanterns glow and the snack stalls open. The day ends back in the city at Shufeng Yayun: the booked Sichuan opera with face-changing, fire-breathing, and shadow puppetry, doors at 7:30 PM.</p><div class="stops"><div class="stop" style="--cat:#3E7D52;--i:0" data-id="s14">
       <div class="toprow"><span class="pin">1</span>
         <h3>Dujiangyan Irrigation System <span class="zh">都江堰</span></h3>
         
@@ -920,7 +1044,7 @@ FRI JUL 3. Train to Chongqing"</div>
       <div class="meta"><span><b>Hours:</b> THU JUL 2, 20:00 (doors ~19:30)</span><span><b>Suggested time:</b> 1.5–2 hr</span><span><b>From previous:</b> ~10 min / 34 min walk</span><span><b>Prior booking?:</b> Yes</span></div><div class="meta"><span><b>Address:</b> Qintai Rd, inside Culture Park, Qingyang District</span></div><div class="meta"><span><b>Coordinates:</b> 30.6712, 104.0490</span></div><div class="notes">Shu Feng Ya Yun is one of Chengdu&#x27;s premier Sichuan opera performance venues, housed in a beautiful traditional theater within the Qingyang Palace cultural area. The 1.5–2 hour show features the best of Sichuan performing arts including the famous face-changing (bianlian), fire-breathing, shadow puppetry, hand puppetry, and acrobatics.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Arrive 30 minutes early to explore the teahouse area and watch pre-show folk performances. VIP seats near the front offer the best view of the face-changing. Photography is allowed during the show.</div><div class="netizen">"Highly rated (4.8/5 Trip.com). Face-changing + fire-breathing called &#x27;unforgettable.&#x27; Pre-show teahouse adds charm. Booking ahead = good move. Middle rows = best sightlines. Photo/video OK.
 
 WED JUL 1. Ancient Beasts and Contemporary Arts"</div>
-    </div></div></section><section class="panel" id="panel-d4" data-dayindex="4" style="--cat:#7A4BA8"><div class="day-head"><h2>FRI JUL 3 — Train to Chongqing</h2></div><div class="day-strip"><span>1 stops</span></div><p class="day-intro">We can sleep in, or catch up on anything we may have missed out on in the morning. Then it is time to check out of the Terra Art Sky Garden and make our way to Chengdu East Railway Station for the late-morning high-speed train to Chongqing North (11:18–12:35), barely over an hour to cover ground that once took the better part of a day across this terrain. The station itself is a small spectacle of the scale of China&#x27;s rail network, all vaulting concourses and crowds moving with practiced efficiency. The leg matters less for what you do and more for the shift it marks: you&#x27;re leaving the laid-back plains capital for the vertical, river-carved chaos of Chongqing, two cities that share a cuisine and a spice tolerance but almost nothing else in temperament. Once across, the afternoon belongs to Chongqing.</p><div class="stops"><div class="stop" style="--cat:#7A4BA8;--i:0" data-id="s21">
+    </div></div></section><section class="panel" id="panel-d4" data-dayindex="4" style="--cat:#7A4BA8"><div class="day-head"><h2>FRI JUL 3 — Train to Chongqing</h2></div><div class="day-strip"><span>1 stops</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">火车</span><span class="pc-pin">huǒchē</span><span class="pc-say">&ldquo;hwor-chuh&rdquo;</span><span class="pc-en">train</span></div><div class="bpass" style="--cat:#7A4BA8"><div class="bp-stub"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg><span>High-speed rail</span></div><div class="bp-main"><div class="bp-route">CHENGDU EAST <span class="bp-arr">→</span> CHONGQING NORTH</div><div class="bp-carrier">High-speed rail · 11:18 AM – 12:35 PM · ~1h 15m</div><div class="bp-note">Passports at the gate line; seats face forward from Chengdu</div></div><div class="bp-code"></div></div><p class="day-intro">We can sleep in, or catch up on anything we may have missed out on in the morning. Then it is time to check out of the Terra Art Sky Garden and make our way to Chengdu East Railway Station for the late-morning high-speed train to Chongqing North (11:18–12:35), barely over an hour to cover ground that once took the better part of a day across this terrain. The station itself is a small spectacle of the scale of China&#x27;s rail network, all vaulting concourses and crowds moving with practiced efficiency. The leg matters less for what you do and more for the shift it marks: you&#x27;re leaving the laid-back plains capital for the vertical, river-carved chaos of Chongqing, two cities that share a cuisine and a spice tolerance but almost nothing else in temperament. Once across, the afternoon belongs to Chongqing.</p><div class="stops"><div class="stop" style="--cat:#7A4BA8;--i:0" data-id="s21">
       <div class="toprow"><span class="pin">1</span>
         <h3>Chengdu East Railway Station <span class="zh">成都东站</span></h3>
         
