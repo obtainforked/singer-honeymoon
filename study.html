@@ -293,6 +293,7 @@ nav.cities a.active::after{transform:scaleX(1)}
 
 footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.8rem;text-align:center}
 footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:.8em}
+@media(max-width:760px){footer{padding:46px 24px calc(46px + env(safe-area-inset-bottom))}}
 
 /* ===== Home page ===== */
 .summary{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
@@ -750,6 +751,7 @@ body.home-page{background:#9A2018}
 .tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 8px}
 .tt-progress{font-size:.78rem;color:var(--cinnabar);font-weight:700;letter-spacing:.04em;margin:0 0 18px}
 .tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
+@media(max-width:560px){.tt-grid{grid-template-columns:repeat(2,1fr)}}
 .tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
   background:none;border:none;padding:4px;cursor:pointer;font:inherit;
   -webkit-tap-highlight-color:transparent}
