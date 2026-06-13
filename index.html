@@ -764,8 +764,8 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .tt-stamp{position:relative}
 .tt-stamp .tt-ring{position:relative}
 
-/* Completion celebration: a screenshottable free-boba coupon */
-.tt-done{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
+/* Completion celebration: a screenshottable free-boba coupon (above the gate) */
+.tt-done{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;
   background:rgba(40,24,14,.55);backdrop-filter:blur(4px);padding:20px}
 .tt-done.show .tt-done-card{animation:ttCardIn .5s cubic-bezier(.2,.7,.3,1.2) both}
 .tt-done-card{position:relative;max-width:400px;width:100%;text-align:center;
@@ -937,8 +937,8 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
         autocomplete="current-password">
       <button id="gate-eye" type="button" tabindex="-1"
         style="
-          position:absolute;right:12px;top:50%;transform:translateY(-50%);
-          background:none;border:none;padding:4px;cursor:pointer;line-height:0;
+          position:absolute;right:6px;top:50%;transform:translateY(-50%);z-index:3;
+          background:none;border:none;padding:8px;cursor:pointer;line-height:0;
         "
         aria-label="Show/hide password">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -977,6 +977,10 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   })();
   function unlock(instant){
     var g=document.getElementById('gate');
+    // Stop the overlay from intercepting page clicks the instant we unlock — an
+    // opacity:0 element still captures taps, which was blocking buttons underneath
+    // (e.g. the coupon close) during/after the fade.
+    g.style.pointerEvents='none';
     if(instant){g.style.display='none';return;}
     var st=document.getElementById('gate-stamp');
     st.style.display='flex'; st.classList.add('stamping');
@@ -1035,9 +1039,9 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
       <div class="eyebrow">28 June – 18 July 2026</div>
       <h1 class="home-title">The Singer<br>Honeymoon</h1>
       <div class="home-zh">中国 · 蜜月之旅</div>
-      <div class="sub">A honeymoon the length of China: ancient temples and glass skylines,
-        panda forests and island beaches, sleeper trains and harbour ferries &mdash; three weeks of
-        wandering and getting gloriously lost together.</div>
+      <div class="sub">Our honeymoon is a three-week journey down the length of China, beginning with
+        pandas and teahouses in the west and ending among the harbour lights of Hong Kong and Macau.
+        It's the first big adventure of our marriage, and we can't wait to wander.</div>
       <div class="hero-today" id="hero-today" hidden></div>
     </div>
   </div>
