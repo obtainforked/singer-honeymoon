@@ -96,7 +96,10 @@ nav.cities a.active::after{transform:scaleX(1)}
 .nav-toggle.open span:nth-child(2){opacity:0}
 .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media(max-width:760px){
-  .nav-toggle{display:flex}
+  /* Keep the brand on the left and push the hamburger to the far right */
+  .masthead .wrap{flex-wrap:wrap}
+  .brand{flex:1 1 auto;min-width:0}
+  .nav-toggle{display:flex;margin-left:auto;flex:0 0 auto;order:2}
   nav.cities{display:none;flex-direction:column;gap:0;width:100%;order:3;
     margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
   nav.cities.open{display:flex}
@@ -529,6 +532,24 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .char-float.char-ico svg{width:36px;height:36px}
 .hero-clouds{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:80px;display:block}
 
+/* ===== Full-page cinnabar background for the home page ===== */
+body.home-page{background:#9A2018}
+.home-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+  background:linear-gradient(150deg,#C5402E 0%,#A8241A 55%,#8C1C14 100%)}
+.home-bg .char-float{position:fixed}
+/* hero sits directly on the page background now (no own gradient / clouds) */
+.home-page .home-hero{background:transparent;box-shadow:none;border-bottom:none}
+.home-page .home-hero-inner{padding:46px 0 34px}
+/* loose text on the red canvas turns light for contrast (cards keep their cream) */
+.home-page .sec-h{color:#F5E2A8}
+.home-page .sec-h .sec-zh{color:#E4C76B;opacity:.9}
+.home-page .sec-h::after{background:linear-gradient(90deg,rgba(228,199,107,.65),transparent)}
+.home-page .thread-cap{color:rgba(245,225,185,.85)}
+.home-page .thread-cap .tc-zh{color:#E4C76B}
+.home-page .thread-cap::before{background:linear-gradient(90deg,#E4C76B 70%,transparent);box-shadow:0 0 0 .5px #E4C76B}
+.home-page footer{color:rgba(245,225,185,.82)}
+.home-page footer button{color:rgba(245,225,185,.7) !important}
+
 /* ===== Section heading ===== */
 .sec-h{display:flex;align-items:baseline;gap:14px;margin:46px 0 22px;
   font-family:'Cormorant',serif;font-weight:600;font-size:2rem;color:var(--ink)}
@@ -886,7 +907,17 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   opacity:.1;transform:rotate(-5deg)}
 .crest-mark svg{width:170px;height:170px}
 @media(max-width:700px){.crest-mark svg{width:110px;height:110px}.crest-mark{right:4px}}
-</style></head><body>
+</style></head><body class="home-page">
+<div class="home-bg" aria-hidden="true">
+  <span class="char-float" style="left:8%;font-size:3.5rem;animation-delay:0s;animation-duration:11s">蜜</span>
+  <span class="char-float" style="left:24%;font-size:2.5rem;animation-delay:1.8s;animation-duration:15s">月</span>
+  <span class="char-float" style="left:42%;font-size:3rem;animation-delay:.9s;animation-duration:13s">旅</span>
+  <span class="char-float" style="left:63%;font-size:2.2rem;animation-delay:3s;animation-duration:12s">爱</span>
+  <span class="char-float" style="left:72%;font-size:1.8rem;animation-delay:2.2s;animation-duration:17s">中</span>
+  <span class="char-float" style="left:83%;font-size:2.4rem;animation-delay:4.5s;animation-duration:14s">国</span>
+  <span class="char-float" style="left:16%;font-size:2rem;animation-delay:5s;animation-duration:16s">囍</span>
+  <span class="char-float" style="left:50%;font-size:1.4rem;animation-delay:6.5s;animation-duration:17s">阿曼达</span><span class="char-float" style="left:13%;font-size:1.3rem;animation-delay:8s;animation-duration:16s">纳森辛格</span><span class="char-float char-ico" style="left:5%;animation-delay:3.5s;animation-duration:10s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="26" r="13"/><circle cx="14" cy="13" r="4.5" fill="currentColor"/><circle cx="34" cy="13" r="4.5" fill="currentColor"/><ellipse cx="18.5" cy="24" rx="2.6" ry="3.4" fill="currentColor"/><ellipse cx="29.5" cy="24" rx="2.6" ry="3.4" fill="currentColor"/><circle cx="24" cy="30" r="1.6" fill="currentColor"/></svg></span><span class="char-float char-ico" style="left:31%;animation-delay:7s;animation-duration:13s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 40h32"/><rect x="12" y="26" width="9" height="14"/><rect x="22" y="18" width="9" height="22"/><rect x="31" y="30" width="7" height="10"/><path d="M12 26l4.5-5 4.5 5M22 18l4.5-5 4.5 5"/></svg></span><span class="char-float char-ico" style="left:54%;animation-delay:1.3s;animation-duration:17s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 41c-1-9 0-15 2-20"/><path d="M24 21c-4-5-10-6-15-4 4-1 8 0 11 3M24 21c5-4 11-4 16-1-4-2-9-2-13 1M24 21c-2-6-6-9-11-10 4 0 8 3 10 7M24 21c3-6 8-8 13-8-4 1-8 4-10 8"/><circle cx="24" cy="21" r="1.6" fill="currentColor"/><circle cx="20" cy="24" r="1.3" fill="currentColor"/><circle cx="28" cy="24" r="1.3" fill="currentColor"/><path d="M16 41h14"/></svg></span><span class="char-float char-ico" style="left:68%;animation-delay:5.8s;animation-duration:12s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 6c2 8 1 14 0 18s-2 10 0 18M29 6c-2 8-1 14 0 18s2 10 0 18"/><path d="M16 42h16"/><path d="M21 24h6M20 32h8M20 16h8"/></svg></span><span class="char-float char-ico" style="left:77%;animation-delay:0.4s;animation-duration:15s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="15" y="15" width="18" height="18" rx="2"/><rect x="21" y="21" width="6" height="6"/><path d="M21 15v-5M27 15v-5M21 38v-5M27 38v-5M15 21h-5M15 27h-5M38 21h5M38 27h5"/></svg></span><span class="char-float char-ico" style="left:91%;animation-delay:2.7s;animation-duration:14s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 34h34l-4 7H11l-4-7Z"/><path d="M22 32V8l-11 3 11 5M22 16l9-3v19M22 13l9-2"/><path d="M22 8v26M28 20v12"/><path d="M5 38c3-2 5-2 8 0s5 2 8 0 5-2 8 0 5 2 8 0"/></svg></span><span class="char-float char-ico" style="left:37%;animation-delay:4s;animation-duration:11s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 40V20l12-9 12 9v20"/><path d="M12 40h24"/><path d="M19 40V28h10v12"/><path d="M24 11V6"/><path d="M21 8h6"/><path d="M18 22h12"/></svg></span>
+</div>
 
 <div id="gate" style="
   position:fixed;inset:0;z-index:99999;
@@ -1033,29 +1064,14 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     });})();</script></header>
 <div class="home-hero">
   
-  <span class="char-float" style="left:8%;font-size:3.5rem;animation-delay:0s;animation-duration:11s">蜜</span>
-  <span class="char-float" style="left:24%;font-size:2.5rem;animation-delay:1.8s;animation-duration:15s">月</span>
-  <span class="char-float" style="left:42%;font-size:3rem;animation-delay:.9s;animation-duration:13s">旅</span>
-  <span class="char-float" style="left:63%;font-size:2.2rem;animation-delay:3s;animation-duration:12s">爱</span>
-  <span class="char-float" style="left:72%;font-size:1.8rem;animation-delay:2.2s;animation-duration:17s">中</span>
-  <span class="char-float" style="left:83%;font-size:2.4rem;animation-delay:4.5s;animation-duration:14s">国</span>
-  <span class="char-float" style="left:16%;font-size:2rem;animation-delay:5s;animation-duration:16s">囍</span>
-  <span class="char-float" style="left:50%;font-size:1.4rem;animation-delay:6.5s;animation-duration:17s">阿曼达</span><span class="char-float" style="left:13%;font-size:1.3rem;animation-delay:8s;animation-duration:16s">纳森辛格</span><span class="char-float char-ico" style="left:5%;animation-delay:3.5s;animation-duration:10s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="26" r="13"/><circle cx="14" cy="13" r="4.5" fill="currentColor"/><circle cx="34" cy="13" r="4.5" fill="currentColor"/><ellipse cx="18.5" cy="24" rx="2.6" ry="3.4" fill="currentColor"/><ellipse cx="29.5" cy="24" rx="2.6" ry="3.4" fill="currentColor"/><circle cx="24" cy="30" r="1.6" fill="currentColor"/></svg></span><span class="char-float char-ico" style="left:31%;animation-delay:7s;animation-duration:13s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 40h32"/><rect x="12" y="26" width="9" height="14"/><rect x="22" y="18" width="9" height="22"/><rect x="31" y="30" width="7" height="10"/><path d="M12 26l4.5-5 4.5 5M22 18l4.5-5 4.5 5"/></svg></span><span class="char-float char-ico" style="left:54%;animation-delay:1.3s;animation-duration:17s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 41c-1-9 0-15 2-20"/><path d="M24 21c-4-5-10-6-15-4 4-1 8 0 11 3M24 21c5-4 11-4 16-1-4-2-9-2-13 1M24 21c-2-6-6-9-11-10 4 0 8 3 10 7M24 21c3-6 8-8 13-8-4 1-8 4-10 8"/><circle cx="24" cy="21" r="1.6" fill="currentColor"/><circle cx="20" cy="24" r="1.3" fill="currentColor"/><circle cx="28" cy="24" r="1.3" fill="currentColor"/><path d="M16 41h14"/></svg></span><span class="char-float char-ico" style="left:68%;animation-delay:5.8s;animation-duration:12s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 6c2 8 1 14 0 18s-2 10 0 18M29 6c-2 8-1 14 0 18s2 10 0 18"/><path d="M16 42h16"/><path d="M21 24h6M20 32h8M20 16h8"/></svg></span><span class="char-float char-ico" style="left:77%;animation-delay:0.4s;animation-duration:15s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="15" y="15" width="18" height="18" rx="2"/><rect x="21" y="21" width="6" height="6"/><path d="M21 15v-5M27 15v-5M21 38v-5M27 38v-5M15 21h-5M15 27h-5M38 21h5M38 27h5"/></svg></span><span class="char-float char-ico" style="left:91%;animation-delay:2.7s;animation-duration:14s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 34h34l-4 7H11l-4-7Z"/><path d="M22 32V8l-11 3 11 5M22 16l9-3v19M22 13l9-2"/><path d="M22 8v26M28 20v12"/><path d="M5 38c3-2 5-2 8 0s5 2 8 0 5-2 8 0 5 2 8 0"/></svg></span><span class="char-float char-ico" style="left:37%;animation-delay:4s;animation-duration:11s"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 40V20l12-9 12 9v20"/><path d="M12 40h24"/><path d="M19 40V28h10v12"/><path d="M24 11V6"/><path d="M21 8h6"/><path d="M18 22h12"/></svg></span>
   <div class="wrap">
     <div class="home-hero-inner">
       <div class="eyebrow">28 June – 18 July 2026</div>
       <h1 class="home-title">The Singer<br>Honeymoon</h1>
       <div class="home-zh">中国 · 蜜月之旅</div>
-      <div class="sub">A three-week loop through southern China: pandas in Chengdu, the vertical streets
-        of Chongqing, tropical beaches in Sanya, Cantonese Guangzhou, futuristic Shenzhen, and the old
-        harbour cities of Hong Kong and Macau.</div>
       <div class="hero-today" id="hero-today" hidden></div>
     </div>
   </div>
-  <svg class="hero-clouds" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 60 Q 120 30 240 50 T 480 50 T 720 45 T 960 52 T 1200 44 T 1440 54 L1440 80 L0 80 Z" fill="#F3E9D7" opacity="0.18"/>
-    <path d="M0 66 Q 160 44 320 58 T 640 56 T 960 60 T 1280 52 T 1440 62 L1440 80 L0 80 Z" fill="#F3E9D7" opacity="0.25"/>
-  </svg>
 </div>
 <div class="wrap">
   <div class="summary reveal">
@@ -1081,43 +1097,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
       <h3 class="journey-h"><span>Getting Around</span><span class="journey-zh">交通</span></h3>
       <ol class="legs"><li class="leg reveal" style="animation-delay:0.00s"><span class="leg-date">Jun 28</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Los Angeles <span class="leg-arrow">→</span> Taipei</span><span class="leg-detail">EVA Air BR 11 · 12:15 AM – 5:10 AM (+1) · 13h 55m</span></span></li><li class="leg reveal" style="animation-delay:0.04s"><span class="leg-date">Jun 29</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Taipei <span class="leg-arrow">→</span> Chengdu</span><span class="leg-detail">EVA Air BR 765 · 2:30 PM – 6:05 PM · 3h 35m</span></span></li><li class="leg reveal" style="animation-delay:0.08s"><span class="leg-date">Jul 3</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Chengdu <span class="leg-arrow">→</span> Chongqing</span><span class="leg-detail">High-speed rail · Chengdu East → Chongqing North · ~1h 15m</span></span></li><li class="leg reveal" style="animation-delay:0.12s"><span class="leg-date">Jul 5</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Chongqing <span class="leg-arrow">→</span> Sanya</span><span class="leg-detail">China Southern CZ 2331 · 11:05 AM – 1:20 PM · 2h 15m</span></span></li><li class="leg reveal" style="animation-delay:0.16s"><span class="leg-date">Jul 8</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Sanya <span class="leg-arrow">→</span> Haikou</span><span class="leg-detail">High-speed rail · Sanya → Haikou East · ~1h 40m</span></span></li><li class="leg reveal" style="animation-delay:0.20s"><span class="leg-date">Jul 8</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Haikou <span class="leg-arrow">→</span> Guangzhou</span><span class="leg-detail">Z502 overnight sleeper · 8:20 PM – 8:05 AM (+1) · rail ferry crossing · 11h 45m</span></span></li><li class="leg reveal" style="animation-delay:0.24s"><span class="leg-date">Jul 12</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Guangzhou <span class="leg-arrow">→</span> Hong Kong</span><span class="leg-detail">High-speed rail · Guangzhou → Shenzhen → Hong Kong West Kowloon · ~1h</span></span></li><li class="leg reveal" style="animation-delay:0.28s"><span class="leg-date">Jul 17</span><span class="leg-mode" title="Ferry"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 30h32l-4 8H12l-4-8Z"/><path d="M24 30V14"/><path d="M24 14l10 5-10 4"/><path d="M6 40c3-2 5-2 8 0s5 2 8 0 5-2 8 0 5 2 8 0"/></svg></span><span class="leg-body"><span class="leg-route">Hong Kong <span class="leg-arrow">→</span> Macau</span><span class="leg-detail">TurboJET ferry from Sheung Wan to Macau Outer Harbour Terminal · ~1h</span></span></li><li class="leg reveal" style="animation-delay:0.32s"><span class="leg-date">Jul 17</span><span class="leg-mode" title="Bridge bus"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="11" y="8" width="26" height="28" rx="5"/><path d="M11 14h26M11 26h26"/><circle cx="18" cy="31" r="1.6" fill="currentColor"/><circle cx="30" cy="31" r="1.6" fill="currentColor"/><circle cx="17" cy="39" r="2.5"/><circle cx="31" cy="39" r="2.5"/></svg></span><span class="leg-body"><span class="leg-route">Macau <span class="leg-arrow">→</span> Hong Kong</span><span class="leg-detail">HZMB express bus from the Venetian, across the world&#x27;s longest sea crossing · ~1h 40m</span></span></li><li class="leg reveal" style="animation-delay:0.36s"><span class="leg-date">Jul 19</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Hong Kong <span class="leg-arrow">→</span> Los Angeles</span><span class="leg-detail">Cathay Pacific CX 880 · 12:05 AM – 10:35 PM (−1) · 13h 30m</span></span></li><li class="leg leg-home reveal"><span class="leg-date">Jul 18</span><span class="leg-mode" title="Home"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 23 24 9l16 14"/><path d="M12 20v18h8V28h8v10h8V20"/></svg></span><span class="leg-body"><span class="leg-route">Los Angeles</span><span class="leg-detail">Arrive home just before midnight, via a bit of time travel</span></span></li></ol>
     </section>
-  <section class="tea-trail reveal">
-      <h3 class="tea-trail-h"><span>The Tea &amp; Pastry Trail</span><span class="tt-zh">茶點之旅</span></h3>
-      <p class="tea-trail-sub">For Amanda: 12 sweet stops, from a monk's tatami tearoom in Taipei
-      to one last tart in the Cathay lounge. Tap each one as you go &mdash; the final stamp stays locked
-      🔒 until you're homeward bound. Fill all 12 to finish the trail.</p>
-      <div class="tt-progress"><span id="tt-count">0</span> / 12 collected</div>
-      <div class="tt-grid"><button type="button" class="tt-stamp" data-idx="0" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">Eighty-Eightea Rinbansyo</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="1" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">50 Lan bubble tea</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="2" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 30</span></span><span class="tt-name">People&#x27;s Park teahouses</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-idx="3" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">甜</span><span class="tt-date">Jul 4</span></span><span class="tt-name">Bingfen iced jelly</span><span class="tt-city">Chongqing</span></button><button type="button" class="tt-stamp" data-idx="4" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 7</span></span><span class="tt-name">Boba on the beach</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-idx="5" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 9</span></span><span class="tt-name">Cantonese egg tarts</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-idx="6" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 13</span></span><span class="tt-name">Boba drone delivery</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-idx="7" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Silk-stocking milk tea</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="8" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Palm Court · The Langham</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="9" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">餅</span><span class="tt-date">Jul 16</span></span><span class="tt-name">The Lobby · The Peninsula</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="10" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 17</span></span><span class="tt-name">Lord Stow&#x27;s egg tarts</span><span class="tt-city">Macau</span></button><button type="button" class="tt-stamp" data-idx="11" aria-pressed="false" data-unlock="2026-07-18"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 18</span><span class="tt-lock" aria-hidden="true">🔒</span></span><span class="tt-name">Cathay lounge, HKG</span><span class="tt-city">Homebound</span></button></div>
-    </section>
-    <div id="tt-done" class="tt-done" hidden>
-      <div class="tt-done-card">
-        <button type="button" id="tt-done-x" class="tt-done-x" aria-label="Close">&times;</button>
-        <div class="bc-kicker">The pot's empty, the trip was sweet</div>
-        <div class="bc-ticket">
-          <div class="bc-shine"></div>
-          <div class="bc-stub">
-            <svg viewBox="0 0 48 64" fill="none" stroke="currentColor" stroke-width="2.4"
-                 stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-              <path d="M13 19h22l-2.4 38a3 3 0 0 1-3 2.8H18.4a3 3 0 0 1-3-2.8Z"/>
-              <path d="M11 19h26"/><path d="M30 19l5-11"/>
-              <circle cx="20" cy="52" r="2.2" fill="currentColor" stroke="none"/>
-              <circle cx="27" cy="50" r="2.2" fill="currentColor" stroke="none"/>
-              <circle cx="24" cy="56" r="2.2" fill="currentColor" stroke="none"/>
-            </svg>
-          </div>
-          <div class="bc-main">
-            <div class="bc-title">One Free Boba</div>
-            <div class="bc-zh">珍珠奶茶 &middot; 一杯</div>
-            <div class="bc-terms">Redeemable the day you land back home in Los Angeles.
-              No expiry. Refills implied.</div>
-            <div class="bc-code"></div>
-          </div>
-          <span class="bc-seal">圓滿</span>
-        </div>
-        <p class="bc-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p>
-        <button type="button" id="tt-done-close">close</button>
-      </div>
-    </div>
+  
   <h2 class="sec-h"><span>The Cities</span><span class="sec-zh">城市</span></h2>
   <div class="citygrid"><a class="citycard reveal" data-zh="台北" style="animation-delay:0.05s" href="taipei.html">
           <div class="card-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="24" y1="3" x2="24" y2="7"/><rect x="21" y="7"  width="6"  height="3"  rx="0.5"/><rect x="19" y="10" width="10" height="4"  rx="0.5"/><rect x="17" y="14" width="14" height="4"  rx="0.5"/><rect x="15" y="18" width="18" height="4"  rx="0.5"/><rect x="13" y="22" width="22" height="4"  rx="0.5"/><rect x="11" y="26" width="26" height="5"  rx="0.5"/><rect x="9"  y="31" width="30" height="3"  rx="0.5"/><line x1="9" y1="34" x2="4"  y2="45"/><line x1="39" y1="34" x2="44" y2="45"/><line x1="4"  y1="45" x2="44" y2="45"/></svg></div>

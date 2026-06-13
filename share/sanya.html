@@ -96,7 +96,10 @@ nav.cities a.active::after{transform:scaleX(1)}
 .nav-toggle.open span:nth-child(2){opacity:0}
 .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media(max-width:760px){
-  .nav-toggle{display:flex}
+  /* Keep the brand on the left and push the hamburger to the far right */
+  .masthead .wrap{flex-wrap:wrap}
+  .brand{flex:1 1 auto;min-width:0}
+  .nav-toggle{display:flex;margin-left:auto;flex:0 0 auto;order:2}
   nav.cities{display:none;flex-direction:column;gap:0;width:100%;order:3;
     margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
   nav.cities.open{display:flex}
@@ -528,6 +531,24 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .char-float.char-ico{display:inline-block;line-height:0}
 .char-float.char-ico svg{width:36px;height:36px}
 .hero-clouds{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:80px;display:block}
+
+/* ===== Full-page cinnabar background for the home page ===== */
+body.home-page{background:#9A2018}
+.home-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+  background:linear-gradient(150deg,#C5402E 0%,#A8241A 55%,#8C1C14 100%)}
+.home-bg .char-float{position:fixed}
+/* hero sits directly on the page background now (no own gradient / clouds) */
+.home-page .home-hero{background:transparent;box-shadow:none;border-bottom:none}
+.home-page .home-hero-inner{padding:46px 0 34px}
+/* loose text on the red canvas turns light for contrast (cards keep their cream) */
+.home-page .sec-h{color:#F5E2A8}
+.home-page .sec-h .sec-zh{color:#E4C76B;opacity:.9}
+.home-page .sec-h::after{background:linear-gradient(90deg,rgba(228,199,107,.65),transparent)}
+.home-page .thread-cap{color:rgba(245,225,185,.85)}
+.home-page .thread-cap .tc-zh{color:#E4C76B}
+.home-page .thread-cap::before{background:linear-gradient(90deg,#E4C76B 70%,transparent);box-shadow:0 0 0 .5px #E4C76B}
+.home-page footer{color:rgba(245,225,185,.82)}
+.home-page footer button{color:rgba(245,225,185,.7) !important}
 
 /* ===== Section heading ===== */
 .sec-h{display:flex;align-items:baseline;gap:14px;margin:46px 0 22px;
