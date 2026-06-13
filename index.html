@@ -725,23 +725,54 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
 .tea-trail-h .tt-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
   font-size:.95rem;color:var(--cinnabar)}
-.tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 20px}
+.tea-trail-sub{font-size:.86rem;color:var(--muted);margin:0 0 8px}
+.tt-progress{font-size:.78rem;color:var(--cinnabar);font-weight:700;letter-spacing:.04em;margin:0 0 18px}
 .tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
-.tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
+  background:none;border:none;padding:4px;cursor:pointer;font:inherit;
+  -webkit-tap-highlight-color:transparent}
 .tt-ring{width:86px;height:86px;border-radius:50%;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:1px;transform:rotate(-6deg)}
+  align-items:center;justify-content:center;gap:1px;transform:rotate(-6deg);
+  transition:transform .25s cubic-bezier(.2,.7,.3,1.4), background .25s, color .25s, box-shadow .25s;
+  /* uncollected: solid outline */
+  border:2.5px solid var(--cinnabar);color:var(--cinnabar);background:transparent}
 .tt-stamp:nth-child(2n) .tt-ring{transform:rotate(4deg)}
+.tt-stamp:hover .tt-ring{transform:scale(1.06) rotate(-3deg)}
 .tt-ring .tt-cha{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
   font-size:1.5rem;line-height:1;font-weight:700}
 .tt-ring .tt-date{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
-.tt-stamp.booked .tt-ring{background:var(--cinnabar);color:#FBF3E4;
-  box-shadow:0 4px 14px -6px rgba(154,32,24,.75), inset 0 0 0 2px rgba(255,255,255,.3);}
-.tt-stamp.planned .tt-ring{border:2.5px solid var(--cinnabar);color:var(--cinnabar)}
-.tt-stamp.optional .tt-ring{border:2px dashed color-mix(in srgb,var(--cinnabar) 55%,var(--line));
-  color:color-mix(in srgb,var(--cinnabar) 70%,var(--muted))}
+/* collected: filled cinnabar seal */
+.tt-stamp.collected .tt-ring{background:var(--cinnabar);color:#FBF3E4;border-color:transparent;
+  box-shadow:0 4px 14px -6px rgba(154,32,24,.75), inset 0 0 0 2px rgba(255,255,255,.3);
+  transform:scale(1) rotate(-6deg)}
+.tt-stamp.collected:nth-child(2n) .tt-ring{transform:scale(1) rotate(4deg)}
+.tt-stamp.just .tt-ring{animation:ttPop .45s cubic-bezier(.2,.7,.3,1.5)}
+@keyframes ttPop{0%{transform:scale(1.5) rotate(-8deg)}60%{transform:scale(.9) rotate(-4deg)}100%{transform:scale(1) rotate(-6deg)}}
 .tt-name{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.3}
 .tt-city{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
-.tt-stamp.booked .tt-name::after{content:' ✓';color:var(--cinnabar)}
+.tt-stamp.collected .tt-name::after{content:' ✓';color:var(--cinnabar)}
+
+/* Completion celebration overlay */
+.tt-done{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
+  background:rgba(40,24,14,.55);backdrop-filter:blur(4px);padding:20px}
+.tt-done.show .tt-done-card{animation:ttCardIn .5s cubic-bezier(.2,.7,.3,1.2) both}
+.tt-done-card{position:relative;max-width:380px;width:100%;text-align:center;
+  background:var(--card);border:1px solid var(--line);border-radius:20px;padding:40px 34px 30px;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.6)}
+@keyframes ttCardIn{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
+.tt-done-stamp{position:relative;display:flex;align-items:center;justify-content:center;height:120px;margin-bottom:6px}
+.tt-done-seal{width:104px;height:118px;border-radius:17px;background:#C03828;color:#FBF3E4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;font-weight:700;font-size:2.1rem;line-height:1.05;
+  box-shadow:0 10px 30px -8px rgba(154,32,24,.85), inset 0 0 0 2.5px rgba(255,255,255,.28);opacity:0}
+.tt-done-seal small{font-size:.62rem;letter-spacing:.2em;opacity:.85}
+.tt-done-ring{position:absolute;width:150px;height:150px;border-radius:26px;border:3px solid #C03828;opacity:0}
+.tt-done.show .tt-done-seal{animation:gateStampIn .5s cubic-bezier(.2,.7,.3,1.2) .1s forwards}
+.tt-done.show .tt-done-ring{animation:gateInkRing .9s ease-out .5s forwards}
+.tt-done-card h3{font-family:'Cormorant',serif;font-weight:600;font-size:1.7rem;color:var(--ink);margin:10px 0 8px}
+.tt-done-card p{font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin:0 0 22px}
+.tt-done-card #tt-done-close{background:#C03828;color:#fff;border:none;border-radius:10px;
+  padding:10px 22px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit}
 
 /* ===== Boarding pass ===== */
 .bpass{display:flex;align-items:stretch;margin:6px 0 20px;border-radius:14px;overflow:hidden;
@@ -987,7 +1018,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
       tilt, bullet trains and mountain metros, panda forests and tropical reefs, teahouses and night markets,       with the deep history underneath it all. We begin inland in Chengdu, climb through the vertical city of
       Chongqing, slow down on the beaches of Hainan, then trace the Pearl River Delta through Cantonese
       Guangzhou and futuristic Shenzhen before finishing where East met West: Hong Kong and Macau.</p>
-      <div class="hl-strip"><a class="hl" href="chengdu.html" style="--cat:#B0202E"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="26" r="12"/><circle cx="14" cy="14" r="4" fill="currentColor"/><circle cx="34" cy="14" r="4" fill="currentColor"/><ellipse cx="19" cy="24" rx="2.3" ry="3" fill="currentColor"/><ellipse cx="29" cy="24" rx="2.3" ry="3" fill="currentColor"/><circle cx="24" cy="30" r="1.5" fill="currentColor"/></svg></span><span class="hl-t">Giant pandas at the Chengdu research base</span></a><a class="hl" href="chongqing.html" style="--cat:#2E6F95"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 22h32"/><path d="M11 22l2 12a4 4 0 0 0 4 3h14a4 4 0 0 0 4-3l2-12"/><path d="M6 22h36"/><path d="M18 16c0-3-2-4-2-6M24 15c0-3-2-4-2-6M30 16c0-3-2-4-2-6"/></svg></span><span class="hl-t">Climb and descend a 3D city</span></a><a class="hl" href="sanya.html" style="--cat:#C9821E"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18c3-3 6-3 9 0s6 3 9 0 6-3 9 0 6 3 9 0"/><path d="M6 28c3-3 6-3 9 0s6 3 9 0 6-3 9 0 6 3 9 0"/><path d="M6 38c3-3 6-3 9 0s6 3 9 0 6-3 9 0 6 3 9 0"/></svg></span><span class="hl-t">Rest and relaxation in Sanya</span></a><a class="hl" href="guangzhou.html" style="--cat:#3E7D52"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 30h28a0 0 0 0 1 0 0 12 12 0 0 1-12 12h-4a12 12 0 0 1-12-12Z"/><path d="M16 30c0-5 3-8 8-8s8 3 8 8"/><path d="M20 22c0-3 2-5 4-5s4 2 4 5"/><path d="M24 12v3"/></svg></span><span class="hl-t">Cantonese food, with dim sum and the Canton Tower as maybes</span></a><a class="hl" href="hong-kong.html" style="--cat:#C24E8C"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="8" width="20" height="28" rx="3"/><path d="M14 16h20M14 28h20"/><path d="M24 8V4M18 40l3-4M30 40l-3-4"/><path d="M10 6h28"/></svg></span><span class="hl-t">High Tea in Hong Kong</span></a><a class="hl" href="macau.html" style="--cat:#1F8A8A"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 40V18l12-9 12 9v22"/><path d="M10 40h28"/><path d="M18 40V28h12v12"/><path d="M24 9V5M21 7h6M16 20h16"/></svg></span><span class="hl-t">Five centuries of Macau in a day</span></a></div>
+      <div class="hl-strip"><a class="hl" href="chengdu.html" style="--cat:#B0202E"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="26" r="12"/><circle cx="14" cy="14" r="4" fill="currentColor"/><circle cx="34" cy="14" r="4" fill="currentColor"/><ellipse cx="19" cy="24" rx="2.3" ry="3" fill="currentColor"/><ellipse cx="29" cy="24" rx="2.3" ry="3" fill="currentColor"/><circle cx="24" cy="30" r="1.5" fill="currentColor"/></svg></span><span class="hl-t">Giant pandas at the Chengdu research base</span></a><a class="hl" href="chongqing.html" style="--cat:#2E6F95"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 22h32"/><path d="M11 22l2 12a4 4 0 0 0 4 3h14a4 4 0 0 0 4-3l2-12"/><path d="M6 22h36"/><path d="M18 16c0-3-2-4-2-6M24 15c0-3-2-4-2-6M30 16c0-3-2-4-2-6"/></svg></span><span class="hl-t">Climb and descend a 3D city</span></a><a class="hl" href="sanya.html" style="--cat:#C9821E"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18c3-3 6-3 9 0s6 3 9 0 6-3 9 0 6 3 9 0"/><path d="M6 28c3-3 6-3 9 0s6 3 9 0 6-3 9 0 6 3 9 0"/><path d="M6 38c3-3 6-3 9 0s6 3 9 0 6-3 9 0 6 3 9 0"/></svg></span><span class="hl-t">Rest and relaxation in Sanya</span></a><a class="hl" href="guangzhou.html" style="--cat:#3E7D52"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 30h28a0 0 0 0 1 0 0 12 12 0 0 1-12 12h-4a12 12 0 0 1-12-12Z"/><path d="M16 30c0-5 3-8 8-8s8 3 8 8"/><path d="M20 22c0-3 2-5 4-5s4 2 4 5"/><path d="M24 12v3"/></svg></span><span class="hl-t">China&#x27;s Multicultural Center of Commerce</span></a><a class="hl" href="hong-kong.html" style="--cat:#C24E8C"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="8" width="20" height="28" rx="3"/><path d="M14 16h20M14 28h20"/><path d="M24 8V4M18 40l3-4M30 40l-3-4"/><path d="M10 6h28"/></svg></span><span class="hl-t">High Tea in Hong Kong</span></a><a class="hl" href="macau.html" style="--cat:#1F8A8A"><span class="hl-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 40V18l12-9 12 9v22"/><path d="M10 40h28"/><path d="M18 40V28h12v12"/><path d="M24 9V5M21 7h6M16 20h16"/></svg></span><span class="hl-t">Five centuries of Macau in a day</span></a></div>
       <div class="stats">
         <div class="stat"><span class="n">21</span><span class="l">Days on the road</span></div>
         <div class="stat"><span class="n">8</span><span class="l">Cities</span></div>
@@ -1007,11 +1038,22 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
     </section>
   <section class="tea-trail reveal">
       <h3 class="tea-trail-h"><span>The Tea &amp; Pastry Trail</span><span class="tt-zh">茶點之旅</span></h3>
-      <p class="tea-trail-sub">For Amanda: ten sweet stops, from a monk's tatami tearoom in Taipei to
-      Lord Stow's egg tarts in Macau, by way of boba on the beach and silk-stocking milk tea. Solid
-      stamps are booked; outlined ones are planned; dashed ones are yours to claim.</p>
-      <div class="tt-grid"><div class="tt-stamp optional"><div class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></div><span class="tt-name">Eighty-Eightea Rinbansyo</span><span class="tt-city">Taipei</span></div><div class="tt-stamp planned"><div class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 30</span></div><span class="tt-name">People&#x27;s Park teahouses</span><span class="tt-city">Chengdu</span></div><div class="tt-stamp planned"><div class="tt-ring"><span class="tt-cha">甜</span><span class="tt-date">Jul 4</span></div><span class="tt-name">Bingfen iced jelly</span><span class="tt-city">Chongqing</span></div><div class="tt-stamp planned"><div class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 7</span></div><span class="tt-name">Boba on the beach</span><span class="tt-city">Sanya</span></div><div class="tt-stamp planned"><div class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 9</span></div><span class="tt-name">Cantonese egg tarts</span><span class="tt-city">Guangzhou</span></div><div class="tt-stamp planned"><div class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></div><span class="tt-name">Silk-stocking milk tea</span><span class="tt-city">Hong Kong</span></div><div class="tt-stamp booked"><div class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></div><span class="tt-name">Palm Court · The Langham</span><span class="tt-city">Hong Kong</span></div><div class="tt-stamp planned"><div class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 15</span></div><span class="tt-name">Flagstaff House Tea Ware</span><span class="tt-city">Hong Kong</span></div><div class="tt-stamp booked"><div class="tt-ring"><span class="tt-cha">餅</span><span class="tt-date">Jul 16</span></div><span class="tt-name">The Lobby · The Peninsula</span><span class="tt-city">Hong Kong</span></div><div class="tt-stamp planned"><div class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 17</span></div><span class="tt-name">Lord Stow&#x27;s egg tarts</span><span class="tt-city">Macau</span></div></div>
+      <p class="tea-trail-sub">For Amanda: 11 sweet stops, from a monk's tatami tearoom in Taipei
+      to Lord Stow's egg tarts in Macau, by way of boba on the beach and a silk-stocking milk tea.
+      Tap each one as you go &mdash; fill all 11 to finish the trail.</p>
+      <div class="tt-progress"><span id="tt-count">0</span> / 11 collected</div>
+      <div class="tt-grid"><button type="button" class="tt-stamp" data-idx="0" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">Eighty-Eightea Rinbansyo</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="1" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">50 Lan bubble tea</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="2" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 30</span></span><span class="tt-name">People&#x27;s Park teahouses</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-idx="3" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">甜</span><span class="tt-date">Jul 4</span></span><span class="tt-name">Bingfen iced jelly</span><span class="tt-city">Chongqing</span></button><button type="button" class="tt-stamp" data-idx="4" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 7</span></span><span class="tt-name">Boba on the beach</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-idx="5" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 9</span></span><span class="tt-name">Cantonese egg tarts</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-idx="6" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 13</span></span><span class="tt-name">Boba drone delivery</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-idx="7" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Silk-stocking milk tea</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="8" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Palm Court · The Langham</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="9" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">餅</span><span class="tt-date">Jul 16</span></span><span class="tt-name">The Lobby · The Peninsula</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="10" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 17</span></span><span class="tt-name">Lord Stow&#x27;s egg tarts</span><span class="tt-city">Macau</span></button></div>
     </section>
+    <div id="tt-done" class="tt-done" hidden>
+      <div class="tt-done-card">
+        <div class="tt-done-stamp"><span class="tt-done-ring"></span>
+          <span class="tt-done-seal">圓滿<small>蜜月</small></span></div>
+        <h3>The cup is full.</h3>
+        <p>All 11 stops, from a tatami teahouse in Taipei to Lord Stow's last tart in Macau.
+        You tasted your way across China together &mdash; here's to refills, for the rest of your lives.</p>
+        <button type="button" id="tt-done-close">圓滿 &middot; close</button>
+      </div>
+    </div>
   <h2 class="sec-h"><span>The Cities</span><span class="sec-zh">城市</span></h2>
   <div class="citygrid"><a class="citycard reveal" data-zh="台北" style="animation-delay:0.05s" href="taipei.html">
           <div class="card-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="24" y1="3" x2="24" y2="7"/><rect x="21" y="7"  width="6"  height="3"  rx="0.5"/><rect x="19" y="10" width="10" height="4"  rx="0.5"/><rect x="17" y="14" width="14" height="4"  rx="0.5"/><rect x="15" y="18" width="18" height="4"  rx="0.5"/><rect x="13" y="22" width="22" height="4"  rx="0.5"/><rect x="11" y="26" width="26" height="5"  rx="0.5"/><rect x="9"  y="31" width="30" height="3"  rx="0.5"/><line x1="9" y1="34" x2="4"  y2="45"/><line x1="39" y1="34" x2="44" y2="45"/><line x1="4"  y1="45" x2="44" y2="45"/></svg></div>
@@ -1050,10 +1092,33 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 <footer>For Amanda, from Nate. Made with love in Los Angeles for use in China.<br><button onclick="(function(){localStorage.removeItem('hn_auth_v1');location.reload();})()" style="margin-top:10px;background:none;border:none;font-size:.75rem;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:inherit;opacity:.5">Logout</button></footer>
 <script src="assets/leaflet/leaflet.js"></script>
 <script>
+// Local-first CartoDB layer: serve baked same-origin tiles when present, fall back
+// to the CDN per-tile otherwise. Used by the timeline so its big zoom-outs are instant.
+var HMLocalFirst = L.TileLayer.extend({
+  createTile: function(coords, done){
+    var tile = document.createElement('img'), self = this;
+    tile.alt=''; tile.setAttribute('role','presentation'); tile.crossOrigin='anonymous';
+    L.DomEvent.on(tile, 'load', L.Util.bind(this._tileOnLoad, this, done, tile));
+    tile.onerror = function(){
+      if(!tile._fb){ tile._fb=1;
+        var s='abcd'[Math.abs(coords.x+coords.y)%4];
+        tile.src='https://'+s+'.basemaps.cartocdn.com/rastertiles/voyager/'+coords.z+'/'+coords.x+'/'+coords.y+'.png';
+      } else { self._tileOnError(done, tile, new Error('tile')); }
+    };
+    tile.src = self.options.localPrefix + coords.z + '/' + coords.x + '/' + coords.y + '.png';
+    return tile;
+  }
+});
+
 // hmBaseLayers(map): attach CartoDB Voyager (English, default) + Amap base layers with a switcher.
-function hmBaseLayers(map){
+// opts.localPrefix (e.g. 'tiles/') makes the default layer serve baked tiles first.
+function hmBaseLayers(map, opts){
+  opts = opts || {};
   // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
-  var osm = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  var osm = opts.localPrefix
+    ? new HMLocalFirst('', {maxZoom:19, attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
+        crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80, localPrefix:opts.localPrefix})
+    : L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
      detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
   // Gaode/Amap road tiles, no API key needed; reachable inside mainland China.
@@ -1114,6 +1179,45 @@ if(document.getElementById('routemap')){
   rmap.fitBounds(line,{padding:[55,55]});
   setTimeout(()=>rmap.invalidateSize(),80);
 }
+
+// ── Tea & Pastry Trail: tap to collect, celebrate at 100% ──
+(function(){
+  var stamps=[].slice.call(document.querySelectorAll('.tt-stamp'));
+  if(!stamps.length)return;
+  var KEY='hn_tea_v1', total=stamps.length;
+  var got={};
+  try{got=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){got={};}
+  var countEl=document.getElementById('tt-count');
+  function n(){return Object.keys(got).filter(function(k){return got[k];}).length;}
+  function paint(){
+    stamps.forEach(function(s){
+      var on=!!got[s.dataset.idx];
+      s.classList.toggle('collected',on);
+      s.setAttribute('aria-pressed',on?'true':'false');
+    });
+    if(countEl)countEl.textContent=n();
+  }
+  function celebrate(){
+    var d=document.getElementById('tt-done');if(!d)return;
+    d.hidden=false; void d.offsetWidth; d.classList.add('show');
+  }
+  stamps.forEach(function(s){
+    s.addEventListener('click',function(){
+      var i=s.dataset.idx, was=n();
+      got[i]=!got[i];
+      try{localStorage.setItem(KEY,JSON.stringify(got));}catch(e){}
+      if(got[i]){s.classList.remove('just');void s.offsetWidth;s.classList.add('just');}
+      paint();
+      if(n()===total && was<total) celebrate();
+    });
+  });
+  var close=document.getElementById('tt-done-close');
+  if(close)close.addEventListener('click',function(){
+    var d=document.getElementById('tt-done');d.classList.remove('show');
+    setTimeout(function(){d.hidden=true;},300);
+  });
+  paint();
+})();
 
 // ── Date-aware hero card: countdown → live day tracker → just married ──
 const DAYMAP = {"2026-06-28": {"city": "In the air", "slug": "timeline", "t": "Wheels up: Los Angeles to Taipei"}, "2026-06-29": {"city": "Taipei", "slug": "taipei", "t": "Teeny time in Taipei"}, "2026-06-30": {"city": "Chengdu", "slug": "chengdu", "t": "Easing into the rhythm"}, "2026-07-01": {"city": "Chengdu", "slug": "chengdu", "t": "Pandas"}, "2026-07-02": {"city": "Chengdu", "slug": "chengdu", "t": "Old & new Chengdu"}, "2026-07-03": {"city": "Chongqing", "slug": "chongqing", "t": "Wartime Capital"}, "2026-07-04": {"city": "Chongqing", "slug": "chongqing", "t": "3D City"}, "2026-07-05": {"city": "Sanya", "slug": "sanya", "t": "The honey part of the moon"}, "2026-07-06": {"city": "Sanya", "slug": "sanya", "t": "Bing Chilling"}, "2026-07-07": {"city": "Sanya", "slug": "sanya", "t": "Island time"}, "2026-07-08": {"city": "Sanya", "slug": "sanya", "t": "A few hours in Haikou"}, "2026-07-09": {"city": "Guangzhou", "slug": "guangzhou", "t": "The Cultures of Canton"}, "2026-07-10": {"city": "Guangzhou", "slug": "guangzhou", "t": "Trains and Shopping"}, "2026-07-11": {"city": "Guangzhou", "slug": "guangzhou", "t": "Museums of Guangzhou"}, "2026-07-12": {"city": "Shenzhen", "slug": "shenzhen", "t": "The Chinese Miracle"}, "2026-07-13": {"city": "Shenzhen", "slug": "shenzhen", "t": "Factory of the World"}, "2026-07-14": {"city": "Hong Kong", "slug": "hong-kong", "t": "Harbour, High Tea, and Kowloon"}, "2026-07-15": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong Island"}, "2026-07-16": {"city": "Hong Kong", "slug": "hong-kong", "t": "Into the New Territories"}, "2026-07-17": {"city": "Macau", "slug": "macau", "t": "Five centuries of Macau in one day"}, "2026-07-18": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong cleanup"}};
