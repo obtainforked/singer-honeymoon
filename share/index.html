@@ -709,6 +709,8 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
 .hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
 .hero-today a:hover{text-decoration:underline}
+.hero-today .ht-clock{flex-basis:100%;font-size:.82rem;color:#F4D9B6;opacity:.92;
+  white-space:nowrap;margin-top:2px}
 
 /* ===== Red thread caption ===== */
 .thread-cap{display:flex;align-items:center;gap:10px;margin:10px 2px 0;font-size:.84rem;
@@ -1258,30 +1260,59 @@ if(document.getElementById('routemap')){
   paint();
 })();
 
-// ── Date-aware hero card: countdown → live day tracker → just married ──
+// ── Date-aware hero card: countdown → live day tracker → just married.
+//    Always keyed to CHINA time (Asia/Shanghai) regardless of the viewer's
+//    timezone, with a live China clock so anyone checking in knows the hour there.
 const DAYMAP = {"2026-06-28": {"city": "In the air", "slug": "timeline", "t": "Wheels up: Los Angeles to Taipei"}, "2026-06-29": {"city": "Taipei", "slug": "taipei", "t": "Teeny time in Taipei"}, "2026-06-30": {"city": "Chengdu", "slug": "chengdu", "t": "Easing into the rhythm"}, "2026-07-01": {"city": "Chengdu", "slug": "chengdu", "t": "Pandas"}, "2026-07-02": {"city": "Chengdu", "slug": "chengdu", "t": "Old & new Chengdu"}, "2026-07-03": {"city": "Chongqing", "slug": "chongqing", "t": "Wartime Capital"}, "2026-07-04": {"city": "Chongqing", "slug": "chongqing", "t": "3D City"}, "2026-07-05": {"city": "Sanya", "slug": "sanya", "t": "The honey part of the moon"}, "2026-07-06": {"city": "Sanya", "slug": "sanya", "t": "Bing Chilling"}, "2026-07-07": {"city": "Sanya", "slug": "sanya", "t": "Island time"}, "2026-07-08": {"city": "Sanya", "slug": "sanya", "t": "A few hours in Haikou"}, "2026-07-09": {"city": "Guangzhou", "slug": "guangzhou", "t": "The Cultures of Canton"}, "2026-07-10": {"city": "Guangzhou", "slug": "guangzhou", "t": "Trains and Shopping"}, "2026-07-11": {"city": "Guangzhou", "slug": "guangzhou", "t": "Museums of Guangzhou"}, "2026-07-12": {"city": "Shenzhen", "slug": "shenzhen", "t": "The Chinese Miracle"}, "2026-07-13": {"city": "Shenzhen", "slug": "shenzhen", "t": "Factory of the World"}, "2026-07-14": {"city": "Hong Kong", "slug": "hong-kong", "t": "Harbour, High Tea, and Kowloon"}, "2026-07-15": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong Island"}, "2026-07-16": {"city": "Hong Kong", "slug": "hong-kong", "t": "Into the New Territories"}, "2026-07-17": {"city": "Macau", "slug": "macau", "t": "Five centuries of Macau in one day"}, "2026-07-18": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong cleanup"}};
 (function(){
   var el = document.getElementById('hero-today');
   if(!el) return;
-  // Compute "now" in China time (UTC+8) so the card flips at Chinese midnight
-  var now = new Date(Date.now() + (480 + new Date().getTimezoneOffset()) * 60000);
-  var ymd = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' +
-            String(now.getDate()).padStart(2,'0');
   var T0 = new Date('2026-06-28T00:00:00'), TEND = '2026-07-18';
-  function dayN(s) { return Math.round((new Date(s+'T00:00:00') - T0)/864e5) + 1; }
-  if (ymd < '2026-06-28') {
-    var days = Math.ceil((T0 - now)/864e5);
-    el.innerHTML = '<b>' + days + (days===1?' day':' days') + ' until takeoff</b>' +
-                   '<span class="ht-zh">出发倒计时</span>';
-  } else if (ymd <= TEND && DAYMAP[ymd]) {
-    var d = DAYMAP[ymd];
-    el.innerHTML = '<b>Day ' + dayN(ymd) + ' of 21</b><span>·</span><span>' + d.city + '</span>' +
-                   '<span>—</span><span>' + d.t + '</span>' +
-                   '<a href="' + d.slug + '.html">Open the day →</a>';
-  } else if (ymd > TEND) {
-    el.innerHTML = '<b>Just married</b><span class="ht-zh">新婚快乐 · 囍</span>';
-  } else { return; }
-  el.hidden = false;
+  function dayN(s){ return Math.round((new Date(s+'T00:00:00') - T0)/864e5) + 1; }
+  // China calendar date (YYYY-MM-DD) via the IANA zone — no manual offset math.
+  function chinaYMD(){
+    try{
+      var p={};
+      new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',
+        month:'2-digit',day:'2-digit'}).formatToParts(new Date())
+        .forEach(function(x){p[x.type]=x.value;});
+      return p.year+'-'+p.month+'-'+p.day;
+    }catch(e){ // very old browsers: fall back to a fixed +8h offset
+      var n=new Date(Date.now()+(480+new Date().getTimezoneOffset())*60000);
+      return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
+    }
+  }
+  function chinaClock(){
+    try{
+      return new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Shanghai',hour:'numeric',
+        minute:'2-digit',hour12:true}).format(new Date());
+    }catch(e){
+      var n=new Date(Date.now()+(480+new Date().getTimezoneOffset())*60000);
+      var h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0'),ap=h<12?'AM':'PM';
+      h=h%12; if(h===0)h=12; return h+':'+m+' '+ap;
+    }
+  }
+  function render(){
+    var ymd = chinaYMD(), main='', placeName='China';
+    if(ymd < '2026-06-28'){
+      var days = Math.round((T0 - new Date(ymd+'T00:00:00'))/864e5);
+      main = '<b>'+days+(days===1?' day':' days')+' until takeoff</b>'+
+             '<span class="ht-zh">出发倒计时</span>';
+    } else if(ymd <= TEND && DAYMAP[ymd]){
+      var d = DAYMAP[ymd]; placeName = d.city;
+      main = '<b>Day '+dayN(ymd)+' of 21</b><span>·</span><span>'+d.city+'</span>'+
+             '<span>—</span><span>'+d.t+'</span>'+
+             '<a href="'+d.slug+'.html">Open the day →</a>';
+    } else {
+      main = '<b>Just married</b><span class="ht-zh">新婚快乐 · 囍</span>';
+    }
+    el.innerHTML = main +
+      '<span class="ht-clock" title="Current local time in China">🕘 '+chinaClock()+
+      ' in '+placeName+'</span>';
+    el.hidden = false;
+  }
+  render();
+  setInterval(render, 30000);   // keep the China clock ticking
 })();
 </script>
 
