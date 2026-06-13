@@ -756,6 +756,8 @@ body.home-page{background:#9A2018}
 .tt-progress{font-size:.78rem;color:var(--cinnabar);font-weight:700;letter-spacing:.04em;margin:0 0 18px}
 .tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
 @media(max-width:560px){.tt-grid{grid-template-columns:repeat(2,1fr)}}
+/* the final (Cathay) stamp sits alone, centered, on its own bottom row */
+.tt-grid .tt-final{grid-column:1/-1;justify-self:center}
 .tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
   background:none;border:none;padding:4px;cursor:pointer;font:inherit;
   -webkit-tap-highlight-color:transparent}
