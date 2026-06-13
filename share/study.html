@@ -35,7 +35,7 @@ a{color:var(--cinnabar);text-underline-offset:2px}
 
 /* ===== Masthead ===== */
 header.masthead{
-  position:sticky;top:0;z-index:1000;
+  position:sticky;top:0;z-index:2000;
   background:rgba(252,247,236,.82);backdrop-filter:blur(12px) saturate(1.2);
   border-bottom:1px solid var(--line);
   box-shadow:0 1px 0 rgba(255,255,255,.6), 0 8px 30px -20px rgba(60,38,20,.4);
@@ -140,15 +140,21 @@ nav.cities a.active::after{transform:scaleX(1)}
 /* ===== Layout ===== */
 .layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start;padding-bottom:70px}
 @media(max-width:900px){
-  .layout{grid-template-columns:1fr}
-  /* On mobile, show the map first, then the day's stops below it */
-  .layout .map-col{order:-1}
+  /* Flex column (not grid) so the sticky map's containing block is the whole
+     layout, letting it stay pinned while the stops scroll beneath it. */
+  .layout{display:flex;flex-direction:column}
+  .layout .map-col{order:-1;position:sticky;top:54px;z-index:50;
+    background:var(--paper);padding-bottom:8px;margin:0 -4px 4px;
+    box-shadow:0 8px 12px -8px rgba(60,38,20,.35)}
   .layout .itinerary{order:1}
 }
 #map{height:600px;border-radius:14px;position:sticky;top:88px;
   box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);
   outline:1px solid var(--line);overflow:hidden}
-@media(max-width:900px){#map{position:relative;top:0;height:360px}}
+@media(max-width:900px){
+  #map{position:relative;top:0;height:34vh;min-height:190px;max-height:300px}
+  .map-col .map-cap{display:none}
+}
 .map-frame{position:relative;border-radius:14px;overflow:hidden}
 .map-frame::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;
   box-shadow:inset 0 0 0 4px rgba(192,57,43,.0), inset 0 0 30px rgba(60,38,20,.12)}
@@ -339,7 +345,9 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
   background:var(--card);border:1px solid var(--line)}
 .leaflet-popup-content{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif;margin:11px 14px;font-size:.86rem;color:var(--ink)}
 .leaflet-popup-tip{background:var(--card)}
-.leaflet-container{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif}
+/* Warm parchment under the tiles so streaming/zoom gaps blend instead of flashing grey */
+.leaflet-container{font-family:'NotoSC',"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  background:#e9e2d2}
 .leaflet-bar a{border-radius:4px}
 
 /* ===== Day sub-tabs ===== */
@@ -391,7 +399,6 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 
 /* ===== Sticky map column ===== */
 .map-col{position:sticky;top:88px;align-self:start}
-@media(max-width:900px){.map-col{position:relative;top:0}}
 .map-col.hidden{display:none}
 .map-cap{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);
   letter-spacing:.04em}
@@ -776,6 +783,32 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 .wx-strip svg{flex:0 0 20px;width:20px;height:20px;color:var(--gold);margin-top:1px}
 .wx-strip b{color:var(--ink)}
 
+/* ===== Pointer-day card (a day spent in another city's tab) ===== */
+.pointer-card{display:flex;align-items:center;gap:20px;margin:8px 0 10px;padding:26px 28px;
+  border-radius:16px;background:var(--card);border:1px solid var(--line);
+  border-left:5px solid var(--cat,var(--cinnabar));box-shadow:var(--shadow);
+  text-decoration:none;transition:transform .18s, box-shadow .18s}
+.pointer-card:hover{transform:translateY(-2px);
+  box-shadow:var(--shadow),0 12px 26px -16px color-mix(in srgb,var(--cat,var(--cinnabar)) 70%,transparent)}
+.pointer-card .pc-ico{flex:0 0 64px;width:64px;height:64px;color:var(--cat,var(--cinnabar));
+  display:flex;align-items:center;justify-content:center}
+.pointer-card .pc-ico svg{width:56px;height:56px}
+.pointer-card .pc-body{display:flex;flex-direction:column;gap:2px}
+.pointer-card .pc-zh2{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
+  font-size:1rem;color:var(--cat,var(--cinnabar))}
+.pointer-card .pc-title{font-family:'Cormorant',serif;font-weight:700;font-size:1.7rem;
+  color:var(--ink);line-height:1.1}
+.pointer-card .pc-go{font-size:.84rem;font-weight:700;color:var(--cat,var(--cinnabar));margin-top:6px}
+.pointer-card:hover .pc-go{text-decoration:underline}
+
+/* Keep tapped stops clear of the pinned mobile map */
+@media(max-width:900px){.stop{scroll-margin-top:38vh}}
+
+/* Getting Around: final "home" arrival marker */
+.leg-home .leg-mode{color:var(--cinnabar)}
+.leg-home .leg-route{color:var(--cinnabar)}
+.leg-home .leg-detail{font-style:italic}
+
 /* ===== City crest watermark (hero keeps its overflow:hidden clip) ===== */
 .crest-mark{position:absolute;right:14px;bottom:2px;pointer-events:none;color:var(--cinnabar);
   opacity:.1;transform:rotate(-5deg)}
@@ -859,7 +892,7 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 </div>
 <script>
 (function(){
-  var HASH = '28f60e14072c2d5a07f06df42452be673f65b8717ec271a21beae625c605d6af';
+  var HASH = '168a1ca55b2b5711dd0cbe2028b28a9b06b92d3e8c15bd2b2400cecc469cd2ad';
   var KEY  = 'hn_auth_v1';
   async function sha256(s){
     var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
