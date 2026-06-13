@@ -380,26 +380,6 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 
 .panel.show .day-route{animation:cardIn .5s cubic-bezier(.2,.7,.3,1) both}
 @media (prefers-reduced-motion:reduce){.panel.active .stop,.panel.show .day-route{animation:none}}
-@media (prefers-color-scheme:dark){
-:root{
-  --paper:#16161d;--paper-2:#1e1e27;--ink:#e8e4da;--ink-soft:#b8b3a6;
-  --cinnabar:#e05545;--cinnabar-deep:#c94030;
-  --card:#1a1a24;--line:rgba(255,255,255,.09);--muted:#7a7568;
-  --gold:#c9a02a;--gold-soft:#a07820;
-  --shadow:24px 30px 60px -28px rgba(0,0,0,.7);
-}
-body{background:var(--paper);color:var(--ink)}
-.stop,.panel,.citycard,.food-card,.food-entry-card,.study-block,.china-collapse,
-.legend,.summary,.journey,.era-card,.offnote,.chain-card,.city-fact-card{
-  background:var(--card);border-color:var(--line)}
-.tag{background:rgba(255,255,255,.06)}
-.day-route{background:#1a1a22;border-color:var(--line)}
-.netizen,.food-card-netizen,.food-entry-netizen{background:rgba(255,255,255,.04)}
-.stop-protip{background:rgba(224,85,69,.08)}
-.leaflet-tile{filter:brightness(.7) contrast(1.1)}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);border-color:var(--line)}
-header.masthead{background:rgba(22,22,29,.9)}
-}
 
 .day-strip{display:flex;gap:14px;font-size:.8rem;color:#8a8a8a;margin:2px 0 6px}
 .day-strip .strip-book{color:var(--cinnabar);font-weight:600}
