@@ -765,11 +765,15 @@ footer code{background:var(--paper-2);padding:1px 6px;border-radius:4px;font-siz
 
 /* Completion celebration: a screenshottable free-boba coupon (above the gate) */
 .tt-done{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;
-  background:rgba(40,24,14,.55);backdrop-filter:blur(4px);padding:20px}
+  background:rgba(40,24,14,.55);backdrop-filter:blur(4px);padding:20px;overflow-y:auto;cursor:pointer}
 .tt-done.show .tt-done-card{animation:ttCardIn .5s cubic-bezier(.2,.7,.3,1.2) both}
-.tt-done-card{position:relative;max-width:400px;width:100%;text-align:center;
+.tt-done-card{position:relative;max-width:400px;width:100%;text-align:center;cursor:default;
   background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px 28px 24px;
   box-shadow:0 30px 70px -30px rgba(0,0,0,.6)}
+.tt-done-x{position:absolute;top:8px;right:10px;width:34px;height:34px;border:none;background:none;
+  font-size:1.7rem;line-height:1;color:var(--muted);cursor:pointer;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;z-index:2}
+.tt-done-x:hover{background:color-mix(in srgb,var(--cinnabar) 12%,transparent);color:var(--cinnabar)}
 @keyframes ttCardIn{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
 .bc-kicker{font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink);
   line-height:1.2;margin:0 0 18px}
