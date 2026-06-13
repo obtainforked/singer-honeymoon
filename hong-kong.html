@@ -1451,14 +1451,13 @@ function activate(tab){
     mapCol.classList.remove('hidden');document.querySelector('.layout').classList.remove('no-map');
     document.querySelector('.layout').classList.remove('full-width');
     const di=parseInt(tab.replace('d',''),10);
-    // map lives in a column that may have been display:none; invalidate after
-    // the browser has applied layout, then fit. Multiple ticks cover slow reflow.
-    requestAnimationFrame(()=>{
-      if(typeof initDayMap==='function') initDayMap();
-      fitDay(di);
-      setTimeout(()=>{if(map)map.invalidateSize();},120);
-      setTimeout(()=>{if(map){map.invalidateSize();fitDay(di);}},320);
-    });
+    // map lives in a column that may have been display:none; init now (do NOT gate
+    // behind requestAnimationFrame — mobile browsers pause rAF when backgrounded /
+    // offscreen, which left the map uninitialised), then invalidate after reflow.
+    if(typeof initDayMap==='function') initDayMap();
+    fitDay(di);
+    setTimeout(()=>{if(map)map.invalidateSize();},60);
+    setTimeout(()=>{if(map){map.invalidateSize();fitDay(di);}},260);
     const btn=tabBtns.find(b=>b.dataset.tab===tab);
     capEl.textContent=btn?btn.textContent.trim()+'. '+PTS.filter(p=>p.dayIndex===di).length+' stops':'';
   }
