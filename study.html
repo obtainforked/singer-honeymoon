@@ -95,9 +95,13 @@ nav.cities a.active::after{transform:scaleX(1)}
 .nav-toggle.open span:nth-child(2){opacity:0}
 .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 @media(max-width:760px){
-  /* Keep the brand on the left and push the hamburger to the far right */
-  .masthead .wrap{flex-wrap:wrap}
-  .brand{flex:1 1 auto;min-width:0}
+  /* Keep the brand and hamburger together on one line: shrink the wordmark so the
+     title stays on a single line with the toggle beside it. */
+  .masthead .wrap{flex-wrap:wrap;gap:8px}
+  .brand{flex:1 1 auto;min-width:0;gap:9px}
+  .brand .seal{width:30px;height:36px;font-size:.85rem}
+  .brand .brand-en{font-size:1.05rem;white-space:nowrap}
+  .brand .brand-sub{font-size:.62rem;letter-spacing:.14em}
   .nav-toggle{display:flex;margin-left:auto;flex:0 0 auto;order:2}
   nav.cities{display:none;flex-direction:column;gap:0;width:100%;order:3;
     margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
