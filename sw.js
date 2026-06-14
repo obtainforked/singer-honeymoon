@@ -1,4 +1,4 @@
-const CACHE = 'honeymoon-2026-07-v3';
+const CACHE = 'honeymoon-2026-07-v4';
 const PRECACHE = ["index.html", "study.html", "timeline.html", "prep.html", "taipei.html", "chengdu.html", "chongqing.html", "sanya.html", "guangzhou.html", "shenzhen.html", "hong-kong.html", "macau.html", "manifest.webmanifest", "assets/icons/icon-192.png", "assets/icons/icon-512.png", "assets/icons/icon-maskable-512.png", "assets/icons/apple-touch-icon.png"];
 self.addEventListener('install', e => {
   self.skipWaiting();

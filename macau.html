@@ -939,6 +939,19 @@ body.home-page{background:#9A2018}
 .stop-nav a::before{content:'\2197';font-size:.85em}
 .stop-nav a:hover{background:color-mix(in srgb,var(--cat,var(--cinnabar)) 9%,transparent)}
 
+/* ===== Metro quick-reference ===== */
+.stop-metro{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:6px 0 2px;
+  font-size:.78rem;color:var(--ink-soft)}
+.stop-metro .metro-ico{flex:0 0 17px;width:17px;height:17px;color:var(--cat,var(--cinnabar))}
+.stop-metro .metro-station{font-weight:700;color:var(--ink)}
+.stop-metro .metro-line{background:var(--paper-2);border:1px solid var(--line);
+  border-radius:20px;padding:1px 9px;font-weight:600;font-size:.72rem;color:var(--ink)}
+.stop-metro .metro-exit{background:color-mix(in srgb,var(--cat,var(--cinnabar)) 12%,var(--paper-2));
+  border:1px solid color-mix(in srgb,var(--cat,var(--cinnabar)) 35%,var(--line));
+  border-radius:20px;padding:1px 9px;font-weight:600;font-size:.72rem;color:var(--cat,var(--cinnabar))}
+.stop-metro .metro-walk{color:var(--muted);font-size:.72rem}
+.stop-metro .metro-walk::before{content:'\1F6B6';margin-right:3px;font-size:.9em}
+
 /* ===== "Open now?" badge ===== */
 .open-badge{display:none;align-items:center;gap:4px;font-size:.7rem;font-weight:700;
   padding:2px 9px;border-radius:30px;white-space:nowrap}
