@@ -915,6 +915,25 @@ body.home-page{background:#9A2018}
   opacity:.1;transform:rotate(-5deg)}
 .crest-mark svg{width:170px;height:170px}
 @media(max-width:700px){.crest-mark svg{width:110px;height:110px}.crest-mark{right:4px}}
+
+/* ===== Tap-to-navigate links on each stop ===== */
+.stop-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 2px;font-size:.78rem}
+.stop-nav .nav-label{color:var(--muted);font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;font-size:.66rem}
+.stop-nav a{display:inline-flex;align-items:center;gap:5px;text-decoration:none;
+  color:var(--cat,var(--cinnabar));font-weight:600;
+  border:1px solid color-mix(in srgb,var(--cat,var(--cinnabar)) 35%,var(--line));
+  border-radius:30px;padding:3px 11px;transition:background .15s}
+.stop-nav a::before{content:'\2197';font-size:.85em}
+.stop-nav a:hover{background:color-mix(in srgb,var(--cat,var(--cinnabar)) 9%,transparent)}
+
+/* ===== "Open now?" badge ===== */
+.open-badge{display:none;align-items:center;gap:4px;font-size:.7rem;font-weight:700;
+  padding:2px 9px;border-radius:30px;white-space:nowrap}
+.open-badge.show{display:inline-flex}
+.open-badge.is-open{color:#2a5c39;background:color-mix(in srgb,#3E7D52 14%,transparent)}
+.open-badge.is-soon{color:#7a4200;background:color-mix(in srgb,#C9821E 16%,transparent)}
+.open-badge.is-closed{color:#8a7d6d;background:color-mix(in srgb,#8a7d6d 14%,transparent)}
 </style></head><body class="home-page">
 <div class="home-bg" aria-hidden="true">
   <span class="char-float" style="left:8%;font-size:3.5rem;animation-delay:0s;animation-duration:11s">蜜</span>
