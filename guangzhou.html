@@ -934,7 +934,19 @@ body.home-page{background:#9A2018}
 .open-badge.is-open{color:#2a5c39;background:color-mix(in srgb,#3E7D52 14%,transparent)}
 .open-badge.is-soon{color:#7a4200;background:color-mix(in srgb,#C9821E 16%,transparent)}
 .open-badge.is-closed{color:#8a7d6d;background:color-mix(in srgb,#8a7d6d 14%,transparent)}
-</style></head><body>
+</style><link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#C0392B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Honeymoon">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',function(){
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+});}
+</script>
+</head><body>
 
 <div id="gate" style="
   position:fixed;inset:0;z-index:99999;
