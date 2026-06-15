@@ -746,6 +746,24 @@ body.home-page{background:#9A2018}
 .thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
   font-style:normal;color:var(--cinnabar)}
 
+/* ===== Passport teaser (home) ===== */
+.pp-teaser{margin:34px 0}
+.pp-teaser-card{display:flex;align-items:center;gap:22px;background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:24px 26px;box-shadow:var(--shadow);
+  text-decoration:none;transition:transform .18s,box-shadow .18s}
+.pp-teaser-card:hover{transform:translateY(-2px);box-shadow:var(--shadow),0 14px 30px -18px var(--cinnabar)}
+.pp-teaser-seals{flex:0 0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.pp-tz{width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--cinnabar);color:var(--cinnabar);border-radius:8px;
+  font-family:"Songti SC","Noto Serif CJK SC",serif;font-size:1.1rem}
+.pp-tz:nth-child(2n){transform:rotate(-4deg)}.pp-tz:nth-child(3n){transform:rotate(3deg)}
+.pp-teaser-body h3{display:flex;align-items:baseline;gap:10px;margin:0 0 6px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.pp-teaser-body h3 .tt-zh{font-family:"Songti SC","Noto Serif CJK SC",serif;font-size:.95rem;color:var(--cinnabar)}
+.pp-teaser-body p{font-size:.86rem;color:var(--ink-soft);margin:0 0 8px;line-height:1.55}
+.pp-teaser-go{font-size:.84rem;font-weight:700;color:var(--cinnabar);letter-spacing:.02em}
+@media(max-width:560px){.pp-teaser-card{flex-direction:column;text-align:center}}
+
 /* ===== High Tea Trail ===== */
 .tea-trail{background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:26px 28px;margin:34px 0;box-shadow:var(--shadow)}
@@ -1119,7 +1137,8 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){
       </div>
       <a href="prep.html" class="prep-link">Prep</a>
       <a href="study.html" class="prep-link">Study</a>
-      <a href="timeline.html" class="prep-link">Timeline</a></nav>
+      <a href="timeline.html" class="prep-link">Timeline</a>
+      <a href="passport.html" class="prep-link">Passport</a></nav>
     </div>
     <script>(function(){document.addEventListener('click',function(e){
       var a=e.target.closest('nav.cities a');if(!a)return;
@@ -1156,43 +1175,18 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){
       <h3 class="journey-h"><span>Getting Around</span><span class="journey-zh">交通</span></h3>
       <ol class="legs"><li class="leg reveal" style="animation-delay:0.00s"><span class="leg-date">Jun 28</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Los Angeles <span class="leg-arrow">→</span> Taipei</span><span class="leg-detail">EVA Air BR 11 · 12:15 AM – 5:10 AM (+1) · 13h 55m</span></span></li><li class="leg reveal" style="animation-delay:0.04s"><span class="leg-date">Jun 29</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Taipei <span class="leg-arrow">→</span> Chengdu</span><span class="leg-detail">EVA Air BR 765 · 2:30 PM – 6:05 PM · 3h 35m</span></span></li><li class="leg reveal" style="animation-delay:0.08s"><span class="leg-date">Jul 3</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Chengdu <span class="leg-arrow">→</span> Chongqing</span><span class="leg-detail">High-speed rail · Chengdu East → Chongqing North · ~1h 15m</span></span></li><li class="leg reveal" style="animation-delay:0.12s"><span class="leg-date">Jul 5</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Chongqing <span class="leg-arrow">→</span> Sanya</span><span class="leg-detail">China Southern CZ 2331 · 11:05 AM – 1:20 PM · 2h 15m</span></span></li><li class="leg reveal" style="animation-delay:0.16s"><span class="leg-date">Jul 8</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Sanya <span class="leg-arrow">→</span> Haikou</span><span class="leg-detail">High-speed rail · Sanya → Haikou East · ~1h 40m</span></span></li><li class="leg reveal" style="animation-delay:0.20s"><span class="leg-date">Jul 8</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Haikou <span class="leg-arrow">→</span> Guangzhou</span><span class="leg-detail">Z502 overnight sleeper · 8:20 PM – 8:05 AM (+1) · rail ferry crossing · 11h 45m</span></span></li><li class="leg reveal" style="animation-delay:0.24s"><span class="leg-date">Jul 12</span><span class="leg-mode" title="High-speed rail"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="8" width="22" height="26" rx="4"/><path d="M13 22h22"/><circle cx="19" cy="28" r="1.6" fill="currentColor"/><circle cx="29" cy="28" r="1.6" fill="currentColor"/><path d="M16 40l4-5M32 40l-4-5"/></svg></span><span class="leg-body"><span class="leg-route">Guangzhou <span class="leg-arrow">→</span> Hong Kong</span><span class="leg-detail">High-speed rail · Guangzhou → Shenzhen → Hong Kong West Kowloon · ~1h</span></span></li><li class="leg reveal" style="animation-delay:0.28s"><span class="leg-date">Jul 17</span><span class="leg-mode" title="Ferry"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 30h32l-4 8H12l-4-8Z"/><path d="M24 30V14"/><path d="M24 14l10 5-10 4"/><path d="M6 40c3-2 5-2 8 0s5 2 8 0 5-2 8 0 5 2 8 0"/></svg></span><span class="leg-body"><span class="leg-route">Hong Kong <span class="leg-arrow">→</span> Macau</span><span class="leg-detail">TurboJET ferry from Sheung Wan to Macau Outer Harbour Terminal · ~1h</span></span></li><li class="leg reveal" style="animation-delay:0.32s"><span class="leg-date">Jul 17</span><span class="leg-mode" title="Bridge bus"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="11" y="8" width="26" height="28" rx="5"/><path d="M11 14h26M11 26h26"/><circle cx="18" cy="31" r="1.6" fill="currentColor"/><circle cx="30" cy="31" r="1.6" fill="currentColor"/><circle cx="17" cy="39" r="2.5"/><circle cx="31" cy="39" r="2.5"/></svg></span><span class="leg-body"><span class="leg-route">Macau <span class="leg-arrow">→</span> Hong Kong</span><span class="leg-detail">HZMB express bus from the Venetian, across the world&#x27;s longest sea crossing · ~1h 40m</span></span></li><li class="leg reveal" style="animation-delay:0.36s"><span class="leg-date">Jul 19</span><span class="leg-mode" title="Flight"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg></span><span class="leg-body"><span class="leg-route">Hong Kong <span class="leg-arrow">→</span> Los Angeles</span><span class="leg-detail">Cathay Pacific CX 880 · 12:05 AM – 10:35 PM (−1) · 13h 30m</span></span></li><li class="leg leg-home reveal"><span class="leg-date">Jul 18</span><span class="leg-mode" title="Home"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 23 24 9l16 14"/><path d="M12 20v18h8V28h8v10h8V20"/></svg></span><span class="leg-body"><span class="leg-route">Los Angeles</span><span class="leg-detail">Arrive home just before midnight, via a bit of time travel</span></span></li></ol>
     </section>
-  <section class="tea-trail reveal">
-      <h3 class="tea-trail-h"><span>The Tea &amp; Pastry Trail</span><span class="tt-zh">茶點之旅</span></h3>
-      <p class="tea-trail-sub">For Amanda: 11 sweet stops, from a monk's tatami tearoom in Taipei
-      to one last tart in the Cathay lounge. Tap each one as you go &mdash; the final stamp stays locked
-      🔒 until you're homeward bound. Fill all 11 to finish the trail.</p>
-      <div class="tt-progress"><span id="tt-count">0</span> / 11 collected</div>
-      <div class="tt-grid"><button type="button" class="tt-stamp" data-idx="0" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">50 Lan bubble tea</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-idx="1" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 30</span></span><span class="tt-name">People&#x27;s Park teahouses</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-idx="2" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">甜</span><span class="tt-date">Jul 4</span></span><span class="tt-name">Bingfen iced jelly</span><span class="tt-city">Chongqing</span></button><button type="button" class="tt-stamp" data-idx="3" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 7</span></span><span class="tt-name">Boba on the beach</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-idx="4" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 9</span></span><span class="tt-name">Cantonese egg tarts</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-idx="5" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 13</span></span><span class="tt-name">Boba drone delivery</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-idx="6" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Silk-stocking milk tea</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="7" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Palm Court · The Langham</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="8" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">餅</span><span class="tt-date">Jul 16</span></span><span class="tt-name">The Lobby · The Peninsula</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-idx="9" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 17</span></span><span class="tt-name">Lord Stow&#x27;s egg tarts</span><span class="tt-city">Macau</span></button><button type="button" class="tt-stamp tt-final" data-idx="10" aria-pressed="false" data-unlock="2026-07-18"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 18</span><span class="tt-lock" aria-hidden="true">🔒</span></span><span class="tt-name">Cathay lounge, HKG</span><span class="tt-city">Homebound</span></button></div>
-    </section>
-    <div id="tt-done" class="tt-done" hidden>
-      <div class="tt-done-card">
-        <button type="button" id="tt-done-x" class="tt-done-x" aria-label="Close">&times;</button>
-        <div class="bc-kicker">The pot's empty, the trip was sweet</div>
-        <div class="bc-ticket">
-          <div class="bc-shine"></div>
-          <div class="bc-stub">
-            <svg viewBox="0 0 48 64" fill="none" stroke="currentColor" stroke-width="2.4"
-                 stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-              <path d="M13 19h22l-2.4 38a3 3 0 0 1-3 2.8H18.4a3 3 0 0 1-3-2.8Z"/>
-              <path d="M11 19h26"/><path d="M30 19l5-11"/>
-              <circle cx="20" cy="52" r="2.2" fill="currentColor" stroke="none"/>
-              <circle cx="27" cy="50" r="2.2" fill="currentColor" stroke="none"/>
-              <circle cx="24" cy="56" r="2.2" fill="currentColor" stroke="none"/>
-            </svg>
-          </div>
-          <div class="bc-main">
-            <div class="bc-title">One Free Boba</div>
-            <div class="bc-zh">珍珠奶茶 &middot; 一杯</div>
-            <div class="bc-terms">Redeemable the day you land back home in Los Angeles.
-              No expiry. Refills implied.</div>
-            <div class="bc-code"></div>
-          </div>
-          <span class="bc-seal">圓滿</span>
+  <section class="pp-teaser reveal">
+      <a class="pp-teaser-card" href="passport.html">
+        <div class="pp-teaser-seals" aria-hidden="true"><span class="pp-tz">圓滿</span><span class="pp-tz">達</span><span class="pp-tz">萌</span><span class="pp-tz">史</span><span class="pp-tz">園</span><span class="pp-tz">學</span></div>
+        <div class="pp-teaser-body">
+          <h3>The Passport<span class="tt-zh">蓋章集印</span></h3>
+          <p>6 stamp books to collect as you travel &mdash; tea &amp; pastries, the ways you
+          traveled, creatures spotted, the eras of China, gardens, and museums. Fill each book to earn
+          its seal and a real prize waiting back home.</p>
+          <span class="pp-teaser-go">Open your passport &rarr;</span>
         </div>
-        <p class="bc-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p>
-        <button type="button" id="tt-done-close">close</button>
-      </div>
-    </div>
+      </a>
+    </section>
   <h2 class="sec-h"><span>The Cities</span><span class="sec-zh">城市</span></h2>
   <div class="citygrid"><a class="citycard reveal" data-zh="台北" style="animation-delay:0.05s" href="taipei.html">
           <div class="card-ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="24" y1="3" x2="24" y2="7"/><rect x="21" y="7"  width="6"  height="3"  rx="0.5"/><rect x="19" y="10" width="10" height="4"  rx="0.5"/><rect x="17" y="14" width="14" height="4"  rx="0.5"/><rect x="15" y="18" width="18" height="4"  rx="0.5"/><rect x="13" y="22" width="22" height="4"  rx="0.5"/><rect x="11" y="26" width="26" height="5"  rx="0.5"/><rect x="9"  y="31" width="30" height="3"  rx="0.5"/><line x1="9" y1="34" x2="4"  y2="45"/><line x1="39" y1="34" x2="44" y2="45"/><line x1="4"  y1="45" x2="44" y2="45"/></svg></div>
@@ -1319,80 +1313,7 @@ if(document.getElementById('routemap')){
   setTimeout(()=>{rmap.invalidateSize();rmap.fitBounds(line,{padding:[22,22]});},80);
 }
 
-// ── Tea & Pastry Trail: tap to collect, celebrate at 100% ──
-(function(){
-  var stamps=[].slice.call(document.querySelectorAll('.tt-stamp'));
-  if(!stamps.length)return;
-  var KEY='hn_tea_v1', total=stamps.length;
-  var got={};
-  try{got=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){got={};}
-  var countEl=document.getElementById('tt-count');
-  var progEl=document.querySelector('.tt-progress');
-  var progBase=progEl?progEl.innerHTML:'';
-  function chinaYMD(){
-    try{var p={};new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',
-      year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date())
-      .forEach(function(x){p[x.type]=x.value;});return p.year+'-'+p.month+'-'+p.day;}
-    catch(e){var n=new Date(Date.now()+(480+new Date().getTimezoneOffset())*60000);
-      return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
-  }
-  function locked(s){var u=s.dataset.unlock;return !!u && chinaYMD() < u;}
-  function n(){return Object.keys(got).filter(function(k){return got[k];}).length;}
-  function paint(){
-    stamps.forEach(function(s){
-      var lk=locked(s);
-      if(lk) got[s.dataset.idx]=false;        // can't hold a locked stamp collected
-      var on=!!got[s.dataset.idx];
-      s.classList.toggle('locked',lk);
-      s.classList.toggle('collected',on);
-      s.setAttribute('aria-pressed',on?'true':'false');
-      s.setAttribute('aria-disabled',lk?'true':'false');
-    });
-    if(countEl)countEl.textContent=n();
-  }
-  function celebrate(){
-    var d=document.getElementById('tt-done');if(!d)return;
-    d.hidden=false; void d.offsetWidth; d.classList.add('show');
-  }
-  var hintT=null;
-  function hint(msg){
-    if(!progEl)return;
-    progEl.textContent=msg;
-    clearTimeout(hintT);
-    hintT=setTimeout(function(){
-      progEl.innerHTML=progBase;
-      countEl=document.getElementById('tt-count');
-      paint();
-    },2600);
-  }
-  stamps.forEach(function(s){
-    s.addEventListener('click',function(){
-      if(locked(s)){ hint('That one unlocks on your way home ✈'); return; }
-      var i=s.dataset.idx, was=n();
-      got[i]=!got[i];
-      try{localStorage.setItem(KEY,JSON.stringify(got));}catch(e){}
-      if(got[i]){s.classList.remove('just');void s.offsetWidth;s.classList.add('just');}
-      paint();
-      if(n()===total && was<total) celebrate();
-    });
-  });
-  function dismiss(){
-    var d=document.getElementById('tt-done');if(!d)return;
-    d.classList.remove('show');
-    setTimeout(function(){d.hidden=true;},300);
-  }
-  // Dismiss via delegation (works regardless of attach timing): the close button,
-  // the corner ×, a tap on the dark backdrop, or the Esc key.
-  document.addEventListener('click',function(e){
-    var d=document.getElementById('tt-done');
-    if(!d||d.hidden)return;
-    if(e.target===d || (e.target.closest && e.target.closest('#tt-done-close,#tt-done-x'))) dismiss();
-  });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') dismiss(); });
-  paint();
-  // re-check the lock so the final stamp opens up the moment departure day arrives
-  setInterval(paint, 60000);
-})();
+// (The Tea & Pastry Trail moved into the Passport page; the home page now links to it.)
 
 // ── Date-aware hero card: countdown → live day tracker → just married.
 //    Always keyed to CHINA time (Asia/Shanghai) regardless of the viewer's

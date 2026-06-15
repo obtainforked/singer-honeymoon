@@ -2,8 +2,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
-<title>Taipei &middot; The Singer Honeymoon</title>
-<link rel="stylesheet" href="assets/leaflet/leaflet.css">
+<title>Passport &middot; The Singer Honeymoon</title>
 <style>
 /* ===== Fonts (vendored, offline) ===== */
 @font-face{font-family:'Cormorant';src:url('assets/fonts/cormorant-600.woff2') format('woff2');font-weight:600;font-display:swap}
@@ -977,7 +976,65 @@ body.home-page{background:#9A2018}
 .open-badge.is-open{color:#2a5c39;background:color-mix(in srgb,#3E7D52 14%,transparent)}
 .open-badge.is-soon{color:#7a4200;background:color-mix(in srgb,#C9821E 16%,transparent)}
 .open-badge.is-closed{color:#8a7d6d;background:color-mix(in srgb,#8a7d6d 14%,transparent)}
-</style><link rel="manifest" href="manifest.webmanifest">
+</style>
+<style>
+.pp-intro{font-size:.95rem;color:var(--ink-soft);max-width:64ch;margin:6px 0 22px;line-height:1.6}
+.pp-covers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 34px}
+@media(max-width:620px){.pp-covers{grid-template-columns:repeat(2,1fr)}}
+.pp-cover{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 10px;
+  text-decoration:none;transition:transform .15s,box-shadow .15s}
+.pp-cover:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.pp-cover-seal{width:52px;height:52px;display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--muted);color:var(--muted);border-radius:12px;
+  font-family:'Songti SC','Noto Serif CJK SC',serif;font-size:1.7rem;opacity:.5;transition:.25s}
+.pp-cover.earned .pp-cover-seal{border-color:transparent;background:var(--cinnabar);color:#FBF3E4;
+  opacity:1;box-shadow:0 6px 16px -6px var(--cinnabar);transform:rotate(-4deg)}
+.pp-cover-name{font-size:.82rem;font-weight:600;color:var(--ink);line-height:1.2}
+.pp-cover-prog{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.pp-cover.earned .pp-cover-prog{color:var(--cinnabar);font-weight:700}
+.pbook{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;
+  margin:0 0 22px;position:relative;overflow:hidden}
+.pbook.sealed{border-color:color-mix(in srgb,var(--cinnabar) 45%,var(--line))}
+.pb-head{display:flex;align-items:flex-start;gap:16px;justify-content:space-between}
+.pb-head h2{margin:0;font-size:1.35rem;color:var(--ink);display:flex;align-items:baseline;gap:9px}
+.pb-zh{font-family:'Songti SC','Noto Serif CJK SC',serif;color:var(--cinnabar);font-size:1.1rem}
+.pb-theme{margin:6px 0 0;font-size:.86rem;color:var(--ink-soft);line-height:1.55;max-width:60ch}
+.pb-seal{flex:0 0 auto;width:58px;height:58px;display:flex;align-items:center;justify-content:center;
+  border:2px dashed var(--line);color:var(--muted);border-radius:12px;opacity:.4;
+  font-family:'Songti SC','Noto Serif CJK SC',serif;font-size:1.9rem;transition:.3s}
+.pbook.sealed .pb-seal{border-style:solid;border-color:transparent;background:var(--cinnabar);
+  color:#FBF3E4;opacity:1;transform:rotate(-5deg);box-shadow:0 8px 20px -8px var(--cinnabar)}
+.pb-progress{display:flex;align-items:center;gap:12px;margin:14px 0 18px}
+.pb-bar{flex:1;height:7px;background:var(--paper-2);border-radius:20px;overflow:hidden}
+.pb-bar i{display:block;height:100%;width:0;background:var(--cinnabar);border-radius:20px;transition:width .5s ease}
+.pb-count{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pbook.sealed .pb-count{color:var(--cinnabar);font-weight:700}
+/* prize modal — display:none base so the [hidden] attr is never fought by a flex rule */
+.pz-modal{display:none;position:fixed;inset:0;z-index:9000;background:rgba(31,26,23,.6);
+  align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px)}
+.pz-modal.show{display:flex;animation:pzFade .3s ease}
+@keyframes pzFade{from{opacity:0}to{opacity:1}}
+.pz-card{background:var(--card);border-radius:18px;max-width:420px;width:100%;padding:26px 24px 20px;
+  position:relative;box-shadow:0 24px 60px -20px rgba(0,0,0,.6);text-align:center;animation:pzPop .35s cubic-bezier(.2,.7,.3,1.4)}
+@keyframes pzPop{from{transform:scale(.9) translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.pz-x{position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.5rem;color:var(--muted);cursor:pointer;line-height:1}
+.pz-kicker{font-size:.82rem;color:var(--ink-soft);font-style:italic;margin-bottom:14px}
+.pz-ticket{position:relative;border:2px dashed var(--cinnabar);border-radius:14px;padding:20px 18px;
+  background:linear-gradient(135deg,var(--paper) 0%,var(--paper-2) 100%);text-align:left;overflow:hidden}
+.pz-title{font-family:'Cormorant',Georgia,serif;font-size:1.6rem;font-weight:600;color:var(--cinnabar)}
+.pz-zh{font-family:'Songti SC','Noto Serif CJK SC',serif;color:var(--ink);font-size:1rem;margin:2px 0 8px}
+.pz-terms{font-size:.78rem;color:var(--ink-soft);line-height:1.5;max-width:42ch}
+.pz-seal{position:absolute;right:14px;bottom:10px;font-family:'Songti SC','Noto Serif CJK SC',serif;
+  font-size:2.6rem;color:var(--cinnabar);opacity:.22;transform:rotate(-8deg)}
+.pz-grand-seal{font-family:'Cormorant',Georgia,serif;font-weight:700;font-size:1.5rem;color:var(--cinnabar);
+  line-height:1.05;border:2px solid var(--cinnabar);border-radius:10px;padding:8px 10px;display:inline-block;margin-bottom:10px}
+.pz-ticket-grand{border-color:var(--gold);background:linear-gradient(135deg,#fbf4e2,#f3e7cd)}
+.pz-sign{font-size:.8rem;color:var(--ink-soft);margin:14px 0 6px}
+.pz-close{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 16px;
+  font-size:.82rem;color:var(--ink-soft);cursor:pointer;font-family:inherit}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#C0392B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1118,17 +1175,17 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){
       </button>
       <nav class="cities">
       <a href="index.html">Home</a>
-      <div class="navgroup open-parent">
-        <button class="navgroup-btn active" aria-expanded="false"
+      <div class="navgroup">
+        <button class="navgroup-btn" aria-expanded="false"
           onclick="const g=this.parentNode;g.classList.toggle('open');this.setAttribute('aria-expanded',g.classList.contains('open'))">
           Destinations <span class="caret">▾</span>
         </button>
-        <div class="submenu"><a href="taipei.html" class="active">Taipei</a><a href="chengdu.html">Chengdu</a><a href="chongqing.html">Chongqing</a><a href="sanya.html">Sanya</a><a href="guangzhou.html">Guangzhou</a><a href="shenzhen.html">Shenzhen</a><a href="hong-kong.html">Hong Kong</a><a href="macau.html">Macau</a></div>
+        <div class="submenu"><a href="taipei.html">Taipei</a><a href="chengdu.html">Chengdu</a><a href="chongqing.html">Chongqing</a><a href="sanya.html">Sanya</a><a href="guangzhou.html">Guangzhou</a><a href="shenzhen.html">Shenzhen</a><a href="hong-kong.html">Hong Kong</a><a href="macau.html">Macau</a></div>
       </div>
       <a href="prep.html" class="prep-link">Prep</a>
       <a href="study.html" class="prep-link">Study</a>
       <a href="timeline.html" class="prep-link">Timeline</a>
-      <a href="passport.html" class="prep-link">Passport</a></nav>
+      <a href="passport.html" class="active prep-link">Passport</a></nav>
     </div>
     <script>(function(){document.addEventListener('click',function(e){
       var a=e.target.closest('nav.cities a');if(!a)return;
@@ -1137,448 +1194,81 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){
     });})();</script></header>
 <div class="wrap">
   <div class="hero">
-    <div class="watermark">台北</div>
-    <div class="eyebrow">The Singer Honeymoon · China</div>
-    <h1>Taipei<span class="zh">台北</span></h1>
-    
-    <div class="wx-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5 5l1.8 1.8M17.2 17.2L19 19M19 5l-1.8 1.8M6.8 17.2L5 19"/></svg><span><b>July in Taipei:</b> ~95°F, 74% humidity, afternoon thunderstorms. Hot and wet; the MRT and the underground city are air-conditioned refuges.</span></div>
-    <div class="rule"><span>1 days · 5 stops</span></div>
+    <div class="watermark">&#21360;</div>
+    <div class="eyebrow">Collect as you go</div>
+    <h1>Passport<span class="zh">&#33995;&#26376;&#35468;&#29031;</span></h1>
+    <div class="sub">Six stamp books, one for each thread of the trip.</div>
+    <div class="rule"><span>Tap to collect</span></div>
   </div>
-  <div class="tabs"><button class="tab tab-overview" data-tab="overview"><span class="tab-dot" style="background:#9a8f80"></span>Overview</button><button class="tab" data-tab="d0" style="--cat:#B0202E"><span class="tab-dot"></span>MON JUN 29</button><button class="tab tab-food" data-tab="food"><span class="tab-dot" style="background:#C9821E"></span>Food <span style='font-size:.7rem;opacity:.7'>(6)</span></button><button class="tab tab-history" data-tab="history"><span class="tab-dot"></span>Study</button></div>
-  <div class="legend"><span class="legend-title">Pins by day:</span><span><i style="background:#B0202E"></i>MON JUN 29</span></div>
-  <div class="layout">
-    <div class="itinerary"><section class="panel" id="panel-overview" data-dayindex="-2"><div class="day-head"><h2>Taipei at a glance</h2></div><div class="city-trivia">Bubble tea was invented here in the 1980s. The city sits in a basin ringed by mountains and volcanic hot springs, and Taipei 101 was the world&#x27;s tallest building from 2004 to 2010.</div><div class="city-overview-grid"><div class="city-fact-card"><div class="city-fact-label">Population</div><div class="city-fact-value">2.6 million (city), 7 million metro</div></div><div class="city-fact-card"><div class="city-fact-label">Province / Status</div><div class="city-fact-value">Capital of Taiwan</div></div><div class="city-fact-card"><div class="city-fact-label">Known for</div><div class="city-fact-value">Night markets, Taipei 101, temples, bubble tea, hot springs</div></div><div class="city-fact-card"><div class="city-fact-label">Climate</div><div class="city-fact-value">Humid subtropical, hot wet summers, mild winters</div></div></div><div class="rule"><span>All stops on the map</span></div><div id="map-overview"></div></section><section class="panel" id="panel-d0" data-dayindex="0" style="--cat:#B0202E"><div class="day-head"><h2>MON JUN 29 — Teeny time in Taipei</h2></div><div class="day-strip"><span>5 stops</span></div><div class="sun-strip" title="13h 40m of daylight"><span class="sun-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="13" r="3.4"/><path d="M12 4.5v2M5.6 7.6 7 9M18.4 7.6 17 9M3 13h2M19 13h2M12 13" stroke-opacity=".9"/><path d="M2 18h20" stroke-opacity=".5"/></svg></span><span class="sun-chip"><b>Sunrise</b>5:07 AM</span><span class="sun-chip gold"><b>Golden a.m.</b>5:07 AM&ndash;5:40 AM</span><span class="sun-chip gold"><b>Golden p.m.</b>6:15 PM&ndash;6:48 PM</span><span class="sun-chip"><b>Sunset</b>6:48 PM</span></div><div class="phrase-chip"><span class="pc-k">Phrase of the day</span><span class="pc-zh">謝謝</span><span class="pc-pin">xièxie</span><span class="pc-say">&ldquo;syeh-syeh&rdquo;</span><span class="pc-en">thank you</span></div><div class="bpass" style="--cat:#B0202E"><div class="bp-stub"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c2 0 3 3 3 8l12 8v4l-12-3v8l4 3v3l-7-2-7 2v-3l4-3v-8l-12 3v-4l12-8c0-5 1-8 3-8Z"/></svg><span>Flight</span></div><div class="bp-main"><div class="bp-route">TPE <span class="bp-arr">→</span> CTU</div><div class="bp-carrier">EVA Air BR 765 · 2:30 PM – 6:05 PM · 3h 35m</div><div class="bp-note">Be back at Taoyuan by ~12:30 PM for international check-in</div></div><div class="bp-code"></div></div><p class="day-intro">The trip begins with an overnight EVA Air flight landing in Taipei on Monday morning. 
-With an early-afternoon flight to Chengdu, there&#x27;s a tight window: roughly 5–6 hours in one of 
-Asia&#x27;s most livable cities. The MRT from Taoyuan airport reaches the city in about 35 minutes. 
-To catch your afternoon flight, you&#x27;ll need to leave the city by around noon for international 
-check-in. Focus on Longshan Temple (incense &amp; fortune-telling) in the city&#x27;s oldest quarter, 
-walk to the Botanical Garden&#x27;s lotus ponds, then settle near Taipei Main Station whose underground 
-food halls could sustain a short layover. If time permits, Dadaocheng Wharf and the old tea-merchant 
-street make a fine last look. Pack light—no luggage storage checks.</p><div class="stops"><div class="stop" style="--cat:#B0202E;--i:0" data-id="s1" data-hours="24 hr">
-      <div class="toprow"><span class="pin">1</span>
-        <h3>Taiwan Taoyuan International Airport (TPE) <span class="zh">桃園國際機場</span></h3>
-        <span class="open-badge" hidden></span>
-        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 9.5 14 5l-1 2.8-4.5 1.7L7 13l-1.5-.5-.3-2.7L2.6 8.6z"/></svg>Airport</span></div>
-      <div class="meta"><span><b>Hours:</b> 24 hr</span><span><b>From previous:</b> — (arrival)</span></div><div class="meta"><span><b>Address:</b> Dayuan District, Taoyuan City 337</span></div><div class="stop-nav"><span class="nav-label">Navigate</span><a class="mapapp" data-app="amap" data-lat="25.07770" data-lng="121.23280" data-name="Taiwan Taoyuan International Airport (TPE)" data-web="https://uri.amap.com/marker?position=121.23280,25.07770&amp;name=Taiwan%20Taoyuan%20International%20Airport%20%28TPE%29&amp;coordinate=wgs84&amp;callnative=1" href="https://uri.amap.com/marker?position=121.23280,25.07770&amp;name=Taiwan%20Taoyuan%20International%20Airport%20%28TPE%29&amp;coordinate=wgs84&amp;callnative=1" target="_blank" rel="noopener">高德 Amap</a><a class="mapapp" data-app="gmap" data-lat="25.07770" data-lng="121.23280" data-name="Taiwan Taoyuan International Airport (TPE)" data-web="https://www.google.com/maps/search/?api=1&amp;query=25.07770,121.23280" href="https://www.google.com/maps/search/?api=1&amp;query=25.07770,121.23280" target="_blank" rel="noopener">Google Maps</a></div><div class="notes">Your entry point to Taiwan. The Taoyuan Airport MRT connects directly to central Taipei in about 35 min (NT$160). Trains run every 15-30 min. WiFi and SIM cards available in the arrivals hall.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Buy an EasyCard at the airport for seamless MRT, bus, and convenience store use across the city.</div>
-    </div><div class="stop" style="--cat:#B0202E;--i:1" data-id="s2" data-hours="06:00–21:45">
-      <div class="toprow"><span class="pin">2</span>
-        <h3>Bangka Lungshan Temple <span class="zh">艋舺龍山寺</span></h3>
-        <span class="open-badge" hidden></span>
-        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 13h10M4 13V9c0-2 2-3 4-3s4 1 4 3v4M8 6V3M6.5 4.5h3"/></svg>Religious Site</span></div>
-      <div class="meta"><span><b>Hours:</b> 06:00–21:45</span><span><b>Suggested time:</b> 45 min–1 hr</span><span><b>From previous:</b> ~50 min from airport: Taoyuan Airport MRT to Taipei Main, then Blue Line two stops to Longshan Temple Station</span></div><div class="meta"><span><b>Address:</b> No. 211, Guangzhou St, Wanhua District, Taipei 108</span></div><div class="stop-nav"><span class="nav-label">Navigate</span><a class="mapapp" data-app="amap" data-lat="25.03725" data-lng="121.49988" data-name="Bangka Lungshan Temple" data-web="https://uri.amap.com/marker?position=121.49988,25.03725&amp;name=Bangka%20Lungshan%20Temple&amp;coordinate=wgs84&amp;callnative=1" href="https://uri.amap.com/marker?position=121.49988,25.03725&amp;name=Bangka%20Lungshan%20Temple&amp;coordinate=wgs84&amp;callnative=1" target="_blank" rel="noopener">高德 Amap</a><a class="mapapp" data-app="gmap" data-lat="25.03725" data-lng="121.49988" data-name="Bangka Lungshan Temple" data-web="https://www.google.com/maps/search/?api=1&amp;query=25.03725,121.49988" href="https://www.google.com/maps/search/?api=1&amp;query=25.03725,121.49988" target="_blank" rel="noopener">Google Maps</a></div><div class="stop-metro"><svg class="metro-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="12.5" rx="3.2"/><path d="M8 16l-1.6 3M16 16l1.6 3"/><path d="M5 10.5h14"/><circle cx="8.4" cy="13" r=".9" fill="currentColor" stroke="none"/><circle cx="15.6" cy="13" r=".9" fill="currentColor" stroke="none"/></svg><span class="metro-station">Longshan Temple</span><span class="metro-line">Nangang-Banqiao-Tucheng Line</span><span class="metro-exit">Exit 1</span><span class="metro-walk">220 m</span></div><div class="notes">Taipei&#x27;s most beloved temple, founded in 1738 by Fujian settlers and rebuilt after earthquakes, typhoons, and a direct hit from Allied bombing in 1945. Buddhist, Taoist, and folk deities share the courtyards: Guanyin in the main hall, Mazu behind her, and in the rear courtyard Yue Lao, the old man under the moon who ties destined couples together with red thread. Watch locals drop the crescent-shaped jiaobei blocks to ask their questions.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Go early; the morning chanting service and the incense smoke in slanted light are the best of it. As newlyweds, paying respects to Yue Lao, the matchmaker god, is the obvious move. The surrounding Bangka quarter is the oldest part of the city.</div>
-    </div><div class="stop" style="--cat:#B0202E;--i:2" data-id="s3" data-hours="05:30–22:00">
-      <div class="toprow"><span class="pin">3</span>
-        <h3>Taipei Botanical Garden <span class="zh">台北植物園</span></h3>
-        <span class="open-badge" hidden></span>
-        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14V8M8 8C5 8 4 5.5 4.5 3.5 6.5 3 8 4 8 6c0-2 1.5-3 3.5-2.5C12 5.5 11 8 8 8z"/></svg>Park</span></div>
-      <div class="meta"><span><b>Hours:</b> 05:30–22:00</span><span><b>Suggested time:</b> 45 min–1 hr</span><span><b>From previous:</b> ~20 min walk from Longshan Temple, or one MRT stop to Xiaonanmen Station</span></div><div class="meta"><span><b>Address:</b> No. 53, Nanhai Rd, Zhongzheng District, Taipei 100</span></div><div class="stop-nav"><span class="nav-label">Navigate</span><a class="mapapp" data-app="amap" data-lat="25.03218" data-lng="121.50959" data-name="Taipei Botanical Garden" data-web="https://uri.amap.com/marker?position=121.50959,25.03218&amp;name=Taipei%20Botanical%20Garden&amp;coordinate=wgs84&amp;callnative=1" href="https://uri.amap.com/marker?position=121.50959,25.03218&amp;name=Taipei%20Botanical%20Garden&amp;coordinate=wgs84&amp;callnative=1" target="_blank" rel="noopener">高德 Amap</a><a class="mapapp" data-app="gmap" data-lat="25.03218" data-lng="121.50959" data-name="Taipei Botanical Garden" data-web="https://www.google.com/maps/search/?api=1&amp;query=25.03218,121.50959" href="https://www.google.com/maps/search/?api=1&amp;query=25.03218,121.50959" target="_blank" rel="noopener">Google Maps</a></div><div class="stop-metro"><svg class="metro-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="12.5" rx="3.2"/><path d="M8 16l-1.6 3M16 16l1.6 3"/><path d="M5 10.5h14"/><circle cx="8.4" cy="13" r=".9" fill="currentColor" stroke="none"/><circle cx="15.6" cy="13" r=".9" fill="currentColor" stroke="none"/></svg><span class="metro-station">Xiaonanmen</span><span class="metro-exit">Exit 3</span><span class="metro-walk">431 m</span></div><div class="notes">Twenty green acres laid out under Japanese rule in 1896, now an island of quiet a few blocks from the government district. The lotus pond is the centerpiece and early July is peak bloom, with night herons stalking the shallows. Tucked inside the grounds stands the Qing Imperial Envoy Hall (欽差行臺), the last surviving Qing government building in Taiwan, relocated here and easy to miss.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> Enter from the Nanhai Road gate and circle the lotus pond first. July mornings are hot; the banyan-shaded paths on the west side are the cool route through.</div>
-    </div><div class="stop" style="--cat:#B0202E;--i:3" data-id="s4" data-hours="Malls ~10:00–22:00">
-      <div class="toprow"><span class="pin">4</span>
-        <h3>Taipei Main Station &amp; underground city <span class="zh">台北車站</span></h3>
-        <span class="open-badge" hidden></span>
-        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 5.5h9l-.8 8h-7.4zM5.8 5.5V4.6a2.2 2.2 0 0 1 4.4 0v.9"/></svg>Shopping</span></div>
-      <div class="meta"><span><b>Hours:</b> Malls ~10:00–22:00</span><span><b>Suggested time:</b> 1–1.5 hr</span><span><b>From previous:</b> ~15 min from the garden: walk to Xiaonanmen Station, Green Line to Ximen, transfer one stop, or just take a 10 min taxi</span></div><div class="meta"><span><b>Address:</b> No. 3, Beiping W Rd, Zhongzheng District, Taipei 100</span></div><div class="stop-nav"><span class="nav-label">Navigate</span><a class="mapapp" data-app="amap" data-lat="25.04624" data-lng="121.51747" data-name="Taipei Main Station &amp; underground city" data-web="https://uri.amap.com/marker?position=121.51747,25.04624&amp;name=Taipei%20Main%20Station%20%26%20underground%20city&amp;coordinate=wgs84&amp;callnative=1" href="https://uri.amap.com/marker?position=121.51747,25.04624&amp;name=Taipei%20Main%20Station%20%26%20underground%20city&amp;coordinate=wgs84&amp;callnative=1" target="_blank" rel="noopener">高德 Amap</a><a class="mapapp" data-app="gmap" data-lat="25.04624" data-lng="121.51747" data-name="Taipei Main Station &amp; underground city" data-web="https://www.google.com/maps/search/?api=1&amp;query=25.04624,121.51747" href="https://www.google.com/maps/search/?api=1&amp;query=25.04624,121.51747" target="_blank" rel="noopener">Google Maps</a></div><div class="stop-metro"><svg class="metro-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="12.5" rx="3.2"/><path d="M8 16l-1.6 3M16 16l1.6 3"/><path d="M5 10.5h14"/><circle cx="8.4" cy="13" r=".9" fill="currentColor" stroke="none"/><circle cx="15.6" cy="13" r=".9" fill="currentColor" stroke="none"/></svg><span class="metro-station">Taipei main station</span><span class="metro-line">Nangang-Banqiao-Tucheng Line</span><span class="metro-line">Tamsui–Xinyi line</span><span class="metro-exit">Exit M4</span><span class="metro-walk">at exit</span></div><div class="notes">The station is a city in itself: the vaulted main hall with its checkerboard floor, the Breeze food courts upstairs where Taipei queues for bento and soup dumplings, and miles of underground malls (Zhongshan Metro Mall, Station Front, Q Square) running in every direction. A good place to eat well, cool off, and stage luggage logistics before the airport run.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> The second-floor Breeze food hall is the easiest quality meal near the airport line. Check the train board early and decide the Dadaocheng question honestly: the wharf is worth it only if you still have 2 spare hours.</div>
-    </div><div class="stop" style="--cat:#B0202E;--i:4" data-id="s5" data-hours="Container bars ~16:00–22:00">
-      <div class="toprow"><span class="pin">5</span>
-        <h3>Dadaocheng Wharf (optional) <span class="zh">大稻埕碼頭</span></h3>
-        <span class="open-badge" hidden></span>
-        <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v2M5 14V7l3-3 3 3v7M3 14h10M6.5 14v-3h3v3"/></svg>Landmark</span></div>
-      <div class="meta"><span><b>Hours:</b> Container bars ~16:00–22:00</span><span><b>Suggested time:</b> 45 min–1 hr (only if time allows)</span><span><b>From previous:</b> ~20 min walk from Main Station through Dihua Street, or a short taxi</span></div><div class="meta"><span><b>Address:</b> Minsheng W Rd riverside, Datong District, Taipei 103</span></div><div class="stop-nav"><span class="nav-label">Navigate</span><a class="mapapp" data-app="amap" data-lat="25.05696" data-lng="121.51106" data-name="Dadaocheng Wharf (optional)" data-web="https://uri.amap.com/marker?position=121.51106,25.05696&amp;name=Dadaocheng%20Wharf%20%28optional%29&amp;coordinate=wgs84&amp;callnative=1" href="https://uri.amap.com/marker?position=121.51106,25.05696&amp;name=Dadaocheng%20Wharf%20%28optional%29&amp;coordinate=wgs84&amp;callnative=1" target="_blank" rel="noopener">高德 Amap</a><a class="mapapp" data-app="gmap" data-lat="25.05696" data-lng="121.51106" data-name="Dadaocheng Wharf (optional)" data-web="https://www.google.com/maps/search/?api=1&amp;query=25.05696,121.51106" href="https://www.google.com/maps/search/?api=1&amp;query=25.05696,121.51106" target="_blank" rel="noopener">Google Maps</a></div><div class="stop-metro"><svg class="metro-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="12.5" rx="3.2"/><path d="M8 16l-1.6 3M16 16l1.6 3"/><path d="M5 10.5h14"/><circle cx="8.4" cy="13" r=".9" fill="currentColor" stroke="none"/><circle cx="15.6" cy="13" r=".9" fill="currentColor" stroke="none"/></svg><span class="metro-station">Daqiaotou</span><span class="metro-line">Zhonghe–Xinlu line</span><span class="metro-exit">Exit 1</span><span class="metro-walk">712 m</span></div><div class="notes">Where Taipei got rich: the riverside port that boomed on the 1860s tea trade. Walk up through Dihua Street (迪化街), the city&#x27;s best-preserved merchant street, past baroque shophouse facades selling dried goods, herbs, and fabric, and come out at the wharf where the PIER5 container bars face the sunset over the Tamsui River.</div><div class="stop-protip"><span class="protip-label">Pro Tips</span> This is the flex stop. Skip it without guilt if the day ran long; if you go, one drink at the containers as the light drops, then taxi straight back for the bags. Do not cut the 2.5 hour airport buffer.</div>
-    </div></div></section><section class="panel" id="panel-food" data-dayindex="-3"><div class="day-head"><h2>Food &amp; drink in Taipei</h2></div><div class="food-cat-bar" id="food-cat-bar"><button class="food-cat-btn2 food-cat-all-btn active" data-cat="all" onclick="filterFood(this)" style="background:var(--ink-soft);color:#fff;border-color:transparent">All</button><button class="food-cat-btn2" data-cat="Café / Coffee" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#8A6D1F;display:inline-block;flex-shrink:0"></span>Café / Coffee</button><button class="food-cat-btn2" data-cat="Chinese Food" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#2E6F95;display:inline-block;flex-shrink:0"></span>Chinese Food</button><button class="food-cat-btn2" data-cat="Hot Pot" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#B0202E;display:inline-block;flex-shrink:0"></span>Hot Pot</button><button class="food-cat-btn2" data-cat="Other" onclick="filterFood(this)"><span style="width:8px;height:8px;border-radius:50%;background:#888;display:inline-block;flex-shrink:0"></span>Other</button></div><div class="city-food-layout"><div class="food-cards-inner" id="food-cards-inner"><div class="food-group-label" data-cat="Café / Coffee"><span style="width:9px;height:9px;border-radius:50%;background:#8A6D1F;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</div><div class="food-entry-card" data-foodidx="0" data-cat="Café / Coffee" data-allergy="Tea is safe; some tea sweets and snacks may contain nuts or sesame. Ask before ordering pastries." data-tier="specific" onclick="foodCardClick(0)"><div class="food-entry-top"><div><div class="food-entry-name">Eighty-Eightea Rinbansyo (八拾捌茶輪番所)</div><div class="food-entry-zh">八拾捌茶輪番所</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Taiwanese teas, tea sweets</div><div class="food-entry-desc">Taiwanese tea in a Japanese-era monk&#x27;s residence beside the Red House: tatami seating, local teas, and tea sweets. A calm landing spot between the garden and Main Station.</div><div class="food-entry-netizen">“A serene tatami teahouse in a restored Japanese-era building.”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 No. 174, Sec 1, Zhonghua Rd, Wanhua District</div></div><div class="food-entry-card" data-foodidx="1" data-cat="Café / Coffee" data-allergy="Tea-focused; confirm any snacks for nuts or sesame." data-tier="specific" onclick="foodCardClick(1)"><div class="food-entry-top"><div><div class="food-entry-name">South Street Delight (南街得意)</div><div class="food-entry-zh">南街得意</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Eighteen Taiwanese teas</div><div class="food-entry-desc">A 1920s tea merchant&#x27;s reception room above the ArtYard shop on Dihua Street: eighteen Taiwanese teas with vintage Dadaocheng views. Only if the wharf detour happens.</div><div class="food-entry-netizen">“A vintage tea room above a Dihua Street craft shop.”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 2F, No. 67, Sec 1, Dihua St, Datong District</div></div><div class="food-entry-card" data-foodidx="2" data-cat="Café / Coffee" data-allergy="Tea and tapioca pearls are typically nut-free; skip nutty or taro toppings if concerned and confirm." data-tier="specific" onclick="foodCardClick(2)"><div class="food-entry-top"><div><div class="food-entry-name">50 Lan bubble tea (五十嵐，西門町)</div><div class="food-entry-zh">五十嵐（西門町）</div></div><span class="food-entry-pill" style="background:#8A6D1F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Café / Coffee</title><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>Café / Coffee</span></div><div class="food-entry-dishes">Bubble tea (pearl milk tea)</div><div class="food-entry-desc">The beloved local bubble-tea chain at its Ximending stronghold. A grab-and-go cup for the walk; the half-sugar, less-ice order is the local default.</div><div class="food-entry-netizen">“Taiwan&#x27;s cult bubble-tea chain; order half sugar, less ice.”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 Hanzhong St, Ximending, Wanhua District</div></div><div class="food-group-label" data-cat="Chinese Food"><span style="width:9px;height:9px;border-radius:50%;background:#2E6F95;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</div><div class="food-entry-card" data-foodidx="3" data-cat="Chinese Food" data-allergy="Congee and braised pork are simple, but watch for peanut in side dishes and braising sauces. Use the allergy card." data-tier="specific" onclick="foodCardClick(3)"><div class="food-entry-top"><div><div class="food-entry-name">Zhou Ji Pork Congee (周記肉粥店)</div><div class="food-entry-zh">周記肉粥店</div></div><span class="food-entry-pill" style="background:#2E6F95"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Chinese Food</title><path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/><path d="M12 3v5"/><path d="M8 21h8M12 17v4"/></svg>Chinese Food</span></div><div class="food-entry-dishes">Pork congee, crispy braised pork (hong shao rou)</div><div class="food-entry-desc">Wanhua institution since 1956, across from the Bopiliao Historic Block. Pork congee and crispy braised pork are the orders.</div><div class="food-entry-netizen">“A Wanhua breakfast classic for nearly 70 years.”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 No. 104 Guangzhou St, Wanhua District</div></div><div class="food-group-label" data-cat="Hot Pot"><span style="width:9px;height:9px;border-radius:50%;background:#B0202E;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</div><div class="food-entry-card" data-foodidx="4" data-cat="Hot Pot" data-allergy="✓ Can request nut-free, shellfish-free broth. Avoid sesame dipping sauce. Staff are trained for allergy requests — best chain option for allergy management." data-tier="safe" onclick="foodCardClick(4)"><div class="food-entry-top"><div><div class="food-entry-name">Haidilao Hot Pot</div><div class="food-entry-zh">海底捞火锅</div></div><span class="food-entry-pill" style="background:#B0202E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Hot Pot</title><path d="M4 14a8 8 0 0 0 16 0H4Z"/><path d="M12 6v3M9 7l1 2M15 7l-1 2"/><path d="M3 14h18"/></svg>Hot Pot</span></div><div class="food-entry-dishes">Customizable hot pot; choose your own broth, meats, vegetables, tofu</div><div class="food-entry-desc">Choose a non-spicy or tomato broth to avoid chili oil.</div><div class="food-entry-netizen">“Every hotpot chain in China and Haidilao is still the one everyone names first. The robot delivery, the free snacks while you wait, the table-side service, it is a whole event before the food even arr…”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-safe-dot"><span style="font-size:.65rem">✓</span> Safe</span><span class="food-no-pin">📍 no pin</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 全国各地 (nationwide)</div></div><div class="food-group-label" data-cat="Other"><span style="width:9px;height:9px;border-radius:50%;background:#888;display:inline-block"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Other</title><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>Other</div><div class="food-entry-card" data-foodidx="5" data-cat="Other" data-allergy="A food court of many vendors; nut and sesame use varies by stall. Pick a clearly labeled vendor and use the allergy card." data-tier="specific" onclick="foodCardClick(5)"><div class="food-entry-top"><div><div class="food-entry-name">Breeze Taipei Station Food Court (微風台北車站)</div><div class="food-entry-zh">微風台北車站</div></div><span class="food-entry-pill" style="background:#888"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><title>Other</title><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>Other</span></div><div class="food-entry-dishes">Food-court stalls, the famous beef-noodle row</div><div class="food-entry-desc">Two floors of food stalls above the station hall, including the famous beef-noodle row. The easiest meal of the layover with luggage in tow.</div><div class="food-entry-netizen">“Two floors of stalls above the main station hall.”</div><div style="margin-top:5px;display:flex;align-items:center;gap:6px"><span class="food-allergy-warn-dot">⚠ Note</span></div><div class="food-meta-item" style="font-size:.72rem;color:var(--muted);margin-top:6px">📍 2F, Taipei Main Station</div></div></div><div class="food-map-side"><div id="map-food"></div></div></div></section><section class="panel" id="panel-history" data-dayindex="-1"><div class="study-intro"><span class="study-kicker">For Amanda</span><h2>Read before Taipei</h2></div><div class="study-wrap"><div class="era-band"><h3 class="era-band-h">Through the eras</h3><div class="era-grid"><div class="era-card"><span class="era-label">before 1600</span><p>Taiwan&#x27;s first six thousand years belong to its Indigenous peoples, and through them to half the planet: linguists trace the whole Austronesian family, the languages of the Philippines, Indonesia, Polynesia, Hawai&#x27;i, even Madagascar, back to this one island. The great Pacific voyaging tradition you flew over to get here began, most likely, on Taiwan&#x27;s east coast. Sixteen recognized Indigenous peoples remain today, about 2.5 percent of the population. Portuguese sailors passing in the 1540s recorded the name that stuck for centuries: Ilha Formosa, beautiful island.</p></div><div class="era-card"><span class="era-label">1700s–1895</span><p>The frontier centuries. Migrant families crossed the strait from Fujian, Hoklo and Hakka farmers carving rice paddies and tea terraces out of the hills, trading camphor and sugar through new ports. Taipei itself is young: the basin was settled around 1709, the walled city went up only in the 1880s, and in 1885 Taiwan became a full Qing province with Taipei as capital, exactly one decade before it was handed to someone else.</p></div><div class="era-card"><span class="era-label">1945–1987</span><p>The Republic of China took Taiwan back in 1945; within two years the February 28 Incident of 1947, an island-wide uprising crushed with thousands killed, opened four decades of martial law remembered as the White Terror. In 1949, having lost the civil war to Mao, Chiang Kai-shek&#x27;s government retreated here with well over a million soldiers and refugees, plus the imperial art treasures now in the National Palace Museum. Taipei became the &#x27;temporary&#x27; capital of a government that still claimed all of China, a claim frozen in place for a generation.</p></div></div></div><div class="study-wrap"><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Understand Taipei — the gentle first step<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Taipei is the soft landing. You step off a thirteen-hour flight into a basin city ringed by green volcanic mountains, where night markets hum below glass towers and the metro is so polite it feels choreographed. The city runs on Mandarin, like the mainland ahead of you, but English signage is everywhere, Google still works, and strangers will walk you to the thing you are looking for. A half day here covers the itinerary&#x27;s gentle loop: Longshan Temple, the Botanical Garden&#x27;s lotus ponds, and the food halls around Taipei Main Station, with Dadaocheng Wharf as the bonus round if energy holds. Treat it as the decompression chamber between Los Angeles and Chengdu, and let the jet lag burn off over a bowl of beef noodle soup.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Traditional characters: reading the older script<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Taiwan never simplified its writing. The mainland streamlined thousands of characters in the 1950s and 60s, but here the full traditional forms (繁體字) survive on every sign. The same word can look quite different: love is 愛 in Taipei and 爱 across the strait, and the traditional form famously keeps its heart (心) in the middle. Dragon is 龍 here, 龙 there. The spoken language is the same Mandarin, so everything you practice out loud in Taipei keeps working for the rest of the trip; the script just gets simpler as you go.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Night markets and the small-eats philosophy<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Taipei eats in motion. The city perfected xiaochi, small eats: instead of one restaurant meal, you graze across a dozen stalls at markets like Shilin (士林) or Raohe (饒河街). CRITICAL for us: peanut is woven through Taipei street food more than anywhere else on this trip. Peanut powder (花生粉) is dusted over mochi, rolled into runbing wraps, and shaved in ribbons over ice cream burritos; peanut brittle hides in desserts that look innocent. And the night-market signature, the oyster omelet (蚵仔煎), is strictly off limits for Amanda. Safe grazing: grilled meat skewers, scallion pancakes (confirm the griddle), sweet potato balls, and cut fruit. Ask, every stall, every time.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Longshan Temple: 288 years of asking nicely<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Bangka Lungshan Temple (艋舺龍山寺) has anchored Taipei&#x27;s oldest quarter since 1738, when settlers from Fujian carried their home temple&#x27;s incense across the strait. It has been flattened and rebuilt repeatedly, by earthquake in 1815, typhoon in 1867, and American bombs in 1945, and each rebuild made it more loved. Inside, the lines between religions blur the way they do all over Taiwan: Guanyin, the Buddhist bodhisattva of mercy, holds the main hall while Mazu the sea goddess and a full bench of folk deities work the back courtyards. Watch for worshippers dropping crescent moon blocks (jiaobei) to get yes-or-no answers, and find Yue Lao, the matchmaker god who ties couples together with invisible red thread. You two arrive pre-tied; a thank-you is traditional.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The Botanical Garden and the leftover Qing yamen<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>The Taipei Botanical Garden is the Japanese era at its most benign: a research garden laid out in 1896, the year after Japan took the island, and still run by the forestry institute that grew out of it. Twenty acres of banyans, palms, and bamboo wrap around a lotus pond that peaks in exactly the week you visit; July mornings there are all pink blooms and night herons. The quiet sleeper is in the trees on the garden&#x27;s edge: the Qing Imperial Envoy Hall (欽差行臺), the last Qing government building left in Taiwan, moved here board by board when the Japanese cleared the old walled city. One garden holds the whole handover in miniature.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Dadaocheng: the tea port that built Taipei<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Before Taipei was a capital it was a tea port. After 1860 the Tamsui River opened to foreign trade and Dadaocheng (大稻埕) boomed, shipping oolong to New York and London while its merchants built the baroque shophouses that still line Dihua Street, the best-preserved old street in the city. The trade is still real: dried mushrooms, herbs, karasumi, and bolts of fabric move out of the same arcades, now interleaved with coffee bars and design shops. The street ends at the wharf where the cargo once loaded, today a row of container bars facing the sunset. If the schedule allows it, this is the right last image of Taipei: the old river view, drink in hand, plane in a few hours.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Koxinga and the contested 1600s<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>The 1600s turned Taiwan into a chessboard. The Dutch East India Company built Fort Zeelandia in the south in 1624 while Spain briefly held the north near modern Taipei; the Dutch evicted the Spanish, then were evicted themselves in 1662 by Koxinga (鄭成功), a half-Japanese Ming loyalist admiral fleeing the new Qing dynasty. His family kingdom lasted one generation before the Qing took the island in 1683. Koxinga is now claimed as a hero by nearly everyone: Ming loyalist, Taiwanese founding father, even a deity with temples in his name.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Fifty years Japanese (1895–1945)<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>China ceded Taiwan to Japan in 1895 after losing the First Sino-Japanese War, and the island became Japan&#x27;s first colony, its showcase. Railways, public health campaigns, universities, and Taipei&#x27;s street grid date from these five decades; so do Ximending, the Red House, and the Presidential Office building. The memory is genuinely mixed, modernization braided with forced assimilation and wartime conscription, which is why Taipei today feels so strikingly comfortable with Japan: the food, the department stores, the politeness culture all carry the imprint.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>The economic miracle<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Out of that hard era came one of the Four Asian Tigers. Land reform, export factories, and ferocious schooling turned a poor agricultural island into an electronics powerhouse; by the 1980s Taiwan made the world&#x27;s calculators, then its motherboards, then, through TSMC (founded 1987), the advanced semiconductors nearly every phone and AI chip on Earth now depends on. It is not a stretch to say the device you are reading this on exists because of decisions made within a few miles of your hotel.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Democracy, loudly (1987–today)<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Martial law lifted in 1987, and Taiwan democratized at a sprint: first direct presidential election in 1996, first peaceful transfer of power in 2000, and since then a rotation of parties, a raucous free press, and a legislature famous for the occasional shoving match. In 2019 it became the first place in Asia to legalize same-sex marriage. Whatever metric you pick, Taipei now anchors one of the freest societies in Asia, and the civic pride in that is palpable.</p></div></article><article class="study-block collapsible"><h3 onclick="toggleStudy(this)"><span class="sb-check">✓</span>Across the strait: a traveler&#x27;s tact<span class="sb-chevron">▾</span></h3><div class="sb-body"><p>Practical notes for the layover. Taiwan is a separate entry with its own currency, the New Taiwan Dollar (NT$), so do not expect mainland apps to behave the same: here Google Maps works beautifully, no VPN needed, and your credit cards tap almost everywhere. Enjoy that for a day; it changes in Chengdu. On politics: Taiwan&#x27;s status is the most sensitive topic in the region. Locals on both sides of the strait are warm hosts, and the easy rule is that prickly subjects are theirs to raise, never ours. You will feel the contrasts yourself within 24 hours, which is more instructive than any briefing.</p></div></article></div></div></section></div>
-    <div class="map-col" id="main-map-col"><div class="map-frame"><div id="map"></div>
-      <div class="map-cap"><span class="map-cap-dot"></span><span id="mapcap">Showing today's stops</span></div>
-    </div></div>
-  </div>
+  <p class="pp-intro">Every book holds stamps you collect by hand &mdash; tap each one as you live it.
+  Fill a whole book and it seals shut with its own chop, and a real prize waiting back home.
+  Fill all six to unlock the grand seal. Your stamps save on this device.</p>
+  <div class="pp-covers"><a class="pp-cover" data-book="tea" href="#book-tea"><span class="pp-cover-seal">圓滿</span><span class="pp-cover-name">Tea &amp; Pastry Trail</span><span class="pp-cover-prog" id="cover-tea">0/11</span></a><a class="pp-cover" data-book="transport" href="#book-transport"><span class="pp-cover-seal">達</span><span class="pp-cover-name">Ways We Traveled</span><span class="pp-cover-prog" id="cover-transport">0/10</span></a><a class="pp-cover" data-book="animals" href="#book-animals"><span class="pp-cover-seal">萌</span><span class="pp-cover-name">Creatures Spotted</span><span class="pp-cover-prog" id="cover-animals">0/10</span></a><a class="pp-cover" data-book="history" href="#book-history"><span class="pp-cover-seal">史</span><span class="pp-cover-name">Through the Eras</span><span class="pp-cover-prog" id="cover-history">0/7</span></a><a class="pp-cover" data-book="gardens" href="#book-gardens"><span class="pp-cover-seal">園</span><span class="pp-cover-name">Gardens &amp; Green</span><span class="pp-cover-prog" id="cover-gardens">0/9</span></a><a class="pp-cover" data-book="scholar" href="#book-scholar"><span class="pp-cover-seal">學</span><span class="pp-cover-name">Scholar&#x27;s Seal</span><span class="pp-cover-prog" id="cover-scholar">0/7</span></a></div>
+  <section class="pbook reveal" id="book-tea" data-book="tea" data-total="11"><div class="pb-head"><div><h2>Tea &amp; Pastry Trail<span class="pb-zh">茶點</span></h2><p class="pb-theme">Eleven sweet stops, from a monk&#x27;s tearoom in Taipei to one last tart in the Cathay lounge. The final stamp stays locked until you&#x27;re homeward bound.</p></div><div class="pb-seal" aria-hidden="true">圓滿</div></div><div class="pb-progress"><div class="pb-bar"><i id="bar-tea"></i></div><span class="pb-count" id="count-tea">0 / 11</span></div><div class="tt-grid"><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea0" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 29</span></span><span class="tt-name">50 Lan bubble tea</span><span class="tt-city">Taipei</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea1" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jun 30</span></span><span class="tt-name">People&#x27;s Park teahouses</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea2" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">甜</span><span class="tt-date">Jul 4</span></span><span class="tt-name">Bingfen iced jelly</span><span class="tt-city">Chongqing</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea3" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 7</span></span><span class="tt-name">Boba on the beach</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea4" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 9</span></span><span class="tt-name">Cantonese egg tarts</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea5" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 13</span></span><span class="tt-name">Boba drone delivery</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea6" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Silk-stocking milk tea</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea7" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">茶</span><span class="tt-date">Jul 14</span></span><span class="tt-name">Palm Court · The Langham</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea8" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">餅</span><span class="tt-date">Jul 16</span></span><span class="tt-name">The Lobby · The Peninsula</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea9" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 17</span></span><span class="tt-name">Lord Stow&#x27;s egg tarts</span><span class="tt-city">Macau</span></button><button type="button" class="tt-stamp" data-book="tea" data-stamp="tea10" aria-pressed="false" data-unlock="2026-07-18"><span class="tt-ring"><span class="tt-cha">撻</span><span class="tt-date">Jul 18</span><span class="tt-lock" aria-hidden="true">&#128274;</span></span><span class="tt-name">Cathay lounge, HKG</span><span class="tt-city">Homebound</span></button></div></section><section class="pbook reveal" id="book-transport" data-book="transport" data-total="10"><div class="pb-head"><div><h2>Ways We Traveled<span class="pb-zh">行</span></h2><p class="pb-theme">Every way you crossed China — by air, rail, water, and cable. Tap each one the first time you ride it.</p></div><div class="pb-seal" aria-hidden="true">達</div></div><div class="pb-progress"><div class="pb-bar"><i id="bar-transport"></i></div><span class="pb-count" id="count-transport">0 / 10</span></div><div class="tt-grid"><button type="button" class="tt-stamp" data-book="transport" data-stamp="plane" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">✈️</span><span class="tt-date"></span></span><span class="tt-name">Airplane</span><span class="tt-city">EVA Air · Jun 28</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="hsr" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🚄</span><span class="tt-date"></span></span><span class="tt-name">High-speed rail</span><span class="tt-city">Chengdu → Chongqing</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="sleeper" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🛏️</span><span class="tt-date"></span></span><span class="tt-name">Overnight sleeper</span><span class="tt-city">Haikou → Guangzhou</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="railferry" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🚢</span><span class="tt-date"></span></span><span class="tt-name">Train aboard a ferry</span><span class="tt-city">Qiongzhou Strait</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="metro" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🚇</span><span class="tt-date"></span></span><span class="tt-name">Metro</span><span class="tt-city">any city subway</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="ropeway" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🚠</span><span class="tt-date"></span></span><span class="tt-name">Cable car</span><span class="tt-city">Chongqing ropeway</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="ferry" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">⛴️</span><span class="tt-date"></span></span><span class="tt-name">Ferry</span><span class="tt-city">Star Ferry / TurboJET</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="bridgebus" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🚌</span><span class="tt-date"></span></span><span class="tt-name">HZMB bridge bus</span><span class="tt-city">Macau → Hong Kong</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="peaktram" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🚡</span><span class="tt-date"></span></span><span class="tt-name">Peak Tram</span><span class="tt-city">Victoria Peak</span></button><button type="button" class="tt-stamp" data-book="transport" data-stamp="didi" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🚕</span><span class="tt-date"></span></span><span class="tt-name">Taxi / DiDi</span><span class="tt-city">ride-hail anywhere</span></button></div></section><section class="pbook reveal" id="book-animals" data-book="animals" data-total="10"><div class="pb-head"><div><h2>Creatures Spotted<span class="pb-zh">獸</span></h2><p class="pb-theme">A sightings book. Some are guaranteed, some are luck — tap each animal the moment you spot it in the wild (or the water).</p></div><div class="pb-seal" aria-hidden="true">萌</div></div><div class="pb-progress"><div class="pb-bar"><i id="bar-animals"></i></div><span class="pb-count" id="count-animals">0 / 10</span></div><div class="tt-grid"><button type="button" class="tt-stamp" data-book="animals" data-stamp="giantpanda" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🐼</span><span class="tt-date"></span></span><span class="tt-name">Giant panda</span><span class="tt-city">Chengdu base</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="redpanda" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🦝</span><span class="tt-date"></span></span><span class="tt-name">Red panda</span><span class="tt-city">Chengdu base</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="koi" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🐟</span><span class="tt-date"></span></span><span class="tt-name">Koi</span><span class="tt-city">temple ponds</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="reeffish" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🐠</span><span class="tt-date"></span></span><span class="tt-name">Reef fish</span><span class="tt-city">Sanya snorkeling</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="turtle" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🐢</span><span class="tt-date"></span></span><span class="tt-name">Sea turtle</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="peacock" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🦚</span><span class="tt-date"></span></span><span class="tt-name">Peacock</span><span class="tt-city">Nanshan, Sanya</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="macaque" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🐒</span><span class="tt-date"></span></span><span class="tt-name">Macaque</span><span class="tt-city">mountain parks</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="egret" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🦅</span><span class="tt-date"></span></span><span class="tt-name">Egret / waterbird</span><span class="tt-city">Shenzhen Bay</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="butterfly" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🦋</span><span class="tt-date"></span></span><span class="tt-name">Butterfly</span><span class="tt-city">botanical gardens</span></button><button type="button" class="tt-stamp" data-book="animals" data-stamp="dolphin" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🐬</span><span class="tt-date"></span></span><span class="tt-name">Chinese white dolphin</span><span class="tt-city">Pearl River estuary</span></button></div></section><section class="pbook reveal" id="book-history" data-book="history" data-total="7"><div class="pb-head"><div><h2>Through the Eras<span class="pb-zh">史</span></h2><p class="pb-theme">One stamp per age of China, in the order history laid them down. Find a relic or building from each era as you go.</p></div><div class="pb-seal" aria-hidden="true">史</div></div><div class="pb-progress"><div class="pb-bar"><i id="bar-history"></i></div><span class="pb-count" id="count-history">0 / 7</span></div><div class="tt-grid"><button type="button" class="tt-stamp" data-book="history" data-stamp="bronze" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">玉</span><span class="tt-date"></span></span><span class="tt-name">Bronze Age</span><span class="tt-city">Sanxingdui · Sichuan Museum</span></button><button type="button" class="tt-stamp" data-book="history" data-stamp="han" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">漢</span><span class="tt-date"></span></span><span class="tt-name">Han dynasty</span><span class="tt-city">Nanyue King Tomb, Guangzhou</span></button><button type="button" class="tt-stamp" data-book="history" data-stamp="tang" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">佛</span><span class="tt-date"></span></span><span class="tt-name">Buddhist golden age</span><span class="tt-city">Tang temples · Big Buddha</span></button><button type="button" class="tt-stamp" data-book="history" data-stamp="mingqing" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">明</span><span class="tt-date"></span></span><span class="tt-name">Ming–Qing imperial</span><span class="tt-city">Ciqikou · old towns</span></button><button type="button" class="tt-stamp" data-book="history" data-stamp="colonial" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">洋</span><span class="tt-date"></span></span><span class="tt-name">Treaty-port era</span><span class="tt-city">Shamian · Ruins of St Paul&#x27;s</span></button><button type="button" class="tt-stamp" data-book="history" data-stamp="republic" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">民</span><span class="tt-date"></span></span><span class="tt-name">Republican era</span><span class="tt-city">Sun Yat-Sen Memorial</span></button><button type="button" class="tt-stamp" data-book="history" data-stamp="modern" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">星</span><span class="tt-date"></span></span><span class="tt-name">Modern China</span><span class="tt-city">Great Hall · skylines</span></button></div></section><section class="pbook reveal" id="book-gardens" data-book="gardens" data-total="9"><div class="pb-head"><div><h2>Gardens &amp; Green<span class="pb-zh">園</span></h2><p class="pb-theme">Bamboo groves, rainforests, classical courtyards, and city parks. Tap each green place as you wander through.</p></div><div class="pb-seal" aria-hidden="true">園</div></div><div class="pb-progress"><div class="pb-bar"><i id="bar-gardens"></i></div><span class="pb-count" id="count-gardens">0 / 9</span></div><div class="tt-grid"><button type="button" class="tt-stamp" data-book="gardens" data-stamp="bamboo" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🎋</span><span class="tt-date"></span></span><span class="tt-name">Panda Base bamboo</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="peoplespark" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🌳</span><span class="tt-date"></span></span><span class="tt-name">People&#x27;s Park</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="rainforest" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🌴</span><span class="tt-date"></span></span><span class="tt-name">Yalong Bay rainforest</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="nanshan" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🌺</span><span class="tt-date"></span></span><span class="tt-name">Nanshan gardens</span><span class="tt-city">Sanya</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="yuexiu" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🌿</span><span class="tt-date"></span></span><span class="tt-name">Yuexiu Park</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="baiyun" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">⛰️</span><span class="tt-date"></span></span><span class="tt-name">Baiyun Mountain</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="lianhua" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🌸</span><span class="tt-date"></span></span><span class="tt-name">Lianhuashan Park</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="nanlian" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🪷</span><span class="tt-date"></span></span><span class="tt-name">Nan Lian Garden</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-book="gardens" data-stamp="taipeibg" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">🌲</span><span class="tt-date"></span></span><span class="tt-name">Botanical Garden</span><span class="tt-city">Taipei</span></button></div></section><section class="pbook reveal" id="book-scholar" data-book="scholar" data-total="7"><div class="pb-head"><div><h2>Scholar&#x27;s Seal<span class="pb-zh">學</span></h2><p class="pb-theme">One museum in every city — the deep history under the whole trip. A companion to the Study page.</p></div><div class="pb-seal" aria-hidden="true">學</div></div><div class="pb-progress"><div class="pb-bar"><i id="bar-scholar"></i></div><span class="pb-count" id="count-scholar">0 / 7</span></div><div class="tt-grid"><button type="button" class="tt-stamp" data-book="scholar" data-stamp="sichuan" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">博</span><span class="tt-date"></span></span><span class="tt-name">Sichuan Museum</span><span class="tt-city">Chengdu</span></button><button type="button" class="tt-stamp" data-book="scholar" data-stamp="threegorges" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">博</span><span class="tt-date"></span></span><span class="tt-name">Three Gorges Museum</span><span class="tt-city">Chongqing</span></button><button type="button" class="tt-stamp" data-book="scholar" data-stamp="hainan" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">博</span><span class="tt-date"></span></span><span class="tt-name">Hainan Provincial Museum</span><span class="tt-city">Haikou</span></button><button type="button" class="tt-stamp" data-book="scholar" data-stamp="nanyue" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">博</span><span class="tt-date"></span></span><span class="tt-name">Nanyue King Museum</span><span class="tt-city">Guangzhou</span></button><button type="button" class="tt-stamp" data-book="scholar" data-stamp="shenzhenm" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">博</span><span class="tt-date"></span></span><span class="tt-name">Shenzhen Museum</span><span class="tt-city">Shenzhen</span></button><button type="button" class="tt-stamp" data-book="scholar" data-stamp="palace" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">博</span><span class="tt-date"></span></span><span class="tt-name">Hong Kong Palace Museum</span><span class="tt-city">Hong Kong</span></button><button type="button" class="tt-stamp" data-book="scholar" data-stamp="macaum" aria-pressed="false"><span class="tt-ring"><span class="tt-cha">博</span><span class="tt-date"></span></span><span class="tt-name">Macau Museum</span><span class="tt-city">Macau</span></button></div></section>
 </div>
+<div class="pz-modal" id="pz-tea" hidden><div class="pz-card"><button type="button" class="pz-x" data-close aria-label="Close">&times;</button><div class="pz-kicker">The pot&#x27;s empty, and the trip was sweet.</div><div class="pz-ticket"><div class="pz-title">One Free Boba</div><div class="pz-zh">珍珠奶茶 · 一杯</div><div class="pz-terms">Redeemable the day you land back home in Los Angeles. No expiry. Refills implied.</div><span class="pz-seal">圓滿</span></div><p class="pz-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p><button type="button" class="pz-close" data-close>close</button></div></div><div class="pz-modal" id="pz-transport" hidden><div class="pz-card"><button type="button" class="pz-x" data-close aria-label="Close">&times;</button><div class="pz-kicker">By air, rail, water, and cable — you took every road home.</div><div class="pz-ticket"><div class="pz-title">A Model to Remember</div><div class="pz-zh">模型 · 飛機或高鐵</div><div class="pz-terms">A die-cast model of the plane and/or the bullet train, to keep the journey on the shelf.</div><span class="pz-seal">達</span></div><p class="pz-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p><button type="button" class="pz-close" data-close>close</button></div></div><div class="pz-modal" id="pz-animals" hidden><div class="pz-card"><button type="button" class="pz-x" data-close aria-label="Close">&times;</button><div class="pz-kicker">Every creature found — a small zoo of memories.</div><div class="pz-ticket"><div class="pz-title">A Plush Companion</div><div class="pz-zh">毛絨玩具</div><div class="pz-terms">An animal plushie or souvenir of a creature you spotted, to bring one home.</div><span class="pz-seal">萌</span></div><p class="pz-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p><button type="button" class="pz-close" data-close>close</button></div></div><div class="pz-modal" id="pz-history" hidden><div class="pz-card"><button type="button" class="pz-x" data-close aria-label="Close">&times;</button><div class="pz-kicker">Three thousand years, stamped end to end.</div><div class="pz-ticket"><div class="pz-title">A Carved Name Chop</div><div class="pz-zh">印章 · 訂製</div><div class="pz-terms">A custom stone seal carved with your name — inked, fittingly, just like the stamps in this book.</div><span class="pz-seal">史</span></div><p class="pz-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p><button type="button" class="pz-close" data-close>close</button></div></div><div class="pz-modal" id="pz-gardens" hidden><div class="pz-card"><button type="button" class="pz-x" data-close aria-label="Close">&times;</button><div class="pz-kicker">From bamboo to bauhinia — every garden walked.</div><div class="pz-ticket"><div class="pz-title">A Bouquet of Flowers</div><div class="pz-zh">鮮花一束</div><div class="pz-terms">Fresh flowers, your choice of bloom, for filling a whole book with green.</div><span class="pz-seal">園</span></div><p class="pz-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p><button type="button" class="pz-close" data-close>close</button></div></div><div class="pz-modal" id="pz-scholar" hidden><div class="pz-card"><button type="button" class="pz-x" data-close aria-label="Close">&times;</button><div class="pz-kicker">A museum in every city. Class dismissed.</div><div class="pz-ticket"><div class="pz-title">A Book of Your Choice</div><div class="pz-zh">書 · 任選</div><div class="pz-terms">Any book you like, from any shelf — earned by visiting a museum in every city.</div><span class="pz-seal">學</span></div><p class="pz-sign">For Amanda &mdash; screenshot to redeem. With love, Nate.</p><button type="button" class="pz-close" data-close>close</button></div></div>
+<div class="pz-modal pz-grand" id="pz-grand" hidden><div class="pz-card"><button type="button" class="pz-x" data-close aria-label="Close">&times;</button><div class="pz-kicker">All six books. Every last stamp.</div><div class="pz-ticket pz-ticket-grand"><div class="pz-grand-seal">21 Days<br>8 Cities</div><div class="pz-title">The Honeymoon Photo Book</div><div class="pz-zh">&#34588;&#26376;&#30456;&#20874;</div><div class="pz-terms">A printed hardcover album of the whole journey &mdash; the capstone keepsake.</div></div><p class="pz-sign">The whole trip, in your hands. With all my love, Nate.</p><button type="button" class="pz-close" data-close>close</button></div></div>
 <footer>For Amanda, from Nate. Made with love in Los Angeles for use in China.<br><button onclick="(function(){localStorage.removeItem('hn_auth_v1');location.reload();})()" style="margin-top:10px;background:none;border:none;font-size:.75rem;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:inherit;opacity:.5">Logout</button></footer>
-<script src="assets/leaflet/leaflet.js"></script>
 <script>
-// Local-first CartoDB layer: serve baked same-origin tiles when present, fall back
-// to the CDN per-tile otherwise. Used by the timeline so its big zoom-outs are instant.
-var HMLocalFirst = L.TileLayer.extend({
-  createTile: function(coords, done){
-    var tile = document.createElement('img'), self = this;
-    tile.alt=''; tile.setAttribute('role','presentation'); tile.crossOrigin='anonymous';
-    L.DomEvent.on(tile, 'load', L.Util.bind(this._tileOnLoad, this, done, tile));
-    tile.onerror = function(){
-      if(!tile._fb){ tile._fb=1;
-        var s='abcd'[Math.abs(coords.x+coords.y)%4];
-        tile.src='https://'+s+'.basemaps.cartocdn.com/rastertiles/voyager/'+coords.z+'/'+coords.x+'/'+coords.y+'.png';
-      } else { self._tileOnError(done, tile, new Error('tile')); }
-    };
-    tile.src = self.options.localPrefix + coords.z + '/' + coords.x + '/' + coords.y + '.png';
-    return tile;
-  }
-});
-
-// hmBaseLayers(map): attach CartoDB Voyager (English, default) + Amap base layers with a switcher.
-// opts.localPrefix (e.g. 'tiles/') makes the default layer serve baked tiles first.
-function hmBaseLayers(map, opts){
-  opts = opts || {};
-  // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
-  var osm = opts.localPrefix
-    ? new HMLocalFirst('', {maxZoom:19, attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
-        crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80, localPrefix:opts.localPrefix})
-    : L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
-     detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
-  // Gaode/Amap road tiles, no API key needed; reachable inside mainland China.
-  var amap = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
-    {maxZoom:19, subdomains:['1','2','3','4'], attribution:'\u00A9 \u9AD8\u5FB7\u5730\u56FE Amap', crossOrigin:true,
-     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
-  // Esri World Street Map. English labels. May or may not be reachable in mainland China.
-  var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-    {maxZoom:19, attribution:'Tiles \u00A9 Esri', crossOrigin:true,
-     keepBuffer:6, updateWhenIdle:false, updateInterval:80});
-  osm.addTo(map); // default: English labels, works everywhere outside China
-  L.control.layers(
-    {'English (CartoDB)': osm, 'Amap \u9AD8\u5FB7 (China)': amap, 'Esri (English)': esri},
-    {}, {position:'topright', collapsed:true}
-  ).addTo(map);
-  // If CartoDB tiles fail (e.g. inside mainland China), fall back to Amap.
-  var osmFailed = 0;
-  osm.on('tileerror', function(){ osmFailed++; if(osmFailed===4 && map.hasLayer(osm)){
-    map.removeLayer(osm); amap.addTo(map);
-  }});
-  return map;
-}
-
-// toggleStudy(headerEl): collapse/expand a study block (no persistence, resets each open).
-window.toggleStudy=function toggleStudy(el){
-  var block = el.closest('.study-block');
-  if(block){ block.classList.toggle('done'); }
-}
-</script>
-<script>
-const PTS  = [{"id": "s1", "lat": 25.0777, "lng": 121.2328, "name": "Taiwan Taoyuan International Airport (TPE)", "num": "1", "cat": "Airport", "color": "#B0202E", "day": "MON JUN 29", "dayIndex": 0}, {"id": "s2", "lat": 25.03725, "lng": 121.49988, "name": "Bangka Lungshan Temple", "num": "2", "cat": "Religious Site", "color": "#B0202E", "day": "MON JUN 29", "dayIndex": 0}, {"id": "s3", "lat": 25.03218, "lng": 121.50959, "name": "Taipei Botanical Garden", "num": "3", "cat": "Park", "color": "#B0202E", "day": "MON JUN 29", "dayIndex": 0}, {"id": "s4", "lat": 25.04624, "lng": 121.51747, "name": "Taipei Main Station & underground city", "num": "4", "cat": "Shopping", "color": "#B0202E", "day": "MON JUN 29", "dayIndex": 0}, {"id": "s5", "lat": 25.05696, "lng": 121.51106, "name": "Dadaocheng Wharf (optional)", "num": "5", "cat": "Landmark", "color": "#B0202E", "day": "MON JUN 29", "dayIndex": 0}];
-const FOOD = [{"name": "Eighty-Eightea Rinbansyo (\u516b\u62fe\u634c\u8336\u8f2a\u756a\u6240)", "zh": "\u516b\u62fe\u634c\u8336\u8f2a\u756a\u6240", "cat": "Caf\u00e9 / Coffee", "dishes": "Taiwanese teas, tea sweets", "allergy": "Tea is safe; some tea sweets and snacks may contain nuts or sesame. Ask before ordering pastries.", "color": "#8A6D1F", "lat": 25.0403, "lng": 121.5063, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "South Street Delight (\u5357\u8857\u5f97\u610f)", "zh": "\u5357\u8857\u5f97\u610f", "cat": "Caf\u00e9 / Coffee", "dishes": "Eighteen Taiwanese teas", "allergy": "Tea-focused; confirm any snacks for nuts or sesame.", "color": "#8A6D1F", "lat": 25.0551, "lng": 121.5103, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "50 Lan bubble tea (\u4e94\u5341\u5d50\uff0c\u897f\u9580\u753a)", "zh": "\u4e94\u5341\u5d50\uff08\u897f\u9580\u753a\uff09", "cat": "Caf\u00e9 / Coffee", "dishes": "Bubble tea (pearl milk tea)", "allergy": "Tea and tapioca pearls are typically nut-free; skip nutty or taro toppings if concerned and confirm.", "color": "#8A6D1F", "lat": 25.044, "lng": 121.5074, "source": "", "iconPaths": "<path d=\"M17 8h1a3 3 0 0 1 0 6h-1\"/><path d=\"M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z\"/><line x1=\"6\" x2=\"6\" y1=\"2\" y2=\"4\"/><line x1=\"10\" x2=\"10\" y1=\"2\" y2=\"4\"/><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"4\"/>"}, {"name": "Zhou Ji Pork Congee (\u5468\u8a18\u8089\u7ca5\u5e97)", "zh": "\u5468\u8a18\u8089\u7ca5\u5e97", "cat": "Chinese Food", "dishes": "Pork congee, crispy braised pork (hong shao rou)", "allergy": "Congee and braised pork are simple, but watch for peanut in side dishes and braising sauces. Use the allergy card.", "color": "#2E6F95", "lat": 25.0368, "lng": 121.5021, "source": "", "iconPaths": "<path d=\"M6 3v7a6 6 0 0 0 12 0V3\"/><path d=\"M6 8h12\"/><path d=\"M12 3v5\"/><path d=\"M8 21h8M12 17v4\"/>"}, {"name": "Haidilao Hot Pot", "zh": "\u6d77\u5e95\u635e\u706b\u9505", "cat": "Hot Pot", "dishes": "Customizable hot pot; choose your own broth, meats, vegetables, tofu", "allergy": "\u2713 Can request nut-free, shellfish-free broth. Avoid sesame dipping sauce. Staff are trained for allergy requests \u2014 best chain option for allergy management.", "color": "#B0202E", "lat": null, "lng": null, "source": "", "iconPaths": "<path d=\"M4 14a8 8 0 0 0 16 0H4Z\"/><path d=\"M12 6v3M9 7l1 2M15 7l-1 2\"/><path d=\"M3 14h18\"/>"}, {"name": "Breeze Taipei Station Food Court (\u5fae\u98a8\u53f0\u5317\u8eca\u7ad9)", "zh": "\u5fae\u98a8\u53f0\u5317\u8eca\u7ad9", "cat": "Other", "dishes": "Food-court stalls, the famous beef-noodle row", "allergy": "A food court of many vendors; nut and sesame use varies by stall. Pick a clearly labeled vendor and use the allergy card.", "color": "#888", "lat": 25.0478, "lng": 121.517, "source": "", "iconPaths": "<circle cx=\"12\" cy=\"12\" r=\"1\"/><circle cx=\"19\" cy=\"12\" r=\"1\"/><circle cx=\"5\" cy=\"12\" r=\"1\"/>"}];
-const CAT_COLORS = {"Hot Pot": "#B0202E", "Chinese Food": "#2E6F95", "Dim Sum": "#7A4BA8", "Caf\u00e9 / Coffee": "#8A6D1F", "Bar": "#1F8A8A", "International": "#C24E8C", "Bakery / Snacks": "#C9821E", "Seafood": "#3E7D52", "Vegetarian / Vegan": "#5566C0", "Other": "#888"};
-const FALLBACK = [25.04624,121.50959];
-
-// ── Itinerary map (lazy init — deferred until first day tab shown) ────
-let map = null;
-const markers = {};
-window.initDayMap=function initDayMap(){
-  if(map) return;
-  const _mapEl = document.getElementById('map');
-  if(!_mapEl) return;
-  // Clear any stale Leaflet state from a prior failed attempt
-  if(_mapEl._leaflet_id) {
-    try{ _mapEl._leaflet_map && _mapEl._leaflet_map.remove(); }catch(e){}
-    delete _mapEl._leaflet_id;
-    _mapEl.innerHTML = '';
-    _mapEl.removeAttribute('tabindex');
-  }
-  map = L.map('map', {scrollWheelZoom:true});
-  hmBaseLayers(map);
-  window.__hmMaps = window.__hmMaps || {};
-  window.__hmMaps[document.querySelector('.vpage[style*="block"], .vpage:not([style])') ? 
-    (document.querySelector('.panel') ? document.querySelector('.panel').closest('.vpage')?.dataset.page : null) : null] = map;
-  // simpler: store keyed by the map container's page ancestor
-  const _pg = document.querySelector('#map').closest('[data-page]');
-  if(_pg) window.__hmMaps[_pg.dataset.page] = map;
-  PTS.forEach(p=>{
-  const icon = p.hotel
-    ? L.divIcon({className:'hm-pin',html:`<div style="width:22px;height:22px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 6px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:13px;line-height:1">⌂</span></div>`,iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-13]})
-    : L.divIcon({className:'hm-pin',html:
-      `<div style="position:relative;width:30px;height:30px">
-        <div style="width:30px;height:30px;border-radius:9px;background:${p.color};
-          border:2px solid #fff;box-shadow:0 4px 10px -3px rgba(0,0,0,.55);
-          display:flex;align-items:center;justify-content:center">
-          <span style="color:#fff;font:600 13px 'Cormorant',Georgia,serif">${p.num}</span></div>
-        <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
-          border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid ${p.color};
-          filter:drop-shadow(0 2px 1px rgba(0,0,0,.3))"></div>
-      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-34]});
-  const popup = p.hotel
-    ? `<b>${p.name}</b><br><span style="color:#888">Hotel · ${p.day}</span>`
-    : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
-  const m=L.marker([p.lat,p.lng],{icon}).bindPopup(popup);
-  m._dayIndex=p.dayIndex; markers[p.id]=m;
-  m.on('click',()=>highlight(p.id));
-  });
-}  // end initDayMap
-window.fitDay=function fitDay(di){
-  initDayMap();
-  const shown=[];
-  Object.values(markers).forEach(m=>{
-    if(di===null||m._dayIndex===di){m.addTo(map);shown.push(m.getLatLng());}
-    else map.removeLayer(m);
-  });
-  if(shown.length) map.fitBounds(shown,{padding:[45,45],maxZoom:15});
-  else map.setView(FALLBACK,11);
-  setTimeout(()=>map.invalidateSize(),60);
-}
-function highlight(id){
-  const el=document.querySelector(`.stop[data-id="${id}"]`);
-  if(el){el.scrollIntoView({behavior:'smooth',block:'center'});
-    el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1400);}
-}
-
-// ── Overview map ───────────────────────────────────────────────
-let mapOv=null;
-function initOverviewMap(){
-  if(mapOv) return;
-  mapOv=L.map('map-overview',{scrollWheelZoom:false});
-  hmBaseLayers(mapOv);
-  const bounds=[];
-  PTS.forEach(p=>{
-    const icon = p.hotel
-      ? L.divIcon({className:'hm-pin',html:`<div style="width:18px;height:18px;border-radius:50%;background:#888;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 5px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:11px;line-height:1">⌂</span></div>`,iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-11]})
-      : L.divIcon({className:'hm-pin',html:
-        `<div style="position:relative;width:24px;height:24px">
-          <div style="width:24px;height:24px;border-radius:7px;background:${p.color};
-            border:2px solid #fff;box-shadow:0 3px 8px -2px rgba(0,0,0,.45);
-            display:flex;align-items:center;justify-content:center">
-            <span style="color:#fff;font:600 10px 'Cormorant',Georgia,serif">${p.num}</span></div>
-          <div style="position:absolute;left:50%;top:100%;transform:translateX(-50%);width:0;height:0;
-            border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid ${p.color}"></div>
-        </div>`,iconSize:[24,29],iconAnchor:[12,29],popupAnchor:[0,-26]});
-    const popup = p.hotel
-      ? `<b>${p.name}</b><br><span style="color:#888">Hotel</span>`
-      : `<b>${p.num}. ${p.name}</b><br><span style="color:${p.color};font-weight:700">${p.day}</span>`;
-    L.marker([p.lat,p.lng],{icon}).bindPopup(popup).addTo(mapOv);
-    bounds.push([p.lat,p.lng]);
-  });
-  if(bounds.length) mapOv.fitBounds(bounds,{padding:[35,35],maxZoom:14});
-  else mapOv.setView(FALLBACK,11);
-}
-
-// ── Food map ───────────────────────────────────────────────────
-let mapFood=null; let foodMarkers=[];
-function initFoodMap(){
-  if(mapFood) return;
-  mapFood=L.map('map-food',{scrollWheelZoom:false});
-  hmBaseLayers(mapFood);
-  const bounds=[];
-  FOOD.forEach((e,i)=>{
-    if(!e.lat||!e.lng) return;
-    const color=e.color||'#888';
-    const iconPaths=e.iconPaths||'';
-    const icon=L.divIcon({className:'',html:
-      `<div style="position:relative;width:30px;height:36px">
-        <div style="width:30px;height:30px;border-radius:8px;background:${color};
-          border:2px solid rgba(255,255,255,.9);box-shadow:0 3px 8px -2px rgba(0,0,0,.5);
-          display:flex;align-items:center;justify-content:center">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"
-            fill="none" stroke="rgba(255,255,255,.95)" stroke-width="1.8"
-            stroke-linecap="round" stroke-linejoin="round">${iconPaths}</svg>
-        </div>
-        <div style="position:absolute;left:50%;top:30px;transform:translateX(-50%);width:0;height:0;
-          border-left:5px solid transparent;border-right:5px solid transparent;
-          border-top:7px solid ${color};filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))"></div>
-      </div>`,iconSize:[30,37],iconAnchor:[15,37],popupAnchor:[0,-37]});
-    const allergy=e.allergy||'';
-    const GENERIC=["trendy reco","not yet vetted","allergy verification required on site"];
-    const isGeneric=GENERIC.some(p=>allergy.toLowerCase().includes(p));
-    const isSafe=allergy.startsWith('✓'); const isHigh=/MUST AVOID|HIGH RISK/.test(allergy);
-    let allergyHtml='';
-    if(isSafe) allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:rgba(62,125,82,.1);color:#1e5c32;border-left:3px solid #3E7D52">${allergy.substring(0,200)}</div>`;
-    else if(!isGeneric&&allergy){const bg=isHigh?'rgba(176,32,46,.1)':'rgba(201,130,30,.1)';const bc=isHigh?'#B0202E':'#C9821E';const tc=isHigh?'#6b0000':'#5a2e00';allergyHtml=`<div style="margin-top:6px;padding:5px 8px;border-radius:7px;font-size:.74rem;background:${bg};color:${tc};border-left:3px solid ${bc};line-height:1.45">${allergy.substring(0,250)}${allergy.length>250?'…':''}</div>`;}
-    const m=L.marker([e.lat,e.lng],{icon})
-      .bindPopup(`<div style="max-width:240px;font-family:sans-serif">
-        <div style="font-weight:700;font-size:.9rem">${e.name}</div>
-        ${e.zh?`<div style="color:#B0202E;font-size:.78rem">${e.zh}</div>`:''}
-        <div style="display:inline-block;margin:4px 0;padding:2px 7px;border-radius:7px;background:${color};color:#fff;font-size:.68rem;font-weight:700">${e.cat}</div>
-        ${e.dishes?`<div style="font-size:.78rem;color:#444;margin:3px 0">${e.dishes.substring(0,100)}${e.dishes.length>100?'…':''}</div>`:''}
-        ${allergyHtml}</div>`,{maxWidth:260}).addTo(mapFood);
-    m._foodIdx=i; m._cat=e.cat; foodMarkers.push(m);
-    m.on('click',()=>highlightFoodCard(i));
-    bounds.push([e.lat,e.lng]);
-  });
-  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
-  else mapFood.setView(FALLBACK,12);
-}
-window.filterFoodMap=window.filterFoodMap=function filterFoodMap(cat){
-  const bounds=[];
-  foodMarkers.forEach(m=>{
-    if(cat==='all'||m._cat===cat){if(!mapFood.hasLayer(m))m.addTo(mapFood);bounds.push(m.getLatLng());}
-    else{if(mapFood.hasLayer(m))mapFood.removeLayer(m);}
-  });
-  if(bounds.length) mapFood.fitBounds(bounds,{padding:[35,35],maxZoom:15});
-}
-window.highlightFoodCard=window.highlightFoodCard=function highlightFoodCard(idx){
-  document.querySelectorAll('.food-entry-card').forEach(c=>c.classList.remove('highlighted'));
-  const card=document.querySelector(`.food-entry-card[data-foodidx="${idx}"]`);
-  if(card){
-    card.classList.add('highlighted');
-    const box=document.getElementById('food-cards-inner');
-    if(box&&box.scrollHeight>box.clientHeight){
-      // scroll within the list container only, so the sticky map stays put
-      const ct=card.offsetTop-box.offsetTop-box.clientHeight/2+card.clientHeight/2;
-      box.scrollTo({top:ct,behavior:'smooth'});
-    } else {
-      card.scrollIntoView({behavior:'smooth',block:'nearest'});
-    }
-  }
-}
-window.foodCardClick=window.foodCardClick=function foodCardClick(idx){
-  highlightFoodCard(idx);
-  const m=foodMarkers.find(m=>m._foodIdx===idx);
-  if(m){mapFood.setView(m.getLatLng(),16,{animate:true});m.openPopup();}
-}
-window.filterFood=window.filterFood=function filterFood(btn){
-  document.querySelectorAll('.food-cat-btn2').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const cat=btn.dataset.cat;
-  document.querySelectorAll('.food-entry-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';});
-  document.querySelectorAll('.food-group-label').forEach(g=>{g.style.display=(cat==='all'||g.dataset.cat===cat)?'':'none';});
-  // Init food map if not yet open, then filter
-  if(!mapFood) initFoodMap();
-  filterFoodMap(cat);
-}
-
-// ── Tab switching ──────────────────────────────────────────────
-const tabBtns=[...document.querySelectorAll('.tab')];
-const panelEls=[...document.querySelectorAll('.panel')];
-const mapCol=document.getElementById('main-map-col');
-const capEl=document.getElementById('mapcap');
-function activate(tab){
-  tabBtns.forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
-  panelEls.forEach(p=>p.classList.toggle('show',p.id===`panel-${tab}`));
-  if(tab==='overview'){
-    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
-    document.querySelector('.layout').classList.remove('full-width');
-    setTimeout(()=>{initOverviewMap();if(mapOv)mapOv.invalidateSize();},80);
-  } else if(tab==='history'){
-    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
-    document.querySelector('.layout').classList.remove('full-width');
-  } else if(tab==='food'){
-    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
-    document.querySelector('.layout').classList.add('full-width');
-    setTimeout(()=>{initFoodMap();if(mapFood)mapFood.invalidateSize();},80);
-  } else if(document.getElementById('panel-'+tab) && document.getElementById('panel-'+tab).dataset.nomap==='1'){
-    // Pointer day (e.g. a Shenzhen/Macau day trip): no stops, no map — just the link card.
-    mapCol.classList.add('hidden');document.querySelector('.layout').classList.add('no-map');
-    document.querySelector('.layout').classList.remove('full-width');
-  } else {
-    mapCol.classList.remove('hidden');document.querySelector('.layout').classList.remove('no-map');
-    document.querySelector('.layout').classList.remove('full-width');
-    const di=parseInt(tab.replace('d',''),10);
-    // map lives in a column that may have been display:none; init now (do NOT gate
-    // behind requestAnimationFrame — mobile browsers pause rAF when backgrounded /
-    // offscreen, which left the map uninitialised), then invalidate after reflow.
-    if(typeof initDayMap==='function') initDayMap();
-    fitDay(di);
-    setTimeout(()=>{if(map)map.invalidateSize();},60);
-    setTimeout(()=>{if(map){map.invalidateSize();fitDay(di);}},260);
-    const btn=tabBtns.find(b=>b.dataset.tab===tab);
-    capEl.textContent=btn?btn.textContent.trim()+'. '+PTS.filter(p=>p.dayIndex===di).length+' stops':'';
-  }
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-tabBtns.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab)));
-document.addEventListener('click',e=>{
-  const card=e.target.closest('.stop');if(!card)return;
-  const m=markers[card.dataset.id];
-  if(m&&map){if(!map.hasLayer(m))m.addTo(map);map.flyTo(m.getLatLng(),16,{duration:.6});m.openPopup();}
-});
-// ── Swipe between tabs (mobile) ───────────────────────────────
-let _tx=null,_ty=null;
-document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;_ty=e.touches[0].clientY;},{passive:true});
-document.addEventListener('touchend',e=>{
-  if(_tx===null)return;
-  const dx=e.changedTouches[0].clientX-_tx, dy=e.changedTouches[0].clientY-_ty;
-  _tx=null;
-  if(Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*0.7)return;
-  if(e.target.closest('.leaflet-container,.day-route'))return;
-  const cur=tabBtns.findIndex(b=>b.classList.contains('active'));
-  const nxt=cur+(dx<0?1:-1);
-  if(nxt>=0&&nxt<tabBtns.length)activate(tabBtns[nxt].dataset.tab);
-},{passive:true});
-
-// ── Today smart view ──────────────────────────────────────────
-const DAYDATES={"2026-06-29": "d0"};
 (function(){
-  const now=new Date();
-  const iso=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  const todayTab=DAYDATES[iso];
-  if(todayTab){
-    const btn=tabBtns.find(b=>b.dataset.tab===todayTab);
-    if(btn){btn.classList.add('today-tab');
-      if(!location.hash){activate(todayTab);return;}
-    }
+  var KEY='hn_passport_v1', data={};
+  try{data=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){data={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+  function chinaYMD(){
+    try{var p={};new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',
+      year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date())
+      .forEach(function(x){p[x.type]=x.value;});return p.year+'-'+p.month+'-'+p.day;}
+    catch(e){var n=new Date(Date.now()+(480+new Date().getTimezoneOffset())*60000);
+      return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
   }
-  const hash=location.hash.replace('#','');
-  activate(['overview','history','food'].includes(hash)||hash.startsWith('d')?hash:'overview');
-})();
-
-// ── "Open now?" badges — parse each stop's hours against China time ──
-(function(){
-  function chinaParts(){
-    try{
-      var p={};
-      new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Shanghai',weekday:'short',
-        hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date())
-        .forEach(function(x){p[x.type]=x.value;});
-      var h=parseInt(p.hour,10); if(h===24)h=0;
-      return {wd:p.weekday, mins:h*60+parseInt(p.minute,10)};
-    }catch(e){return null;}
+  function got(b,s){return !!(data[b]&&data[b][s]);}
+  function setGot(b,s,v){if(!data[b])data[b]={};if(v)data[b][s]=true;else delete data[b][s];save();}
+  function locked(el){var u=el.dataset.unlock;return !!u && chinaYMD()<u;}
+  var books={};
+  document.querySelectorAll('.pbook').forEach(function(sec){books[sec.dataset.book]={total:+sec.dataset.total};});
+  function countBook(b){var n=0;document.querySelectorAll('.tt-stamp[data-book="'+b+'"]').forEach(function(s){if(got(b,s.dataset.stamp))n++;});return n;}
+  function complete(b){return countBook(b)===books[b].total;}
+  function allDone(){return Object.keys(books).every(complete);}
+  function paintStamps(){
+    document.querySelectorAll('.tt-stamp').forEach(function(s){
+      var b=s.dataset.book,st=s.dataset.stamp,lk=locked(s);
+      if(lk)setGot(b,st,false);
+      var on=got(b,st);
+      s.classList.toggle('locked',lk);s.classList.toggle('collected',on);
+      s.setAttribute('aria-pressed',on?'true':'false');
+    });
   }
-  var DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  function closedToday(txt, wd){
-    var t=txt.toLowerCase(), d=wd.toLowerCase();
-    // "closed mon", "closed tuesdays", "closed mon/tue"
-    var m=t.match(/closed\s+([a-z,\/&\s and]+)/);
-    if(m && m[1].indexOf(d)>=0) return true;
-    // "tue–sun" / "tue-sun" open range implies the others closed
-    var rng=t.match(/(mon|tue|wed|thu|fri|sat|sun)\s*[–-]\s*(mon|tue|wed|thu|fri|sat|sun)/);
-    if(rng){
-      var a=DAYS.findIndex(x=>x.toLowerCase()===rng[1]), b=DAYS.findIndex(x=>x.toLowerCase()===rng[2]);
-      var cur=DAYS.findIndex(x=>x.toLowerCase()===d), inRange=false;
-      for(var i=0;i<7;i++){var k=(a+i)%7; if(DAYS[k].toLowerCase()===d)inRange=true; if(k===b)break;}
-      if(!inRange) return true;
-    }
-    return false;
+  function paintBook(b){
+    var n=countBook(b),total=books[b].total,done=(n===total);
+    var c=document.getElementById('count-'+b);if(c)c.textContent=n+' / '+total;
+    var bar=document.getElementById('bar-'+b);if(bar)bar.style.width=(total?Math.round(n/total*100):0)+'%';
+    var cv=document.getElementById('cover-'+b);if(cv)cv.textContent=n+'/'+total;
+    var sec=document.getElementById('book-'+b);if(sec)sec.classList.toggle('sealed',done);
+    var cd=document.querySelector('.pp-cover[data-book="'+b+'"]');if(cd)cd.classList.toggle('earned',done);
   }
-  var cn=chinaParts(); if(!cn) return;
-  document.querySelectorAll('.stop[data-hours]').forEach(function(st){
-    var txt=st.getAttribute('data-hours'); var badge=st.querySelector('.open-badge'); if(!badge)return;
-    function set(cls,label){badge.className='open-badge show '+cls;badge.textContent=label;badge.hidden=false;}
-    if(/24\s*(hr|hour)/i.test(txt)){ set('is-open','Open 24h'); return; }
-    var rs=txt.match(/(\d{1,2})[:：](\d{2})\s*[–-]\s*(\d{1,2})[:：](\d{2})/);
-    if(!rs) return; // unparseable hours -> no badge
-    if(closedToday(txt, cn.wd)){ set('is-closed','Closed today'); return; }
-    var open=(+rs[1])*60+(+rs[2]), close=(+rs[3])*60+(+rs[4]);
-    if(close<=open) close+=24*60; // wraps past midnight
-    var m=cn.mins;
-    if(m>=open && m<close){
-      if(close-m<=60) set('is-soon','Closes soon');
-      else set('is-open','Open now');
-    } else {
-      set('is-closed','Closed now');
-    }
+  function paintAll(){paintStamps();Object.keys(books).forEach(paintBook);}
+  function show(id){var m=document.getElementById(id);if(!m)return;m.hidden=false;void m.offsetWidth;m.classList.add('show');}
+  function dismiss(m){if(!m)return;m.classList.remove('show');setTimeout(function(){m.hidden=true;},300);}
+  document.querySelectorAll('.tt-stamp').forEach(function(s){
+    s.addEventListener('click',function(){
+      var b=s.dataset.book,st=s.dataset.stamp;
+      if(locked(s))return;
+      var wasComplete=complete(b),wasAll=allDone();
+      setGot(b,st,!got(b,st));
+      if(got(b,st)){s.classList.remove('just');void s.offsetWidth;s.classList.add('just');}
+      paintStamps();paintBook(b);
+      var nowComplete=complete(b);
+      if(nowComplete&&!wasComplete)show('pz-'+b);
+      if(allDone()&&!wasAll)setTimeout(function(){show('pz-grand');},nowComplete?1000:0);
+    });
   });
-})();
-
-// ── Open map links in the native app on mobile (Amap / Google Maps) ──
-(function(){
-  var ua=navigator.userAgent||'';
-  var iOS=/iPhone|iPad|iPod/i.test(ua), android=/Android/i.test(ua);
-  if(!iOS && !android) return;            // desktop: the https links are fine
-  function nativeUrl(a){
-    var lat=a.getAttribute('data-lat'), lng=a.getAttribute('data-lng');
-    var name=encodeURIComponent(a.getAttribute('data-name')||'');
-    var app=a.getAttribute('data-app');
-    if(app==='amap'){
-      var scheme=iOS?'iosamap':'androidamap';
-      return scheme+'://viewMap?sourceApplication=honeymoon&poiname='+name+'&lat='+lat+'&lon='+lng+'&dev=1';
-    }
-    if(app==='gmap' && iOS) return 'comgooglemaps://?q='+lat+','+lng;
-    return null;                          // Android Google: the https app-link opens the app
-  }
-  document.addEventListener('click', function(e){
-    var a=e.target.closest && e.target.closest('a.mapapp'); if(!a) return;
-    var url=nativeUrl(a); if(!url) return; // fall through to the href (web)
-    e.preventDefault();
-    var web=a.getAttribute('data-web')||a.href, fired=false;
-    function gone(){fired=true;}
-    document.addEventListener('visibilitychange',gone,{once:true});
-    window.addEventListener('pagehide',gone,{once:true});
-    window.addEventListener('blur',gone,{once:true});
-    setTimeout(function(){ if(!fired) window.location.href=web; }, 1400);
-    window.location.href=url;
+  document.addEventListener('click',function(e){
+    var m=document.querySelector('.pz-modal.show');if(!m)return;
+    if(e.target===m||(e.target.closest&&e.target.closest('[data-close]')))dismiss(m);
   });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')dismiss(document.querySelector('.pz-modal.show'));});
+  paintAll();
+  setInterval(paintStamps,60000);
 })();
 </script>
 </body></html>

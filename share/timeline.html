@@ -746,6 +746,24 @@ body.home-page{background:#9A2018}
 .thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
   font-style:normal;color:var(--cinnabar)}
 
+/* ===== Passport teaser (home) ===== */
+.pp-teaser{margin:34px 0}
+.pp-teaser-card{display:flex;align-items:center;gap:22px;background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:24px 26px;box-shadow:var(--shadow);
+  text-decoration:none;transition:transform .18s,box-shadow .18s}
+.pp-teaser-card:hover{transform:translateY(-2px);box-shadow:var(--shadow),0 14px 30px -18px var(--cinnabar)}
+.pp-teaser-seals{flex:0 0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.pp-tz{width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--cinnabar);color:var(--cinnabar);border-radius:8px;
+  font-family:"Songti SC","Noto Serif CJK SC",serif;font-size:1.1rem}
+.pp-tz:nth-child(2n){transform:rotate(-4deg)}.pp-tz:nth-child(3n){transform:rotate(3deg)}
+.pp-teaser-body h3{display:flex;align-items:baseline;gap:10px;margin:0 0 6px;
+  font-family:'Cormorant',serif;font-weight:600;font-size:1.5rem;color:var(--ink)}
+.pp-teaser-body h3 .tt-zh{font-family:"Songti SC","Noto Serif CJK SC",serif;font-size:.95rem;color:var(--cinnabar)}
+.pp-teaser-body p{font-size:.86rem;color:var(--ink-soft);margin:0 0 8px;line-height:1.55}
+.pp-teaser-go{font-size:.84rem;font-weight:700;color:var(--cinnabar);letter-spacing:.02em}
+@media(max-width:560px){.pp-teaser-card{flex-direction:column;text-align:center}}
+
 /* ===== High Tea Trail ===== */
 .tea-trail{background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:26px 28px;margin:34px 0;box-shadow:var(--shadow)}
@@ -1171,7 +1189,8 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){
       </div>
       
       <a href="study.html" class="prep-link">Study</a>
-      <a href="timeline.html" class="active prep-link">Timeline</a></nav>
+      <a href="timeline.html" class="active prep-link">Timeline</a>
+      <a href="passport.html" class="prep-link">Passport</a></nav>
     </div>
     <script>(function(){document.addEventListener('click',function(e){
       var a=e.target.closest('nav.cities a');if(!a)return;
