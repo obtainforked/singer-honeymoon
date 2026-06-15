@@ -639,7 +639,11 @@ body.home-page{background:#9A2018}
 .home-base-card.daytrip .home-base-label{color:var(--gold-deep,#9a7b1f)}
 .home-base-name{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:700;
   color:var(--ink);line-height:1.2}
-.home-base-addr{font-size:.78rem;color:var(--muted);margin:3px 0 10px}
+.home-base-addr{font-size:.78rem;color:var(--muted);margin:3px 0 8px}
+.home-base-metro{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--ink-soft);
+  margin:0 0 12px}
+.home-base-metro .metro-ico{flex:0 0 17px;width:17px;height:17px;color:var(--cinnabar)}
+.home-base-metro b{color:var(--ink);font-weight:600}
 .home-base-body{font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin:0}
 .city-fact-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .city-fact-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
@@ -767,7 +771,9 @@ body.home-page{background:#9A2018}
 
 /* ===== Passport stamps (shared stamp grid) ===== */
 .tt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px}
-@media(max-width:560px){.tt-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.tt-grid{grid-template-columns:repeat(2,1fr)}
+  /* odd number of stamps: center the lone last one on the bottom row */
+  .tt-grid .tt-stamp:last-child:nth-child(odd){grid-column:1/-1;justify-self:center}}
 .tt-stamp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
   background:none;border:none;padding:4px;cursor:pointer;font:inherit;
   -webkit-tap-highlight-color:transparent}
@@ -844,7 +850,7 @@ body.home-page{background:#9A2018}
 .wx-strip b{color:var(--ink)}
 
 /* ===== Golden-hour & sunset almanac (per day) ===== */
-.sun-strip{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 0}
+.sun-strip{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 16px}
 .sun-strip .sun-ico{flex:0 0 18px;width:18px;height:18px;color:var(--gold);display:flex}
 .sun-strip .sun-ico svg{width:18px;height:18px}
 .sun-chip{display:inline-flex;align-items:baseline;gap:6px;font-size:.78rem;color:var(--ink-soft);
