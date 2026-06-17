@@ -148,20 +148,37 @@ nav.cities a.active::after{transform:scaleX(1)}
 /* ===== Layout ===== */
 .layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start;padding-bottom:70px}
 @media(max-width:900px){
-  /* Flex column (not grid) so the sticky map's containing block is the whole
-     layout, letting it stay pinned while the stops scroll beneath it. */
+  /* On phones the map is collapsible and flows inline (not sticky), so the
+     stops/cards get the full screen until you tap to reveal the map. */
   .layout{display:flex;flex-direction:column}
-  .layout .map-col{order:-1;align-self:stretch;position:sticky;top:88px;z-index:50;
-    background:var(--paper);padding-bottom:8px;margin:0 -4px 4px;
-    box-shadow:0 8px 12px -8px rgba(60,38,20,.35)}
+  .layout .map-col{order:-1;align-self:stretch;position:static;z-index:auto;
+    background:transparent;padding:0;margin:0 0 14px;box-shadow:none}
   .layout .itinerary{order:1}
 }
 #map{height:600px;border-radius:14px;position:sticky;top:88px;
   box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4);
   outline:1px solid var(--line);overflow:hidden}
 @media(max-width:900px){
-  #map{position:relative;top:0;height:34vh;min-height:190px;max-height:300px}
+  #map{position:relative;top:0;height:38vh;min-height:200px;max-height:320px}
   .map-col .map-cap{display:none}
+}
+/* ── Collapsible map toggle (mobile only; desktop shows the map inline) ── */
+.map-toggle{display:none}
+@media(max-width:900px){
+  .map-toggle{display:flex;align-items:center;gap:9px;width:100%;
+    padding:11px 15px;border:1px solid var(--line);border-radius:12px;
+    background:var(--card);color:var(--ink-soft);font-family:inherit;
+    font-size:.9rem;font-weight:600;cursor:pointer;text-align:left;
+    box-shadow:0 1px 0 rgba(255,255,255,.55), 0 5px 16px -12px rgba(60,38,20,.6)}
+  .map-toggle:active{transform:scale(.995)}
+  .map-toggle .mt-ico{width:18px;height:18px;color:var(--cinnabar);flex:0 0 auto}
+  .map-toggle .mt-chev{margin-left:auto;width:16px;height:16px;color:var(--muted);
+    transition:transform .2s ease}
+  .map-toggle[aria-expanded="true"] .mt-chev{transform:rotate(180deg)}
+  .map-col.map-collapsed .map-frame{display:none}
+  .map-col:not(.map-collapsed) .map-frame{margin-top:10px}
+  .food-map-side.food-map-collapsed #map-food{display:none}
+  .food-map-side:not(.food-map-collapsed) #map-food{margin-top:10px}
 }
 .map-frame{position:relative;border-radius:14px;overflow:hidden}
 .map-frame::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;
@@ -657,9 +674,8 @@ body.home-page{background:#9A2018}
 /* ===== City Food tab ===== */
 .city-food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 @media(max-width:900px){.city-food-layout{grid-template-columns:1fr}}
-@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:88px;z-index:30;
-  background:var(--paper);padding-bottom:6px;margin-bottom:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}}
-@media(max-width:900px){#map-food{height:260px}}
+@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:static;top:auto;z-index:auto;
+  background:transparent;padding:0;margin:0 0 14px;box-shadow:none}}
 .food-cat-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
 .food-cat-btn2{padding:4px 12px;border-radius:14px;border:1px solid var(--line);background:var(--card);
   font-size:.76rem;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
@@ -671,9 +687,8 @@ body.home-page{background:#9A2018}
 @media(max-width:900px){.food-cards-inner{max-height:none;overflow-y:visible}}
 #map-food{height:480px;border-radius:14px;overflow:hidden;
   box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.4);outline:1px solid var(--line)}
-@media(max-width:900px){#map-food{height:340px}}
+@media(max-width:900px){#map-food{height:300px}}
 .food-map-side{position:sticky;top:88px;align-self:start}
-@media(max-width:900px){.food-map-side{position:relative;top:0}}
 .food-entry-card{background:var(--card);border:1px solid var(--line);border-radius:11px;
   padding:12px 14px;cursor:pointer;transition:box-shadow .18s,transform .12s}
 .food-entry-card:hover{box-shadow:0 4px 14px -6px rgba(60,38,20,.25);transform:translateY(-1px)}
