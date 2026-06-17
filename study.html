@@ -548,9 +548,9 @@ body.home-page{background:#9A2018}
 .home-page .sec-h{color:#F5E2A8}
 .home-page .sec-h .sec-zh{color:#E4C76B;opacity:.9}
 .home-page .sec-h::after{background:linear-gradient(90deg,rgba(228,199,107,.65),transparent)}
-.home-page .thread-cap{color:rgba(245,225,185,.85)}
-.home-page .thread-cap .tc-zh{color:#E4C76B}
-.home-page .thread-cap::before{background:linear-gradient(90deg,#E4C76B 70%,transparent);box-shadow:0 0 0 .5px #E4C76B}
+.home-page .thread-cap{color:var(--ink-soft)}
+.home-page .thread-cap .tc-zh{color:var(--cinnabar)}
+.home-page .thread-cap::before{background:var(--cinnabar);box-shadow:none}
 .home-page footer{color:rgba(245,225,185,.82)}
 .home-page footer button{color:rgba(245,225,185,.7) !important}
 
@@ -742,10 +742,14 @@ body.home-page{background:#9A2018}
   white-space:nowrap;margin-top:2px}
 
 /* ===== Red thread caption ===== */
-.thread-cap{display:flex;align-items:center;gap:10px;margin:10px 2px 0;font-size:.84rem;
-  color:var(--muted);font-style:italic}
-.thread-cap::before{content:'';flex:0 0 34px;height:2px;border-radius:2px;
-  background:linear-gradient(90deg,#B0202E 70%,transparent);box-shadow:0 0 0 .5px #B0202E}
+.thread-cap{position:relative;overflow:hidden;margin:28px 0 0;padding:26px 32px 22px;
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;
+  text-align:center;font-size:.9rem;color:var(--ink-soft);font-style:italic;line-height:1.7}
+.thread-cap::before{content:'';display:block;width:36px;height:2px;border-radius:2px;
+  background:var(--cinnabar);margin:0 auto 16px}
+.thread-cap::after{content:'月老';position:absolute;right:10px;bottom:2px;
+  font-family:"Songti SC","Noto Serif CJK SC",serif;font-style:normal;
+  font-size:5rem;color:var(--cinnabar);opacity:.07;pointer-events:none;line-height:1;user-select:none}
 .thread-cap .tc-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;
   font-style:normal;color:var(--cinnabar)}
 
