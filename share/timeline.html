@@ -151,7 +151,7 @@ nav.cities a.active::after{transform:scaleX(1)}
   /* Flex column (not grid) so the sticky map's containing block is the whole
      layout, letting it stay pinned while the stops scroll beneath it. */
   .layout{display:flex;flex-direction:column}
-  .layout .map-col{order:-1;position:sticky;top:54px;z-index:50;
+  .layout .map-col{order:-1;align-self:stretch;position:sticky;top:88px;z-index:50;
     background:var(--paper);padding-bottom:8px;margin:0 -4px 4px;
     box-shadow:0 8px 12px -8px rgba(60,38,20,.35)}
   .layout .itinerary{order:1}
@@ -657,7 +657,7 @@ body.home-page{background:#9A2018}
 /* ===== City Food tab ===== */
 .city-food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 @media(max-width:900px){.city-food-layout{grid-template-columns:1fr}}
-@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:8px;z-index:30;
+@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:88px;z-index:30;
   background:var(--paper);padding-bottom:6px;margin-bottom:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}}
 @media(max-width:900px){#map-food{height:260px}}
 .food-cat-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
@@ -731,15 +731,18 @@ body.home-page{background:#9A2018}
 .chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
 
 /* ===== Hero today-card ===== */
-.hero-today{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-top:22px;
+.hero-today{display:inline-block;margin-top:22px}
+.ht-card{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;
   padding:12px 18px;border-radius:12px;background:rgba(250,243,228,.13);
   border:1px solid rgba(250,243,228,.28);backdrop-filter:blur(3px);
-  font-size:.92rem;color:#F6EDDC}
-.hero-today b{font-weight:700;color:#fff}
-.hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
-.hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
-.hero-today a:hover{text-decoration:underline}
-.hero-today .ht-clock{flex-basis:100%;font-size:.82rem;color:#F4D9B6;opacity:.92;
+  font-size:.92rem;color:#F6EDDC;text-decoration:none;
+  transition:background .18s,border-color .18s,transform .18s}
+a.ht-card:hover{background:rgba(250,243,228,.2);border-color:rgba(250,243,228,.5);transform:translateY(-1px)}
+.ht-card b{font-weight:700;color:#fff}
+.ht-card .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
+.ht-card .ht-go{color:#FFE9B8;font-weight:700;white-space:nowrap}
+a.ht-card:hover .ht-go{text-decoration:underline}
+.ht-card .ht-clock{flex-basis:100%;font-size:.82rem;color:#F4D9B6;opacity:.92;
   white-space:nowrap;margin-top:2px}
 
 /* ===== Red thread caption ===== */

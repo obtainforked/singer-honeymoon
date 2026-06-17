@@ -151,7 +151,7 @@ nav.cities a.active::after{transform:scaleX(1)}
   /* Flex column (not grid) so the sticky map's containing block is the whole
      layout, letting it stay pinned while the stops scroll beneath it. */
   .layout{display:flex;flex-direction:column}
-  .layout .map-col{order:-1;position:sticky;top:54px;z-index:50;
+  .layout .map-col{order:-1;align-self:stretch;position:sticky;top:88px;z-index:50;
     background:var(--paper);padding-bottom:8px;margin:0 -4px 4px;
     box-shadow:0 8px 12px -8px rgba(60,38,20,.35)}
   .layout .itinerary{order:1}
@@ -657,7 +657,7 @@ body.home-page{background:#9A2018}
 /* ===== City Food tab ===== */
 .city-food-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 @media(max-width:900px){.city-food-layout{grid-template-columns:1fr}}
-@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:8px;z-index:30;
+@media(max-width:900px){.city-food-layout .food-map-side{order:-1;position:sticky;top:88px;z-index:30;
   background:var(--paper);padding-bottom:6px;margin-bottom:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5)}}
 @media(max-width:900px){#map-food{height:260px}}
 .food-cat-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
@@ -731,15 +731,18 @@ body.home-page{background:#9A2018}
 .chain-notes{font-size:.76rem;color:var(--muted);line-height:1.5;font-style:italic}
 
 /* ===== Hero today-card ===== */
-.hero-today{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-top:22px;
+.hero-today{display:inline-block;margin-top:22px}
+.ht-card{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:10px;
   padding:12px 18px;border-radius:12px;background:rgba(250,243,228,.13);
   border:1px solid rgba(250,243,228,.28);backdrop-filter:blur(3px);
-  font-size:.92rem;color:#F6EDDC}
-.hero-today b{font-weight:700;color:#fff}
-.hero-today .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
-.hero-today a{color:#FFE9B8;font-weight:700;text-decoration:none;white-space:nowrap}
-.hero-today a:hover{text-decoration:underline}
-.hero-today .ht-clock{flex-basis:100%;font-size:.82rem;color:#F4D9B6;opacity:.92;
+  font-size:.92rem;color:#F6EDDC;text-decoration:none;
+  transition:background .18s,border-color .18s,transform .18s}
+a.ht-card:hover{background:rgba(250,243,228,.2);border-color:rgba(250,243,228,.5);transform:translateY(-1px)}
+.ht-card b{font-weight:700;color:#fff}
+.ht-card .ht-zh{font-family:"Songti SC","Noto Serif CJK SC","SimSun",serif;opacity:.8}
+.ht-card .ht-go{color:#FFE9B8;font-weight:700;white-space:nowrap}
+a.ht-card:hover .ht-go{text-decoration:underline}
+.ht-card .ht-clock{flex-basis:100%;font-size:.82rem;color:#F4D9B6;opacity:.92;
   white-space:nowrap;margin-top:2px}
 
 /* ===== Red thread caption ===== */
@@ -1269,7 +1272,7 @@ if(document.getElementById('routemap')){
 // ── Date-aware hero card: countdown → live day tracker → just married.
 //    Always keyed to CHINA time (Asia/Shanghai) regardless of the viewer's
 //    timezone, with a live China clock so anyone checking in knows the hour there.
-const DAYMAP = {"2026-06-28": {"city": "Above the Pacific", "slug": "timeline", "t": "Wheels up: Los Angeles to Taipei"}, "2026-06-29": {"city": "Taipei", "slug": "taipei", "t": "Teeny time in Taipei"}, "2026-06-30": {"city": "Chengdu", "slug": "chengdu", "t": "Easing into the rhythm"}, "2026-07-01": {"city": "Chengdu", "slug": "chengdu", "t": "Pandas"}, "2026-07-02": {"city": "Chengdu", "slug": "chengdu", "t": "Old & new Chengdu"}, "2026-07-03": {"city": "Chongqing", "slug": "chongqing", "t": "Wartime Capital"}, "2026-07-04": {"city": "Chongqing", "slug": "chongqing", "t": "3D City"}, "2026-07-05": {"city": "Sanya", "slug": "sanya", "t": "The honey part of the moon"}, "2026-07-06": {"city": "Sanya", "slug": "sanya", "t": "Bing Chilling"}, "2026-07-07": {"city": "Sanya", "slug": "sanya", "t": "Island time"}, "2026-07-08": {"city": "Sanya", "slug": "sanya", "t": "A few hours in Haikou"}, "2026-07-09": {"city": "Guangzhou", "slug": "guangzhou", "t": "The Cultures of Canton"}, "2026-07-10": {"city": "Guangzhou", "slug": "guangzhou", "t": "Trains and Shopping"}, "2026-07-11": {"city": "Guangzhou", "slug": "guangzhou", "t": "Museums of Guangzhou"}, "2026-07-12": {"city": "Shenzhen", "slug": "shenzhen", "t": "The Chinese Miracle"}, "2026-07-13": {"city": "Shenzhen", "slug": "shenzhen", "t": "Factory of the World"}, "2026-07-14": {"city": "Hong Kong", "slug": "hong-kong", "t": "Harbour, High Tea, and Kowloon"}, "2026-07-15": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong Island"}, "2026-07-16": {"city": "Hong Kong", "slug": "hong-kong", "t": "Into the New Territories"}, "2026-07-17": {"city": "Macau", "slug": "macau", "t": "Five centuries of Macau in one day"}, "2026-07-18": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong cleanup"}};
+const DAYMAP = {"2026-06-28": {"city": "Above the Pacific", "slug": "timeline", "t": "Wheels up: Los Angeles to Taipei"}, "2026-06-29": {"city": "Taipei", "slug": "taipei", "t": "Teeny time in Taipei", "tab": "d0"}, "2026-06-30": {"city": "Chengdu", "slug": "chengdu", "t": "Easing into the rhythm", "tab": "d1"}, "2026-07-01": {"city": "Chengdu", "slug": "chengdu", "t": "Pandas", "tab": "d2"}, "2026-07-02": {"city": "Chengdu", "slug": "chengdu", "t": "Old & new Chengdu", "tab": "d3"}, "2026-07-03": {"city": "Chongqing", "slug": "chongqing", "t": "Wartime Capital", "tab": "d0"}, "2026-07-04": {"city": "Chongqing", "slug": "chongqing", "t": "3D City", "tab": "d1"}, "2026-07-05": {"city": "Sanya", "slug": "sanya", "t": "The honey part of the moon", "tab": "d0"}, "2026-07-06": {"city": "Sanya", "slug": "sanya", "t": "Bing Chilling", "tab": "d1"}, "2026-07-07": {"city": "Sanya", "slug": "sanya", "t": "Island time", "tab": "d2"}, "2026-07-08": {"city": "Sanya", "slug": "sanya", "t": "A few hours in Haikou", "tab": "d3"}, "2026-07-09": {"city": "Guangzhou", "slug": "guangzhou", "t": "The Cultures of Canton", "tab": "d0"}, "2026-07-10": {"city": "Guangzhou", "slug": "guangzhou", "t": "Trains and Shopping", "tab": "d1"}, "2026-07-11": {"city": "Guangzhou", "slug": "guangzhou", "t": "Museums of Guangzhou", "tab": "d2"}, "2026-07-12": {"city": "Shenzhen", "slug": "shenzhen", "t": "The Chinese Miracle", "tab": "d0"}, "2026-07-13": {"city": "Shenzhen", "slug": "shenzhen", "t": "Factory of the World", "tab": "d1"}, "2026-07-14": {"city": "Hong Kong", "slug": "hong-kong", "t": "Harbour, High Tea, and Kowloon", "tab": "d1"}, "2026-07-15": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong Island", "tab": "d2"}, "2026-07-16": {"city": "Hong Kong", "slug": "hong-kong", "t": "Into the New Territories", "tab": "d3"}, "2026-07-17": {"city": "Macau", "slug": "macau", "t": "Five centuries of Macau in one day", "tab": "d0"}, "2026-07-18": {"city": "Hong Kong", "slug": "hong-kong", "t": "Hong Kong cleanup", "tab": "d5"}};
 (function(){
   var el = document.getElementById('hero-today');
   if(!el) return;
@@ -1299,22 +1302,25 @@ const DAYMAP = {"2026-06-28": {"city": "Above the Pacific", "slug": "timeline", 
     }
   }
   function render(){
-    var ymd = chinaYMD(), main='', placeName='China';
+    var ymd = chinaYMD(), inner='', placeName='China', href=null;
     if(ymd < '2026-06-28'){
       var days = Math.round((T0 - new Date(ymd+'T00:00:00'))/864e5);
-      main = '<b>'+days+(days===1?' day':' days')+' until takeoff</b>'+
-             '<span class="ht-zh">出发倒计时</span>';
+      inner = '<b>'+days+(days===1?' day':' days')+' until takeoff</b>'+
+              '<span class="ht-zh">出发倒计时</span>';
     } else if(ymd <= TEND && DAYMAP[ymd]){
       var d = DAYMAP[ymd]; placeName = d.city;
-      main = '<b>Day '+dayN(ymd)+' of 21</b><span>·</span><span>'+d.city+'</span>'+
-             '<span>—</span><span>'+d.t+'</span>'+
-             '<a href="'+d.slug+'.html">Open the day →</a>';
+      href = d.slug+'.html'+(d.tab?('#'+d.tab):'');
+      inner = '<b>Day '+dayN(ymd)+' of 21</b><span>·</span><span>'+d.city+'</span>'+
+              '<span>—</span><span>'+d.t+'</span>'+
+              '<span class="ht-go">Open the day →</span>';
     } else {
-      main = '<b>Just married</b><span class="ht-zh">新婚快乐 · 囍</span>';
+      inner = '<b>Just married</b><span class="ht-zh">新婚快乐 · 囍</span>';
     }
-    el.innerHTML = main +
-      '<span class="ht-clock" title="Current local time in China">🕘 '+chinaClock()+
-      ' in '+placeName+'</span>';
+    inner += '<span class="ht-clock" title="Current local time in China">🕘 '+chinaClock()+
+             ' in '+placeName+'</span>';
+    el.innerHTML = href
+      ? '<a class="ht-card" href="'+href+'">'+inner+'</a>'
+      : '<span class="ht-card">'+inner+'</span>';
     el.hidden = false;
   }
   render();
