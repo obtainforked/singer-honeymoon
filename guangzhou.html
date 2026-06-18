@@ -1505,12 +1505,12 @@ window.foodCardClick=window.foodCardClick=function foodCardClick(idx){
   if(side && side.classList.contains('food-map-collapsed')){
     var tb=document.getElementById('food-map-toggle'); if(tb) tb.click();
     setTimeout(function(){ var mm=foodMarkers.find(m=>m._foodIdx===idx);
-      if(mapFood&&mm){mapFood.setView(mm.getLatLng(),16,{animate:true});mm.openPopup();} },130);
+      if(mapFood&&mm){mapFood.setView(mm.getLatLng(),14,{animate:false});mm.openPopup();} },130);
     return;
   }
   if(!mapFood) return;
   const m=foodMarkers.find(m=>m._foodIdx===idx);
-  if(m){mapFood.setView(m.getLatLng(),16,{animate:true});m.openPopup();}
+  if(m){mapFood.setView(m.getLatLng(),14,{animate:false});m.openPopup();}
 }
 function foodMapCollapsed(){
   var s=document.querySelector('.food-map-side');
@@ -1580,11 +1580,11 @@ document.addEventListener('click',e=>{
   if(col && col.classList.contains('map-collapsed')){
     var tb=document.getElementById('map-toggle'); if(tb) tb.click();
     setTimeout(function(){ var mm=markers[card.dataset.id];
-      if(map&&mm){if(!map.hasLayer(mm))mm.addTo(map);map.flyTo(mm.getLatLng(),16,{duration:.6});mm.openPopup();} },130);
+      if(map&&mm){if(!map.hasLayer(mm))mm.addTo(map);map.flyTo(mm.getLatLng(),14,{duration:.6});mm.openPopup();} },130);
     return;
   }
   const m=markers[card.dataset.id];
-  if(m&&map){if(!map.hasLayer(m))m.addTo(map);map.flyTo(m.getLatLng(),16,{duration:.6});m.openPopup();}
+  if(m&&map){if(!map.hasLayer(m))m.addTo(map);map.flyTo(m.getLatLng(),14,{duration:.6});m.openPopup();}
 });
 // ── Collapsible map toggles (mobile): reveal the map on demand ──
 (function(){
