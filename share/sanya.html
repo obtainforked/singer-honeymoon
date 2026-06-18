@@ -1254,7 +1254,7 @@ function hmBaseLayers(map, opts){
   var osm = opts.localPrefix
     ? new HMLocalFirst('', {maxZoom:19, attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
         crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80, localPrefix:opts.localPrefix,
-        localMaxZoom:(opts.localMaxZoom != null ? opts.localMaxZoom : 8)})
+        localMaxZoom:(opts.localMaxZoom != null ? opts.localMaxZoom : 13)})
     : L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
      detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
