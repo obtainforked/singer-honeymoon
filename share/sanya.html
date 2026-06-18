@@ -1252,9 +1252,14 @@ function hmBaseLayers(map, opts){
   opts = opts || {};
   // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
   var osm = opts.localPrefix
+    // maxNativeZoom caps tile requests at the deepest baked level: deeper zooms upscale
+    // the baked tiles (a blurry-but-instant map) instead of streaming un-baked tiles and
+    // flashing grey. keepBuffer holds the lower-res parent tiles as a backdrop while a
+    // fly-in's crisp tiles arrive, so the map is never blank.
     ? new HMLocalFirst('', {maxZoom:19, attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
-        crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80, localPrefix:opts.localPrefix,
-        localMaxZoom:(opts.localMaxZoom != null ? opts.localMaxZoom : 13)})
+        crossOrigin:true, keepBuffer:8, updateWhenIdle:false, updateInterval:80, localPrefix:opts.localPrefix,
+        localMaxZoom:(opts.localMaxZoom != null ? opts.localMaxZoom : 13),
+        maxNativeZoom:(opts.localMaxZoom != null ? opts.localMaxZoom : 13)})
     : L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
      detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
