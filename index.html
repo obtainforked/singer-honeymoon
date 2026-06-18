@@ -1207,17 +1207,32 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){
 // Local-first CartoDB layer: serve baked same-origin tiles when present, fall back
 // to the CDN per-tile otherwise. Used by the timeline so its big zoom-outs are instant.
 var HMLocalFirst = L.TileLayer.extend({
+  _cdnUrl: function(x, y, z){
+    var s = 'abcd'[Math.abs(x + y) % 4];
+    return 'https://' + s + '.basemaps.cartocdn.com/rastertiles/voyager/' + z + '/' + x + '/' + y + '.png';
+  },
+  // Baked same-origin tiles up to localMaxZoom; above that (the close-up city/stop
+  // zooms, which aren't baked) go straight to the CDN so we skip a wasted local 404.
+  // Returning a real URL here is also what makes the animation's tile prefetch work
+  // (it calls getTileUrl to warm the cache ahead of each fly-in).
+  getTileUrl: function(coords){
+    var z = (coords.z != null) ? coords.z : this._getZoomForUrl();
+    var lz = this.options.localMaxZoom;
+    if (lz != null && z > lz) return this._cdnUrl(coords.x, coords.y, z);
+    return this.options.localPrefix + z + '/' + coords.x + '/' + coords.y + '.png';
+  },
   createTile: function(coords, done){
     var tile = document.createElement('img'), self = this;
     tile.alt=''; tile.setAttribute('role','presentation'); tile.crossOrigin='anonymous';
     L.DomEvent.on(tile, 'load', L.Util.bind(this._tileOnLoad, this, done, tile));
+    var lz = this.options.localMaxZoom;
+    var local = !(lz != null && coords.z > lz);
     tile.onerror = function(){
-      if(!tile._fb){ tile._fb=1;
-        var s='abcd'[Math.abs(coords.x+coords.y)%4];
-        tile.src='https://'+s+'.basemaps.cartocdn.com/rastertiles/voyager/'+coords.z+'/'+coords.x+'/'+coords.y+'.png';
-      } else { self._tileOnError(done, tile, new Error('tile')); }
+      // a baked tile that's missing locally falls back to the CDN once; CDN tiles just fail
+      if(local && !tile._fb){ tile._fb=1; tile.src = self._cdnUrl(coords.x, coords.y, coords.z); }
+      else { self._tileOnError(done, tile, new Error('tile')); }
     };
-    tile.src = self.options.localPrefix + coords.z + '/' + coords.x + '/' + coords.y + '.png';
+    tile.src = this.getTileUrl(coords);
     return tile;
   }
 });
@@ -1229,7 +1244,8 @@ function hmBaseLayers(map, opts){
   // CartoDB Voyager: OSM data, English labels everywhere, no API key needed.
   var osm = opts.localPrefix
     ? new HMLocalFirst('', {maxZoom:19, attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
-        crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80, localPrefix:opts.localPrefix})
+        crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80, localPrefix:opts.localPrefix,
+        localMaxZoom:(opts.localMaxZoom != null ? opts.localMaxZoom : 8)})
     : L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     {maxZoom:19, subdomains:'abcd', attribution:'\u00A9 OpenStreetMap contributors \u00A9 CARTO',
      detectRetina:true, crossOrigin:true, keepBuffer:6, updateWhenIdle:false, updateInterval:80});
