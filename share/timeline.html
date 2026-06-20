@@ -1410,7 +1410,7 @@ function tripBegin(){
   routeLine=L.polyline([],{color:'#C03828',weight:3,opacity:.85}).addTo(tlMap);
   vehicle=L.marker(LAX,{icon:vehIcon('plane'),zIndexOffset:1000,interactive:false}).addTo(tlMap);
   cityDot(LAX,'Los Angeles',false);
-  tlMap.setView(LAX,CITY_Z,{animate:false});
+  // start on the trip overview; the first nextLeg() flies in to frame leg 0
   info('<b>Los Angeles</b> &middot; wheels up shortly');
   prefetchLeg(LEGS[0]);
 }
@@ -1442,26 +1442,38 @@ function frame(ts){
   var dt=Math.min(80,ts-anim.last);anim.last=ts;
   if(anim.phase==='hold'){
     if(ts>=anim.holdUntil)nextLeg();
+  }else if(anim.phase==='framing'){
+    // steady-cam: the map flew to frame the whole leg; wait for it to settle, then glide
+    if(ts>=anim.holdUntil){anim.phase='leg';anim.last=ts;}
   }else if(anim.phase==='leg'){
     var g=LEGS[anim.leg];
     anim.t=Math.min(1,anim.t+dt/g.dur);
     var pos=legPos(g,ease(anim.t));
     vehicle.setLatLng(pos);
     routeLine.addLatLng(pos);
-    tlMap.setView(pos,legZoom(g,anim.t),{animate:false});
+    // NO per-frame setView — the map stays framed on the leg; only the marker moves.
     prog((anim.leg+anim.t)/LEGS.length);
     if(anim.t>=1)arrive(g);
   }
   if(anim.playing)anim.raf=requestAnimationFrame(frame);
 }
+function legBounds(g){
+  var pts=[]; for(var i=0;i<=24;i++)pts.push(legPos(g,i/24));
+  return L.latLngBounds(pts);
+}
 function nextLeg(){
   anim.leg++;
   if(anim.leg>=LEGS.length){finish();return;}
   var g=LEGS[anim.leg];
-  anim.t=0;anim.phase='leg';
+  anim.t=0;
   vehicle.setIcon(vehIcon(g.mode));
+  vehicle.setLatLng(legPos(g,0));
   info(g.a+' &rarr; '+g.b+' &middot; '+g.label);
   prefetchLeg(g);
+  // steady-cam: frame the whole leg on a still map, then glide the marker across it
+  anim.phase='framing';
+  anim.holdUntil=performance.now()+1250;
+  tlMap.flyToBounds(legBounds(g),{padding:[55,55],maxZoom:11,duration:1.1});
 }
 function arrive(g){
   if(g.arrive){
@@ -1512,7 +1524,7 @@ function tripSeek(p){
   routeLine.setLatLngs(pts);
   if(!vehicle)vehicle=L.marker(pos,{icon:vehIcon(g.mode),zIndexOffset:1000,interactive:false}).addTo(tlMap);
   vehicle.setIcon(vehIcon(g.mode));vehicle.setLatLng(pos);
-  tlMap.setView(pos,legZoom(g,t),{animate:false});
+  tlMap.fitBounds(legBounds(g),{padding:[55,55],maxZoom:11});
   anim.leg=leg;anim.t=t;anim.phase='leg';anim.last=0;
   info(g.a+' &rarr; '+g.b+' &middot; '+g.label);
   prefetchLeg(g);
@@ -1629,10 +1641,8 @@ function segDur(sg){
   return Math.min(2400,(sg.draw?800:650)+190*span);
 }
 function segCam(sg,t){
-  var k=sm(t);
-  var pos=[sg.a.lat+(sg.b.lat-sg.a.lat)*k,sg.a.lng+(sg.b.lng-sg.a.lng)*k];
-  var r=t<.3?sm(t/.3):t>.7?sm((1-t)/.3):1;
-  tlMap.setView(pos,STOP_Z+(segCruise(sg)-STOP_Z)*r,{animate:false});
+  // steady-cam: the city stays framed as a whole; the marker walks it. No per-frame
+  // setView (that was the source of the shake + grey on the intra-city tour).
 }
 function prefetchSeg(sg){
   prefetchAt(sg.b.lat,sg.b.lng,STOP_Z);
@@ -1656,12 +1666,13 @@ function cityBegin(quiet){
     ca.segs.push({a:S[i-1],b:S[i],draw:!S[i]._first,color:S[i].color,
                   day:S[i].day_idx,line:null,cz:null});
   if(!quiet){
-    tlMap.setView([S[0].lat,S[0].lng],STOP_Z,{animate:false});
-    prefetchAt(S[0].lat,S[0].lng,STOP_Z);
-    if(ca.segs.length)prefetchSeg(ca.segs[0]);
+    // steady-cam: frame the whole tour (or filtered day) and keep it still while walking
+    var fpts=S.map(function(s){return [s.lat,s.lng];});
+    if(fpts.length>1)tlMap.flyToBounds(fpts,{padding:[50,50],maxZoom:13,duration:.9});
+    else tlMap.setView(fpts[0],13,{animate:false});
     setDayFocus(S[0].day_idx);
     showStopLabel(S[0]);
-    ca.lingerUntil=performance.now()+(S[0].anchor?800:1400);
+    ca.lingerUntil=performance.now()+1500;
   }
   prog(0);
 }
