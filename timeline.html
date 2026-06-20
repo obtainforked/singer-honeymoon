@@ -1461,6 +1461,14 @@ function legBounds(g){
   var pts=[]; for(var i=0;i<=24;i++)pts.push(legPos(g,i/24));
   return L.latLngBounds(pts);
 }
+// Responsive framing padding so destinations sit comfortably inside the screen
+// (not on the edges): ~13% of the map size, floored on phones and capped on desktop.
+function tlPad(){
+  // capped at 110/90: beyond that the framing zooms out past the baked tiles and greys
+  var s=tlMap.getSize();
+  return [Math.max(60,Math.min(110,Math.round(s.x*0.11))),
+          Math.max(55,Math.min(90,Math.round(s.y*0.15)))];
+}
 function nextLeg(){
   anim.leg++;
   if(anim.leg>=LEGS.length){finish();return;}
@@ -1473,7 +1481,7 @@ function nextLeg(){
   // steady-cam: frame the whole leg on a still map, then glide the marker across it
   anim.phase='framing';
   anim.holdUntil=performance.now()+1250;
-  tlMap.flyToBounds(legBounds(g),{padding:[55,55],maxZoom:11,duration:1.1});
+  tlMap.flyToBounds(legBounds(g),{padding:tlPad(),maxZoom:11,duration:1.1});
 }
 function arrive(g){
   if(g.arrive){
@@ -1492,7 +1500,7 @@ function finish(){
   stopAnim();anim.done=true;anim.phase='idle';prog(1);btn();
   if(vehicle){tlMap.removeLayer(vehicle);vehicle=null;}
   info('<b>Home.</b> Twenty-one days, eight cities, one honeymoon.');
-  if(routeLine)tlMap.flyToBounds(routeLine.getBounds(),{padding:[40,40],duration:1.6});
+  if(routeLine)tlMap.flyToBounds(routeLine.getBounds(),{padding:tlPad(),duration:1.6});
 }
 function tripSeek(p){
   stopAnim();
@@ -1524,7 +1532,7 @@ function tripSeek(p){
   routeLine.setLatLngs(pts);
   if(!vehicle)vehicle=L.marker(pos,{icon:vehIcon(g.mode),zIndexOffset:1000,interactive:false}).addTo(tlMap);
   vehicle.setIcon(vehIcon(g.mode));vehicle.setLatLng(pos);
-  tlMap.fitBounds(legBounds(g),{padding:[55,55],maxZoom:11});
+  tlMap.fitBounds(legBounds(g),{padding:tlPad(),maxZoom:11});
   anim.leg=leg;anim.t=t;anim.phase='leg';anim.last=0;
   info(g.a+' &rarr; '+g.b+' &middot; '+g.label);
   prefetchLeg(g);
@@ -1598,7 +1606,7 @@ function showCity(slugName){
       layers.push(m);
     });
   });
-  if(all.length>1)tlMap.fitBounds(all,{padding:[44,44]});
+  if(all.length>1)tlMap.fitBounds(all,{padding:tlPad(),maxZoom:13});
   else if(all.length===1)tlMap.setView(all[0],14);
   info('<b>'+cd.name+'</b> <span class="tl-zh">'+cd.zh+'</span> &middot; <span class="tl-hint">press play to walk the route, or tap any stop</span>');
 }
@@ -1668,7 +1676,7 @@ function cityBegin(quiet){
   if(!quiet){
     // steady-cam: frame the whole tour (or filtered day) and keep it still while walking
     var fpts=S.map(function(s){return [s.lat,s.lng];});
-    if(fpts.length>1)tlMap.flyToBounds(fpts,{padding:[50,50],maxZoom:13,duration:.9});
+    if(fpts.length>1)tlMap.flyToBounds(fpts,{padding:tlPad(),maxZoom:13,duration:.9});
     else tlMap.setView(fpts[0],13,{animate:false});
     setDayFocus(S[0].day_idx);
     showStopLabel(S[0]);
@@ -1734,7 +1742,7 @@ function cityFinish(){
   ca.stops.forEach(function(s){if(!s.anchor)n++;});
   if(cd)info('<b>'+cd.name+'</b> <span class="tl-zh">'+cd.zh+'</span> &middot; '+n+' stops walked');
   var pts=ca.stops.map(function(s){return [s.lat,s.lng];});
-  if(pts.length>1)tlMap.flyToBounds(pts,{padding:[44,44],duration:1.2});
+  if(pts.length>1)tlMap.flyToBounds(pts,{padding:tlPad(),maxZoom:13,duration:1.2});
   prog(1);btn();
 }
 function cityProgress(){
